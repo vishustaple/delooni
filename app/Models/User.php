@@ -16,10 +16,10 @@ class User extends Authenticatable
     const STATIC_ADMIN_DATABASE_ID = 1;
     //////////////////////////////////
 
-    const ROLE_ADMIN = 0;
-    const ROLE_USER = 1;
-    const ROLE_USER_Hospital = 2;
-    const ROLE_USER_STAFF = 3;
+    const ROLE_ADMIN = 1;
+    const ROLE_USER = 2;
+    const ROLE_USER_Hospital = 3;
+    const ROLE_USER_STAFF = 4;
 
 
     const STATUS_INACTIVE = 0;
