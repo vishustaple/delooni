@@ -21,11 +21,11 @@ class PermissionRolesSeeder extends Seeder
 
         // All permissions to create
         $permissions = [
-            'user_management', 'employees_view', 
+            'new',
         ];
 
         $roles = [
-            'admin','HR','Project_coordinator','BDE','HR_head',
+            'admin','user'
         ];
         $permissions = collect($permissions)->map(function ($permission) {
             return ['name' => $permission, 'guard_name' => 'web'];
@@ -37,9 +37,9 @@ class PermissionRolesSeeder extends Seeder
         $createPerimssions = Permission::insert($permissions->toArray());
         $createRoles = Role::insert($roles->toArray());
 
-        $adminUser = User::find(1);
-        $adminRole = Role::find(1);
+        $adminUser = User::find(User::STATIC_ADMIN_DATABASE_ID);
+        $adminRole = Role::find(User::ROLE_ADMIN);
         $adminUser->assignRole($adminRole);
-        $adminRole->givePermissionTo(Permission::where('name', '!=', 'only_appsminder_deals')->get());
+        $adminRole->givePermissionTo(Permission::get());
     }
 }

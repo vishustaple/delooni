@@ -1,28 +1,25 @@
 <?php
+
 namespace App\Models;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Laravel\Sanctum\HasApiTokens;
-use App\Notifications\TaskNotification;
-use App\Models\PunchTiming;
-use App\Models\Announcement;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use SebastianBergmann\CodeCoverage\Report\Xml\Totals;
-use Throwable;
-use function PHPUnit\Framework\returnArgument;
+
+
 class User extends Authenticatable
 {
     use HasRoles, HasApiTokens, HasFactory, Notifiable;
+    /////////////STATIC VALUES////////
+    const STATIC_ADMIN_DATABASE_ID = 1;
+    //////////////////////////////////
 
     const ROLE_ADMIN = 0;
     const ROLE_USER = 1;
     const ROLE_USER_Hospital = 2;
-    const ROLE_USER_STAFF=3;
+    const ROLE_USER_STAFF = 3;
 
 
     const STATUS_INACTIVE = 0;
@@ -83,13 +80,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function jsonData(){
-        $json=[];
-        $json['id']=$this->id;
-       // $json['name']=$this->name;
-        $json['email']=$this->email;
-        $json['is_notification']=$this->is_notification;
-        $json['form_step']=$this->form_step;
+    public function jsonData()
+    {
+        $json = [];
+        $json['id'] = $this->id;
+        // $json['name']=$this->name;
+        $json['email'] = $this->email;
+        $json['is_notification'] = $this->is_notification;
+        $json['form_step'] = $this->form_step;
         return $json;
-    }  
+    }
 }

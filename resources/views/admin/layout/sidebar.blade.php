@@ -7,7 +7,7 @@
         <ul class="nav nav-treeview">
           <li class="nav-item">
           <li class="nav-item">
-            <a href="{{url('/admin/home')}}" class="nav-link">
+          <a href="{{url('/admin/dashboard')}}" class="nav-link">
               <i class="fa fa-home nav-icon"></i>
               <p>Home</p>
             </a>
