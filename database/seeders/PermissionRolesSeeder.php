@@ -25,7 +25,7 @@ class PermissionRolesSeeder extends Seeder
         ];
 
         $roles = [
-            'admin','user'
+            'admin','customer', 'service provider', 'guest'
         ];
         $permissions = collect($permissions)->map(function ($permission) {
             return ['name' => $permission, 'guard_name' => 'web'];
@@ -40,6 +40,15 @@ class PermissionRolesSeeder extends Seeder
         $adminUser = User::find(User::STATIC_ADMIN_DATABASE_ID);
         $adminRole = Role::find(User::ROLE_ADMIN);
         $adminUser->assignRole($adminRole);
+        
+        $customerUser = User::find(User::STATIC_CUSTOMER_DATABASE_ID);
+        $customerRole = Role::find(User::ROLE_CUSTOMER);
+        $customerUser->assignRole($customerRole);
+        
+        $serviceProviderUser = User::find(User::STATIC_SERVICEPROFIDER_DATABASE_ID);
+        $serviceProviderRole = Role::find(User::ROLE_SERVICE_PROVICER);
+        $serviceProviderUser->assignRole($serviceProviderRole);
+        
         $adminRole->givePermissionTo(Permission::get());
     }
 }

@@ -6,21 +6,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Sanctum\HasApiTokens;
 
 
 class User extends Authenticatable
 {
-    use HasRoles, HasApiTokens, HasFactory, Notifiable;
+    use HasRoles, HasApiTokens, HasFactory, Notifiable, SoftDeletes;
     /////////////STATIC VALUES////////
     const STATIC_ADMIN_DATABASE_ID = 1;
+    const STATIC_CUSTOMER_DATABASE_ID = 2;
+    const STATIC_SERVICEPROFIDER_DATABASE_ID = 3;
     //////////////////////////////////
 
     const ROLE_ADMIN = 1;
-    const ROLE_USER = 2;
-    const ROLE_USER_Hospital = 3;
-    const ROLE_USER_STAFF = 4;
-
+    const ROLE_CUSTOMER = 2;
+    const ROLE_SERVICE_PROVICER = 3;
+    const GUEST = 3;
 
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
@@ -29,6 +31,7 @@ class User extends Authenticatable
 
     const MALE = 1;
     const FEMALE = 2;
+    const OTHER = 3;
     const UPLOAD_PICTURE_PATH = "/public/images";
     /**
      * The attributes that are mass assignable.
@@ -36,31 +39,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'otp',
-        'first_name',
-        'last_name',
-        'phone',
-        'dob',
-        'email',
-        'password',
-        'name',
-        'travel_distance',
-        'experience',
-        'address',
-        'city',
-        'date_of_joining',
-        'goal',
-        'state',
-        'long_term_goal',
-        'hobbies',
-        'pincode',
-        'country',
-        'spoken_language',
-        'other_spoken_language',
-        'primary_mode_of_transport',
-        'travel_distance',
-        'earliest_start_date',
-        'form_step',
+        'name','first_name','last_name','phone','email','dob','latitude','longitude','address','city','state','pincode','country','counry_code','country_short_code','spoken_language','other_spoken_language','primary_mode_of_transport','experience','travel_distance','earliest_start_date','aspire_to_achieve','hobbies','long_term_goal','goal','profile_image','cover_image','is_notification','role_id','status','created_by','email_verified_at','password','form_step',
     ];
 
     /**
@@ -83,9 +62,8 @@ class User extends Authenticatable
     public function jsonData()
     {
         $json = [];
-        $json['id'] = $this->id;
-        // $json['name']=$this->name;
         $json['email'] = $this->email;
+        $json['business_name']=$this->name;
         $json['is_notification'] = $this->is_notification;
         $json['form_step'] = $this->form_step;
         return $json;
