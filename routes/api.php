@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\ListController;
 use App\Http\Controllers\admin\RolesPermissionsController;
 use App\Http\Controllers\admin\RolesController;
-use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\api\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,10 +23,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
+Route::post('send-otp',[UserController::class, 'sendOtp']);
+
+# ----  old ------------
 Route::post('register',[UserController::class, 'register']);
 Route::post('login',[UserController::class, 'login']);
 
-Route::post('send-otp',[UserController::class, 'sendOtp']);
 Route::post('forgot-password',[UserController::class, 'forgotPassword']);
 
 Route::post('verify-otp',[UserController::class, 'verifyOtp']);

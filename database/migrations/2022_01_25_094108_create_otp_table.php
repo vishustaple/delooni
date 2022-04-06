@@ -15,10 +15,13 @@ class CreateOtpTable extends Migration
     {
         Schema::create('otp', function (Blueprint $table) {
             $table->id();
-            $table->string('email');
+            $table->bigInteger('phone');
+            $table->string('country_code');
+            $table->string('country_short_code');
             $table->string('otp');
-            $table->string('for');
-            $table->timestamps();
+            $table->string('otp_for')->comment('signup','login','forgot');
+            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
     }
 
