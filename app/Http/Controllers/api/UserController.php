@@ -62,6 +62,7 @@ use App\Traits\Togglestatus;
 
 //requests
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\OtpRequest;
 
 //events
 use App\Events\Notify;
@@ -133,59 +134,44 @@ class UserController extends Controller
      * @param  $r request contains data to sendOtp 
      * @return response success or fail
      */
-    public function sendOtp(request $request)
+    public function sendOtp(OtpRequest $request)
     {
-        $validate = Validator::make(
-            $request->input(),
-            [
-                'email' => 'required|email',
-                'for' => 'required'
-
-            ]
-        );
-        if ($validate->fails()) {
-            return $this->validation($validate);
-        }
-
-        $email = $request->email;
-
-        if ($request->for == OTP::FOR_SIGNUP) {
-            $for = OTP::FOR_SIGNUP;
-
-            $checkExist = User::where('email', $email)->first();
-            if ($checkExist) {
-                return $this->error("Email already taken");
-            }
-        }
-        if ($request->for == OTP::FOR_FORGET) {
-            $for = OTP::FOR_FORGET;
-            $user = User::where('email', $request->email)->first();
-            if (empty($user)) {
-                return $this->error("This email is not registered yet");
-            }
-        }
-
+        
         try {
-            Otp::where('email', $email)->where('for', OTP::FOR_SIGNUP)
-                ->delete();
+            # if sign up, check for unique phone no
+            if ($request->otp_for == Otp::FOR_SIGNUP) {
+                $for = Otp::FOR_SIGNUP;
 
-            $otp = random_int(1000, 9999);
+                $checkExist = User::where('phone', $request->phone)->first();
+                if ($checkExist) {
+                    return $this->error("Phone no already been taken.");
+                }
+            }
+            
+            # otp to phole integration here
+            Otp::where([
+                ['phone', '=', $request->phone],
+                ['otp_for', '=', $request->otp_for],
+            ])->delete();
 
-            $otpModel = new Otp();
-            $otpModel->email = $email;
-            $otpModel->otp = $otp;
-            $otpModel->for = $for;
-            $otpModel->save();
-
-            $a = Mail::send("mail.otp", ["otp" => $otp], function ($m) use ($email) {
-                $m->from('hello@argosyqr.com', 'Thouroghio');
-                $m->to($email)
-                    ->subject("Otp");
-            });
+            $otp = Otp::create([
+                'phone' => $request->phone,
+                'country_code' => $request->country_code,
+                'country_short_code' => $request->country_short_code,
+                'otp_for' => $request->otp_for,
+                'otp' => random_int(1000, 9999),
+            ]);
+            if( $otp ){
+                return $this->successWithData(['otp'=>$otp->otp]);
+            } 
+            return $this->error("unable to processs your request. Please try again laer.");
         } catch (\Throwable $e) {
+            Log::Info("\n==============OTP Error Logs==============\n");
             Log::error($e->getMessage());
+            Log::Info("\n==============End of OTP Error Logs==============\n");
+            return $this->error("Gettig error while sending OTP. Please try again laer.");
         }
-        return response()->json(['status' => 200, 'message' => 'Please check your email for otp', 'otp' => $otp]);
+        exit;
     }
 
     /**
