@@ -63,6 +63,7 @@ use App\Traits\Togglestatus;
 //requests
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\OtpRequest;
+use App\Http\Requests\UserRegisterRequest;
 
 //events
 use App\Events\Notify;
@@ -144,7 +145,7 @@ class UserController extends Controller
 
                 $checkExist = User::where('phone', $request->phone)->first();
                 if ($checkExist) {
-                    return $this->error("Phone no already been taken.");
+                    return $this->error("Phone has already been taken.");
                 }
             }
             
@@ -180,50 +181,57 @@ class UserController extends Controller
      * @param  $r request contains data to register
      * @return response success or fail
      */
-    public function register(Request $r)
+    public function register(UserRegisterRequest $r)
     {
-        $validate = Validator::make(
-            $r->input(),
-            [
-                "otp" => "required",
-                'email' => 'required|unique:users|email',
-                'password' => 'required|min:6',
-                'device_name' => 'required',
-                'device_token' => 'required',
-                'device_type' => 'required',
-
-            ]
-        );
-        if ($validate->fails()) {
-            return $this->validation($validate);
-        }
-        $otp = Otp::where(['email' => $r->email, 'otp' => $r->otp, 'for' => OTP::FOR_SIGNUP])
-            ->first();
-
-        if (empty($otp)) {
-            return $this->error("No otp found");
-        }
+       try
+       {
         $register = User::create(
             [
                 'email' => $r->email,
-                'password' => Hash::make($r->password)
+                'password' => Hash::make($r->password),
+                'first_name'=> $r->first_name,
+                'last_name'=>$r->last_name,
+                'phone'=>$r->phone
             ]
         );
-        $otp->delete();
-        $user = User::where('email', '=', $r->email)->first();
-        $token = $user->createToken('API Token')->plainTextToken;
+        // if( $register ){
+        //    return $this->successWithData( $register->jsondata(),"Register successfully");
+        // } 
+        // else{
+        //     return $this->successWithData( "no Register successfully");
+        // }
 
-        $loginHistory = new LoginHistory();
-        $loginHistory->device_name = $r->device_name;
-        $loginHistory->device_token = $r->device_token;
-        $loginHistory->device_type = $r->device_type;
-        $loginHistory->personal_access_token = $token;
-        $loginHistory->created_by = $user->id;
-        $loginHistory->save();
+       $token = $register->createToken('API Token')->plainTextToken;
 
+        $loginHistory = LoginHistory::create(
+            [
+              'device_name'=>$r->device_name,
+              'device_token'=>$r->device_token,
+              'device_type'=>$r->device_type,
+              'personal_access_token'=>$token,
+              'created_by'=>$register->id
+            ]
+        );
+
+        if( $loginHistory ){
+           return $this->successWithData( $loginHistory->jsondata(),"Register successfully");
+        } 
+        else{
+            return $this->successWithData( "no Register successfully");
+        }
         $data = [];
         $data['token'] =  $token;
-        return $this->successWithData($user->jsonData(), "Register successfully", $data);
+       // return $this->successWithData($register->jsonData(), "Register successfully", $data);
+            } catch (\Throwable $e) {
+                Log::Info("\n==============OTP Error Logs==============\n");
+                Log::error($e->getMessage());
+                Log::Info("\n==============End of OTP Error Logs==============\n");
+                return $this->error("Gettig error while creating User. Please try again laer.");
+            }
+    exit;
+
+
+
     }
     /**
      *  Update profile for both users
