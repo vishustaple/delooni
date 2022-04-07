@@ -16,7 +16,8 @@ use App\Http\Controllers\admin\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+//*****************************verify email*******************//
+Route::get('verify-email', [AdminController::class, 'VerifyEmail']);
 
 Route::get('/', [AdminController::class, 'Login'])->middleware(["CustomAuthCheck"]);
 Route::post('/login', [AdminController::class, 'Login'])->middleware(["CustomAuthCheck"]);
@@ -65,3 +66,5 @@ Route::resource('permissions', PermissionController::class);
 
 //***********************************************Role************************************************//
 Route::resource('roles', RolesController::class);
+
+

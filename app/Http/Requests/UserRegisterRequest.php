@@ -27,14 +27,33 @@ class UserRegisterRequest extends FormRequest
      * @return array
      */
     public function rules()
-    {
-        return [
-                'phone' => 'required',
-                'first_name'=>'required',
-                'last_name'=>'required',
-                'email' => 'required|unique:users|email',
-                'password' => 'required|min:6'
-        ];
+    {   
+        
+        
+        if($this->user_type == 'customer'){
+            return [
+                
+                'user_type'=>'required',
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'email' => 'required|email|unique:users|max:255',
+                'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15|unique:users',
+                
+               
+            ];
+        }
+            else{
+                return [
+                    'user_type'=>'required',
+                    'business_name'=>'required',
+                    'first_name' => 'required',
+                    'last_name' => 'required',
+                    'email' => 'required|email|unique:users|max:255',
+                    'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15|unique:users',
+                   
+                ];
+    
+            }
     }
 
 

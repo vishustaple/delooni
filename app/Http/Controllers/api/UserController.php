@@ -185,43 +185,73 @@ class UserController extends Controller
     {
        try
        {
+        $email_verify_token = time();
+        if($r->user_type=="customer"){
         $register = User::create(
             [
                 'email' => $r->email,
                 'password' => Hash::make($r->password),
                 'first_name'=> $r->first_name,
                 'last_name'=>$r->last_name,
-                'phone'=>$r->phone
+                'phone'=>$r->phone,
+                'email_verified_token'=>$email_verify_token,
             ]
         );
+        $register->assignRole(User::ROLE_CUSTOMER);
+    }
+    else {
+        $register = User::create(
+            [   
+                'business_name'=>$r->business_name,
+                'email' => $r->email,
+                'password' => Hash::make($r->password),
+                'first_name'=> $r->first_name,
+                'last_name'=>$r->last_name,
+                'phone'=>$r->phone,
+                'email_verified_token'=>$email_verify_token,
+            ]
+        );
+        $register->assignRole(User::ROLE_SERVICE_PROVIDER);
+    }
         // if( $register ){
         //    return $this->successWithData( $register->jsondata(),"Register successfully");
         // } 
         // else{
         //     return $this->successWithData( "no Register successfully");
         // }
-
+        
        $token = $register->createToken('API Token')->plainTextToken;
 
-        $loginHistory = LoginHistory::create(
-            [
-              'device_name'=>$r->device_name,
-              'device_token'=>$r->device_token,
-              'device_type'=>$r->device_type,
-              'personal_access_token'=>$token,
-              'created_by'=>$register->id
-            ]
-        );
+    
+        
+        // $loginHistory = LoginHistory::create(
+        //     [
+        //       'device_name'=>$r->device_name,
+        //       'device_token'=>$r->device_token,
+        //       'device_type'=>$r->device_type,
+        //       'personal_access_token'=>$token,
+        //       'created_by'=>$register->id
+        //     ]
+        // );
 
-        if( $loginHistory ){
-           return $this->successWithData( $loginHistory->jsondata(),"Register successfully");
-        } 
-        else{
-            return $this->successWithData( "no Register successfully");
+        // if( $loginHistory ){
+        //    return $this->successWithData( $loginHistory->listJsonData(),"Register successfully");
+        // } 
+        // else{
+        //     return $this->successWithData( "no Register successfully");
+        // }
+        if (!empty($register)) {
+            $register['fname'] = $r->first_name . ' ' . $r->last_name;
+            $register['email'] = $r->email;
+            $link = url('') . "/verify-email?token=" . $email_verify_token;
+            $sendMail = Mail::send('mail.send-verification-email', ['user' => $register['fname'], 'link' => $link], function ($m) use ($register) {
+                $m->from('vishumehandiratta360@gmail.com', 'delooni');
+                $m->to($register['email'], $register['fname'])->subject('Email Verification!');
+            });
         }
         $data = [];
         $data['token'] =  $token;
-       // return $this->successWithData($register->jsonData(), "Register successfully", $data);
+        return $this->successWithData($register->jsonData(), "Register successfully", $data);
             } catch (\Throwable $e) {
                 Log::Info("\n==============OTP Error Logs==============\n");
                 Log::error($e->getMessage());
@@ -233,6 +263,7 @@ class UserController extends Controller
 
 
     }
+   
     /**
      *  Update profile for both users
      *

@@ -27,6 +27,8 @@ Route::post('send-otp',[UserController::class, 'sendOtp']);
 
 # ----  old ------------
 Route::post('register',[UserController::class, 'register']);
+
+
 Route::post('login',[UserController::class, 'login']);
 
 Route::post('forgot-password',[UserController::class, 'forgotPassword']);

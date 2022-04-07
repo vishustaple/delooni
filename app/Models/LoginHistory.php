@@ -14,7 +14,7 @@ class LoginHistory extends Model
         'device_token',
         'device_type',
         'personal_access_token',
-      
+         'created_by'
     ];
     public function listJsonData()
     {
