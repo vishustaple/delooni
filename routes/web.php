@@ -7,6 +7,8 @@ use App\Http\Controllers\admin\PermissionController;
 use App\Http\Controllers\admin\UserRegisterController;
 use App\Http\Controllers\admin\RolesController;
 use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\admin\CustomerController;
+use App\Http\Controllers\admin\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +21,7 @@ use App\Http\Controllers\admin\UserController;
 
 
 Route::get('/', [AdminController::class, 'Login'])->middleware(["CustomAuthCheck"]);
-Route::post('/login', [AdminController::class, 'Login'])->middleware(["CustomAuthCheck"]);
+Route::post('/login', [AdminController::class, 'Adminlogin'])->middleware(["CustomAuthCheck"]);
 Route::get('/forgot-password', [HospitalController::class, 'forgotpwdView'])->name('forgot');
 Route::post('/forgotpwd', [HospitalController::class, 'forgotPassword'])->name('forgotpwd');
 
@@ -51,7 +53,21 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('manage-users', [UserController::class, 'index'])->name('manage-users');
         Route::post('/updateProfile', [AdminController::class, 'updateProfile'])->name('admin.updateProfile');
 
-        //******************************************Admin Profile*********************************************//
+      //******************************************Admin Manage Customers*********************************************//
+        Route::get('/customer', [CustomerController::class, 'customerView'])->name('customer');
+
+
+      //******************************************Admin Manage Category*********************************************//
+        Route::get('/category', [CategoryController::class, 'categoryView'])->name('category');
+        Route::post('/category/add', [CategoryController::class, 'storecategory'])->name('category.add');
+        Route::get('/category/search', [CategoryController::class, 'searchcategory'])->name('category.search');
+        Route::get('/category/delete', [CategoryController::class, 'deletecategory'])->name('category.delete');
+        Route::get('/category/view/update', [CategoryController::class, 'view_update'])->name('category.view.update');
+
+
+
+
+       //******************************************Admin Profile*********************************************//
         Route::post('/profile/changePassword', [UserRegisterController::class, 'changePassword'])->name('users-change-password');
         Route::post('/profile/changeProfileImage', [UserRegisterController::class, 'changeProfileImage'])->name('users-change-image');
     });

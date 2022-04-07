@@ -21,7 +21,25 @@
         </ul>
       </li>
       <li class="nav-item">
-        <a href="{{url('/admin/user')}}" class="nav-link">
+        <a href="{{url('/admin/customer')}}" class="nav-link">
+          <i class="fa fa-sign-out nav-icon"></i>
+          <p>
+            Manage customer
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{url('/admin/category')}}" class="nav-link">
+          <i class="fa fa-sign-out nav-icon"></i>
+          <p>
+            Manage category
+          </p>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <!-- <a href="{{url('/admin/user')}}" class="nav-link"> -->
+        <a href="" class="nav-link">
           <i class="fa fa-user-circle nav-icon"></i>
           <p>Users</p>
         </a>

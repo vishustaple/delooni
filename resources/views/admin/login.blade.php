@@ -32,7 +32,12 @@
                         <div class="base__form">
                             <h4 class="primary-color mb-3 text-center text-white">Admin</h4>
                             <form action="login" method="post">
-                          
+                            @if ($message = Session::get('error'))
+                                <div class="alert alert-danger  alert-dismissible" role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                            @endif
                                 @csrf
                                 <div class="input-group mb-3">
                                     <input type="email" class="form-control" name="email" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
