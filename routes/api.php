@@ -44,8 +44,10 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::post('update-customer-detail',[UserController::class, 'updateCustomerDetail']);
     Route::post('contact-us',[UserController::class, 'contactUs']);
     Route::post('report',[UserController::class, 'report']);
-    Route::post('add-service-detail',[UserController::class, 'serviceDetails']);
     Route::post('user-rating',[UserController::class, 'userRating']);
+
+/******************************* Service Provider User Api **********************************************/
+    Route::post('add-service-detail',[UserController::class, 'serviceDetails']);
     Route::post('complete-profile',[UserController::class, 'completeProfile']);
     
 });

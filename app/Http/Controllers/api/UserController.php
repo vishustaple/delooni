@@ -642,7 +642,7 @@ class UserController extends Controller
         }
         $userrating =  new UserRating();
         $userrating->rating = $r->rating;
-        $userrating->user_id  = $r->id;
+        $userrating->user_id  = $r->user_id;
         $userrating->from_user_id = $user->id;
         $userrating->message = $r->message;
         $userrating->save();
