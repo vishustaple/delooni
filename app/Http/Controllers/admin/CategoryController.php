@@ -72,7 +72,37 @@ public function deletecategory(Request $request){
 */
 public function view_update(Request $request){
     $categoryData = ServiceCategory::find($request->id);
-    $res=view('admin.category.update', compact('categoryData'))->render(); 
+    $res =  view('admin.category.update', compact('categoryData'))->render();
     return response()->json($res);
 }
+/**
+     *  update category
+     *
+     * @param $r get form data 
+     * @return  return response update successfully or not
+*/
+public function update_category(Request $request){
+    $insert = ServiceCategory::where('id', $request->id)->update([
+        "name" => $request->name,
+        "description" => $request->description,
+        // "service_category-image" => $request->service_category_image ?? " ",
+    ]);
+    if($insert){
+        return response()->json(redirect()->back()->with('success', 'Updated Successfully.'));
+    } else {
+      return response()->json(redirect()->back()->with('error', 'Updated not successfully'));
+    }
 }
+/**
+     *  Detail view category
+     *
+     * @param get $r->id on click view button
+     * @return  detail view page of category according $r->id
+*/
+public function detailView_category(Request $request){
+    $data = ServiceCategory::find($request->id);
+    return view('admin.category.detailview', compact('data'));
+
+}
+}
+

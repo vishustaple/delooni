@@ -17,9 +17,14 @@ class AdminController extends Controller
     use ImageUpload;
     use Statuscheck;
     use togglestatus;
+
+
+
+
     public function login(){
         return view('admin.login');
     }
+    
     /**
      * Admin Login.
      *

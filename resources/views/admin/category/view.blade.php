@@ -35,8 +35,8 @@
     @endif
     </td>
     <td>
-    <a href="" target="_blank" class="btn btn-outline-success btn-xs view">View</a>
-    <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-success btn-xs update">Update</button>
+    <a href='{{route("category.view", $value->id)}}'   target="_blank" class="btn btn-outline-success btn-xs view">View</a>
+    <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-success btn-xs update" class="viewjob_update">Update</button>
     <!-- The Modal -->
     <div class="modal " id="myModal1">
     <div class="modal-dialog modal-lg">
@@ -47,7 +47,7 @@
     <button type="button" class="close" data-dismiss="modal">&times;</button>
     </div>
     <!-- Modal body -->
-    <div class="modal-body updatemodaluser">
+    <div class="modal-body viewJob_update">
     </div>
 
 </div>

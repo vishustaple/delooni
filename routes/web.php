@@ -20,8 +20,8 @@ use App\Http\Controllers\admin\CategoryController;
 */
 
 
-Route::get('/', [AdminController::class, 'Login'])->middleware(["CustomAuthCheck"]);
-Route::post('/login', [AdminController::class, 'Adminlogin'])->middleware(["CustomAuthCheck"]);
+Route::get('/', [AdminController::class, 'Login']);
+Route::post('/login', [AdminController::class, 'Adminlogin']);
 Route::get('/forgot-password', [HospitalController::class, 'forgotpwdView'])->name('forgot');
 Route::post('/forgotpwd', [HospitalController::class, 'forgotPassword'])->name('forgotpwd');
 
@@ -63,8 +63,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/category/search', [CategoryController::class, 'searchcategory'])->name('category.search');
         Route::get('/category/delete', [CategoryController::class, 'deletecategory'])->name('category.delete');
         Route::get('/category/view/update', [CategoryController::class, 'view_update'])->name('category.view.update');
-
-
+        Route::post('/category/update', [CategoryController::class, 'update_category'])->name('category.update');
+        Route::get('/category/view/{id}', [CategoryController::class, 'detailView_category'])->name('category.view');
 
 
        //******************************************Admin Profile*********************************************//

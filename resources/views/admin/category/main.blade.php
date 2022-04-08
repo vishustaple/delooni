@@ -151,7 +151,7 @@ $(document).on('click', '.update', function(event){
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
   });
-  var id = $(this).attr('data-id');dd(id);;
+  var id = $(this).attr('data-id');
   $.ajax({
         url:'{{route("category.view.update")}}',
         data:{id:id},
@@ -169,5 +169,35 @@ $(document).on('click', '.update', function(event){
   }
  });
 });
+$(document).on('click','#update_category', function(e){
+  e.preventDefault();
+  var data = new FormData(this);
+  console.log(data);
+  $.ajax({
+    type:'post',
+    url:"{{route('category.update')}}",
+    cache:false,
+    contentType: false,
+    processData: false,
+    dataType: "JSON",
+    data : {data: data},
+    headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              },
+            data:data,
+            success:function(data){
+            window.location.reload();
+            setTimeout(function () {
+        
+            }, 2000);
+            },
+            error:function(data){
+            $.each(data.responseJSON.errors, function(id,msg){
+            $('#error_'+id).html(msg);
+            })
+            }
+        });
+      });
+    
 </script>
 @endsection

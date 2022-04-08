@@ -18,7 +18,7 @@ class CustomAuthCheck
     public function handle(Request $request, Closure $next)
     {
         if(Auth::check()){
-            return redirect('/admin/home');
+            return redirect('/');
         }else{
             return $next($request);
         }
