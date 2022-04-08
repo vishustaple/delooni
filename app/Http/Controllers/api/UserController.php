@@ -196,45 +196,19 @@ class UserController extends Controller
         );
         $register->assignRole(User::ROLE_SERVICE_PROVIDER);
     }
-        // if( $register ){
-        //    return $this->successWithData( $register->jsondata(),"Register successfully");
-        // } 
-        // else{
-        //     return $this->successWithData( "no Register successfully");
-        // }
-        
        $token = $register->createToken('API Token')->plainTextToken;
-
-    
-        
-        // $loginHistory = LoginHistory::create(
-        //     [
-        //       'device_name'=>$r->device_name,
-        //       'device_token'=>$r->device_token,
-        //       'device_type'=>$r->device_type,
-        //       'personal_access_token'=>$token,
-        //       'created_by'=>$register->id
-        //     ]
-        // );
-
-        // if( $loginHistory ){
-        //    return $this->successWithData( $loginHistory->listJsonData(),"Register successfully");
-        // } 
-        // else{
-        //     return $this->successWithData( "no Register successfully");
-        // }
         if (!empty($register)) {
             $register['fname'] = $r->first_name . ' ' . $r->last_name;
             $register['email'] = $r->email;
             $link = url('') . "/verify-email?token=" . $email_verify_token;
             $sendMail = Mail::send('mail.send-verification-email', ['user' => $register['fname'], 'link' => $link], function ($m) use ($register) {
-                $m->from('vishumehandiratta360@gmail.com', 'delooni');
+                $m->from('shagun@richestsoft.in', 'delooni');
                 $m->to($register['email'], $register['fname'])->subject('Email Verification!');
             });
         }
         $data = [];
         $data['token'] =  $token;
-        return $this->successWithData($register->jsonData(), "Register successfully", $data);
+        return $this->successWithData($register->jsonData(),'Mail has been sent to your email.Please verify your account.',  $data);
             } catch (\Throwable $e) {
                 Log::Info("\n==============OTP Error Logs==============\n");
                 Log::error($e->getMessage());
@@ -253,20 +227,7 @@ class UserController extends Controller
      * @param  $r request contains data to user profile update
      * @return response success or fail
      */
-    // public function updateProfile(UserRequest $r)
-    // {
-    //     try {
-    //         $user = Auth::user();
-    //         $update = User::where('id', $user->id)
-    //             ->update([
-    //                 'name' => $r->name, 'email' => $r->email,
-    //                 'phone' => $r->phone, 'business_name' => $r->business_name
-    //             ]);
-    //         return $this->success('Profile updated successfully');
-    //     } catch (\ThrowaValidatorble $e) {
-    //         return $this->error('Please check your fields');
-    //     }
-    // }
+    
     /**
      *  login
      *
@@ -320,10 +281,6 @@ class UserController extends Controller
      * @param  $r request contains data to user all profile including additional info
      * @return user profile list
      */
-    // public function getProfile(request $r)
-    // {
-    //     return $this->successWithData(auth()->user()->jsonData());
-    // }
 
     /**
      * Verify Otp  
@@ -427,6 +384,7 @@ class UserController extends Controller
     //         return $this->error($e->getMessage());
     //     }
     // }
+
 
     /**
      * Complete Profile  
@@ -540,7 +498,14 @@ class UserController extends Controller
         }
     }
 
-    public function serviceDetails(request $r)
+
+     /**
+     * Add Service Detail  
+     *
+     * @param  $r request contains data to Add Service Detail 
+     * @return response success or fail
+     */
+    public function addServiceDetails(request $r)
     {
         try {
             $user = auth()->user();
@@ -573,12 +538,22 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Get category list  
+     * @return response success or fail
+     */
     public function getcategories()
     {
         $categories = ServiceCategory::paginate();
         return $this->customPaginator($categories);
     }
 
+    /**
+     * Get Sub Categories List
+     *
+     * @param  $r request contains data to show list of sub categories
+     * @return response success or fail
+     */
     public function getSubcategories(request $r)
     {
         $v = Validator::make(
@@ -595,13 +570,24 @@ class UserController extends Controller
         return $this->customPaginator($subcategories);
     }
 
+
+    /**
+     * Get Customer Profile  
+     *
+     * @return response success or fail
+     */
     public function getCustomerProfile()
     {
         $user = auth()->user();
-        $userProfile = User::where('id', $user->id)->first();
-        return $this->successWithData($userProfile->CustomerProfile(), 'Data fetched successfully.');
+        return $this->successWithData($user->CustomerProfile(), 'Data fetched successfully.');
     }
 
+    /**
+     * Update Customer Detail  
+     *
+     * @param  $r request contains data to Update Customer Detail
+     * @return response success or fail
+     */
     public function updateCustomerDetail(request $r)
     {
         $user = auth()->user();
@@ -618,6 +604,12 @@ class UserController extends Controller
         return $this->success('Your information has been updated.');
     }
 
+    /**
+     * Contact Us 
+     *
+     * @param  $r request contains data for ContactUs 
+     * @return response success or fail
+     */
     public function contactUs(request $r){
         $user = auth()->user();
         $v = Validator::make(
@@ -639,6 +631,12 @@ class UserController extends Controller
         return $this->successWithData($contact->jsonData(),'Message sent successfully');
     }
 
+    /**
+     * Add Report
+     *
+     * @param  $r request contains data to Add Report
+     * @return response success or fail
+     */
     public function report(request $r){
         $user = auth()->user();
         $v = Validator::make(
@@ -665,6 +663,12 @@ class UserController extends Controller
         return $this->successWithData($report->jsonData(),'Report added successfully');
     }
 
+    /**
+     * Add User Rating
+     *
+     * @param  $r request contains data to Give rating to service provider
+     * @return response success or fail
+     */
     public function userRating(request $r){
         $user = auth()->user();
         $v = Validator::make(
@@ -687,20 +691,14 @@ class UserController extends Controller
         return $this->successWithData($userrating->jsonData(),'Rating successfully given to user.');
     }
 
+
+
 //     public function servicesFilteration(request $r){
 
 //         $user = auth()->user();
-//         $req = new Request([
-//             'filter' => ['category' => $r->category, 'location' => $r->location],
-//         ]);
 
-//         $paginate = QueryBuilder::for(User::class, $req)
-//             ->allowedFilters([
-//                 AllowedFilter::exact('category'),
-//                 AllowedFilter::exact('location'),
-//             ])
-//             ->paginate();
-
-//         return $this->customPaginator($paginate);;
+//         if($r->category){
+//             $users=Services::where('name',$r->category)->get();
+//         }
 // }
 }

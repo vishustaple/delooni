@@ -24,8 +24,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 /********************************* General Api's ******************************/
 Route::post('register',[UserController::class, 'register']);
-
-
 Route::post('login',[UserController::class, 'login']);
 Route::post('forgot-password',[UserController::class, 'forgotPassword']);
 Route::post('send-otp',[UserController::class, 'sendOtp']);
@@ -49,7 +47,7 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::post('user-rating',[UserController::class, 'userRating']);
 
 /******************************* Service Provider User Api **********************************************/
-    Route::post('add-service-detail',[UserController::class, 'serviceDetails']);
+    Route::post('add-service-detail',[UserController::class, 'addServiceDetails']);
     Route::post('complete-profile',[UserController::class, 'completeProfile']);
     
 });
