@@ -128,7 +128,6 @@ class UserController extends Controller
         }
     }
 
-
     /**
      * sendOtp 
      *
