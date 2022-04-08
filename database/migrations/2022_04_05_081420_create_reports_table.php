@@ -15,7 +15,7 @@ class CreateReportsTable extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->enum('reorting_issue',['inquires', 'support request']);
+            $table->enum('reporting_issue',['inquiries', 'support request']);
             
             $table->unsignedBigInteger('service_category_id');
             $table->foreign('service_category_id')->references('id')->on('service_categories')->onDelete('cascade');
