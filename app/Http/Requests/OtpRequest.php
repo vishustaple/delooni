@@ -36,7 +36,6 @@ class OtpRequest extends FormRequest
         return [
             'phone' => 'required',
             'country_code' => 'required',
-            'country_short_code' => 'required',
             'otp_for' => 'required|in:signup,login,forgot-password',
         ];
     }

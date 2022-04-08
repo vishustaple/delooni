@@ -118,15 +118,15 @@ class UserController extends Controller
      * @param  $r request contains data to sendOtp 
      * @return response success or fail
      */
-    public function sendOtp(OtpRequest $request)
+    public function sendOtp(OtpRequest $r)
     {
 
         try {
             # if sign up, check for unique phone no
-            if ($request->otp_for == Otp::FOR_SIGNUP) {
+            if ($r->otp_for == Otp::FOR_SIGNUP) {
                 $for = Otp::FOR_SIGNUP;
 
-                $checkExist = User::where('phone', $request->phone)->first();
+                $checkExist = User::where('phone', $r->phone)->first();
                 if ($checkExist) {
                     return $this->error("Phone has already been taken.");
                 }
@@ -134,26 +134,26 @@ class UserController extends Controller
 
             # otp to phole integration here
             Otp::where([
-                ['phone', '=', $request->phone],
-                ['otp_for', '=', $request->otp_for],
+                ['phone', '=', $r->phone],
+                ['otp_for', '=', $r->otp_for],
             ])->delete();
 
             $otp = Otp::create([
-                'phone' => $request->phone,
-                'country_code' => $request->country_code,
-                'country_short_code' => $request->country_short_code,
-                'otp_for' => $request->otp_for,
+                'phone' => $r->phone,
+                'country_code' => $r->country_code,
+                'otp_for' => $r->otp_for,
                 'otp' => random_int(1000, 9999),
             ]);
+            
             if ($otp) {
                 return $this->successWithData(['otp' => $otp->otp]);
             }
-            return $this->error("unable to processs your request. Please try again laer.");
+            return $this->error("unable to processs your request. Please try again later.");
         } catch (\Throwable $e) {
             Log::Info("\n==============OTP Error Logs==============\n");
             Log::error($e->getMessage());
             Log::Info("\n==============End of OTP Error Logs==============\n");
-            return $this->error("Gettig error while sending OTP. Please try again laer.");
+            return $this->error("Gettig error while sending OTP. Please try again later.");
         }
         exit;
     }
@@ -176,6 +176,7 @@ class UserController extends Controller
                 'password' => Hash::make($r->password),
                 'first_name'=> $r->first_name,
                 'last_name'=>$r->last_name,
+                'country_code' => $r->country_code,
                 'phone'=>$r->phone,
                 'email_verified_token'=>$email_verify_token,
             ]
@@ -190,6 +191,7 @@ class UserController extends Controller
                 'password' => Hash::make($r->password),
                 'first_name'=> $r->first_name,
                 'last_name'=>$r->last_name,
+                'country_code' => $r->country_code,
                 'phone'=>$r->phone,
                 'email_verified_token'=>$email_verify_token,
             ]
@@ -288,12 +290,13 @@ class UserController extends Controller
      * @param  $r request contains data to verify Otp 
      * @return response success or fail
      */
-    public function verifyOtp(request $request)
+    public function verifyOtp(request $r)
     {
         $v = Validator::make(
-            $request->input(),
+            $r->input(),
             [
-                'email' => 'required',
+                'phone' => 'required',
+                'country_code' => 'required',
                 'otp' => 'required|numeric',
             ]
         );
@@ -302,8 +305,8 @@ class UserController extends Controller
         }
         try {
 
-            $otp = Otp::where(['email' => $request->email, 'otp' => $request->otp])
-                ->first();
+            $otp = Otp::where(['phone' => $r->phone, 'otp' => $r->otp, 'otp_for' => 'signup'])
+            ->first();
             if (empty($otp)) {
                 throw new Exception("No otp found");
             }
@@ -405,6 +408,7 @@ class UserController extends Controller
                     'service_provider_type ' => 'stringrequired',
                     'nationality' => 'string',
                     'address' => 'string|required',
+                    'country_code' => 'required|string',
                     'phone' => 'string|required',
                     'whatspp_no' => 'string|required',
                     'snapchat_link' => 'url',
@@ -693,12 +697,12 @@ class UserController extends Controller
 
 
 
-//     public function servicesFilteration(request $r){
+    public function servicesFilteration(request $r){
 
-//         $user = auth()->user();
+        $user = auth()->user();
 
-//         if($r->category){
-//             $users=Services::where('name',$r->category)->get();
-//         }
-// }
+        if($r->category){
+            $users=Services::where('name',$r->category)->get();
+        }
+}
 }
