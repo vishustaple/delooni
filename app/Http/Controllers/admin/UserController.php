@@ -125,4 +125,7 @@ class UserController extends Controller
         // return redirect()->route('roles')->with('success','Deleted Sucessfully');
         
     }
+    
+  
+
 }

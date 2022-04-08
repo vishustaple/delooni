@@ -9,6 +9,13 @@ class LoginHistory extends Model
 {
     protected $table = "login_history";
     use HasFactory;
+    protected $fillable = [
+        'device_name',
+        'device_token',
+        'device_type',
+        'personal_access_token',
+         'created_by'
+    ];
     public function listJsonData()
     {
         $json = [];
