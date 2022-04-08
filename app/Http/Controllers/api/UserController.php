@@ -212,33 +212,9 @@ class UserController extends Controller
         );
         $register->assignRole(User::ROLE_SERVICE_PROVIDER);
     }
-        // if( $register ){
-        //    return $this->successWithData( $register->jsondata(),"Register successfully");
-        // } 
-        // else{
-        //     return $this->successWithData( "no Register successfully");
-        // }
+       
         
        $token = $register->createToken('API Token')->plainTextToken;
-
-    
-        
-        // $loginHistory = LoginHistory::create(
-        //     [
-        //       'device_name'=>$r->device_name,
-        //       'device_token'=>$r->device_token,
-        //       'device_type'=>$r->device_type,
-        //       'personal_access_token'=>$token,
-        //       'created_by'=>$register->id
-        //     ]
-        // );
-
-        // if( $loginHistory ){
-        //    return $this->successWithData( $loginHistory->listJsonData(),"Register successfully");
-        // } 
-        // else{
-        //     return $this->successWithData( "no Register successfully");
-        // }
         if (!empty($register)) {
             $register['fname'] = $r->first_name . ' ' . $r->last_name;
             $register['email'] = $r->email;

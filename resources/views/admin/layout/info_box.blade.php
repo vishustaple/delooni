@@ -6,7 +6,7 @@
       <div class="info-box-content">
         <span class="info-box-text">User Register</span>
         <span class="info-box-number">
-          {{DB::table('users')->where('role_id',1)->where('status','!=',0)->count()}}
+          {{DB::table('users')->where('status','!=',0)->count()}}
         </span>
       </div>
     </div>
@@ -17,7 +17,7 @@
 
       <div class="info-box-content">
         <span class="info-box-text">Base User</span>
-        <span class="info-box-number"> {{DB::table('users')->where('role_id',2)->where('status','!=',0)->count()}}</span>
+        <span class="info-box-number"> {{DB::table('users')->where('status','!=',0)->count()}}</span>
       </div>
     </div>
   </div>

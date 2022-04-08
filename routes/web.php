@@ -7,6 +7,7 @@ use App\Http\Controllers\admin\PermissionController;
 use App\Http\Controllers\admin\UserRegisterController;
 use App\Http\Controllers\admin\RolesController;
 use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\admin\ServiceProviderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,8 +20,8 @@ use App\Http\Controllers\admin\UserController;
 //*****************************verify email*******************//
 Route::get('verify-email', [AdminController::class, 'VerifyEmail']);
 
-Route::get('/', [AdminController::class, 'Login'])->middleware(["CustomAuthCheck"]);
-Route::post('/login', [AdminController::class, 'Login'])->middleware(["CustomAuthCheck"]);
+Route::get('/', [AdminController::class, 'login']);
+Route::post('/login', [AdminController::class, 'Adminlogin'])->name('login');
 Route::get('/forgot-password', [HospitalController::class, 'forgotpwdView'])->name('forgot');
 Route::post('/forgotpwd', [HospitalController::class, 'forgotPassword'])->name('forgotpwd');
 
@@ -67,4 +68,7 @@ Route::resource('permissions', PermissionController::class);
 //***********************************************Role************************************************//
 Route::resource('roles', RolesController::class);
 
+
+/*********************************************Service Provider*******************************************************/
+Route::get('/serviceprovider', [ServiceProviderController::class, 'ViewServiceProvider'])->name('viewserviceprovider');
 
