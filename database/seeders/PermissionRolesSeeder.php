@@ -46,7 +46,7 @@ class PermissionRolesSeeder extends Seeder
         $customerUser->assignRole($customerRole);
         
         $serviceProviderUser = User::find(User::STATIC_SERVICEPROFIDER_DATABASE_ID);
-        $serviceProviderRole = Role::find(User::ROLE_SERVICE_PROVICER);
+        $serviceProviderRole = Role::find(User::ROLE_SERVICE_PROVIDER);
         $serviceProviderUser->assignRole($serviceProviderRole);
         
         $adminRole->givePermissionTo(Permission::get());

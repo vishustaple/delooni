@@ -51,6 +51,7 @@ class CreateUsersTable extends Migration
             $table->string('currency', 10)->nullable();
             $table->boolean('email_verified')->default(0)->comment("0=>not verified, 1=>verified");
             $table->timestamp('email_verified_at')->nullable();
+            $table->integer('email_verified_token')->nullable();
             $table->integer('form_step')->default(1)->comment("0=>all form step completed, the value (1, 2 etc) stands for from no has to be submitted.");
             
             # socials
