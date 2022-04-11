@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-header">
-    <h3 class="card-title">Users List</h3>
+    <h3 class="card-title">Service Provider List</h3>
   </div>
   <!-- /.card-header -->
   <div class="card-body">
@@ -23,7 +23,7 @@
         <tr>
           <td>{{$key+1}}</td>
           <td>{{$value->id}}</td>
-          <td>{{$value->name}}</td>
+          <td>{{$value->first_name}}</td>
           <td>{{$value->email}}</td>
           <td>@if($value->status==1)
             <button data-id="{{$value->id}}" class="disable_enable btn btn-success btn-xs" onclick="toggleDisableEnable(this)">Enable</button>

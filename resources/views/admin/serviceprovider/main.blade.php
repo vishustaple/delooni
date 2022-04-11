@@ -1,7 +1,7 @@
 <div class="card" id="data">
               <div class="card-header p-2">
                 <ul class="nav nav-pills">
-                  <li class="nav-item"><a class="nav-link active" style="cursor:pointer" 
+                  <li class="nav-item addprovider"><a class="nav-link active" style="cursor:pointer" 
                         data-toggle="modal" 
                         data-target="#myModal">Add</a></li>
                                       <!-- The Modal -->
@@ -35,7 +35,7 @@
               <div class="card-body">
                 <div class="tab-content">
                   <div class="active tab-pane" id="view">
-                     @include('admin.user.view')
+                     @include('admin.serviceprovider.view')
                   </div>
                   <!-- /.tab-pane -->
                 </div>
@@ -43,7 +43,62 @@
               </div><!-- /.card-body -->
       </div>
       <script>
-        //for pagination 
+//add service provider 
+$("#createprovider").on('submit', function (e){
+     e.preventDefault();
+     var data = new FormData(this);
+     console.log(data);
+     $.ajax({
+     type:'post',
+     url:"{{route('provider.add')}}",
+     cache: false,
+     contentType: false,
+     processData: false,
+     dataType: "JSON",
+     data : {data: data},
+     headers: {
+     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+     },
+    
+    success:function(data){
+    console.log(data);
+    location.reload();
+    $("body").removeClass("modal-open");
+     },
+    error:function(data){                                     
+    $.each(data.responseJSON.errors, function(id,msg){
+    $('#error_'+id).html(msg);
+ })
+}
+});
+
+});
+
+//toggledisableenable
+function toggleDisableEnable(e){
+  var id = $(e).attr('data-id');
+  $('#page-loader').show();
+  $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+  });
+  $.ajax({
+  url:"{{route('provider.status')}}",
+  data:{id:id},
+  type:'post',
+  success:function(data)
+  {
+    location.reload();
+    $('#page-loader').hide();
+  },
+  error:function(error){
+    $('#page-loader').hide();
+  }
+ });
+}  
+
+//for pagination 
 $(document).on('click', '.pagination a', function(event){
  event.preventDefault(); 
  var page = $(this).attr('href').split('page=')[1];
@@ -131,28 +186,7 @@ function userRegisterAjax(type,path,data){
         }
       });
 } 
-function toggleDisableEnable(e){
-  var id = $(e).attr('data-id');
-  $('#page-loader').show();
-  $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
-  });
-  $.ajax({
-  url:"{{route('user.update.status')}}",
-  data:{id:id},
-  type:'post',
-  success:function(data)
-  {
-    location.reload();
-    $('#page-loader').hide();
-  },
-  error:function(error){
-    $('#page-loader').hide();
-  }
- });
-}  
+
 //to update user 
 $(document).on('submit', '#update_user', function(e){
   e.preventDefault();
@@ -230,6 +264,12 @@ $(document).on('click','.remove',function(){
 
 }
 });
+});
+
+$(document).on("click", ".addprovider", function(){
+  $(".error").html("");
+  $("#createprovider").trigger("reset");
+  
 });
 
 </script>
