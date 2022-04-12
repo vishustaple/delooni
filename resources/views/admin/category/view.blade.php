@@ -64,7 +64,9 @@
 </tbody>
 </table>
 </div>
+<div id="num"  data-page="{{$data->currentPage()}}">    
  {{$data->links()}} 
+</div>
 <!-- /.card-body -->
 </div>
 <!-- /.card -->

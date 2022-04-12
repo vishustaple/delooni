@@ -14,7 +14,7 @@ class CategoryController extends Controller
     * @return view detail of all category
   */
 public function categoryView(){
-      $data = ServiceCategory::select('*')->orderBy('Id','DESC')->paginate();
+      $data = ServiceCategory::select('*')->where('is_parent', 0)->orderBy('Id','DESC')->paginate();
       return view('admin.category.main', compact('data'));
     }
 
@@ -28,11 +28,14 @@ public function storecategory(Request $request){
 $validatedData = $request->validate([
     'name' => 'required',
     'description' => 'required',
+    'service_category_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
 ]);
  $insert = new ServiceCategory;
  $insert->name = $request->name;
  $insert->description = $request->description;
- $insert->service_category_image = $request->service_category_image ?? " ";
+ $insert->service_category_image  = $request->file('service_category_image')->getClientOriginalName();
+ $insert->path = $request->file('service_category_image')->store('/public/images');
+//  echo "<pre>"; var_dump($request->file('service_category_image')->store('/public/images'));die;
  $insert->save();
  return response()->json(redirect()->back()->with('success','Category Add Successfully'));
 }
@@ -44,7 +47,7 @@ $validatedData = $request->validate([
 */
 public function searchcategory(Request $request){
  $search = $request->search;
- $qry = ServiceCategory::select('*');
+ $qry = ServiceCategory::select('*')->where('is_parent', 0);
  if(!empty($search)){
      $qry->where(function($q) use($search){
          $q->where('name','like',"%$search%");
@@ -85,7 +88,8 @@ public function update_category(Request $request){
     $insert = ServiceCategory::where('id', $request->id)->update([
         "name" => $request->name,
         "description" => $request->description,
-        // "service_category-image" => $request->service_category_image ?? " ",
+        "service_category_image" =>  $request->file('service_category_image')->getClientOriginalName(),
+          "path" => $request->file('service_category_image')->store('/public/images'),
     ]);
     if($insert){
         return response()->json(redirect()->back()->with('success', 'Updated Successfully.'));
@@ -99,10 +103,54 @@ public function update_category(Request $request){
      * @param get $r->id on click view button
      * @return  detail view page of category according $r->id
 */
-public function detailView_category(Request $request){
+    public function detailView_category(Request $request){
     $data = ServiceCategory::find($request->id);
-    return view('admin.category.detailview', compact('data'));
-
+    $getdatas = ServiceCategory::select('*')->where('is_parent',$request->id)->get(); 
+    $getnames = ServiceCategory::select('*')->get();
+    return view('admin.category.detailview', compact('data','getdatas','getnames'));
 }
+/**
+     *  Status category
+     *
+     * @param get $r->id, on click status button
+     * @return  return response status active/deactive
+*/
+   public function status_category(Request $request){
+   $getstatus = ServiceCategory::find($request->id); 
+   $status = ($getstatus->status==ServiceCategory::STATUS_ACTIVE)?ServiceCategory::STATUS_NEW:ServiceCategory::STATUS_ACTIVE;
+   $data = ServiceCategory::where('id',$request->id)->update([
+       'status' => $status
+   ]);
+   return response()->json($data);
+   }
+ /**
+     *  Status category
+     *
+     * @param get get data according to $r
+     * @return  sub category store according to parent category
+*/
+public function store_sub_category(Request $request){
+    $validatedData = $request->validate([
+        'name' => 'required',
+        'service_category_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
+     ]);
+     $insert = new ServiceCategory;
+     $insert->name = $request->name;
+     $insert->service_category_image  = $request->file('service_category_image')->getClientOriginalName();
+     $insert->path = $request->file('service_category_image')->store('/public/images');
+     $insert->is_parent = $request->is_parent;
+     $insert->save();
+     return response()->json(redirect()->back()->with('success','Sub Category Add Successfully'));
 }
-
+/**
+     *  Category Back
+     *
+     * @param click on back button
+     * @return  redirect at home page
+*/
+public function  categoryBack()
+{
+    $url = route('category');
+    return $url;
+}
+}  

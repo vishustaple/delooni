@@ -31,6 +31,7 @@
       <li class="nav-item">
         <a href="{{url('/admin/category')}}" class="nav-link">
           <i class="fa fa-sign-out nav-icon"></i>
+          <!-- <i class="fa-solid fa-list-tree nav-icon"></i> -->
           <p>
             Manage category
           </p>

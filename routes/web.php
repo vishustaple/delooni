@@ -65,6 +65,11 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/category/view/update', [CategoryController::class, 'view_update'])->name('category.view.update');
         Route::post('/category/update', [CategoryController::class, 'update_category'])->name('category.update');
         Route::get('/category/view/{id}', [CategoryController::class, 'detailView_category'])->name('category.view');
+        Route::get('/category/update/status', [CategoryController::class, 'status_category'])->name('category.update.status');
+        Route::get('/category/back',[CategoryController::class,'categoryBack']);
+     //******************************************Admin Manage Sub Category*********************************************//
+        Route::post('/subcategory/add', [CategoryController::class, 'store_sub_category'])->name('subcategory.add');
+
 
 
        //******************************************Admin Profile*********************************************//
