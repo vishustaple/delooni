@@ -50,6 +50,7 @@ use App\Events\Notify;
 use App\Models\Availability;
 use App\Models\ContactUs;
 use App\Models\EducationDetail;
+use App\Models\FavouriteServices;
 use App\Models\Otp;
 use App\Models\ServiceCategory;
 use App\Models\ServiceDetail;
@@ -323,70 +324,75 @@ class UserController extends Controller
      * @param  $r request contains data to forgot password 
      * @return response success or fail
      */
-    // public function forgotPassword(request $r)
-    // {
-    //     $v = Validator::make(
-    //         $r->input(),
-    //         [
-    //             'email' => 'required|email',
-    //             'otp' => 'required',
-    //             'password' => 'required|min:4|max:20',
+    public function forgotPassword(request $r)
+    {
+        $v = Validator::make(
+            $r->input(),
+            [
+                'email' => 'required|email',
+               
+            ]
+        );
+        if ($v->fails()) {
+            return $this->validation($v);
+        }
+        try {
+        $update = 0;
+        $insert = 0;
+        $user = User::where('email', $r->email)->first();
+        if (!empty($user)) {
+         
+            if ($update || $insert) {
+                $link = url('') . '/change-password';
+                $user['fname'] = $user->first_name . ' ' . $user->last_name;
+                $user['email'] = $r->email;
 
-    //         ]
-    //     );
-    //     if ($v->fails()) {
-    //         return $this->validation($v);
-    //     }
-    //     try {
+                try {
+                    $sendMail = Mail::send('mails.change-password', ['user' => $user, 'link' => $link], function ($m) use ($user) {
+                        $m->from('shagun@richestsoft.in', 'Tranzlanta');
+                        $m->to($user['email'], $user['fname'])->subject('Password Reset!');
+                    });
+                    return $this->success('Mail has been sent to your email.Please check.');
+                } catch (\Throwable $e) {
+                    return $this->error($e->getMessage());
+                }
+            } else {
+                return $this->error('Something went wrong please try again later.');
+            }
+        } else {
+            return $this->error('This email is not registered yet.');
+        }
+    
 
-    //         $user = User::where('email', $r->email)->first();
-    //         if (empty($user)) {
-    //             throw new Exception("This email is not registered yet");
-    //         }
-
-    //         $otp = Otp::where(['email' => $r->email, 'otp' => $r->otp, 'for' => OTP::FOR_FORGET])
-    //             ->first();
-    //         if (empty($otp)) {
-    //             throw new Exception("No otp found");
-    //         }
-    //         $user->update(['password' => Hash::make($r->password)]);
-    //         $otp->delete();
-
-    //         //Genrate API Auth token
-    //         $token = $user->createToken('API Token')->plainTextToken;
-
-    //         $data = [];
-    //         $data['token'] =  $token;
-    //         return $this->successWithData($user->jsonData(), "Forget successfull", $data);
-    //     } catch (\Throwable $e) {
-    //         return $this->error($e->getMessage());
-    //     }
-    // }
+        } catch (\Throwable $e) {
+            return $this->error($e->getMessage());
+        }
+    }
     /**
      *  Change Password
      *
      * @param  $r request contains data to change password 
      * @return response success or fail
      */
-    // public function changePassword(request $r)
-    // {
-    //     $v = Validator::make(
-    //         $r->input(),
-    //         [
-    //             'password' => 'required|min:4|max:20',
-    //             'confirm_password' => 'required|same:password|min:4|max:20'
-    //         ]
-    //     );
-    //     if ($v->fails()) {
-    //         return $this->validation($v);
-    //     }
-    //     try {
-    //         auth()->user()->update(['password' => Hash::make($r->confirm_password)]);
-    //         return $this->success('Password changed successfull');
-    //     } catch (\Throwable $e) {
-    //         return $this->error($e->getMessage());
-    //     }
-    // }
+    public function changePassword(request $r)
+    {
+        $v = Validator::make(
+            $r->input(),
+            [
+                'password' => 'required|min:4|max:20',
+                'confirm_password' => 'required|same:password|min:4|max:20'
+            ]
+        );
+        if ($v->fails()) {
+            return $this->validation($v);
+        }
+        try {
+            auth()->user()->update(['password' => Hash::make($r->confirm_password)]);
+            return $this->success('Password changed successfull');
+        } catch (\Throwable $e) {
+            return $this->error($e->getMessage());
+        }
+    }
 
 
     /**
@@ -527,7 +533,7 @@ class UserController extends Controller
             if ($v->fails()) {
                 return $this->validation($v);
             }
-            $sub_category =  Services::where('name', $r->sub_category)->first();
+            $sub_category= ServiceCategory::where('name', $r->sub_category)->first();
             $service = new ServiceDetail();
             $service->service_id = $sub_category->id;
             $service->user_id = $user->id;
@@ -548,7 +554,7 @@ class UserController extends Controller
      */
     public function getcategories()
     {
-        $categories = ServiceCategory::paginate();
+        $categories = ServiceCategory::where('is_parent',ServiceCategory::IS_PARENT)->paginate();
         return $this->customPaginator($categories);
     }
 
@@ -570,7 +576,7 @@ class UserController extends Controller
             return $this->validation($v);
         }
         $categories = ServiceCategory::where('name', $r->category)->first();
-        $subcategories = Services::where('service_category_id', $categories->id)->paginate();
+        $subcategories = ServiceCategory::where('is_parent', $categories->id)->paginate();
         return $this->customPaginator($subcategories);
     }
 
@@ -695,7 +701,31 @@ class UserController extends Controller
         return $this->successWithData($userrating->jsonData(),'Rating successfully given to user.');
     }
 
+    public function addFavourite(request $r){ 
+        $user = auth()->user();
+        $v = Validator::make(
+            $r->input(),
+            [
+                'service_id' => 'required|numeric',
+                'user_id' => 'required|numeric', //service provider id
+               
+            ]
+        );
+        if ($v->fails()) {
+            return $this->validation($v);
+        }
+        $service_id=ServiceDetail::where(['service_id'=> $r->service_id, 'user_id' => $r->user_id])->first();
+        $favourite = new FavouriteServices();
+        $favourite->service_id = $service_id->id;
+        $favourite->user_id = $user->id;
+        $favourite->save();
+        return $this->success('Service added to favourite list successfully.');
+    }
 
+    public function getFavourite(request $r){ 
+        $user = auth()->user();
+        $favourite= FavouriteServices::where('user_id',$user->id)->paginate();
+    }
 
     public function servicesFilteration(request $r){
 
