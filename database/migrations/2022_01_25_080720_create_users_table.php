@@ -45,6 +45,7 @@ class CreateUsersTable extends Migration
             // $table->string('goal')->nullable();
             $table->string('profile_image')->nullable();
             $table->string('cover_image')->nullable();
+            $table->string('profile_video')->nullable();
             $table->boolean('is_notification')->default(1)->comment("0=> inactive, 1=> active");
             $table->integer('status')->default(1)->comment("0=> inactive, 1=> active, 3=>disabled, 4=>blacklist");
             $table->integer('created_by')->nullable();
@@ -55,7 +56,7 @@ class CreateUsersTable extends Migration
             $table->integer('form_step')->default(1)->comment("0=>all form step completed, the value (1, 2 etc) stands for from no has to be submitted.");
             
             # socials
-            $table->integer('whatspp_no')->nullable();
+            $table->integer('whatsapp_no')->nullable();
             $table->string('snapchat_link')->nullable();
             $table->string('instagram_link')->nullable();
             $table->string('twitter_link')->nullable();

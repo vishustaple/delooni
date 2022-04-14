@@ -1,28 +1,8 @@
 <div class="card" id="data">
               <div class="card-header p-2">
                 <ul class="nav nav-pills">
-                  <li class="nav-item addprovider"><a class="nav-link active" style="cursor:pointer" 
-                        data-toggle="modal" 
-                        data-target="#myModal">Add</a></li>
-                                      <!-- The Modal -->
-                    <div class="modal" id="myModal"> 
-                      <div class="modal-dialog modal-lg" >
-                        <div class="modal-content">
-
-                          <!-- Modal Header -->
-                          <div class="modal-header">
-                            <h4 class="modal-title">Register</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                          </div>
-
-                          <!-- Modal body -->
-                          <div class="modal-body">
-                          @include('admin.serviceprovider.addform')
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  <!-- <li class="nav-item"><a class="nav-link" href="#view" data-toggle="tab">Add User</a></li> -->
+                  <li class="nav-item"><a class="nav-link active" style="cursor:pointer;" id="serviceform" >Add</a></li>
+                  
                   <li class="nav-item search-right">
                    <div>
                       <div class="input-group" data-widget="sidebar-search">
@@ -43,10 +23,38 @@
               </div><!-- /.card-body -->
       </div>
       <script>
-//add service provider 
-$("#createprovider").on('submit', function (e){
+//serviceform on add button click 
+$('#serviceform').on('click',function(e){
+ e.preventDefault();
+ $.ajax({
+     type:'get',
+     url:"{{route('serviceproviderform')}}",
+     cache: false,
+     contentType: false,
+     processData: false,
+     data : {data: data},
+     headers: {
+     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+     },
+    success:function(response){
+    console.log(response);
+    $(".card-body").html(response);
+      },
+
+    error:function(error){                                     
+      console.log(error);
+ }
+
+});
+
+
+});
+
+$(document).on("submit", "#createprovider", function(e){
      e.preventDefault();
-     var data = new FormData(this);
+    //  alert("here");
+    let myForm = document.getElementById('createprovider');
+let formData = new FormData(myForm);
      console.log(data);
      $.ajax({
      type:'post',
@@ -55,15 +63,16 @@ $("#createprovider").on('submit', function (e){
      contentType: false,
      processData: false,
      dataType: "JSON",
-     data : {data: data},
+     data :formData,
      headers: {
      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
      },
-    
-    success:function(data){
-    console.log(data);
-    location.reload();
-    $("body").removeClass("modal-open");
+    success:function(response){
+      console.log(response);
+      // removemessage('error');
+      location.reload();
+      // $("body").removeClass("modal-open");
+     
      },
     error:function(data){                                     
     $.each(data.responseJSON.errors, function(id,msg){
@@ -71,8 +80,38 @@ $("#createprovider").on('submit', function (e){
  })
 }
 });
-
 });
+
+//add service provider 
+// $("#createprovider").on('submit', function (e){
+//      e.preventDefault();
+//      alert();
+//      var data = new FormData(this);
+//      console.log(data);
+//      $.ajax({
+//      type:'post',
+//      url:"{{route('provider.add')}}",
+//      cache: false,
+//      contentType: false,
+//      processData: false,
+//      dataType: "JSON",
+//      data : {data: data},
+//      headers: {
+//      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//      },
+//     success:function(data){
+//     console.log(data);
+//     location.reload();
+//     $("body").removeClass("modal-open");
+//      },
+//     error:function(data){                                     
+//     $.each(data.responseJSON.errors, function(id,msg){
+//     $('#error_'+id).html(msg);
+//  })
+// }
+// });
+
+//});
 
 //toggledisableenable
 function toggleDisableEnable(e){

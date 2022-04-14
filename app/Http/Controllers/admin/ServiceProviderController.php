@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ServiceProvider;
 use App\Models\User;
 use App\Models\EducationDetail;
+use App\Models\WorkExperience;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -22,14 +23,23 @@ class ServiceProviderController extends Controller
      */
     public function ViewServiceProvider(){
 
-
         $data = User::role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))
                         ->orderBy('id', 'DESC')
                         ->where('status','!=',User::STATUS_INACTIVE)
                         ->paginate();
+        //  dd($data);               
         return view('admin.serviceprovider.create', compact('data'));
      
 
+    }
+     /**
+     *  Show ServiceProvider form
+     *
+     * @param 
+     * @return 
+     */
+    public function addformServiceProvider(){
+        return view('admin.serviceprovider.addform');
     }
     
     /*
@@ -40,10 +50,10 @@ class ServiceProviderController extends Controller
     */
        
     public function AddServiceProvider(ServiceProviderRequest $request){
-        dd('heres');
-       
-     $user = Auth::user();  
-
+        
+     $user = $request->user()->id;  
+    //  dd($user);
+   
     $serviceprovideruser =  User::create([
         "business_name" => $request->business_name,
         "first_name" => $request->firstname,
@@ -61,6 +71,8 @@ class ServiceProviderController extends Controller
         "license_cr_photo" => $request->licensephoto,
         "dob"=> $request->dateofbirth,
         "description" => $request->description,
+        "profile_image"=>$request->img,
+        "profile_video"=>$request->video
         
        
     ]);
@@ -73,6 +85,10 @@ class ServiceProviderController extends Controller
         "user_id" => $user->id,
        
     ]);
+    $workexperiences = WorkExperience::create([
+        "no_of_years"=>$request->experience,
+        "user_id" => $user->id,
+    ]);
     return response()->json(redirect()->back()->with('success', 'New service provider is added Successfully'));
     // if($serviceprovideruser||$education){
     
@@ -83,7 +99,7 @@ class ServiceProviderController extends Controller
 }
 
     /**
-     *  Enable disable user
+     *  Enable disable provideruser
      *
      * @param
      * @return
