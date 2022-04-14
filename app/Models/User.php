@@ -41,7 +41,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name','first_name','last_name','phone','email','dob','latitude','longitude','address','city','state','pincode','country','counry_code','country_short_code','spoken_language','other_spoken_language','primary_mode_of_transport','experience','travel_distance','earliest_start_date','aspire_to_achieve','hobbies','long_term_goal','goal','profile_image','cover_image','is_notification','role_id','status','created_by','email_verified_at','password','form_step','email_verified_token'
+        'name','first_name','last_name','nationality','phone','email','dob','business_name','latitude','longitude','address','city','state','pincode','country','counry_code','country_short_code','spoken_language','other_spoken_language','primary_mode_of_transport','experience','travel_distance','earliest_start_date','aspire_to_achieve','hobbies','long_term_goal','goal','profile_image','cover_image','is_notification','role_id','status','created_by','email_verified_at','password','form_step','email_verified_token'
     ];
 
     public function education(){
@@ -80,16 +80,24 @@ class User extends Authenticatable
         $json['last_name']= $this->last_name;
         $json['email'] = $this->email;
         $json['phone'] = $this->phone;
-        $json['business_name']=$this->name??'';
-        $json['email_verified_token']=$this->email_verified_token;
-      
+        $json['dob'] = $this->dob??'';
+        if ($this->roles->first()->id == User::ROLE_CUSTOMER) {
+        $json['nationality'] = $this->nationality;
+        $json['address'] = $this->address;
+        }
+        if ($this->roles->first()->id == User::ROLE_SERVICE_PROVIDER) {
+       
+        $json['business_name']=$this->business_name??'';
+        }
         return $json;
     }
 
     public function customerProfile(){
         $json=[];
         $json['id']=$this->id;
-        $json['dob'] = $this->dob;
+        $json['first_name']=$this->first_name;
+        $json['last_name']= $this->last_name;
+        $json['dob'] = $this->dob??'';
         $json['nationality'] = $this->nationality;
         $json['address'] = $this->address;
         $json['email'] = $this->email;
@@ -99,6 +107,7 @@ class User extends Authenticatable
     public function serviceProviderProfile()
     {
         $json = [];
+        $json['email'] = $this->email;
         $json['profile_image']= url('') . '/profile_image/' . $this->profile_image ?? '';
         $json['video']=url('') . '/videos/' . $this->files->file_name ?? '';
         $json['service_provider_type ']=$this->service_provider_type ;

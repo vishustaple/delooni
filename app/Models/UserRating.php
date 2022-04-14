@@ -17,6 +17,8 @@ class UserRating extends Model
         'user_id','rating','from_user_id','status','message',
     ];
 
+    const MAX_RATING=5;
+    
     public function jsonData()
     {
         $json = [];

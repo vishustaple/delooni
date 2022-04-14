@@ -56,6 +56,7 @@ use App\Models\ServiceCategory;
 use App\Models\ServiceDetail;
 use App\Models\UserRating;
 use App\Models\WorkExperience;
+use App\Models\Country;
 use Exception;
 use Facade\FlareClient\Stacktrace\File;
 use Illuminate\Support\Facades\Log;
@@ -174,9 +175,11 @@ class UserController extends Controller
         $register = User::create(
             [
                 'email' => $r->email,
-                'password' => Hash::make($r->password),
                 'first_name'=> $r->first_name,
                 'last_name'=>$r->last_name,
+                'address' => $r->address,
+                'nationality' => $r->nationality,
+                'dob' => $r->dob,
                 'country_code' => $r->country_code,
                 'phone'=>$r->phone,
                 'email_verified_token'=>$email_verify_token,
@@ -189,9 +192,9 @@ class UserController extends Controller
             [   
                 'business_name'=>$r->business_name,
                 'email' => $r->email,
-                'password' => Hash::make($r->password),
                 'first_name'=> $r->first_name,
                 'last_name'=>$r->last_name,
+                'dob'=>$r->dob,
                 'country_code' => $r->country_code,
                 'phone'=>$r->phone,
                 'email_verified_token'=>$email_verify_token,
@@ -200,18 +203,9 @@ class UserController extends Controller
         $register->assignRole(User::ROLE_SERVICE_PROVIDER);
     }
        $token = $register->createToken('API Token')->plainTextToken;
-        if (!empty($register)) {
-            $register['fname'] = $r->first_name . ' ' . $r->last_name;
-            $register['email'] = $r->email;
-            $link = url('') . "/verify-email?token=" . $email_verify_token;
-            $sendMail = Mail::send('mail.send-verification-email', ['user' => $register['fname'], 'link' => $link], function ($m) use ($register) {
-                $m->from('shagun@richestsoft.in', 'delooni');
-                $m->to($register['email'], $register['fname'])->subject('Email Verification!');
-            });
-        }
         $data = [];
         $data['token'] =  $token;
-        return $this->successWithData($register->jsonData(),'Mail has been sent to your email.Please verify your account.',  $data);
+        return $this->successWithData($register->jsonData(),'User Register Successfully.',  $data);
             } catch (\Throwable $e) {
                 Log::Info("\n==============OTP Error Logs==============\n");
                 Log::error($e->getMessage());
@@ -411,7 +405,7 @@ class UserController extends Controller
                 [
                     'profile_image' => 'file',
                     'video' => 'file',
-                    'service_provider_type ' => 'stringrequired',
+                    'service_provider_type' => 'string|required',
                     'nationality' => 'string',
                     'address' => 'string|required',
                     'country_code' => 'required|string',
@@ -433,35 +427,31 @@ class UserController extends Controller
             );
             if ($v->fails()) {
                 return $this->validation($v);
-            }
+            } 
 
             if ($user->roles->first()->id == User::ROLE_SERVICE_PROVIDER) {
                 if (isset($_FILES['profile_image'])) {
                     $profile_image = $this->uploadImage($r->profile_image, 'profile_image');
-                    $user->profile_image = $profile_image ?? $user->profile_image;
+                    $user->profile_image = $profile_image;
                 }
-                $user->nationality = $r->nationality ?? $user->nationality;
-                $user->service_provider_type  = $r->service_provider_type  ?? $user->service_provider_type;
-                $user->address = $r->address ?? $user->address;
-                $user->phone = $r->phone ?? $user->phone;
-                $user->whatspp_no = $r->whatspp_no ?? $user->whatspp_no;
-                $user->snapchat_link = $r->snapchat_link ?? $user->snapchat_link;
-                $user->instagram_link = $r->instagram_link ?? $user->instagram_link;
-                $user->twitter_link = $r->twitter_link ?? $user->twitter_link;
-                $user->license_cr_no = $r->license_cr_no ?? $user->license_cr_no;
-                $user->description = $r->description ?? $user->description;
-                $user->service_provider_type = $r->type ?? $user->service_provider_type;
+                $user->nationality = $r->nationality;
+                $user->service_provider_type  = $r->service_provider_type;
+                $user->address = $r->address;
+                $user->phone = $r->phone;
+                $user->whatspp_no = $r->whatspp_no;
+                $user->snapchat_link = $r->snapchat_link;
+                $user->instagram_link = $r->instagram_link;
+                $user->twitter_link = $r->twitter_link;
+                $user->license_cr_no = $r->license_cr_no;
+                $user->description = $r->description;
+                // $user->service_provider_type = $r->type;
 
                 if (!empty($_FILES['license_cr_photo'])) {
                     $licenseImage = $this->uploadImage($r->license_cr_photo, 'license_image');
                     $user->license_cr_photo = $licenseImage ?? $user->license_cr_photo;
                 }
                 $user->save();
-                $already_exists_education = EducationDetail::where('user_id', $user->id)->first();
-                if (!empty($already_exists_education)) {
-                    $update_data = EducationDetail::where(['user_id' => $user->id])
-                        ->update(['institute_name' => $r->institute_name, 'degree' => $r->degree, 'start_date' => $r->start_date, 'end_date' => $r->end_date]);
-                } else {
+              
                     $education = new EducationDetail();
                     $education->institute_name = $r->institute_name;
                     $education->degree = $r->degree;
@@ -469,25 +459,12 @@ class UserController extends Controller
                     $education->end_date = $r->end_date;
                     $education->user_id = $user->id;
                     $education->save();
-                }
-                $already_exists_workexperience = WorkExperience::where('user_id', $user->id)->first();
-                if (!empty($already_exists_workexperience)) {
-                    $update_data = WorkExperience::where(['user_id' => $user->id])
-                        ->update(['no_of_years' => $r->no_of_years, 'brief_of_experience' => $r->brief_of_experience]);
-                } else {
+                
                     $workExperience = new WorkExperience();
                     $workExperience->no_of_years = $r->no_of_years;
                     $workExperience->brief_of_experience = $r->brief_of_experience;
                     $workExperience->user_id = $user->id;
                     $workExperience->save();
-                }
-                $already_exists_file = Files::where('created_by', $user->id)->first();
-                if (!empty($already_exists_file)) {
-                    if (!empty($_FILES['video'])) {
-                        $update_data = Files::where(['created_by' => $user->id])
-                            ->update(['file_name' => $this->UploadImage($r->file('video'), 'videos'), 'extension' => ($r->file('video'))->getClientOriginalExtension()]);
-                    }
-                } else {
 
                     $file = new Files();
                     $file->file_name = $this->UploadImage($r->file('video'), 'videos');
@@ -499,7 +476,7 @@ class UserController extends Controller
                     $file->created_by = $user->id;
                     $file->type = 1;
                     $file->save();
-                }
+                
                 return $this->successWithData($user->serviceProviderProfile(), " User Profile updated successfully");
             }
         } catch (\Throwable $e) {
@@ -622,6 +599,7 @@ class UserController extends Controller
      */
     public function contactUs(request $r){
         $user = auth()->user();
+        try{
         $v = Validator::make(
             $r->input(),
             [
@@ -639,6 +617,10 @@ class UserController extends Controller
         $contact->save();
 
         return $this->successWithData($contact->jsonData(),'Message sent successfully');
+    } catch (\Throwable $e) {
+        DB::rollback();
+        return $this->error($e->getMessage());
+    }
     }
 
     /**
@@ -649,6 +631,7 @@ class UserController extends Controller
      */
     public function report(request $r){
         $user = auth()->user();
+        try{
         $v = Validator::make(
             $r->input(),
             [
@@ -671,6 +654,10 @@ class UserController extends Controller
         $report-> message = $r->message;
         $report->save();
         return $this->successWithData($report->jsonData(),'Report added successfully');
+    } catch (\Throwable $e) {
+        DB::rollback();
+        return $this->error($e->getMessage());
+    }
     }
 
     /**
@@ -681,6 +668,7 @@ class UserController extends Controller
      */
     public function userRating(request $r){
         $user = auth()->user();
+        try{
         $v = Validator::make(
             $r->input(),
             [
@@ -699,40 +687,124 @@ class UserController extends Controller
         $userrating->message = $r->message;
         $userrating->save();
         return $this->successWithData($userrating->jsonData(),'Rating successfully given to user.');
+    } catch (\Throwable $e) {
+        DB::rollback();
+        return $this->error($e->getMessage());
+    }
     }
 
     public function addFavourite(request $r){ 
         $user = auth()->user();
+        try{
         $v = Validator::make(
             $r->input(),
             [
                 'service_id' => 'required|numeric',
-                'user_id' => 'required|numeric', //service provider id
+                'userId' => 'required|numeric', //service provider id
                
             ]
         );
         if ($v->fails()) {
             return $this->validation($v);
         }
-        $service_id=ServiceDetail::where(['service_id'=> $r->service_id, 'user_id' => $r->user_id])->first();
+        $service_id=ServiceDetail::where(['service_id'=> $r->service_id, 'user_id' => $r->userId])->first();
         $favourite = new FavouriteServices();
         $favourite->service_id = $service_id->id;
         $favourite->user_id = $user->id;
         $favourite->save();
         return $this->success('Service added to favourite list successfully.');
+    } catch (\Throwable $e) {
+        DB::rollback();
+        return $this->error($e->getMessage());
+    }
     }
 
     public function getFavourite(request $r){ 
         $user = auth()->user();
         $favourite= FavouriteServices::where('user_id',$user->id)->paginate();
+        return $this->customPaginator($favourite);
+
     }
 
     public function servicesFilteration(request $r){
 
         $user = auth()->user();
 
-        if($r->category){
-            $users=Services::where('name',$r->category)->get();
+        $v = Validator::make(
+            $r->input(),
+            [
+                // 'userId' => 'required|numeric', //service provider id
+                'rating' => 'required',
+            ]
+        );
+        if ($v->fails()) {
+            return $this->validation($v);
         }
+            if($r->rating){
+            // $ratings=0;
+            // $userrating=UserRating::where('user_id',$r->userId)->get();
+            // foreach($userrating as $userating){
+            //     $rating=$userating->rating;
+            //     $ratings+=$rating;
+            // }
+            // $ratings=round($ratings/$userrating->count());
+            $userrate=UserRating::whereBetween('rating',[$r->rating,UserRating::MAX_RATING])->paginate();
+        
+            return $this->customPaginator($userrate);
+            }
+            if($r->price){
+
+            }
 }
+
+        public function updateSpProfile(request $r){
+                try{
+                $v = Validator::make(
+                    $r->input(),
+                    [
+                        'email' => 'email',
+                        'phone' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15',
+                        'whatspp_no' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15',
+                        'snapchat_link' => 'url',
+                        'instagram_link' => 'url',
+                        'twitter_link' => 'url',
+                        'no_of_years' => 'numeric',
+                    ]
+                );
+                if ($v->fails()) {
+                    return $this->validation($v);
+                }
+                $user=auth()->user();
+                $serviceprovider=User::where('id',$user->id)->first();
+                $serviceprovider->email=$r->email?? $serviceprovider->email;
+                $serviceprovider->phone=$r->phone?? $serviceprovider->phone;
+                $serviceprovider->whatspp_no=$r->whatspp_no?? $serviceprovider->whatspp_no;
+                $serviceprovider->snapchat_link =$r->snapchat_link ?? $serviceprovider->snapchat_link;
+                $serviceprovider->instagram_link =$r->instagram_link ?? $serviceprovider->instagram_link;
+                $serviceprovider->twitter_link =$r->twitter_link ?? $serviceprovider->twitter_link;
+                $serviceprovider->save();
+                if (!empty($_FILES['video'])) {
+                    $update_data = Files::where(['created_by' => $user->id])
+                        ->update(['file_name' => $this->UploadImage($r->file('video'), 'videos'), 'extension' => ($r->file('video'))->getClientOriginalExtension()]);
+                    }
+                $workExperience = WorkExperience::where('user_id', $user->id)->first();
+                $workExperience->no_of_years = $r->no_of_years?? $workExperience->no_of_years;
+                $workExperience->save();
+                return $this->successWithData($user->serviceProviderProfile(), " User Profile updated successfully");
+            } catch (\Throwable $e) {
+                DB::rollback();
+                return $this->error($e->getMessage());
+            }
+        }
+
+      
+
+        public function activeCountryList(Request $request)
+    {
+        $query = Country::where('status', Country::STATUS_ACTIVE)->paginate(500);
+        return $this->customPaginator($query);
+    }
+
+
+
 }

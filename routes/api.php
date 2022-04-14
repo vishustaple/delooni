@@ -28,7 +28,7 @@ Route::post('login',[UserController::class, 'login']);
 Route::post('forgot-password',[UserController::class, 'forgotPassword']);
 Route::post('send-otp',[UserController::class, 'sendOtp']);
 Route::post('verify-otp',[UserController::class, 'verifyOtp']);
-
+Route::get('active-countries-list',[UserController::class, 'activeCountryList']);
 /**********(Service Provider User) Get Categories And Sub-Categories of Services ****************/
 Route::get('get-categories',[UserController::class, 'getcategories']);
 Route::post('get-sub-categories',[UserController::class, 'getSubcategories']);
@@ -45,11 +45,15 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::post('contact-us',[UserController::class, 'contactUs']);
     Route::post('report',[UserController::class, 'report']);
     Route::post('user-rating',[UserController::class, 'userRating']);
+    Route::post('add-favourite-service',[UserController::class, 'addFavourite']);
+    Route::get('get-favourite-service',[UserController::class, 'getFavourite']);
+    Route::post('service-filteration',[UserController::class, 'servicesFilteration']);
+    
 
 /******************************* Service Provider User Api **********************************************/
     Route::post('add-service-detail',[UserController::class, 'addServiceDetails']);
     Route::post('complete-profile',[UserController::class, 'completeProfile']);
-    
+    Route::post('update-sprovider-profile',[UserController::class, 'updateSpProfile']);
 });
 
 Route::resource('rolesPermission', RolesPermissionsController::class);
