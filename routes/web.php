@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\HospitalController;
+use App\Http\Controllers\admin\ServiceController;
 use App\Http\Controllers\admin\PermissionController;
 use App\Http\Controllers\admin\UserRegisterController;
 use App\Http\Controllers\admin\RolesController;
@@ -70,6 +71,10 @@ Route::group(['prefix' => 'admin'], function () {
      //******************************************Admin Manage Sub Category*********************************************//
         Route::post('/subcategory/add', [CategoryController::class, 'store_sub_category'])->name('subcategory.add');
 
+
+      //******************************************Admin Manage Services*********************************************//
+      Route::get('/services', [ServiceController::class, 'serviceView'])->name('services');
+      Route::post('/service/add', [ServiceController::class, 'storeservice'])->name('service.add');
 
 
        //******************************************Admin Profile*********************************************//

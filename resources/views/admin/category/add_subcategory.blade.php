@@ -16,17 +16,15 @@
                          </div>
                         </div>
                       </div>  
-                      <div class="form-group row">
+                     <div class="form-group row">
                         <label for="is_parent" class="col-sm-3 col-form-label">Parent category :</label>
                           <div class="col-sm-8">
-                          <select class="form-control select2" id="is_parent" name="is_parent">
-                  <option value="N/A" disabled selected="true">--Select name--</option>
+                          <select class="form-control" id="is_parent" name="is_parent">
                   @foreach($getnames as $getname)
                       <option class="form-drop-items" value="{{$getname->id}}">{{$getname->name}}</option>
                  @endforeach
                </select>
-                  <div class="error" id="error_is_parent"></div>
-                  </div>
+                 </div>
                   </div>
                  <div class="form-group row">
                         <div class="offset-sm-2 col-sm-10">

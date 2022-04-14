@@ -1,4 +1,3 @@
-
 @extends('admin.layout.template')
 @section('contents')
 <div class="card" id="data">

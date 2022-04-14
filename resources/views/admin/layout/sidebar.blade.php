@@ -9,7 +9,7 @@
           <li class="nav-item">
           <a href="{{url('/admin/dashboard')}}" class="nav-link">
               <i class="fa fa-home nav-icon"></i>
-              <p>Home</p>
+              <p>Dashboard</p>
             </a>
           </li>
           <li class="nav-item">
@@ -24,16 +24,24 @@
         <a href="{{url('/admin/customer')}}" class="nav-link">
           <i class="fa fa-sign-out nav-icon"></i>
           <p>
-            Manage customer
+            customer
           </p>
         </a>
       </li>
       <li class="nav-item">
         <a href="{{url('/admin/category')}}" class="nav-link">
-          <i class="fa fa-sign-out nav-icon"></i>
-          <!-- <i class="fa-solid fa-list-tree nav-icon"></i> -->
+        <i class="fa fa-building-o nav-icon"></i>
           <p>
-            Manage category
+            Service category
+          </p>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="{{url('/admin/services')}}" class="nav-link">
+        <i class="fa fa-wrench nav-icon"></i>
+          <p>
+            Services
           </p>
         </a>
       </li>

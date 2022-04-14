@@ -12,25 +12,19 @@
                         <label for="name" class="col-sm-3 col-form-label">Name :</label>
                         <div class="col-sm-8">
                           <input type="text" class="form-control" id="name" value="{{$data->name}}"  name="name"  readonly>
-                          <div class="error" id="error_name">
-                         </div>
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="description" class="col-sm-3 col-form-label">Description :</label>
                         <div class="col-sm-8">
                           <input type="text" class="form-control" id="description"  value="{{$data->description}}"  name="description"  readonly>
-                          <div class="error" id="error_description">
-                          </div>
-                        </div>
+                       </div>
                       </div>
                       <div class="form-group row">
                         <label for="service_category_image" class="col-sm-3 col-form-label">Service Category Image :</label>
                         <div class="col-sm-8">
                           <input type="text" class="form-control" value="{{$data->service_category_image}}"  id="service_category_image" name="service_category_image"  readonly>
-                          <div class="error" id="error_service_category_image">
-                         </div>
-                        </div>
+                          </div>
                       </div>                    
                     </form>
 </div>

@@ -53,7 +53,7 @@ public function searchcategory(Request $request){
          $q->where('name','like',"%$search%");
     });
  }
-$data = $qry->where('status',1)->orderBy('id','DESC')->paginate();
+$data = $qry->where('is_parent',0)->orderBy('id','DESC')->paginate();
 return view('admin.category.view', compact('data','search'));
 }
 /**
@@ -89,7 +89,7 @@ public function update_category(Request $request){
         "name" => $request->name,
         "description" => $request->description,
         "service_category_image" =>  $request->file('service_category_image')->getClientOriginalName(),
-          "path" => $request->file('service_category_image')->store('/public/images'),
+        "path" => $request->file('service_category_image')->store('/public/images'),
     ]);
     if($insert){
         return response()->json(redirect()->back()->with('success', 'Updated Successfully.'));
@@ -106,7 +106,7 @@ public function update_category(Request $request){
     public function detailView_category(Request $request){
     $data = ServiceCategory::find($request->id);
     $getdatas = ServiceCategory::select('*')->where('is_parent',$request->id)->get(); 
-    $getnames = ServiceCategory::select('*')->get();
+    $getnames = ServiceCategory::select('name','id')->where('id',$request->id)->get();
     return view('admin.category.detailview', compact('data','getdatas','getnames'));
 }
 /**
