@@ -7,7 +7,7 @@
   
      $.ajax({
        type:"get",
-       url:"{{url('/')}}/admin/user/back",
+       url:"{{url('/')}}/serviceproviderback",
        success: function(data){
         window.location = data;
        }

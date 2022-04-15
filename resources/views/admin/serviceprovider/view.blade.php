@@ -32,7 +32,7 @@
             @endif
           </td>
           <td>
-            <a href="{{route('user.viewData',$value->id)}}" target="_blank" class="btn btn-outline-success btn-xs view">View</a>
+            <a href="{{route('provider.viewdata',$value->id)}}" target="_blank" class="btn btn-outline-success btn-xs view">View</a>
             <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-success btn-xs update" id="updateUserRegister">Update</button>
             <!-- The Modal -->
             <div class="modal " id="myModal1">
@@ -58,7 +58,7 @@
         </tr>
         @empty
         <center>
-          <h3> No User Availabale </h3>
+          <h3> No Service Provider Availabale </h3>
         </center>
         @endforelse
       </tbody>

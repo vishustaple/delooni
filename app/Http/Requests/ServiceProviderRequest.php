@@ -24,22 +24,23 @@ class ServiceProviderRequest extends FormRequest
     public function rules()
     {
         return [
-            'business_name'=>'required',
-            'firstname' => 'required',
-            'lastname' => 'required',
-            'email' => 'required',
+            'business_name'=>'required|max:100|regex:/^[a-zA-Z]+ [a-zA-Z]+$/',
+            'firstname' => 'required|alpha|max:100',
+            'lastname' => 'required|alpha|max:100',
+            'email' => 'required|unique:users',
             'phone' => 'required',
-            'password'=>'required',
+            'password'=>'required|min:6',
+            'confirm_password'=>'required|required_with:password|same:password|min:6',
             'nationality'=>'required',
-            'img' => 'required',
-            'video'=>'required',
+            'img' => 'required|mimes:jpeg,bmp,png,jpg',
+            'video'=>'required|mimes:mp4',
             'nationality' => 'required',
             'Address' => 'required',
             'whatsappNumber' => 'required',
             'snapchat' => 'required',
             'instagram' => 'required',
             'twitter' => 'required',
-            'licensenumber' => 'required',
+            'licensenumber' => 'required|numeric',
             'licensephoto' => 'required',
             'dateofbirth' => 'required',
             'description' => 'required',
@@ -47,7 +48,7 @@ class ServiceProviderRequest extends FormRequest
             'degree' => 'required',
             'startdate' => 'required',
             'enddate' => 'required',
-            'experience' => 'required',
+            'experience' => 'required|numeric',
            
             
         ];

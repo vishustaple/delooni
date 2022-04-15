@@ -52,9 +52,8 @@ $('#serviceform').on('click',function(e){
 
 $(document).on("submit", "#createprovider", function(e){
      e.preventDefault();
-    //  alert("here");
     let myForm = document.getElementById('createprovider');
-let formData = new FormData(myForm);
+    let formData = new FormData(myForm);
      console.log(data);
      $.ajax({
      type:'post',
@@ -69,10 +68,7 @@ let formData = new FormData(myForm);
      },
     success:function(response){
       console.log(response);
-      // removemessage('error');
       location.reload();
-      // $("body").removeClass("modal-open");
-     
      },
     error:function(data){                                     
     $.each(data.responseJSON.errors, function(id,msg){
@@ -81,37 +77,6 @@ let formData = new FormData(myForm);
 }
 });
 });
-
-//add service provider 
-// $("#createprovider").on('submit', function (e){
-//      e.preventDefault();
-//      alert();
-//      var data = new FormData(this);
-//      console.log(data);
-//      $.ajax({
-//      type:'post',
-//      url:"{{route('provider.add')}}",
-//      cache: false,
-//      contentType: false,
-//      processData: false,
-//      dataType: "JSON",
-//      data : {data: data},
-//      headers: {
-//      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-//      },
-//     success:function(data){
-//     console.log(data);
-//     location.reload();
-//     $("body").removeClass("modal-open");
-//      },
-//     error:function(data){                                     
-//     $.each(data.responseJSON.errors, function(id,msg){
-//     $('#error_'+id).html(msg);
-//  })
-// }
-// });
-
-//});
 
 //toggledisableenable
 function toggleDisableEnable(e){

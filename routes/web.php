@@ -74,5 +74,6 @@ Route::get('/serviceprovider', [ServiceProviderController::class, 'ViewServicePr
 Route::get('/formserviceprovider', [ServiceProviderController::class, 'addformServiceProvider'])->name('serviceproviderform');
 Route::post('/addserviceprovider', [ServiceProviderController::class, 'AddServiceProvider'])->name('provider.add');
 Route::post('/serviceprovider/togglestatus', [ServiceProviderController::class, 'ToggleProviderStatus'])->name('provider.status');
-
+Route::get('/viewserviceprovider/{id}', [ServiceProviderController::class, 'ViewServiceProviderData'])->name('provider.viewdata');
+Route::get('/serviceproviderback', [ServiceProviderController::class, 'ServiceProviderBack']);
 

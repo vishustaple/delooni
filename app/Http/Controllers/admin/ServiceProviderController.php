@@ -11,10 +11,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ServiceProviderRequest;
-
+use App\Traits\ImageUpload;
+use App\Models\Files;
 
 class ServiceProviderController extends Controller
 {
+    use ImageUpload;
     /**
      *  Show ServiceProvider List
      *
@@ -22,14 +24,18 @@ class ServiceProviderController extends Controller
      * @return 
      */
     public function ViewServiceProvider(){
-
+try{
         $data = User::role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))
                         ->orderBy('id', 'DESC')
-                        ->where('status','!=',User::STATUS_INACTIVE)
                         ->paginate();
-        //  dd($data);               
+
+                  
         return view('admin.serviceprovider.create', compact('data'));
-     
+}
+catch (\Throwable $th) {
+  
+    return $this->error($th->getMessage());
+}
 
     }
      /**
@@ -50,10 +56,7 @@ class ServiceProviderController extends Controller
     */
        
     public function AddServiceProvider(ServiceProviderRequest $request){
-        
-     $user = $request->user()->id;  
-    //  dd($user);
-   
+        try{ 
     $serviceprovideruser =  User::create([
         "business_name" => $request->business_name,
         "first_name" => $request->firstname,
@@ -68,34 +71,39 @@ class ServiceProviderController extends Controller
         "instagram_link" => $request->instagram,
         "twitter_link"=> $request->twitter,
         "license_cr_no" => $request->licensenumber,
-        "license_cr_photo" => $request->licensephoto,
+        "license_cr_photo" => $this->uploadImage($request->licensephoto, 'profile_image'),
         "dob"=> $request->dateofbirth,
         "description" => $request->description,
-        "profile_image"=>$request->img,
-        "profile_video"=>$request->video
-        
-       
+        "profile_image" => $this->uploadImage($request->img, 'profile_image'),
+        "profile_video"=>$this->UploadImage($request->video,'profile_video'),
     ]);
    
-    $education =  EducationDetail::create([
-        "institute_name" => $request->education,
-        "degree" => $request->degree,
-        "start_date" => $request->startdate,
-        "end_date" => $request->enddate,
-        "user_id" => $user->id,
-       
-    ]);
-    $workexperiences = WorkExperience::create([
-        "no_of_years"=>$request->experience,
-        "user_id" => $user->id,
-    ]);
-    return response()->json(redirect()->back()->with('success', 'New service provider is added Successfully'));
-    // if($serviceprovideruser||$education){
     
-    //     return response()->json(redirect()->back()->with('success', 'New Staff is added Successfully'));
-    // } else {
-    //     return response()->json(redirect()->back()->with('error', 'Getting error while adding user.'));
-    // }
+
+    if($serviceprovideruser){
+     
+        $serviceprovideruser->assignRole(User::ROLE_SERVICE_PROVIDER);
+        $user =$serviceprovideruser->id;
+    
+        $education =  EducationDetail::create([
+            "institute_name" => $request->education,
+            "degree" => $request->degree,
+            "start_date" => $request->startdate,
+            "end_date" => $request->enddate,
+            "user_id" => $user,
+           
+        ]);
+        $workexperiences = WorkExperience::create([
+            "no_of_years"=>$request->experience,
+            "user_id" => $user,
+        ]);
+        return response()->json(redirect()->back()->with('success', 'New service provider is added Successfully'));
+    }
+    }
+    catch (\Throwable $th) {
+        return response()->json(redirect()->back()->with('error', $th->getMessage()));
+        return $this->error($th->getMessage());
+    }
 }
 
     /**
@@ -106,10 +114,42 @@ class ServiceProviderController extends Controller
      */
     public function ToggleProviderStatus(Request $r)
     {
+        try{
         $getUserStatus = User::find($r->id);
-        $status = ($getUserStatus->status == User::STATUS_ACTIVE) ? User::STATUS_NEW : User::STATUS_ACTIVE;
+        $status = ($getUserStatus->status == User::STATUS_ACTIVE) ? User::STATUS_INACTIVE: User::STATUS_ACTIVE;
         $data = User::where('id', $r->id)->update(['status' => $status]);
         return response()->json($data);
+        }
+        catch (\Throwable $th) {
+            return $this->error($th->getMessage());
+        }
     }
+    /**
+     *  View service Provider
+     *
+     * @param   send id 
+     * @return  data from db and show into view 
+     */
+
+    public function ViewServiceProviderData($id){
+
+        $data=User::select('*')->where('id', '=', $id)->first();
+        $getwork=WorkExperience::select('*')->where('user_id', '=', $id)->first();
+        $geteducation=EducationDetail::select('*')->where('user_id', '=', $id)->first();
+        return view('admin.serviceprovider.detailview',compact('data','getwork','geteducation'));
+      
+     }
+     /**
+     *  back to serviceproviderlist
+     *
+     * @param 
+     * @return  
+     */
+    public function  ServiceProviderBack()
+    {
+    $url = route('viewserviceprovider');
+    return $url;
+    }
+
 
 }

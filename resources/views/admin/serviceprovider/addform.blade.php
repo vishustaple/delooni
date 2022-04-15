@@ -60,7 +60,16 @@
                 </div>
             </div>
         </div>
-
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="Password" class="col-sm-6 col-form-label">Confirm Password</label>
+                <input type="Password" class="form-control" id="confirm_Password" name="confirm_password"
+                    placeholder="Enter Your Password">
+                <div class="error" id="error_confirm_password">
+                </div>
+            </div>
+        </div>
+    
         <div class="col-md-6">
             <div class="form-group">
                 <label for="img">Upload image:</label>
@@ -122,7 +131,7 @@
             <div class="form-group">
                 <label for="SnapChat">SnapChat Link:</label>
                 <input type="url" class="form-control" id="snapchat" name="snapchat"
-                    placeholder="Enter Your SnapChat Link ">
+                    placeholder="Enter Your SnapChat Link">
                 <div class="error" id="error_snapchat">
                 </div>
             </div>
@@ -180,7 +189,7 @@
 
         <div class="col-md-6">
             <div class="form-group">
-                <label for="Date of Birth">Add Description:</label>
+                <label for="Description">Add Description:</label>
                 <input type="textarea" class="form-control" id="description" name="description"
                     placeholder="Enter Your Description  ">
                 <div class="error" id="error_description">
@@ -244,67 +253,3 @@
     </div>
 </form>
 
-<script>
-//     $("#createprovider").submit(function (e){
-//      e.preventDefault();
-//      var data = new FormData(this);
-//      console.log(data);
-//      $.ajax({
-//      type:'post',
-//      url:"{{route('provider.add')}}",
-//      cache: false,
-//      contentType: false,
-//      processData: false,
-//      dataType: "JSON",
-//      data : {data: data},
-//      headers: {
-//      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-//      },
-    
-//     success:function(data){
-//     console.log(data);
-//     location.reload();
-//     $("body").removeClass("modal-open");
-//      },
-//     error:function(data){                                     
-//     $.each(data.responseJSON.errors, function(id,msg){
-//     $('#error_'+id).html(msg);
-//  })
-// }
-// });
-
-// });
-
-// (function(){
-//     $("#createprovider").submit(function (e){
-//      e.preventDefault();
-//      alert();
-//      var data = new FormData(this);
-//      console.log(data);
-//      $.ajax({
-//      type:'post',
-//      url:"{{route('provider.add')}}",
-//      cache: false,
-//      contentType: false,
-//      processData: false,
-//      dataType: "JSON",
-//      data : {data: data},
-//      headers: {
-//      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-//      },
-    
-//     success:function(data){
-//     console.log(data);
-//     location.reload();
-//     $("body").removeClass("modal-open");
-//      },
-//     error:function(data){                                     
-//     $.each(data.responseJSON.errors, function(id,msg){
-//     $('#error_'+id).html(msg);
-//  })
-// }
-// });
-
-// });
-// })
-</script>
