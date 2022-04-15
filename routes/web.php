@@ -75,7 +75,13 @@ Route::group(['prefix' => 'admin'], function () {
       //******************************************Admin Manage Services*********************************************//
       Route::get('/services', [ServiceController::class, 'serviceView'])->name('services');
       Route::post('/service/add', [ServiceController::class, 'storeservice'])->name('service.add');
-
+      Route::get('/service/status', [ServiceController::class, 'status_service'])->name('service.status');
+      Route::get('/service/delete', [ServiceController::class, 'deleteservice'])->name('service.delete');
+      Route::get('/service/view/update', [ServiceController::class, 'view_update'])->name('service.view.update');
+      Route::post('/service/update', [ServiceController::class, 'update_service'])->name('service.update');
+      Route::get('/service/view/{id}', [ServiceController::class, 'detailView_service'])->name('service.view');
+      Route::get('/search', [ServiceController::class, 'searchservice'])->name('search');
+      Route::get('/service/back',[ServiceController::class,'serviceBack']);
 
        //******************************************Admin Profile*********************************************//
         Route::post('/profile/changePassword', [UserRegisterController::class, 'changePassword'])->name('users-change-password');

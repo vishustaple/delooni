@@ -46,6 +46,15 @@
         </a>
       </li>
 
+    <li class="nav-item">
+        <a href="" class="nav-link">
+        <i class="fa fa-rocket nav-icon"></i>
+          <p>
+            Subscription
+          </p>
+        </a>
+      </li>
+
       <li class="nav-item">
         <!-- <a href="{{url('/admin/user')}}" class="nav-link"> -->
         <a href="" class="nav-link">

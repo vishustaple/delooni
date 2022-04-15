@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Services extends Model
 {
+
+    const STATUS_INACTIVE = 0;
+    const STATUS_ACTIVE = 1;
+    const STATUS_NEW = 2;
+
     use HasFactory;
 
     /**
@@ -15,8 +20,10 @@ class Services extends Model
      * @var array
      */
     protected $fillable = [
-        'name','description','status','service_image','service_category_id', 'price_per_month'
+        'name','description','status','service_image','path','price_per_hour','price_per_day','price_per_month','service_category_id'
     ];
+
+   
 
     public function jsonData()
     {
@@ -25,6 +32,10 @@ class Services extends Model
         $json['description'] = $this->description;
         $json['status'] = $this->status;
         $json['service_image'] = $this->service_image;
+        $json['path'] = $this->path;
+        $json['price_per_hour'] = $this->price_per_hour;
+        $json['price_per_day'] = $this->price_per_day;
+        $json['price_per_month'] = $this->price_per_month;
         $json['service_category_id'] = $this->service_category_id;
         return $json;
     }
