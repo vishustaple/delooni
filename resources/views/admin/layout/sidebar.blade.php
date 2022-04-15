@@ -47,7 +47,7 @@
       </li>
 
     <li class="nav-item">
-        <a href="" class="nav-link">
+        <a href="{{url('/admin/subscription')}}" class="nav-link">
         <i class="fa fa-rocket nav-icon"></i>
           <p>
             Subscription

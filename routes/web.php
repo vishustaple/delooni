@@ -10,6 +10,7 @@ use App\Http\Controllers\admin\RolesController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\CustomerController;
 use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\admin\SubscriptionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,6 +83,13 @@ Route::group(['prefix' => 'admin'], function () {
       Route::get('/service/view/{id}', [ServiceController::class, 'detailView_service'])->name('service.view');
       Route::get('/search', [ServiceController::class, 'searchservice'])->name('search');
       Route::get('/service/back',[ServiceController::class,'serviceBack']);
+
+
+      //******************************************Admin Manage Subscription*********************************************//
+      Route::get('/subscription', [SubscriptionController::class, 'subscriptionView'])->name('subscription');
+      Route::post('/subscription/add', [SubscriptionController::class, 'storesubscription'])->name('subscription.add');
+      Route::get('/subscription/status', [SubscriptionController::class, 'status_subscription'])->name('subscription.status');
+      Route::get('/subscription/search', [SubscriptionController::class, 'searchsubscription'])->name('subscription.search');
 
        //******************************************Admin Profile*********************************************//
         Route::post('/profile/changePassword', [UserRegisterController::class, 'changePassword'])->name('users-change-password');

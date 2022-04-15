@@ -19,7 +19,9 @@ class CreateServicesTable extends Migration
             $table->longtext('description')->nullable();
             $table->integer('status')->default(1)->comment("1=> active, 2=>inactive");
             $table->integer('service_image')->nullable();
-
+            $table->float('price_per_hour')->nullable();
+            $table->float('price_per_day')->nullable();
+            $table->float('price_per_month')->nullable();
             $table->unsignedBigInteger('service_category_id');
             $table->foreign('service_category_id')->references('id')->on('service_categories')->onDelete('cascade');
 
