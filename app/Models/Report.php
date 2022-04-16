@@ -10,18 +10,18 @@ class Report extends Model
     use HasFactory;
 
     protected $fillable = [
-        'reorting_issue','brief_of_experience','start_date','end_date','status', 'user_id'
+        'reporting_issue','service_category_id','user_id','subject','status', 'message'
     ];
 
     public function jsonData()
     {
         $json = [];
-        $json['reorting_issue'] = $this->reorting_issue;
-        $json['brief_of_experience'] = $this->brief_of_experience;
-        $json['start_date'] = $this->start_date;
-        $json['end_date'] = $this->end_date;
-        $json['status'] = $this->status;
+        $json['reporting_issue'] = $this->reporting_issue;
+        $json['service_category_id'] = $this->service_category_id; 
         $json['user_id'] = $this->user_id;
+        $json['subject'] = $this->subject;
+        $json['message'] = $this->message;
+        $json['status'] = $this->status??'';
         return $json;
     }
 }

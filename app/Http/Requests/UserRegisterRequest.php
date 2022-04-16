@@ -37,8 +37,10 @@ class UserRegisterRequest extends FormRequest
                 'first_name' => 'required',
                 'last_name' => 'required',
                 'email' => 'required|email|unique:users|max:255',
+                'address' => 'required|string',
+                'nationality' => 'required',
+                'dob' => 'required',
                 'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15|unique:users',
-                
                
             ];
         }
@@ -49,8 +51,8 @@ class UserRegisterRequest extends FormRequest
                     'first_name' => 'required',
                     'last_name' => 'required',
                     'email' => 'required|email|unique:users|max:255',
+                    'dob' => 'required',
                     'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15|unique:users',
-                   
                 ];
     
             }

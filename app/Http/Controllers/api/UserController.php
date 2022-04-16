@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 //facades
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -15,38 +16,17 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Arr;
 use App\Models\LoginHistory;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Config;
 //models
 use App\Models\User;
 use App\Models\AppLogin;
-use App\Models\EmploymentHistory as EH;
-use App\Models\Project;
-use App\Models\Socialmedia;
-use App\Models\Language;
-use App\Models\Skill;
-use App\Models\UserSkill;
-use App\Models\PasswordReset;
-use App\Models\Expertise;
-use App\Models\FriendRequest;
-use App\Models\FriendList;
-use App\Models\Post;
+use App\Models\Services;
+use App\Models\Report;
 use App\Models\Notification;
 use App\Models\Files;
 use App\Models\Favourite;
-use App\Models\Thumbsup;
-use App\Models\SinglePostFav;
-use App\Models\SinglePostThumbs;
-use App\Models\FileReaction;
-use App\Models\PostReaction;
-use App\Models\Comment;
-use App\Models\Reply;
-use App\Models\FileComment;
-use App\Models\FileCommentReply;
-use App\Models\PostViews;
-use App\Models\FileViews;
-use App\Models\DefaultPostion;
-use App\Models\Position;
-use App\Models\DefaultPreferToWorkIn;
-use App\Models\PreferToWorkIn;
+
+
 
 //additional
 use DB;
@@ -68,11 +48,17 @@ use App\Http\Requests\UserRegisterRequest;
 //events
 use App\Events\Notify;
 use App\Models\Availability;
-use App\Models\DefaultSlot;
+use App\Models\ContactUs;
+use App\Models\EducationDetail;
+use App\Models\FavouriteServices;
 use App\Models\Otp;
-use App\Models\Slot;
-use App\Models\EducationWork;
+use App\Models\ServiceCategory;
+use App\Models\ServiceDetail;
+use App\Models\UserRating;
+use App\Models\WorkExperience;
+use App\Models\Country;
 use Exception;
+use Facade\FlareClient\Stacktrace\File;
 use Illuminate\Support\Facades\Log;
 use Validator;
 
@@ -134,42 +120,31 @@ class UserController extends Controller
      * @param  $r request contains data to sendOtp 
      * @return response success or fail
      */
-    public function sendOtp(OtpRequest $request)
+    public function sendOtp(OtpRequest $r)
     {
-        
-        try {
-            # if sign up, check for unique phone no
-            if ($request->otp_for == Otp::FOR_SIGNUP) {
-                $for = Otp::FOR_SIGNUP;
 
-                $checkExist = User::where('phone', $request->phone)->first();
-                if ($checkExist) {
-                    return $this->error("Phone has already been taken.");
-                }
-            }
-            
+        try {
             # otp to phole integration here
             Otp::where([
-                ['phone', '=', $request->phone],
-                ['otp_for', '=', $request->otp_for],
+                ['phone', '=', $r->phone],
+                ['country_code', '=', $r->country_code],
             ])->delete();
 
             $otp = Otp::create([
-                'phone' => $request->phone,
-                'country_code' => $request->country_code,
-                'country_short_code' => $request->country_short_code,
-                'otp_for' => $request->otp_for,
+                'phone' => $r->phone,
+                'country_code' => $r->country_code,
                 'otp' => random_int(1000, 9999),
             ]);
-            if( $otp ){
-                return $this->successWithData(['otp'=>$otp->otp]);
-            } 
-            return $this->error("unable to processs your request. Please try again laer.");
+            
+            if ($otp) {
+                return $this->successWithData(['otp' => $otp->otp]);
+            }
+            return $this->error("unable to processs your request. Please try again later.");
         } catch (\Throwable $e) {
             Log::Info("\n==============OTP Error Logs==============\n");
             Log::error($e->getMessage());
             Log::Info("\n==============End of OTP Error Logs==============\n");
-            return $this->error("Gettig error while sending OTP. Please try again laer.");
+            return $this->error("Gettig error while sending OTP. Please try again later.");
         }
         exit;
     }
@@ -189,9 +164,12 @@ class UserController extends Controller
         $register = User::create(
             [
                 'email' => $r->email,
-                'password' => Hash::make($r->password),
                 'first_name'=> $r->first_name,
                 'last_name'=>$r->last_name,
+                'address' => $r->address,
+                'nationality' => $r->nationality,
+                'dob' => $r->dob,
+                'country_code' => $r->country_code,
                 'phone'=>$r->phone,
                 'email_verified_token'=>$email_verify_token,
             ]
@@ -203,30 +181,20 @@ class UserController extends Controller
             [   
                 'business_name'=>$r->business_name,
                 'email' => $r->email,
-                'password' => Hash::make($r->password),
                 'first_name'=> $r->first_name,
                 'last_name'=>$r->last_name,
+                'dob'=>$r->dob,
+                'country_code' => $r->country_code,
                 'phone'=>$r->phone,
                 'email_verified_token'=>$email_verify_token,
             ]
         );
         $register->assignRole(User::ROLE_SERVICE_PROVIDER);
     }
-       
-        
        $token = $register->createToken('API Token')->plainTextToken;
-        if (!empty($register)) {
-            $register['fname'] = $r->first_name . ' ' . $r->last_name;
-            $register['email'] = $r->email;
-            $link = url('') . "/verify-email?token=" . $email_verify_token;
-            $sendMail = Mail::send('mail.send-verification-email', ['user' => $register['fname'], 'link' => $link], function ($m) use ($register) {
-                $m->from('vishumehandiratta360@gmail.com', 'delooni');
-                $m->to($register['email'], $register['fname'])->subject('Email Verification!');
-            });
-        }
         $data = [];
         $data['token'] =  $token;
-        return $this->successWithData($register->jsonData(), "Register successfully", $data);
+        return $this->successWithData($register->jsonData(),'User Register Successfully.',  $data);
             } catch (\Throwable $e) {
                 Log::Info("\n==============OTP Error Logs==============\n");
                 Log::error($e->getMessage());
@@ -238,27 +206,8 @@ class UserController extends Controller
 
 
     }
-   
-    /**
-     *  Update profile for both users
-     *
-     * @param  $r request contains data to user profile update
-     * @return response success or fail
-     */
-    // public function updateProfile(UserRequest $r)
-    // {
-    //     try {
-    //         $user = Auth::user();
-    //         $update = User::where('id', $user->id)
-    //             ->update([
-    //                 'name' => $r->name, 'email' => $r->email,
-    //                 'phone' => $r->phone, 'business_name' => $r->business_name
-    //             ]);
-    //         return $this->success('Profile updated successfully');
-    //     } catch (\ThrowaValidatorble $e) {
-    //         return $this->error('Please check your fields');
-    //     }
-    // }
+
+    
     /**
      *  login
      *
@@ -306,16 +255,7 @@ class UserController extends Controller
             return $this->error($e->getMessage());
         }
     }
-    /**
-     *  Get all profile including additional info of both users
-     *
-     * @param  $r request contains data to user all profile including additional info
-     * @return user profile list
-     */
-    // public function getProfile(request $r)
-    // {
-    //     return $this->successWithData(auth()->user()->jsonData());
-    // }
+ 
 
     /**
      * Verify Otp  
@@ -323,31 +263,32 @@ class UserController extends Controller
      * @param  $r request contains data to verify Otp 
      * @return response success or fail
      */
-    // public function verifyOtp(request $request)
-    // {
-    //     $v = Validator::make(
-    //         $request->input(),
-    //         [
-    //             'email' => 'required',
-    //             'otp' => 'required|numeric',
-    //         ]
-    //     );
-    //     if ($v->fails()) {
-    //         return $this->validation($v);
-    //     }
-    //     try {
+    public function verifyOtp(request $r)
+    {
+        $v = Validator::make(
+            $r->input(),
+            [
+                'phone' => 'required',
+                'country_code' => 'required',
+                'otp' => 'required|numeric',
+            ]
+        );
+        if ($v->fails()) {
+            return $this->validation($v);
+        }
+        try {
 
-    //         $otp = Otp::where(['email' => $request->email, 'otp' => $request->otp])
-    //             ->first();
-    //         if (empty($otp)) {
-    //             throw new Exception("No otp found");
-    //         }
-    //         $otp->delete();
-    //         return $this->success("OTP verified successfully");
-    //     } catch (\Throwable $e) {
-    //         return $this->error($e->getMessage());
-    //     }
-    // }
+            $otp = Otp::where(['phone' => $r->phone, 'otp' => $r->otp, 'otp_for' => 'signup'])
+            ->first();
+            if (empty($otp)) {
+                throw new Exception("No otp found");
+            }
+            $otp->delete();
+            return $this->success("OTP verified successfully");
+        } catch (\Throwable $e) {
+            return $this->error($e->getMessage());
+        }
+    }
 
     /**
      * Forgot Password   
@@ -361,64 +302,71 @@ class UserController extends Controller
             $r->input(),
             [
                 'email' => 'required|email',
-                'otp' => 'required',
-                'password' => 'required|min:4|max:20',
-
+               
             ]
         );
         if ($v->fails()) {
             return $this->validation($v);
         }
         try {
+        $update = 0;
+        $insert = 0;
+        $user = User::where('email', $r->email)->first();
+        if (!empty($user)) {
+         
+            if ($update || $insert) {
+                $link = url('') . '/change-password';
+                $user['fname'] = $user->first_name . ' ' . $user->last_name;
+                $user['email'] = $r->email;
 
-            $user = User::where('email', $r->email)->first();
-            if (empty($user)) {
-                throw new Exception("This email is not registered yet");
+                try {
+                    $sendMail = Mail::send('mails.change-password', ['user' => $user, 'link' => $link], function ($m) use ($user) {
+                        $m->from('shagun@richestsoft.in', 'Tranzlanta');
+                        $m->to($user['email'], $user['fname'])->subject('Password Reset!');
+                    });
+                    return $this->success('Mail has been sent to your email.Please check.');
+                } catch (\Throwable $e) {
+                    return $this->error($e->getMessage());
+                }
+            } else {
+                return $this->error('Something went wrong please try again later.');
             }
+        } else {
+            return $this->error('This email is not registered yet.');
+        }
+    
 
-            $otp = Otp::where(['email' => $r->email, 'otp' => $r->otp, 'for' => OTP::FOR_FORGET])
-                ->first();
-            if (empty($otp)) {
-                throw new Exception("No otp found");
-            }
-            $user->update(['password' => Hash::make($r->password)]);
-            $otp->delete();
-
-            //Genrate API Auth token
-            $token = $user->createToken('API Token')->plainTextToken;
-
-            $data = [];
-            $data['token'] =  $token;
-            return $this->successWithData($user->jsonData(), "Forget successfull", $data);
         } catch (\Throwable $e) {
             return $this->error($e->getMessage());
         }
     }
+
     /**
      *  Change Password
      *
      * @param  $r request contains data to change password 
      * @return response success or fail
      */
-    // public function changePassword(request $r)
-    // {
-    //     $v = Validator::make(
-    //         $r->input(),
-    //         [
-    //             'password' => 'required|min:4|max:20',
-    //             'confirm_password' => 'required|same:password|min:4|max:20'
-    //         ]
-    //     );
-    //     if ($v->fails()) {
-    //         return $this->validation($v);
-    //     }
-    //     try {
-    //         auth()->user()->update(['password' => Hash::make($r->confirm_password)]);
-    //         return $this->success('Password changed successfull');
-    //     } catch (\Throwable $e) {
-    //         return $this->error($e->getMessage());
-    //     }
-    // }
+    public function changePassword(request $r)
+    {
+        $v = Validator::make(
+            $r->input(),
+            [
+                'password' => 'required|min:4|max:20',
+                'confirm_password' => 'required|same:password|min:4|max:20'
+            ]
+        );
+        if ($v->fails()) {
+            return $this->validation($v);
+        }
+        try {
+            auth()->user()->update(['password' => Hash::make($r->confirm_password)]);
+            return $this->success('Password changed successfull');
+        } catch (\Throwable $e) {
+            return $this->error($e->getMessage());
+        }
+    }
+
 
     /**
      * Complete Profile  
@@ -429,175 +377,423 @@ class UserController extends Controller
     public function completeProfile(request $r)
     {
         try {
-            $user = auth()->user();
-            DB::beginTransaction();
-            if ($r->form_step == 1) {
-                $v = Validator::make(
-                    $r->input(),
-                    [
-                        'form_step' => 'required|numeric',
-                        'phone' => 'numeric|digits:10',
-                        'pincode' => 'numeric',
-                    ]
-                );
-                if ($v->fails()) {
-                    return $this->validation($v);
-                }
-                $user->update([
-                    'first_name' => $r->first_name ?? $user->first_name,
-                    'last_name' => $r->last_name ?? $user->last_name,
-                    'phone' => $r->phone ?? $user->phone,
-                    'dob' => $r->dob ?? $user->dob,
-                    'address' => $r->address ?? $user->address,
-                    'city' => $r->city ?? $user->city,
-                    'state' => $r->state ?? $user->state,
-                    'pincode' => $r->pincode ?? $user->pincode,
-                    'country' => $r->country ?? $user->country,
-                    'spoken_language' => $r->spoken_language ?? $user->spoken_language,
-                    'other_spoken_language' => $r->other_spoken_language ?? $user->other_spoken_language,
-                    'primary_mode_of_transport' => $r->primary_mode_of_transport ?? $user->primary_mode_of_transport,
-                    'travel_distance' => $r->travel_distance ?? $user->travel_distance,
-                    'earliest_start_date' => $r->earliest_start_date ?? $user->earliest_start_date,
-                    'form_step' => 2,
+            $user = Auth::user();
 
-                ]);
+            $v = Validator::make(
+                $r->input(),
+                [
+                    'profile_image' => 'file',
+                    'video' => 'file',
+                    'service_provider_type' => 'string|required',
+                    'nationality' => 'string',
+                    'address' => 'string|required',
+                    'country_code' => 'required|string',
+                    'phone' => 'string|required',
+                    'whatspp_no' => 'string|required',
+                    'snapchat_link' => 'url',
+                    'instagram_link' => 'url',
+                    'twitter_link' => 'url',
+                    'license_cr_no' => 'string',
+                    'license_cr_photo' => 'file',
+                    'description' => 'string',
+                    'institute_name' => 'string|required',
+                    'degree' => 'string',
+                    'start_date' => 'date',
+                    'end_date' => 'date',
+                    'no_of_years' => 'numeric',
+                    'brief_of_experience' => 'string',
+                ]
+            );
+            if ($v->fails()) {
+                return $this->validation($v);
+            } 
+
+            if ($user->roles->first()->id == User::ROLE_SERVICE_PROVIDER) {
+                if (isset($_FILES['profile_image'])) {
+                    $profile_image = $this->uploadImage($r->profile_image, 'profile_image');
+                    $user->profile_image = $profile_image;
+                }
+                $user->nationality = $r->nationality;
+                $user->service_provider_type  = $r->service_provider_type;
+                $user->address = $r->address;
+                $user->phone = $r->phone;
+                $user->whatspp_no = $r->whatspp_no;
+                $user->snapchat_link = $r->snapchat_link;
+                $user->instagram_link = $r->instagram_link;
+                $user->twitter_link = $r->twitter_link;
+                $user->license_cr_no = $r->license_cr_no;
+                $user->description = $r->description;
+                // $user->service_provider_type = $r->type;
+
+                if (!empty($_FILES['license_cr_photo'])) {
+                    $licenseImage = $this->uploadImage($r->license_cr_photo, 'license_image');
+                    $user->license_cr_photo = $licenseImage ?? $user->license_cr_photo;
+                }
+                $user->save();
+              
+                    $education = new EducationDetail();
+                    $education->institute_name = $r->institute_name;
+                    $education->degree = $r->degree;
+                    $education->start_date = $r->start_date;
+                    $education->end_date = $r->end_date;
+                    $education->user_id = $user->id;
+                    $education->save();
+                
+                    $workExperience = new WorkExperience();
+                    $workExperience->no_of_years = $r->no_of_years;
+                    $workExperience->brief_of_experience = $r->brief_of_experience;
+                    $workExperience->user_id = $user->id;
+                    $workExperience->save();
+
+                    $file = new Files();
+                    $file->file_name = $this->UploadImage($r->file('video'), 'videos');
+                    $extension = ($r->file('video'))->getClientOriginalExtension();
+                    $file->extension = $extension;
+                    $file->model_id = $user->id;
+                    $file->model_type = 'App/Models/User';
+                    $file->file_size = 112;
+                    $file->created_by = $user->id;
+                    $file->type = 1;
+                    $file->save();
+                
+                return $this->successWithData($user->serviceProviderProfile(), " User Profile updated successfully");
             }
-            if ($r->form_step == 2) {
-                $validation_rules = [
-                    'form_step' => 'required|numeric',
-                    'resume.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:2048',
-                    'cover_letter.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:2048',
-                    'license.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:2048',
-                    'training_certificate.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:2048',
-                    'degree.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:2048',
-                    'shift_json' => 'required|json',
-                    'position' => 'required|json',
-                    'setting' => 'required|json',
-                ];
-                $validator = Validator::make($r->all(), $validation_rules);
-                if ($validator->fails()) {
-                    return $this->validation($validator);
-                }
-                //shift slot start
-                $shiftArray = json_decode($r->shift_json);
-                foreach ($shiftArray as $shift) {
-                    $dataArray = [
-                        'day' => $shift->day,
-                        'slot' => $shift->slot,
-                    ];
-                    $v = Validator::make(
-                        $dataArray,
-                        [
-                            'day' => 'required|string|max:10',
-                            'slot' => 'required|array',
-                        ],
-                    );
-                    if ($v->fails()) {
-                        return $this->validation($v);
-                    }
-                    $availabilityModel = Availability::where("day", $shift->day)->first();
-                    if (empty($availabilityModel)) {
-                        $availabilityModel = new Availability();
-                    }
-                    $availabilityModel->day = $shift->day;
-                    $availabilityModel->created_by = $user->id;
-                    $availabilityModel->save();
-                    foreach ($shift->slot as $slot) {
-                        $getSlot = DefaultSlot::where("id", $slot)->first();
-                        if (empty($getSlot)) {
-                            throw new Exception("Default slot not found");
-                        }
-                        $slotModel = Slot::where([
-                            "availability_id" => $availabilityModel->id,
-                            "start_time" => $getSlot->start_time,
-                            "end_time" => $getSlot->end_time,
-                        ])->first();
-                        if (empty($slotModel)) {
-                            $slotModel = new Slot();
-                        }
-                        $slotModel->start_time = $getSlot->start_time;
-                        $slotModel->end_time = $getSlot->end_time;
-                        $slotModel->availability_id = $availabilityModel->id;
-                        $slotModel->created_by = $user->id;
-                        $slotModel->save();
-                    }
-                }
-                //position
-                $positions = json_decode($r->position);
-                foreach ($positions as $value) {
-                    $getPositionData = DefaultPostion::where('id', $value)->first();
-                    if (empty($getPositionData)) {
-                        throw new Exception("Default position not found");
-                    }
-                    $postionModel = Position::where("title", $getPositionData->title)->first();
-                    if (empty($postionModel)) {
-                        $postionModel = new Position();
-                    }
-                    $postionModel->title = $getPositionData->title;
-                    $postionModel->created_by = $user->id;
-                    $postionModel->save();
-                }
-                //setting
-                $settings = json_decode($r->setting);
-                foreach ($settings as $value) {
-                    $getSetting = DefaultPreferToWorkIn::where('id', $value)->first();
-                    if (empty($getSetting)) {
-                        throw new Exception("Default setting not found");
-                    }
-                    $settingModel = PreferToWorkIn::where("title", $getSetting->title)->first();
-                    if (empty($settingModel)) {
-                        $settingModel = new PreferToWorkIn();
-                    }
-                    $settingModel->title = $getSetting->title;
-                    $settingModel->created_by = $user->id;
-                    $settingModel->save();
-                }
-                $this->uploadFiles($r->file('resume'), FILES::TYPE_RESUME, $user,'file');
-                $this->uploadFiles($r->file('cover_letter'), FILES::TYPE_COVER_LETTER, $user,'file');
-                $this->uploadFiles($r->file('license'), FILES::TYPE_LICENSE, $user,'file');
-                $this->uploadFiles($r->file('training_certificate'), FILES::TYPE_TRAINING_CERTIFICATE, $user,'file');
-                $this->uploadFiles($r->file('degree'), FILES::TYPE_DEGREE, $user,'file');
-                $user->update([
-                    'hobbies' => $r->hobbies ?? $user->hobbies,
-                    'long_term_goal' => $r->long_term_goal ?? $user->long_term_goal,
-                    'experience' => $r->experience ?? $user->experience,
-                    'goal' => $r->goal ?? $user->goal,
-                    'form_step' => 3
-                ]);
-            }
-            if ($r->form_step == 3) {
-                $validation_rules = [
-                    'form_step' => 'required|numeric',
-                    'government_issueId.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:2048',
-                    'physical.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:2048',
-                    'tb_records.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:2048',
-                ];
-                $validator = Validator::make($r->all(), $validation_rules);
-                if ($validator->fails()) {
-                    return $this->validation($validator);
-                }
-                $this->uploadFiles($r->file('government_issueId'), FILES::TYPE_GOVERNMENT_ISSUEID, $user,'file');
-                $this->uploadFiles($r->file('physical'), FILES::TYPE_PHYSICAL, $user,'file');
-                $this->uploadFiles($r->file('tb_records'), FILES::TYPE_TB_RECORDS, $user,'file');
-                $insert = new EducationWork;
-                $insert->highschool = $r->highschool;
-                $insert->college = $r->college;
-                $insert->training_institute = $r->training_institute;
-                $insert->additional_educational = $r->additional_educational;
-                $insert->job_experiences = $r->job_experiences;
-                $insert->relevant_skills = $r->relevant_skills;
-                $insert->position_apply = $r->position_apply;
-                $insert->created_by = $user->id;
-                $insert->save();
-                $user->update([
-                    'form_step' => 4
-                ]);
-            }
-            DB::commit();
-            return $this->success('User Profile updated successfully');
         } catch (\Throwable $e) {
             DB::rollback();
             return $this->error($e->getMessage());
         }
     }
+
+
+     /**
+     * Add Service Detail  
+     *
+     * @param  $r request contains data to Add Service Detail 
+     * @return response success or fail
+     */
+    public function addServiceDetails(request $r)
+    {
+        try {
+            $user = auth()->user();
+
+            $v = Validator::make(
+                $r->input(),
+                [
+                    'category' => 'string',
+                    'sub_category' => 'string',
+                    'price_per_hour ' => 'string',
+                    'price_per_day' => 'string',
+                    'price_per_month' => 'string',
+                ]
+            );
+            if ($v->fails()) {
+                return $this->validation($v);
+            }
+            $sub_category= ServiceCategory::where('name', $r->sub_category)->first();
+            $service = new ServiceDetail();
+            $service->service_id = $sub_category->id;
+            $service->user_id = $user->id;
+            $service->price_per_hour = $r->price_per_hour;
+            $service->price_per_day = $r->price_per_day;
+            $service->price_per_month = $r->price_per_month;
+            $service->save();
+            return $this->successWithData($service->jsonData(), "Service Added");
+        } catch (\Throwable $e) {
+            DB::rollback();
+            return $this->error($e->getMessage());
+        }
+    }
+
+    /**
+     * Get category list  
+     * @return response success or fail
+     */
+    public function getcategories()
+    {
+        $categories = ServiceCategory::where('is_parent',ServiceCategory::IS_PARENT)->paginate();
+        return $this->customPaginator($categories);
+    }
+
+    /**
+     * Get Sub-Categories List
+     *
+     * @param  $r request contains data to show list of sub categories
+     * @return response success or fail
+     */
+    public function getSubcategories(request $r)
+    {
+        $v = Validator::make(
+            $r->input(),
+            [
+                'category' => 'required',
+            ]
+        );
+        if ($v->fails()) {
+            return $this->validation($v);
+        }
+        $categories = ServiceCategory::where('name', $r->category)->first();
+        $subcategories = ServiceCategory::where('is_parent', $categories->id)->paginate();
+        return $this->customPaginator($subcategories);
+    }
+
+
+    /**
+     * Get Customer Profile  
+     *
+     * @return response success or fail
+     */
+    public function getCustomerProfile()
+    {
+        $user = auth()->user();
+        return $this->successWithData($user->CustomerProfile(), 'Data fetched successfully.');
+    }
+
+    /**
+     * Update Customer Detail  
+     *
+     * @param  $r request contains data to Update Customer Detail
+     * @return response success or fail
+     */
+    public function updateCustomerDetail(request $r)
+    {
+        $user = auth()->user();
+        $v = Validator::make(
+            $r->input(),
+            [
+                'email' => 'required|email',
+            ]
+        );
+        if ($v->fails()) {
+            return $this->validation($v);
+        }
+        $userUpdate= User::where('id',$user->id)->update(['email' => $r->email]);
+        return $this->success('Your information has been updated.');
+    }
+
+    /**
+     * Contact Us 
+     *
+     * @param  $r request contains data for ContactUs 
+     * @return response success or fail
+     */
+    public function contactUs(request $r){
+        $user = auth()->user();
+        try{
+        $v = Validator::make(
+            $r->input(),
+            [
+                'message' => 'required|string',
+                'to_user' => 'required',
+            ]
+        );
+        if ($v->fails()) {
+            return $this->validation($v);
+        }
+        $contact= new ContactUs();
+        $contact->message = $r->message;
+        $contact->to_user = $r->to_user;
+        $contact->from_user = $user->id;
+        $contact->save();
+
+        return $this->successWithData($contact->jsonData(),'Message sent successfully');
+    } catch (\Throwable $e) {
+        DB::rollback();
+        return $this->error($e->getMessage());
+    }
+    }
+
+    /**
+     * Add Report
+     *
+     * @param  $r request contains data to Add Report
+     * @return response success or fail
+     */
+    public function report(request $r){
+        $user = auth()->user();
+        try{
+        $v = Validator::make(
+            $r->input(),
+            [
+                'reporting_issue' => 'required|string',
+                'service_category' => 'required',
+                'user_id' => 'required',
+                'subject' => 'required|string',
+                'message' => 'required|string',
+            ]
+        );
+        if ($v->fails()) {
+            return $this->validation($v);
+        }
+        $serviceCategory = ServiceCategory::where('name', $r->service_category)->first();
+        $report= new Report();
+        $report->reporting_issue= $r->reporting_issue;
+        $report->service_category_id = $serviceCategory->id;;
+        $report->user_id  = $r->user_id;     //service provider id
+        $report->subject = $r->subject;
+        $report-> message = $r->message;
+        $report->save();
+        return $this->successWithData($report->jsonData(),'Report added successfully');
+    } catch (\Throwable $e) {
+        DB::rollback();
+        return $this->error($e->getMessage());
+    }
+    }
+
+    /**
+     * Add User Rating
+     *
+     * @param  $r request contains data to Give rating to service provider
+     * @return response success or fail
+     */
+    public function userRating(request $r){
+        $user = auth()->user();
+        try{
+        $v = Validator::make(
+            $r->input(),
+            [
+                'rating' => 'required|numeric',
+                'user_id' => 'required|numeric', //service provider id
+                'message' => 'required|string',
+            ]
+        );
+        if ($v->fails()) {
+            return $this->validation($v);
+        }
+        $userrating =  new UserRating();
+        $userrating->rating = $r->rating;
+        $userrating->user_id  = $r->user_id;
+        $userrating->from_user_id = $user->id;
+        $userrating->message = $r->message;
+        $userrating->save();
+        return $this->successWithData($userrating->jsonData(),'Rating successfully given to user.');
+    } catch (\Throwable $e) {
+        DB::rollback();
+        return $this->error($e->getMessage());
+    }
+    }
+
+    public function addFavourite(request $r){ 
+        $user = auth()->user();
+        try{
+        $v = Validator::make(
+            $r->input(),
+            [
+                'service_id' => 'required|numeric',
+                'userId' => 'required|numeric', //service provider id
+               
+            ]
+        );
+        if ($v->fails()) {
+            return $this->validation($v);
+        }
+        $service_id=ServiceDetail::where(['service_id'=> $r->service_id, 'user_id' => $r->userId])->first();
+        $favourite = new FavouriteServices();
+        $favourite->service_id = $service_id->id;
+        $favourite->user_id = $user->id;
+        $favourite->save();
+        return $this->success('Service added to favourite list successfully.');
+    } catch (\Throwable $e) {
+        DB::rollback();
+        return $this->error($e->getMessage());
+    }
+    }
+
+    public function getFavourite(request $r){ 
+        $user = auth()->user();
+        $favourite= FavouriteServices::where('user_id',$user->id)->paginate();
+        return $this->customPaginator($favourite);
+
+    }
+
+    public function servicesFilteration(request $r){
+
+        $user = auth()->user();
+
+        $v = Validator::make(
+            $r->input(),
+            [
+                // 'userId' => 'required|numeric', //service provider id
+                'rating' => 'required',
+            ]
+        );
+        if ($v->fails()) {
+            return $this->validation($v);
+        }
+            if($r->rating){
+            // $ratings=0;
+            // $userrating=UserRating::where('user_id',$r->userId)->get();
+            // foreach($userrating as $userating){
+            //     $rating=$userating->rating;
+            //     $ratings+=$rating;
+            // }
+            // $ratings=round($ratings/$userrating->count());
+            $userrate=UserRating::whereBetween('rating',[$r->rating,UserRating::MAX_RATING])->paginate();
+        
+            return $this->customPaginator($userrate);
+            }
+            if($r->price){
+
+            }
+}
+
+        public function updateSpProfile(request $r){
+                try{
+                $v = Validator::make(
+                    $r->input(),
+                    [
+                        'email' => 'email',
+                        'phone' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15',
+                        'whatspp_no' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15',
+                        'snapchat_link' => 'url',
+                        'instagram_link' => 'url',
+                        'twitter_link' => 'url',
+                        'no_of_years' => 'numeric',
+                    ]
+                );
+                if ($v->fails()) {
+                    return $this->validation($v);
+                }
+                $user=auth()->user();
+                $serviceprovider=User::where('id',$user->id)->first();
+                $serviceprovider->email=$r->email?? $serviceprovider->email;
+                $serviceprovider->phone=$r->phone?? $serviceprovider->phone;
+                $serviceprovider->whatspp_no=$r->whatspp_no?? $serviceprovider->whatspp_no;
+                $serviceprovider->snapchat_link =$r->snapchat_link ?? $serviceprovider->snapchat_link;
+                $serviceprovider->instagram_link =$r->instagram_link ?? $serviceprovider->instagram_link;
+                $serviceprovider->twitter_link =$r->twitter_link ?? $serviceprovider->twitter_link;
+                $serviceprovider->save();
+                if (!empty($_FILES['video'])) {
+                    $update_data = Files::where(['created_by' => $user->id])
+                        ->update(['file_name' => $this->UploadImage($r->file('video'), 'videos'), 'extension' => ($r->file('video'))->getClientOriginalExtension()]);
+                    }
+                $workExperience = WorkExperience::where('user_id', $user->id)->first();
+                $workExperience->no_of_years = $r->no_of_years?? $workExperience->no_of_years;
+                $workExperience->save();
+                return $this->successWithData($user->serviceProviderProfile(), " User Profile updated successfully");
+            } catch (\Throwable $e) {
+                DB::rollback();
+                return $this->error($e->getMessage());
+            }
+        }
+
+      
+        public function activeCountryList(Request $request)
+    {
+        $query = Country::where('status', Country::STATUS_ACTIVE)->paginate(500);
+        return $this->customPaginator($query);
+    }
+
+        public function search(request $r){
+           $serviceCategory= ServiceCategory::where('name',$r->search)->get();
+           foreach($serviceCategory as $category){
+           $serviceDetail= ServiceDetail::where('service_id',$category->id)->get();
+           foreach($serviceDetail as $service){
+               $user= User::where('id',$service->user_id)->get();
+               $custom[]= $user;
+            }
+           }
+          return $this->successWithData($custom,'Data fetched successfully.');
+          
+        }
+
 }

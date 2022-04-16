@@ -16,7 +16,7 @@ class CreateWorkExperiencesTable extends Migration
         Schema::create('work_experiences', function (Blueprint $table) {
             $table->id();
             $table->string('no_of_years');
-            $table->longtext('brief_of_experience');
+            $table->longtext('brief_of_experience')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->boolean('status')->default(1)->comment("0=> inactive, 1=> active");

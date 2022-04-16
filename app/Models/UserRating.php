@@ -14,15 +14,18 @@ class UserRating extends Model
      * @var array
      */
     protected $fillable = [
-        'name','description','status','service_image',
+        'user_id','rating','from_user_id','status','message',
     ];
 
+    const MAX_RATING=5;
+    
     public function jsonData()
     {
         $json = [];
         $json['user_id'] = $this->user_id;
         $json['rating'] = $this->rating;
         $json['from_user_id'] = $this->from_user_id;
+        $json['message'] = $this->message;
         $json['status'] = $this->status;
         return $json;
     }
