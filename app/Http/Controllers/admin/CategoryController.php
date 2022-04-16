@@ -131,11 +131,11 @@ public function update_category(Request $request){
 */
 public function store_sub_category(Request $request){
     $validatedData = $request->validate([
-        'name' => 'required',
+        'category_name' => 'required',
         'service_category_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
      ]);
      $insert = new ServiceCategory;
-     $insert->name = $request->name;
+     $insert->category_name = $request->category_name;
      $insert->service_category_image  = $request->file('service_category_image')->getClientOriginalName();
      $insert->path = $request->file('service_category_image')->store('/public/images');
      $insert->is_parent = $request->is_parent;

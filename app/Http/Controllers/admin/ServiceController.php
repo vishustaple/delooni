@@ -80,7 +80,7 @@ public function deleteservice(Request $request){
      * @param click on update button get $r->id
      * @return  open pop up model of $r->id with value
 */
- public function view_update(Request $request){
+ public function view_update(Request $request){ 
     $categoryData = Services::find($request->id);
     $categorynames = ServiceCategory::select('*')->get(); 
     $res =  view('admin.service.update', compact('categoryData','categorynames'))->render();

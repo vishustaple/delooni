@@ -70,7 +70,7 @@
       @forelse($getdatas as $key=>$value)
       <tr>
         <td>{{$key+1}}</td>
-       <td>{{$value->name}}</td>
+       <td>{{$value->category_name}}</td>
         <td>{{$value->service_category_image}}</td>
         <td>{{$value->is_parent}}</td>
         <td>@if($value->status==1)

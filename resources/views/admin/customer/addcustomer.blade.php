@@ -33,9 +33,9 @@
                         </div>
                       </div>    
                       <div class="form-group row">
-                        <label for="password" class="col-sm-3 col-form-label">Confirm Password :</label>
+                        <label for="confirm_password" class="col-sm-3 col-form-label">Confirm Password :</label>
                         <div class="col-sm-8">
-                          <input type="Password" class="form-control" id="password" name="password" placeholder="Enter Your Password">
+                          <input type="Password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Enter Your Password">
                           <div class="error" id="error_confirm_password">
                          </div>
                         </div>

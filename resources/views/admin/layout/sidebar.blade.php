@@ -22,7 +22,7 @@
       </li>
       <li class="nav-item">
         <a href="{{url('/admin/customer')}}" class="nav-link">
-          <i class="fa fa-sign-out nav-icon"></i>
+          <i class="fa fa-user-circle nav-icon"></i>
           <p>
             customer
           </p>
