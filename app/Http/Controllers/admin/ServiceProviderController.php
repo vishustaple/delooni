@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ServiceProviderRequest;
+use App\Http\Requests\UpdateServiceProviderRequest;
 use App\Traits\ImageUpload;
 use App\Models\Files;
 
@@ -156,7 +157,7 @@ catch (\Throwable $th) {
      * @param send searchdata
      * @return  view
      */
-     public function filter(Request $request){
+    public function filter(Request $request){
     $search = $request->search;
     $qry = User::select('*');
     if(!empty($search)){
@@ -202,24 +203,65 @@ catch (\Throwable $th) {
          * @param send id 
          * @return  message
          */
-    public function UpdateProviderData(ServiceProviderRequest $request)
-    {
-       dd("here");
+         public function UpdateProviderData(UpdateServiceProviderRequest $request)
+        {
+             // dd($request->all());
         // $user= DB::table('model_has_roles')->where('model_id', $request->id)->delete();
+        $user = User::find($request->id);
 
-        // $update = User::where('id', $request->id)->update([
-        //     "name" => $request->name,
-        //     "email" => $request->email,
-        //     "role_id"=>$request->roles,
-        // ]);
-        // if($update){
-        //     User::find($request->id)->assignRole($request->roles);
-        //     return response()->json(redirect()->back()->with('success', 'Staff updated successfully'));
-        // }
-        // else{
-        //     return response()->json(redirect()->back()->with('error', 'Getting error while adding user.'));
+if($request->licensephoto)
+  $licensephoto = $this->uploadImage($request->licensephoto, 'profile_image');
+  else
+  $licensephoto = $user->license_cr_photo;
+    
+  if($request->img)
+  $profileimg = $this->uploadImage($request->img, 'profile_image');
+  else
+  $profileimg = $user->profile_image;
+    
+  if($request->video)
+  $profilevideo = $this->UploadImage($request->video,'profile_video');
+  else
+  $profilevideo = $user->profile_video;
 
-        // }
+        $user->business_name = $request->business_name ?? $user->business_name;
+        $user->first_name = $request->firstname ?? $user->first_name;
+        $user->last_name = $request->lastname ?? $user->last_name;
+        $user->email = $request->email ?? $user->email;
+        $user->nationality = $request->nationality ?? $user->nationality;
+        $user->address = $request->Address ?? $user->address;
+        $user->phone = $request->phone ?? $user->phone;
+        $user->whatsapp_no = $request->whatsappNumber ?? $user->whatsapp_no;
+        $user->snapchat_link = $request->snapchat ?? $user->snapchat_link;
+        $user->instagram_link = $request->instagram ?? $user->instagram_link;
+        $user->twitter_link = $request->twitter ?? $user->twitter_link;
+        $user->license_cr_no = $request->licensenumber ?? $user->license_cr_no;
+        $user->dob = $request->dateofbirth ?? $user->dob;
+        $user->description = $request->description ?? $user->description;
+        $user->profile_video = $profilevideo;
+        $user->profile_image = $profileimg;
+        $user->license_cr_photo = $licensephoto;
+        $user->save();
+     
+        $educationupdate =  EducationDetail::where('user_id', $request->id)->update([
+            "institute_name" => $request->education,
+            "degree" => $request->degree,
+            "start_date" => $request->startdate,
+            "end_date" => $request->enddate,
+            
+        ]);
+        $workexperienceupdate = WorkExperience::where('user_id', $request->id)->update([
+            "no_of_years"=>$request->experience,
+            
+        ]);
+        if($user){
+            //User::find($request->id)->assignRole($request->roles);
+            return response()->json(redirect()->back()->with('success', 'ServiceProvider updated successfully'));
+        }
+        else{
+            return response()->json(redirect()->back()->with('error', 'Getting error while adding user.'));
+
+        }
 
     }
 
