@@ -9,9 +9,9 @@
                       @csrf
                       <input type="hidden" name="id"  id="id"  value=""> 
                       <div class="form-group row">
-                        <label for="name" class="col-sm-3 col-form-label">Name :</label>
+                        <label for="category_name" class="col-sm-3 col-form-label">Name :</label>
                         <div class="col-sm-8">
-                          <input type="text" class="form-control" id="name" value="{{$data->name}}"  name="name"  readonly>
+                          <input type="text" class="form-control" id="category_name" value="{{$data->category_name}}"  name="category_name"  readonly>
                         </div>
                       </div>
                       <div class="form-group row">

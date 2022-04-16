@@ -12,9 +12,9 @@
    <th>Service Name</th>
     <th>Description</th>
     <th>Service image</th>
-    <th>Price (In/hour)</th>
-    <th>Price (In/day)</th>
-    <th>Price (In/month)</th>
+    <th>Price (/hour)</th>
+    <th>Price (/day)</th>
+    <th>Price (/month)</th>
     <th>Service category</th>
     <th>Status</th>
     <th>Action</th>

@@ -1,10 +1,10 @@
 <form class="form-horizontal"  id="add_category"  method="post"  enctype="multipart/form-data">
                       @csrf
                       <div class="form-group row">
-                        <label for="name" class="col-sm-3 col-form-label">Name :</label>
+                        <label for="category_name" class="col-sm-3 col-form-label">Name :</label>
                         <div class="col-sm-8">
-                          <input type="text" class="form-control" id="name" name="name" placeholder="Enter Category Name">
-                          <div class="error" id="error_name">
+                          <input type="text" class="form-control" id="category_name" name="category_name" placeholder="Enter Category Name">
+                          <div class="error" id="error_category_name">
                          </div>
                         </div>
                       </div>

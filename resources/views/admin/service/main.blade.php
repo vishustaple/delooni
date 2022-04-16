@@ -76,13 +76,7 @@ $("#add_service").on('submit', function (e){
 function toggleDisableEnable(e){
  var id = $(e).attr('data-id');
  $('#page-loader').show();
-  // $.ajaxSetup({
-  //   headers: {
-  //       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-  //         }
-  // });
-  
-      $.ajax({
+ $.ajax({
       url:"{{route('service.status')}}",
       data:{id:id},
       dataType: "JSON",

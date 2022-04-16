@@ -26,12 +26,12 @@ public function categoryView(){
 */
 public function storecategory(Request $request){
 $validatedData = $request->validate([
-    'name' => 'required',
+    'category_name' => 'required',
     'description' => 'required',
     'service_category_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
 ]);
  $insert = new ServiceCategory;
- $insert->name = $request->name;
+ $insert->category_name = $request->category_name;
  $insert->description = $request->description;
  $insert->service_category_image  = $request->file('service_category_image')->getClientOriginalName();
  $insert->path = $request->file('service_category_image')->store('/public/images');
@@ -50,7 +50,7 @@ public function searchcategory(Request $request){
  $qry = ServiceCategory::select('*')->where('is_parent', 0);
  if(!empty($search)){
      $qry->where(function($q) use($search){
-         $q->where('name','like',"%$search%");
+         $q->where('category_name','like',"%$search%");
     });
  }
 $data = $qry->where('is_parent',0)->orderBy('id','DESC')->paginate();
@@ -86,7 +86,7 @@ public function view_update(Request $request){
 */
 public function update_category(Request $request){
     $insert = ServiceCategory::where('id', $request->id)->update([
-        "name" => $request->name,
+        "category_name" => $request->category_name,
         "description" => $request->description,
         "service_category_image" =>  $request->file('service_category_image')->getClientOriginalName(),
         "path" => $request->file('service_category_image')->store('/public/images'),
@@ -106,7 +106,7 @@ public function update_category(Request $request){
     public function detailView_category(Request $request){
     $data = ServiceCategory::find($request->id);
     $getdatas = ServiceCategory::select('*')->where('is_parent',$request->id)->get(); 
-    $getnames = ServiceCategory::select('name','id')->where('id',$request->id)->get();
+    $getnames = ServiceCategory::select('category_name','id')->where('id',$request->id)->get();
     return view('admin.category.detailview', compact('data','getdatas','getnames'));
 }
 /**

@@ -57,7 +57,7 @@ Route::group(['prefix' => 'admin'], function () {
 
       //******************************************Admin Manage Customers*********************************************//
         Route::get('/customer', [CustomerController::class, 'customerView'])->name('customer');
-
+        Route::post('/customer/add', [CustomerController::class, 'storecustomer'])->name('customer.add');
 
       //******************************************Admin Manage Category*********************************************//
         Route::get('/category', [CategoryController::class, 'categoryView'])->name('category');

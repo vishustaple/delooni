@@ -25,7 +25,7 @@
                         </div>
                       </div>  
                       <div class="form-group row">
-                        <label for="price_per_hour" class="col-sm-3 col-form-label">Service Price(In/hours) :</label>
+                        <label for="price_per_hour" class="col-sm-3 col-form-label">Service Price(/hours) :</label>
                         <div class="col-sm-8">
                           <input type="text" class="form-control" id="price_per_hour" name="price_per_hour" placeholder="Service Price per hour">
                           <div class="error" id="error_price_per_hour">
@@ -33,7 +33,7 @@
                         </div>
                       </div> 
                       <div class="form-group row">
-                        <label for="price_per_day" class="col-sm-3 col-form-label">Service Price(In/days) :</label>
+                        <label for="price_per_day" class="col-sm-3 col-form-label">Service Price(/days) :</label>
                         <div class="col-sm-8">
                           <input type="text" class="form-control" id="price_per_day" name="price_per_day" placeholder="Service Price per day">
                           <div class="error" id="error_price_per_day">
@@ -41,7 +41,7 @@
                         </div>
                       </div> 
                       <div class="form-group row">
-                        <label for="price_per_month" class="col-sm-3 col-form-label">Service Price(In/month) :</label>
+                        <label for="price_per_month" class="col-sm-3 col-form-label">Service Price(/month) :</label>
                         <div class="col-sm-8">
                           <input type="text" class="form-control" id="price_per_month" name="price_per_month" placeholder="Service Price per month">
                           <div class="error" id="error_price_per_month">
