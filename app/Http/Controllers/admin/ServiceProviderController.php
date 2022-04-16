@@ -150,6 +150,80 @@ catch (\Throwable $th) {
     $url = route('viewserviceprovider');
     return $url;
     }
+    /**
+     *  filter data on search
+     *
+     * @param send searchdata
+     * @return  view
+     */
+     public function filter(Request $request){
+    $search = $request->search;
+    $qry = User::select('*');
+    if(!empty($search)){
+        $qry->where(function($q) use($search){
+            $q->where('first_name','like',"%$search%");
+            $q->orWhere('email','like',"%$search%");
+            // $q->orWhere('phone','like',"%$search%");
+        });
+    }
+    // where('role_id',1)->where('status','!=',User::STATUS_INACTIVE)
+    $data = $qry->role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->orderBy('id', 'DESC')->paginate();
+    return view('admin.serviceprovider.view', compact('data','search'));
+    }
 
+    /**
+     *  Remove serviceprovider data form frontend 
+     *
+     * @param send id
+     * @return  json response 
+     */
+    public function ServiceProviderRemove(Request $r){
 
+        $data = User::where('id',$r->id)->delete();
+        return response()->json(['success' => true]);
+        }
+    /**
+     *  return update form  
+     *
+     * @param    
+     * @return  update form 
+     */
+    public function UpdateForm($id){
+       $data=User::select('*')->where('id', '=', $id)->first();
+       $geteducation=EducationDetail::select('*')->where('user_id', '=', $id)->first();
+       $getwork=WorkExperience::select('*')->where('user_id', '=', $id)->first();
+        return view('admin.serviceprovider.update',compact('data','getwork','geteducation'));
+
+        }
+
+        /**
+         *  insert updated service providerdata
+         *
+         * @param send id 
+         * @return  message
+         */
+    public function UpdateProviderData(ServiceProviderRequest $request)
+    {
+       dd("here");
+        // $user= DB::table('model_has_roles')->where('model_id', $request->id)->delete();
+
+        // $update = User::where('id', $request->id)->update([
+        //     "name" => $request->name,
+        //     "email" => $request->email,
+        //     "role_id"=>$request->roles,
+        // ]);
+        // if($update){
+        //     User::find($request->id)->assignRole($request->roles);
+        //     return response()->json(redirect()->back()->with('success', 'Staff updated successfully'));
+        // }
+        // else{
+        //     return response()->json(redirect()->back()->with('error', 'Getting error while adding user.'));
+
+        // }
+
+    }
+
+        
+
+        
 }

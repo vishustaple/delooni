@@ -49,7 +49,7 @@ $('#serviceform').on('click',function(e){
 
 
 });
-
+//add data of service provider 
 $(document).on("submit", "#createprovider", function(e){
      e.preventDefault();
     let myForm = document.getElementById('createprovider');
@@ -116,7 +116,7 @@ function fetch_data(page)
  $('#page-loader').show();
   var search=document.querySelector("#search").value;
   var data={search};
-  var make_url="{{route('user.search')}}?page="+page;
+  var make_url="{{route('provider.search')}}?page="+page;
   $.ajax({
     url:make_url,
     data:data,
@@ -136,98 +136,43 @@ document.querySelector("#search").addEventListener("keyup",(e)=>{
   fetch_data(1);
      });
 
-
-
-
-
- //const base_url=$('meta[name="base-url"]').attr('content');
-
- //to add user call 
-$("#createUser").on('submit',(e)=>{
-    e.preventDefault();
-    const data=getformdata("createUser");
-    
-    userRegisterAjax('post','/admin/user/adduser',data);
-});  
-//function call to get data from form 
-function getformdata(id){
-    let form = document.querySelector(`#${id}`);
-    let data = new FormData(form);
-    var object={};
-    for (let [key, value] of data) {
-        object[key]=value;
-    }
-    var FormValuedata=object;
-    return FormValuedata;
-   }
-   function errormessage(id,value){
-    if(value){
-        document.querySelector(`#${id}`).innerText=value;
-      }else{
-        document.querySelector(`#${id}`).innerText="";
-      }
-}
-function removemessage(value){
-    $(`.${value}`).empty();
-}
-function userRegisterAjax(type,path,data){
-    $.ajax({
-        type:type,
-        url:`${base_url}${path}`,
-        header:{
-          'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
-        },
-        data:data,
-        success:function(data){
-            removemessage('error');
-            window.location.reload();
-        },
-        error:function(data){
-            errormessage('error_name',data.responseJSON.errors.name);
-            errormessage('error_email',data.responseJSON.errors.email);
-            errormessage('error_password',data.responseJSON.errors.password);
-          
-        }
-      });
-} 
-
 //to update user 
-$(document).on('submit', '#update_user', function(e){
-  e.preventDefault();
-  $('#page-loader').show();
+// $(document).on('submit', '#update_user', function(e){
+//   e.preventDefault();
+//   $('#page-loader').show();
 
-  var formData = new FormData(this);
-  $.ajax({
-    url:'{{route("user.updateuserdata")}}',
-    type:'post',
-    dataType: "JSON",
-    xhr: function() {
-      myXhr = $.ajaxSettings.xhr();
-      return myXhr;
-    },
-    cache: false,
-    contentType: false,
-    processData: false,
-    data:formData,
-    success:function(data)
-    {
-     fetch_data(1);
-     $('.updatemodaluser').html(data);
-     $('#page-loader').hide();
+//   var formData = new FormData(this);
+//   $.ajax({
+//     url:'{{route("user.updateuserdata")}}',
+//     type:'post',
+//     dataType: "JSON",
+//     xhr: function() {
+//       myXhr = $.ajaxSettings.xhr();
+//       return myXhr;
+//     },
+//     cache: false,
+//     contentType: false,
+//     processData: false,
+//     data:formData,
+//     success:function(data)
+//     {
+//      fetch_data(1);
+//      $('.updatemodaluser').html(data);
+//      $('#page-loader').hide();
 
-    },
-    error:function(data){
+//     },
+//     error:function(data){
 
-      console.log(data.responseJSON.errors);
-      $.each(data.responseJSON.errors, function(id,msg){
-        // console.log('ss'+id);
+//       console.log(data.responseJSON.errors);
+//       $.each(data.responseJSON.errors, function(id,msg){
+//         // console.log('ss'+id);
 
-        $('#error_'+id).html(msg);
-      });
-      $('#page-loader').hide();
-    }
-  });
-});
+//         $('#error_'+id).html(msg);
+//       });
+//       $('#page-loader').hide();
+//     }
+//   });
+// });
 
 //to remove user 
 $(document).on('click','.remove',function(){
@@ -245,7 +190,7 @@ $(document).on('click','.remove',function(){
          if (isConfirm) {
   $('#page-loader').show();
   $.ajax({
-  url:"{{route('user.remove')}}",
+  url:"{{route('provider.remove')}}",
   data:{id:id},
   success:function(data)
   {
@@ -270,10 +215,37 @@ $(document).on('click','.remove',function(){
 });
 });
 
-$(document).on("click", ".addprovider", function(){
+$(document).on("click", "#serviceform", function(){
   $(".error").html("");
   $("#createprovider").trigger("reset");
   
 });
 
+  //update form on update button 
+  $('.updateserviceprovider').on('click',function(e){ 
+   e.preventDefault();
+   var id=$(this).attr("data-userid");
+   console.log(id);
+   var url = '{{ route("provider.updateform", ":id") }}';
+    url = url.replace(':id', id );
+   $.ajax({
+     headers: {
+     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+     },
+     type:'get',
+     url:url,
+     cache: false,
+     contentType: false,
+     processData: false,
+    success:function(response){
+    console.log(response);
+    $(".card-body").html(response);
+      },
+
+    error:function(error){                                     
+      console.log(error);
+ }
+
+});
+});
 </script>

@@ -9,7 +9,7 @@
       <thead>
         <tr>
           <th style="width: 10px">#</th>
-          <th>ID</th>
+          <!-- <th>ID</th> -->
           <th>Name</th>
           <th>Email</th>
           <th>Status</th>
@@ -22,7 +22,7 @@
 
         <tr>
           <td>{{$key+1}}</td>
-          <td>{{$value->id}}</td>
+          <!-- <td>{{$value->id}}</td> -->
           <td>{{$value->first_name}}</td>
           <td>{{$value->email}}</td>
           <td>@if($value->status==1)
@@ -33,26 +33,27 @@
           </td>
           <td>
             <a href="{{route('provider.viewdata',$value->id)}}" target="_blank" class="btn btn-outline-success btn-xs view">View</a>
-            <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-success btn-xs update" id="updateUserRegister">Update</button>
+            <!-- <a class="btn btn-outline-success btn-xs update" style="cursor:pointer;" id="updateserviceprovider" >Update</a> -->
+            <button style="cursor:pointer"  class="btn btn-outline-success btn-xs updateserviceprovider" data-userid="{{$value->id}}" >Update</button>
             <!-- The Modal -->
-            <div class="modal " id="myModal1">
+            <!-- <div class="modal " id="myModal1">
               <div class="modal-dialog modal-lg">
-                <div class="modal-content">
+                <div class="modal-content"> -->
 
                   <!-- Modal Header -->
-                  <div class="modal-header">
+                  <!-- <div class="modal-header">
                     <h4 class="modal-title">Update</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  </div>
+                  </div> -->
 
                   <!-- Modal body -->
-                  <div class="modal-body updatemodaluser">
+                  <!-- <div class="modal-body updatemodaluser">
 
                   </div>
 
                 </div>
               </div>
-            </div>
+            </div> -->
             <button data-id="{{$value->id}}" class="btn btn-danger btn-xs remove">Remove</button>
           </td>
         </tr>
@@ -69,7 +70,7 @@
   <!-- /.card-body -->
 </div>
 <!-- /.card -->
-<script>
+<!-- <script>
   $(document).on('click', '.update', function(event) {
 
     $('#page-loader').show();
@@ -98,5 +99,6 @@
         $('#page-loader').hide();
       }
     });
-  });
-</script>
+  }); -->
+
+<!-- </script> -->

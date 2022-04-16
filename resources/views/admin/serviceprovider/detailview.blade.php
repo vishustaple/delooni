@@ -4,7 +4,7 @@
 <div id="users_data">
 <div class="card">
               <div class="card-header">
-                <h3 class="card-title">User</h3>
+                <h3 class="card-title">Service Provider User</h3>
                 @include('admin.serviceprovider.back')
               </div>
               <!-- /.card-header -->
@@ -37,7 +37,7 @@
                       <div class="form-group row">
                         <label for="uploadimage" class="col-sm-2 col-form-label">Uploaded image</label>
                         <div class="col-sm-10">
-                          <img src="http://127.0.0.1:8000/profile_image/{{$data->profile_image}}">
+                          <img src="{{URL::to('/')}}/profile_image/{{$data->profile_image}}">
                           <!-- <input type="text" class="form-control" id="uploadimage" value="{{$data->profile_image}}" readonly> -->
                         </div>
                       </div>
@@ -45,7 +45,7 @@
                         <label for="uploadedvideo" class="col-sm-2 col-form-label">Uploaded Video</label>
                         <div class="col-sm-10">
                         <video width="320" height="240" controls>
-                           <source src="http://127.0.0.1:8000/profile_video/{{$data->profile_video}}" type="video/mp4"></video>
+                           <source src="{{URL::to('/')}}/profile_video/{{$data->profile_video}}" type="video/mp4"></video>
                           <!-- <input type="text" class="form-control" id="uploadedvideo" value="{{$data->profile_video}}" readonly> -->
                         </div>
                       </div>                      
@@ -100,7 +100,7 @@
                       <div class="form-group row">
                         <label for="licensephoto" class="col-sm-2 col-form-label">License Photo</label>
                         <div class="col-sm-10">
-                        <img src="http://127.0.0.1:8000/profile_image/{{$data->license_cr_photo}}">
+                        <img src="{{URL::to('/')}}/profile_image/{{$data->license_cr_photo}}">
                         <!-- <input type="text" class="form-control" id="licensephoto" value="{{$data->license_cr_photo}}" readonly> -->
                           </div>
                       </div>

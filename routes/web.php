@@ -76,4 +76,7 @@ Route::post('/addserviceprovider', [ServiceProviderController::class, 'AddServic
 Route::post('/serviceprovider/togglestatus', [ServiceProviderController::class, 'ToggleProviderStatus'])->name('provider.status');
 Route::get('/viewserviceprovider/{id}', [ServiceProviderController::class, 'ViewServiceProviderData'])->name('provider.viewdata');
 Route::get('/serviceproviderback', [ServiceProviderController::class, 'ServiceProviderBack']);
-
+Route::get('/serviceprovider/search', [ServiceProviderController::class, 'filter'])->name('provider.search');
+Route::get('/serviceprovider/remove', [ServiceProviderController::class, 'ServiceProviderRemove'])->name('provider.remove');
+Route::get('/providerupdateform/{id}', [ServiceProviderController::class, 'UpdateForm'])->name('provider.updateform');
+Route::post('/updateproviderdata', [ServiceProviderController::class, 'UpdateProviderData'])->name('provider.updateproviderdata');

@@ -1,16 +1,5 @@
 <div class="col-sm-12">
- <button class="btn btn-outline-success float-right" id="user"><i class="fas fa-arrow-alt-circle-left">Back</i></button>
+ <a href="{{url('/')}}/serviceprovider" class="btn btn-outline-success float-right"><i class="fas fa-arrow-alt-circle-left"></i>
+ Back
+ </a>
 </div> 
-<script>
- jQuery("#user").on("click",(e)=>{
-  
-  
-     $.ajax({
-       type:"get",
-       url:"{{url('/')}}/serviceproviderback",
-       success: function(data){
-        window.location = data;
-       }
-     })
- })  
-</script>
