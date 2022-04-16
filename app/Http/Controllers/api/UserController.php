@@ -124,26 +124,15 @@ class UserController extends Controller
     {
 
         try {
-            # if sign up, check for unique phone no
-            if ($r->otp_for == Otp::FOR_SIGNUP) {
-                $for = Otp::FOR_SIGNUP;
-
-                $checkExist = User::where('phone', $r->phone)->first();
-                if ($checkExist) {
-                    return $this->error("Phone has already been taken.");
-                }
-            }
-
             # otp to phole integration here
             Otp::where([
                 ['phone', '=', $r->phone],
-                ['otp_for', '=', $r->otp_for],
+                ['country_code', '=', $r->country_code],
             ])->delete();
 
             $otp = Otp::create([
                 'phone' => $r->phone,
                 'country_code' => $r->country_code,
-                'otp_for' => $r->otp_for,
                 'otp' => random_int(1000, 9999),
             ]);
             
@@ -217,13 +206,7 @@ class UserController extends Controller
 
 
     }
-   
-    /**
-     *  Update profile for both users
-     *
-     * @param  $r request contains data to user profile update
-     * @return response success or fail
-     */
+
     
     /**
      *  login
@@ -272,12 +255,7 @@ class UserController extends Controller
             return $this->error($e->getMessage());
         }
     }
-    /**
-     *  Get all profile including additional info of both users
-     *
-     * @param  $r request contains data to user all profile including additional info
-     * @return user profile list
-     */
+ 
 
     /**
      * Verify Otp  
@@ -362,6 +340,7 @@ class UserController extends Controller
             return $this->error($e->getMessage());
         }
     }
+
     /**
      *  Change Password
      *
@@ -536,7 +515,7 @@ class UserController extends Controller
     }
 
     /**
-     * Get Sub Categories List
+     * Get Sub-Categories List
      *
      * @param  $r request contains data to show list of sub categories
      * @return response success or fail
@@ -798,13 +777,23 @@ class UserController extends Controller
         }
 
       
-
         public function activeCountryList(Request $request)
     {
         $query = Country::where('status', Country::STATUS_ACTIVE)->paginate(500);
         return $this->customPaginator($query);
     }
 
-
+        public function search(request $r){
+           $serviceCategory= ServiceCategory::where('name',$r->search)->get();
+           foreach($serviceCategory as $category){
+           $serviceDetail= ServiceDetail::where('service_id',$category->id)->get();
+           foreach($serviceDetail as $service){
+               $user= User::where('id',$service->user_id)->get();
+               $custom[]= $user;
+            }
+           }
+          return $this->successWithData($custom,'Data fetched successfully.');
+          
+        }
 
 }

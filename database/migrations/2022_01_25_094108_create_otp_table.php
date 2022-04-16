@@ -19,7 +19,7 @@ class CreateOtpTable extends Migration
             $table->string('country_code');
             $table->string('country_short_code')->nullable();
             $table->string('otp');
-            $table->string('otp_for')->comment('signup','login','forgot');
+            $table->string('otp_for')->nullable()->comment('signup','login','forgot');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });

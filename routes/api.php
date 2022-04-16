@@ -32,7 +32,7 @@ Route::get('active-countries-list',[UserController::class, 'activeCountryList'])
 /**********(Service Provider User) Get Categories And Sub-Categories of Services ****************/
 Route::get('get-categories',[UserController::class, 'getcategories']);
 Route::post('get-sub-categories',[UserController::class, 'getSubcategories']);
-
+Route::post('search',[UserController::class, 'search']);
 //to show error when user not logged in --- used in middleware(Authenticate)
 Route::get('login-check',[UserController::class, 'loginCheck'])->name('login');
 
