@@ -17,18 +17,18 @@ class ServiceDetail extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id','servie_id','status','price_per_hour','price_per_day', 'price_per_month'
+        'user_id','service_id','status','price_per_hour','price_per_day', 'price_per_month'
     ];
 
     public function jsonData()
     {
         $json = [];
         $json['user_id'] = $this->user_id;
-        $json['servie_id'] = $this->servie_id;
-        $json['status'] = $this->status;
+        $json['service_id'] = $this->service_id;
         $json['price_per_hour'] = $this->price_per_hour;
         $json['price_per_day'] = $this->price_per_day;
         $json['price_per_month'] = $this->price_per_month;
+        $json['status'] = $this->status;
         return $json;
     }
 }

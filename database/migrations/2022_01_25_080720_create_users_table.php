@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('phone')->unique();
             $table->string('email')->unique();
             $table->date('dob')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->string('nationality')->nullable();
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
@@ -55,7 +55,7 @@ class CreateUsersTable extends Migration
             $table->integer('form_step')->default(1)->comment("0=>all form step completed, the value (1, 2 etc) stands for from no has to be submitted.");
             
             # socials
-            $table->integer('whatspp_no')->nullable();
+            $table->string('whatspp_no')->nullable();
             $table->string('snapchat_link')->nullable();
             $table->string('instagram_link')->nullable();
             $table->string('twitter_link')->nullable();

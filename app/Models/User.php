@@ -41,8 +41,19 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name','first_name','last_name','phone','email','dob','latitude','longitude','address','city','state','pincode','country','counry_code','country_short_code','spoken_language','other_spoken_language','primary_mode_of_transport','experience','travel_distance','earliest_start_date','aspire_to_achieve','hobbies','long_term_goal','goal','profile_image','cover_image','is_notification','role_id','status','created_by','email_verified_at','password','form_step','email_verified_token'
+        'name','first_name','last_name','nationality','phone','email','dob','business_name','latitude','longitude','address','city','state','pincode','country','counry_code','country_short_code','spoken_language','other_spoken_language','primary_mode_of_transport','experience','travel_distance','earliest_start_date','aspire_to_achieve','hobbies','long_term_goal','goal','profile_image','cover_image','is_notification','role_id','status','created_by','email_verified_at','password','form_step','email_verified_token'
     ];
+
+    public function education(){
+        return $this->hasOne(EducationDetail::class, 'user_id');
+    }
+    public function workexperience(){
+        return $this->hasOne(WorkExperience::class, 'user_id');
+    }
+    public function files()
+    {
+        return $this->hasOne(Files::class, 'created_by')->where('model_type','App/Models/User');
+    }
 
     /**
      * The attributes that should be hidden for arrays.
@@ -64,10 +75,60 @@ class User extends Authenticatable
     public function jsonData()
     {
         $json = [];
+        
+        $json['first_name']=$this->first_name;
+        $json['last_name']= $this->last_name;
         $json['email'] = $this->email;
-        $json['business_name']=$this->name;
-        $json['is_notification'] = $this->is_notification;
-        $json['form_step'] = $this->form_step;
+        $json['phone'] = $this->phone;
+        $json['dob'] = $this->dob??'';
+        if ($this->roles->first()->id == User::ROLE_CUSTOMER) {
+        $json['nationality'] = $this->nationality;
+        $json['address'] = $this->address;
+        }
+        if ($this->roles->first()->id == User::ROLE_SERVICE_PROVIDER) {
+       
+        $json['business_name']=$this->business_name??'';
+        }
         return $json;
     }
+
+    public function customerProfile(){
+        $json=[];
+        $json['id']=$this->id;
+        $json['first_name']=$this->first_name;
+        $json['last_name']= $this->last_name;
+        $json['dob'] = $this->dob??'';
+        $json['nationality'] = $this->nationality;
+        $json['address'] = $this->address;
+        $json['email'] = $this->email;
+        return $json;
+    }
+
+    public function serviceProviderProfile()
+    {
+        $json = [];
+        $json['email'] = $this->email;
+        $json['profile_image']= url('') . '/profile_image/' . $this->profile_image ?? '';
+        $json['video']=url('') . '/videos/' . $this->files->file_name ?? '';
+        $json['service_provider_type ']=$this->service_provider_type ;
+        $json['nationality']=$this->nationality;
+        $json['address']=$this->address;
+        $json['phone']=$this->phone;
+        $json['whatspp_no']=$this->whatspp_no;
+        $json['snapchat_link']=$this->snapchat_link;
+        $json['instagram_link']=$this->instagram_link;
+        $json['twitter_link']= $this->twitter_link;
+        $json['license_cr_no']= $this->license_cr_no;
+        $json['license_cr_photo']= $this->license_cr_photo;
+        $json['description']= $this->description;
+        $json['institute_name']= $this->education->institute_name;
+        $json['degree']= $this->education->degree;
+        $json['start_date']= $this->education->start_date;
+        $json['end_date']= $this->education->end_date;
+        $json['no_of_years']= $this->workexperience->no_of_years;
+        $json['brief_of_experience']= $this->workexperience->brief_of_experience;
+        return $json;
+
+    }
+    
 }
