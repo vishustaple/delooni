@@ -11,7 +11,7 @@ use App\Traits\togglestatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
-
+use Carbon\Carbon;
 class AdminController extends Controller
 {
     use ImageUpload;
@@ -136,5 +136,52 @@ class AdminController extends Controller
         $delete = Admin::where('id', $request->id)->delete();
         $data = Admin::orderBy('id', 'DESC')->where('role', 1)->paginate(15);
         return view('admin.staff.view', compact('data'))->render();
+    }
+
+    /**
+     * verify email 
+     * 
+     * 
+     */
+    public function VerifyEmail(request $r)
+    {
+    
+        $r->validate(
+            [
+                'token' => 'required'
+            ],
+        );
+        $token = $r->token;
+        
+        $tuser = User::where('email_verified_token', $token)->first();
+        if (empty($tuser)) {
+
+            $message = 'Your email is not verified';
+            return view ('mail.api-error-message',['message'=>$message]);
+        } else {
+            $updated = User::where('id', $tuser->id)->update(['email_verified' => User::USER_VERIFIED]);
+            
+            
+            if ($updated) {
+                $verified = User::where('id', $tuser->id)->update(
+                    ['email_verified_token'=> null,
+                     'email_verified_at'=>Carbon::now(),
+                    ]);
+            
+            } else {
+                $message = 'Your email is not verified';
+                return view ('mail.api-error-message',['message'=>$message]);
+            }
+            if ($updated && $verified) {
+                $message = 'Your email is successfully verified';
+                return view ('mail.api-success-message',['message'=>$message]);
+            } else {
+                return $this->error('Something went wrong');
+                $message ='Something went wrong';
+                 return view ('mail.api-error-message',compact($message));
+            }
+        }
+     
+      
     }
 }

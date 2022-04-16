@@ -19,6 +19,8 @@ class ServiceCategory extends Model
         'name','description','service_category_image','is_parent',
     ];
 
+    const IS_PARENT=0;
+
     public function jsonData()
     {
         $json = [];

@@ -22,35 +22,39 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-Route::post('send-otp',[UserController::class, 'sendOtp']);
-
-# ----  old ------------
+/********************************* General Api's ******************************/
 Route::post('register',[UserController::class, 'register']);
 Route::post('login',[UserController::class, 'login']);
-
 Route::post('forgot-password',[UserController::class, 'forgotPassword']);
-
+Route::post('send-otp',[UserController::class, 'sendOtp']);
 Route::post('verify-otp',[UserController::class, 'verifyOtp']);
-
+Route::get('active-countries-list',[UserController::class, 'activeCountryList']);
+/**********(Service Provider User) Get Categories And Sub-Categories of Services ****************/
+Route::get('get-categories',[UserController::class, 'getcategories']);
+Route::post('get-sub-categories',[UserController::class, 'getSubcategories']);
+Route::post('search',[UserController::class, 'search']);
 //to show error when user not logged in --- used in middleware(Authenticate)
 Route::get('login-check',[UserController::class, 'loginCheck'])->name('login');
 
 Route::middleware('auth:sanctum')->group( function () {
     Route::post('change-password',[UserController::class, 'changePassword']);
-    Route::get('accept-job', [ListController::class, 'acceptJob']);
 
-//invite    
-// Route::post('invite',[UC::class, 'invite']);
-// Route::post('update-profile', [UserController::class, 'updateProfile']);
-// //general
- Route::post('complete-profile',[UserController::class, 'completeProfile']);
- Route::get('ideal-scheduleList',[UserController::class, 'idealScheduleList']);
+/******************************* Customer User Api **********************************************/
+    Route::get('get-customer-profile',[UserController::class, 'getCustomerProfile']);
+    Route::post('update-customer-detail',[UserController::class, 'updateCustomerDetail']);
+    Route::post('contact-us',[UserController::class, 'contactUs']);
+    Route::post('report',[UserController::class, 'report']);
+    Route::post('user-rating',[UserController::class, 'userRating']);
+    Route::post('add-favourite-service',[UserController::class, 'addFavourite']);
+    Route::get('get-favourite-service',[UserController::class, 'getFavourite']);
+    Route::post('service-filteration',[UserController::class, 'servicesFilteration']);
+    
 
- Route::get('secondStepDefaultList', [ListController::class, 'secondStepDefaultList']);
- Route::get('getJobRequest', [ListController::class, 'getJobRequest']);
+/******************************* Service Provider User Api **********************************************/
+    Route::post('add-service-detail',[UserController::class, 'addServiceDetails']);
+    Route::post('complete-profile',[UserController::class, 'completeProfile']);
+    Route::post('update-sprovider-profile',[UserController::class, 'updateSpProfile']);
 });
 
 Route::resource('rolesPermission', RolesPermissionsController::class);
-// Route::resources('rolesPermission/create', RolesPermissionsController::class);
 

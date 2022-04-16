@@ -20,7 +20,8 @@ use App\Http\Controllers\admin\SubscriptionController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+//*****************************verify email*******************//
+Route::get('verify-email', [AdminController::class, 'VerifyEmail']);
 
 Route::get('/', [AdminController::class, 'Login']);
 Route::post('/login', [AdminController::class, 'Adminlogin']);
@@ -112,3 +113,5 @@ Route::resource('permissions', PermissionController::class);
 
 //***********************************************Role************************************************//
 Route::resource('roles', RolesController::class);
+
+
