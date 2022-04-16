@@ -17,14 +17,10 @@ class AdminController extends Controller
     use ImageUpload;
     use Statuscheck;
     use togglestatus;
-
-
-
-
     public function login(){
         return view('admin.login');
+        
     }
-    
     /**
      * Admin Login.
      *
@@ -32,7 +28,7 @@ class AdminController extends Controller
      * @return Login user
      */
     public function Adminlogin(Request $request)
-    { 
+    {
         if ($request->isMethod('post')) {
             $request->validate([
                 "email" => "required|email",
@@ -77,8 +73,7 @@ class AdminController extends Controller
         $admin = Admin::where('id', Auth::user()->id)->first();
         return view('admin.profile', compact('admin'));
     }
-
-
+    
     public function dashboard()
     {
         $loginUser = auth()->user();
@@ -91,7 +86,6 @@ class AdminController extends Controller
         $userModule = $loginUser->userModule;
         return view('admin.customer.dashboard', compact('userModule'));
     }
-
     public function fetchStaffList(request $request)
     {
         if ($request->ajax()) {

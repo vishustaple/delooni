@@ -11,6 +11,7 @@ use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\CustomerController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\SubscriptionController;
+use App\Http\Controllers\admin\ServiceProviderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,8 +24,8 @@ use App\Http\Controllers\admin\SubscriptionController;
 //*****************************verify email*******************//
 Route::get('verify-email', [AdminController::class, 'VerifyEmail']);
 
-Route::get('/', [AdminController::class, 'Login']);
-Route::post('/login', [AdminController::class, 'Adminlogin']);
+Route::get('/', [AdminController::class, 'login']);
+Route::post('/login', [AdminController::class, 'Adminlogin'])->name('login');
 Route::get('/forgot-password', [HospitalController::class, 'forgotpwdView'])->name('forgot');
 Route::post('/forgotpwd', [HospitalController::class, 'forgotPassword'])->name('forgotpwd');
 
@@ -115,3 +116,14 @@ Route::resource('permissions', PermissionController::class);
 Route::resource('roles', RolesController::class);
 
 
+/*********************************************Service Provider*******************************************************/
+Route::get('/serviceprovider', [ServiceProviderController::class, 'ViewServiceProvider'])->name('viewserviceprovider');
+Route::get('/formserviceprovider', [ServiceProviderController::class, 'addformServiceProvider'])->name('serviceproviderform');
+Route::post('/addserviceprovider', [ServiceProviderController::class, 'AddServiceProvider'])->name('provider.add');
+Route::post('/serviceprovider/togglestatus', [ServiceProviderController::class, 'ToggleProviderStatus'])->name('provider.status');
+Route::get('/viewserviceprovider/{id}', [ServiceProviderController::class, 'ViewServiceProviderData'])->name('provider.viewdata');
+Route::get('/serviceproviderback', [ServiceProviderController::class, 'ServiceProviderBack']);
+Route::get('/serviceprovider/search', [ServiceProviderController::class, 'filter'])->name('provider.search');
+Route::get('/serviceprovider/remove', [ServiceProviderController::class, 'ServiceProviderRemove'])->name('provider.remove');
+Route::get('/providerupdateform/{id}', [ServiceProviderController::class, 'UpdateForm'])->name('provider.updateform');
+Route::post('/updateproviderdata', [ServiceProviderController::class, 'UpdateProviderData'])->name('provider.updateproviderdata');
