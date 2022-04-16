@@ -18,5 +18,7 @@ class Files extends Model
     const TYPE_GOVERNMENT_ISSUEID = 6;
     const TYPE_PHYSICAL = 7;
     const TYPE_TB_RECORDS = 8;
+    const TYPE_VIDEO = 9;
+
 }
 
