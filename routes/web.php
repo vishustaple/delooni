@@ -127,3 +127,4 @@ Route::get('/serviceprovider/search', [ServiceProviderController::class, 'filter
 Route::get('/serviceprovider/remove', [ServiceProviderController::class, 'ServiceProviderRemove'])->name('provider.remove');
 Route::get('/providerupdateform/{id}', [ServiceProviderController::class, 'UpdateForm'])->name('provider.updateform');
 Route::post('/updateproviderdata', [ServiceProviderController::class, 'UpdateProviderData'])->name('provider.updateproviderdata');
+Route::get('/category/{id}', [ServiceProviderController::class, 'GetCategory'])->name('provider.category');

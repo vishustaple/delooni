@@ -49,6 +49,7 @@ class ServiceProviderRequest extends FormRequest
             'startdate' => 'required',
             'enddate' => 'required|after:startdate',
             'experience' => 'required|numeric',
+            'brief_of_experience'=>"required"
            
             
         ];

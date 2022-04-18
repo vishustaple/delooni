@@ -3,6 +3,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ServiceProvider;
+use App\Models\ServiceCategory;
 use App\Models\User;
 use App\Models\EducationDetail;
 use App\Models\WorkExperience;
@@ -14,6 +15,7 @@ use App\Http\Requests\ServiceProviderRequest;
 use App\Http\Requests\UpdateServiceProviderRequest;
 use App\Traits\ImageUpload;
 use App\Models\Files;
+use App\Models\Country;
 
 class ServiceProviderController extends Controller
 {
@@ -30,7 +32,7 @@ try{
                         ->orderBy('id', 'DESC')
                         ->paginate();
 
-                  
+           
         return view('admin.serviceprovider.create', compact('data'));
 }
 catch (\Throwable $th) {
@@ -46,7 +48,9 @@ catch (\Throwable $th) {
      * @return 
      */
     public function addformServiceProvider(){
-        return view('admin.serviceprovider.addform');
+        $categorynames = ServiceCategory::get();  
+        $getcountry=Country::get();
+        return view('admin.serviceprovider.addform',compact('categorynames','getcountry'));
     }
     
     /*
@@ -96,6 +100,7 @@ catch (\Throwable $th) {
         ]);
         $workexperiences = WorkExperience::create([
             "no_of_years"=>$request->experience,
+            "brief_of_experience"=>$request->brief_of_experience,
             "user_id" => $user,
         ]);
         return response()->json(redirect()->back()->with('success', 'New service provider is added Successfully'));
@@ -264,7 +269,18 @@ if($request->licensephoto)
         }
 
     }
-
+     /**
+     *  get category list
+     *
+     * @param 
+     * @return 
+     */
+    public function GetCategory($id){
+        $cat_id=$id;
+        $categorynames = ServiceCategory::where('is_parent','=',$cat_id)->get();
+        return response()->json($categorynames);
+    }
+    
         
 
         

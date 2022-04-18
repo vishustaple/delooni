@@ -46,8 +46,6 @@ $('#serviceform').on('click',function(e){
  }
 
 });
-
-
 });
 //add data of service provider 
 $(document).on("submit", "#createprovider", function(e){
@@ -248,6 +246,41 @@ $(document).on("click", "#serviceform", function(){
       console.log(error);
  }
 
+});
+});
+//ajax for subcategory
+$(document).on('change','#service_category_id',function(e){
+            //  alert();
+            var id = e.target.value;
+            console.log(id);
+            var url = '{{ route("provider.category", ":id") }}';
+             url = url.replace(':id', id );
+            //ajax
+            $.ajax({
+            type:'get',
+            url:url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                      },
+              success:function(response){
+              console.log(response);
+              var subcategories = ""; 
+              $.each(response, function (key, value) {                     
+                // alert(value.name);
+                // <select class="form-control select2" id="_service_category_id" name="_service_category_id"><option value="N/A" disabled selected="true">--Select category--</option>
+                subcategories += '<option class="form-drop-items" value='+value.id+'>'+value.name+'</option>'
+                // </select>;
+            });     
+              $("#subcategory").append(subcategories);
+              // $(".card-body").html(response);   
+                },
+
+              error:function(error){                                     
+                console.log(error);
+          }
 });
 });
 </script>
