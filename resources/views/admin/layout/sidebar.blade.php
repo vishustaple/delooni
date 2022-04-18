@@ -9,7 +9,7 @@
           <li class="nav-item">
           <a href="{{url('/admin/dashboard')}}" class="nav-link">
               <i class="fa fa-home nav-icon"></i>
-              <p>Home</p>
+              <p>Dashboard</p>
             </a>
           </li>
           <li class="nav-item">
@@ -21,6 +21,42 @@
         </ul>
       </li>
       <li class="nav-item">
+        <a href="{{url('/admin/customer')}}" class="nav-link">
+          <i class="fa fa-user-circle nav-icon"></i>
+          <p>
+            customer
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{url('/admin/category')}}" class="nav-link">
+        <i class="fa fa-building-o nav-icon"></i>
+          <p>
+            Service category
+          </p>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="{{url('/admin/services')}}" class="nav-link">
+        <i class="fa fa-wrench nav-icon"></i>
+          <p>
+            Services
+          </p>
+        </a>
+      </li>
+
+    <li class="nav-item">
+        <a href="{{url('/admin/subscription')}}" class="nav-link">
+        <i class="fa fa-rocket nav-icon"></i>
+          <p>
+            Subscription
+          </p>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <!-- <a href="{{url('/admin/user')}}" class="nav-link"> -->
         <a href="" class="nav-link">
           <i class="fa fa-user-circle nav-icon"></i>
           <p>Users</p>
