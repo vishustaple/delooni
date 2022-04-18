@@ -23,7 +23,9 @@
     <td>{{$key+1}}</td>
    <td>{{$value->category_name}}</td>
     <td>{{$value->description}}</td>
-    <td>{{$value->service_category_image}}</td>
+    <td>
+    <img src="{{env('APP_URL')}}/storage/app/public/images/{{$value->service_category_image}}" height="30px" width="30px">
+    </td>
     <td>@if($value->status==1)
     <button data-id="{{$value->id}}" class="disable_enable btn btn-success btn-xs" onclick="toggleDisableEnable(this)">Activate</button>
     @else
