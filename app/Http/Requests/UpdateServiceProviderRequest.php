@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ServiceProviderRequest extends FormRequest
+class UpdateServiceProviderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,13 +27,12 @@ class ServiceProviderRequest extends FormRequest
             'business_name'=>'required|max:100|regex:/^[a-zA-Z]+ [a-zA-Z]+$/',
             'firstname' => 'required|alpha|max:100',
             'lastname' => 'required|alpha|max:100',
-            'email' => 'required|unique:users',
+            'email' => 'required|email|unique:users,email,'.$this->id,
             'phone' => 'required',
-            'password'=>'required|min:6',
-            'confirm_password'=>'required|required_with:password|same:password|min:6',
+           
             'nationality'=>'required',
-            'img' => 'required|mimes:jpeg,bmp,png,jpg',
-            'video'=>'required|mimes:mp4',
+            'img' => $this->id== null?'required|mimes:jpeg,bmp,png,jpg':'',
+            'video'=>$this->id== null?'required|mimes:mp4':'',
             'nationality' => 'required',
             'Address' => 'required',
             'whatsappNumber' => 'required',
@@ -41,15 +40,14 @@ class ServiceProviderRequest extends FormRequest
             'instagram' => 'required',
             'twitter' => 'required',
             'licensenumber' => 'required|numeric',
-            'licensephoto' => 'required',
+            'licensephoto' => $this->id== null?'required':'',
             'dateofbirth' => 'required',
             'description' => 'required',
             'education' => 'required',
             'degree' => 'required',
             'startdate' => 'required',
-            'enddate' => 'required|after:startdate',
+            'enddate' => 'required',
             'experience' => 'required|numeric',
-           
             
         ];
     }

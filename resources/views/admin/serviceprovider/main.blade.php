@@ -137,42 +137,44 @@ document.querySelector("#search").addEventListener("keyup",(e)=>{
      });
 
 //to update user 
-// $(document).on('submit', '#update_user', function(e){
-//   e.preventDefault();
-//   $('#page-loader').show();
+$(document).on('submit', '#update_provider', function(e){
+  
+  e.preventDefault();
+  $('#page-loader').show();
 
-//   var formData = new FormData(this);
-//   $.ajax({
-//     url:'{{route("user.updateuserdata")}}',
-//     type:'post',
-//     dataType: "JSON",
-//     xhr: function() {
-//       myXhr = $.ajaxSettings.xhr();
-//       return myXhr;
-//     },
-//     cache: false,
-//     contentType: false,
-//     processData: false,
-//     data:formData,
-//     success:function(data)
-//     {
-//      fetch_data(1);
-//      $('.updatemodaluser').html(data);
-//      $('#page-loader').hide();
+  var formData = new FormData(this);
+  $.ajax({
+    url:'{{route("provider.updateproviderdata")}}',
+    type:'post',
+    dataType: "JSON",
+    xhr: function() {
+      myXhr = $.ajaxSettings.xhr();
+      return myXhr;
+    },
+    cache: false,
+    contentType: false,
+    processData: false,
+    data:formData,
+    success:function(data)
+    {
+    //  fetch_data(1);
+     location.reload();
+     //$('.updatemodaluser').html(data);
+     $('#page-loader').hide();
 
-//     },
-//     error:function(data){
+    },
+    error:function(data){
 
-//       console.log(data.responseJSON.errors);
-//       $.each(data.responseJSON.errors, function(id,msg){
-//         // console.log('ss'+id);
+      console.log(data.responseJSON.errors);
+      $.each(data.responseJSON.errors, function(id,msg){
+        // console.log('ss'+id);
 
-//         $('#error_'+id).html(msg);
-//       });
-//       $('#page-loader').hide();
-//     }
-//   });
-// });
+        $('#error_'+id).html(msg);
+      });
+      $('#page-loader').hide();
+    }
+  });
+});
 
 //to remove user 
 $(document).on('click','.remove',function(){
