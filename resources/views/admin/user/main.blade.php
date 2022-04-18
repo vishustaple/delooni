@@ -77,10 +77,6 @@ document.querySelector("#search").addEventListener("keyup",(e)=>{
   fetch_data(1);
      });
 
-
-
-
-
  //const base_url=$('meta[name="base-url"]').attr('content');
 
  //to add user call 

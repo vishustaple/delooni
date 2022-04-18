@@ -14,3 +14,5 @@ yarn-error.log
 /.idea
 /.vscode
 /public/file
+/public/profile_image
+/public/profile_video
