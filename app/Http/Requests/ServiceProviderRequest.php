@@ -47,7 +47,7 @@ class ServiceProviderRequest extends FormRequest
             'education' => 'required',
             'degree' => 'required',
             'startdate' => 'required',
-            'enddate' => 'required',
+            'enddate' => 'required|after:startdate',
             'experience' => 'required|numeric',
            
             
