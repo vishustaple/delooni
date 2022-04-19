@@ -20,14 +20,7 @@
           </li>
         </ul>
       </li>
-      <li class="nav-item">
-        <a href="{{url('/admin/customer')}}" class="nav-link">
-          <i class="fa fa-user-circle nav-icon"></i>
-          <p>
-            customer
-          </p>
-        </a>
-      </li>
+     
       <li class="nav-item">
         <a href="{{url('/admin/category')}}" class="nav-link">
         <i class="fa fa-building-o nav-icon"></i>
@@ -56,6 +49,16 @@
       </li>
 
       <li class="nav-item">
+        <a href="{{url('/admin/subscription')}}" class="nav-link">
+        <i class="fa fa-desktop nav-icon"></i>
+        <!-- <i class="fa fa-mobile nav-icon"></i> -->
+          <p>
+            Splash screen
+          </p>
+        </a>
+      </li>
+
+      <li class="nav-item">
         <!-- <a href="{{url('/admin/user')}}" class="nav-link"> -->
         <a href="" class="nav-link">
           <i class="fa fa-user-circle nav-icon"></i>
@@ -69,14 +72,22 @@
           <p>Users</p>
           <i class="right fa fa-angle-left"></i>
         </a>
-        <ul class="nav nav-treeview" style="display: {{ Request::routeIs('permissions.index')|| Request::routeIs('viewserviceprovider') ? 'block' : 'none' }}">
+        <ul class="nav nav-treeview" style="display: {{ Request::routeIs('customer')|| Request::routeIs('viewserviceprovider') ? 'block' : 'none' }}">
           <li class="nav-item">
-            <a href="{{route('permissions.index')}}" class="nav-link  {{ Request::routeIs('permissions.index') ? 'active' : '' }}">
-              <i class="fa fa-circle nav-icon"></i>
+            <a href="{{route('customer')}}" class="nav-link  {{ Request::routeIs('customer') ? 'active' : '' }}">
+              <i class="fa fa-user-circle nav-icon"></i>
               <p>Customers</p>
             </a>
           </li>
-          <li class="nav-item">
+      <!-- <li class="nav-item">
+        <a href="{{url('/admin/customer')}}" class="nav-link  {{ Request::routeIs('admin.customer') ? 'active' : '' }}">
+          <i class="fa fa-user-circle nav-icon"></i>
+          <p>
+            customer
+          </p>
+        </a>
+      </li> -->
+      <li class="nav-item">
             <a href="{{route('viewserviceprovider')}}" class="nav-link  {{ Request::routeIs('viewserviceprovider') ? 'active' : '' }}">
               <i class="fa fa-circle nav-icon"></i>
               <p>Service Providers</p>

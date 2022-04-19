@@ -4,6 +4,8 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ServiceCategory;
+use App\Traits\ImageUpload;
+
 
 class CategoryController extends Controller
 {
@@ -14,7 +16,7 @@ class CategoryController extends Controller
     * @return view detail of all category
   */
 public function categoryView(){
-      $data = ServiceCategory::select('*')->where('is_parent', 0)->orderBy('Id','DESC')->paginate();
+      $data = ServiceCategory::where('is_parent', 0)->orderBy('Id','DESC')->paginate();
       return view('admin.category.main', compact('data'));
     }
 
@@ -25,7 +27,7 @@ public function categoryView(){
     * @return store data in database
 */
 public function storecategory(Request $request){
-$validatedData = $request->validate([
+   $validatedData = $request->validate([
     'category_name' => 'required',
     'description' => 'required',
     'service_category_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
@@ -35,7 +37,7 @@ $validatedData = $request->validate([
  $insert->description = $request->description;
  $insert->service_category_image  = $request->file('service_category_image')->getClientOriginalName();
  $insert->path = $request->file('service_category_image')->store('/public/images');
-//  echo "<pre>"; var_dump($request->file('service_category_image')->store('/public/images'));die;
+//  $insert->service_category_image  = $this->uploadImage($request->service_category_image, 'profile_image');
  $insert->save();
  return response()->json(redirect()->back()->with('success','Category Add Successfully'));
 }

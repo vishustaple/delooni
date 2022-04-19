@@ -189,13 +189,13 @@ catch (\Throwable $th) {
      * @param    
      * @return  update form 
      */
-    public function UpdateForm($id){
+     public function UpdateForm($id){
        $data=User::select('*')->where('id', '=', $id)->first();
        $geteducation=EducationDetail::select('*')->where('user_id', '=', $id)->first();
        $getwork=WorkExperience::select('*')->where('user_id', '=', $id)->first();
         return view('admin.serviceprovider.update',compact('data','getwork','geteducation'));
 
-        }
+    }
 
         /**
          *  insert updated service providerdata

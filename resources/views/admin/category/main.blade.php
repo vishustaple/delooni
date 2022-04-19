@@ -45,6 +45,7 @@
       </div>
 <script>
 $("#add_category").on('submit', function (e){
+
      e.preventDefault();
      var data = new FormData(this);
      console.log(data);
@@ -61,7 +62,7 @@ $("#add_category").on('submit', function (e){
      },
     data:data,
     success:function(data){
-   location.reload();
+    location.reload();
     $("body").removeClass("modal-open");
      },
   error:function(data){
