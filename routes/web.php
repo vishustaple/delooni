@@ -27,8 +27,10 @@ Route::get('verify-email', [AdminController::class, 'VerifyEmail']);
 
 Route::get('/', [AdminController::class, 'login']);
 Route::post('/login', [AdminController::class, 'Adminlogin'])->name('login');
-Route::get('/forgot-password', [HospitalController::class, 'forgotpwdView'])->name('forgot');
-Route::post('/forgotpwd', [HospitalController::class, 'forgotPassword'])->name('forgotpwd');
+Route::get('/forgot-password', [AdminController::class, 'forgotpwdView'])->name('forgot');
+Route::post('/forgotpwd', [AdminController::class, 'forgotPassword'])->name('forgotpwd');
+Route::get('/resetpwd/{token}', [AdminController::class, 'resetPassword'])->name('resetpwd');
+Route::post('/updatepwd', [AdminController::class, 'updatePassword'])->name('updatepwd');
 
 Route::group(['prefix' => 'admin'], function () {
     Route::middleware([
@@ -117,12 +119,6 @@ Route::group(['prefix' => 'admin'], function () {
         return view('admin.user.includes.addform');
     });
 });
-
-//******************************************Permissions*********************************************//
-Route::resource('permissions', PermissionController::class);
-
-//***********************************************Role************************************************//
-Route::resource('roles', RolesController::class);
 
 
 /*********************************************Service Provider*******************************************************/
