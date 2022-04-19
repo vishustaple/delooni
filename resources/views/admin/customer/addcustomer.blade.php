@@ -1,3 +1,4 @@
+
 <form class="form-horizontal"  id="add_customers" method="post">
                       @csrf
                       <div class="form-group row">
@@ -56,14 +57,18 @@
                          </div>
                         </div>
                       </div>    
-                      <div class="form-group row">
-                        <label for="nationality" class="col-sm-3 col-form-label">Nationality :</label>
-                        <div class="col-sm-8">
-                          <input type="text" class="form-control" id="nationality" name="nationality" placeholder="Enter Nationality">
-                          <div class="error" id="error_nationality">
-                         </div>
-                        </div>
-                      </div>           
+               <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Nationality : </label>
+                          <div class="col-sm-8">
+                          <select class="form-control select2" id="nationality" name="nationality">
+                  <option value="N/A" disabled selected="true">--Select country--</option>
+                  @foreach($countries as $countrie)
+                      <option class="form-drop-items" value="{{$countrie->country_name}}">{{$countrie->country_name}}</option>
+                  @endforeach
+                  </select>
+                  <div class="error" id="error_country_name"></div>
+                  </div>
+                  </div>         
                       <div class="form-group row">
                         <div class="offset-sm-2 col-sm-10">
                           <button type="submit" class="btn btn-success">Submit</button>
@@ -71,3 +76,17 @@
                         </div>
                       </div>
                     </form>
+                    </div>
+ <script type="text/javascript"
+ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAd69fy-3SQFQiKECos32_6RICz0sa3ETQ&libraries=places">
+ </script>
+<script> 
+$(document).ready(function () {
+var autocomplete = new google.maps.places.Autocomplete($("#address")[0], {});
+google.maps.event.addListener(autocomplete, 'place_changed', function() {
+var place = autocomplete.getPlace();
+$('#latitude').val(place.geometry.location.lat());
+$('#longitude').val(place.geometry.location.lng());
+});
+});
+</script> 

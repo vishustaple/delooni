@@ -5,17 +5,17 @@
                 <ul class="nav nav-pills">
                 <li class="nav-item"><a class="nav-link active" style="cursor:pointer" 
                         data-toggle="modal" 
-                        data-target="#myModal">Add Service</a></li>
+                        data-target="#myModal">Add Splash Screen</a></li>
                    <!-- The Modal -->
                     <div class="modal" id="myModal"> 
                       <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                           <!-- Modal Header -->
                           <div class="modal-header">
-                            <h4 class="modal-title">Add Service</h4>
+                            <h4 class="modal-title">Add category</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                           </div>
-                          @include('admin.service.addservice')
+                            @include('admin.mainscreen.addscreen')
                           <!-- Modal body -->
                           <div class="modal-body">
                          
@@ -33,24 +33,27 @@
                   </li>
                 </ul>
               </div>
-              <div class="card-body">
+<div class="card" id="data">
+             <div class="card-body">
                 <div class="tab-content">
                   <div class="active tab-pane" id="view">
-                     @include('admin.service.view')
+                     @include('admin.mainscreen.view')
                   </div>
                   <!-- /.tab-pane -->
                 </div>
                 <!-- /.tab-content -->
               </div><!-- /.card-body -->
       </div>
-      <script>
-$("#add_service").on('submit', function (e){ 
+</div>
+<script>
+$("#add_image").on('submit', function (e){
+
      e.preventDefault();
      var data = new FormData(this);
      console.log(data);
      $.ajax({
      method:'post',
-     url:"{{route('service.add')}}",
+     url:"{{route('splash.screen.add')}}",
      cache: false,
      contentType: false,
      processData: false,
@@ -61,7 +64,7 @@ $("#add_service").on('submit', function (e){
      },
     data:data,
     success:function(data){
-   location.reload();
+    location.reload();
     $("body").removeClass("modal-open");
      },
   error:function(data){
@@ -72,63 +75,7 @@ $("#add_service").on('submit', function (e){
 }
 });
     
-}) 
-function toggleDisableEnable(e){
- var id = $(e).attr('data-id');
- $('#page-loader').show();
- $.ajax({
-      url:"{{route('service.status')}}",
-      data:{id:id},
-      dataType: "JSON",
-      success:function(data)
-      { 
-      // var page = $('#test').data('page');
-      $('#page-loader').hide();
-      location.reload();
-   
-      },
-     error:function(error){
-     $('#page-loader').hide();
-   }
- });
-}
-
-$(document).on('click','.remove',function(){
-  var id = $(this).attr('data-id');
-  swal({
-         title: "Oops....",
-         text: "Are you sure you want to delete category ?",
-         icon: "error",
-         buttons: [
-           'NO',
-           'YES'
-         ],
-       }).then(function(isConfirm) {
-         if (isConfirm) {
-  $('#page-loader').show();
-  $.ajax({
-  url:"{{route('service.delete')}}",
-  data:{id:id},
-  success:function(data)
-  {
-    swal({
-          position: 'top-end',
-          icon: 'success',
-          title: 'Remove Successfully',
-          showConfirmButton: false,
-          timer: 1500
-          })
-   location.reload();
-   $('#page-loader').hide();
-  },
-  error:function(error){
-    $('#page-loader').hide();
-  }
- });
- } else {
-}
-});
-});
+})  
 
 $(document).on('click', '.update', function(event){
   $('#page-loader').show();
@@ -139,7 +86,7 @@ $(document).on('click', '.update', function(event){
   });
   var id = $(this).attr('data-id');
   $.ajax({
-        url:'{{route("service.view.update")}}',
+        url:'{{route("screen.view.update")}}',
         data:{id:id},
         success:function(data)
   {
@@ -155,13 +102,13 @@ $(document).on('click', '.update', function(event){
   }
  });
 });
-$(document).on('submit','#update_service', function(e){
+$(document).on('submit','#update_screen', function(e){
   e.preventDefault();
   var data = new FormData(this);
   console.log(data);
   $.ajax({
     type:'post',
-    url:"{{route('service.update')}}",
+    url:"{{route('screen.update')}}",
     cache:false,
     contentType: false,
     processData: false,
@@ -185,15 +132,52 @@ $(document).on('submit','#update_service', function(e){
         });
       });
 
+$(document).on('click','.remove',function(){
+  var id = $(this).attr('data-id');
+  swal({
+         title: "Oops....",
+         text: "Are you sure you want to delete Splash screen ?",
+         icon: "error",
+         buttons: [
+           'NO',
+           'YES'
+         ],
+       }).then(function(isConfirm) {
+         if (isConfirm) {
+  $('#page-loader').show();
+  $.ajax({
+  url:"{{route('splash.screen.delete')}}",
+  data:{id:id},
+  success:function(data)
+  {
+    swal({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Remove Successfully',
+          showConfirmButton: false,
+          timer: 1500
+          })
+   location.reload();
+   $('#page-loader').hide();
+  },
+  error:function(error){
+    $('#page-loader').hide();
+  }
+ });
+ } else {
+}
+});
+});
+
 $(document).on("keyup","#search",(e)=>{
-fetch_data(1);
+    fetch_data(1);
 });
 
 function fetch_data(page)
 {
     $('#page-loader').show();
     let value=document.querySelector("#search").value;
-    var make_url="{{route('search')}}";
+    var make_url="{{route('splash.screen.search')}}";
     var data={'page':page,'search':value};
     $.ajax({
         url:make_url,
@@ -215,35 +199,5 @@ $(document).on('click', '.pagination a', function(event){
  fetch_data(page);
  
 });
-//ajax for subcategory
-$(document).on('change','#service_category_id',function(e){
-            var id = e.target.value;
-            console.log(id);
-            var url = '{{ route("provider.category", ":id") }}';
-             url = url.replace(':id', id );
-            //ajax
-            $.ajax({
-            type:'get',
-            url:url,
-            cache: false,
-            contentType: false,
-            processData: false,
-            headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                      },
-              success:function(response){
-              console.log(response);
-              var subcategories = '<select class="form-control select2" id="_service_category_id" name="_service_category_id"><option value="N/A" disabled selected="true">--Select category--</option>';
-              $.each(response, function (key, value) {
-                subcategories += '<option class="form-drop-items" value='+value.id+'>'+value.name+'</option>';
-              });
-              subcategories += '</select>';
-              $("#subcategory").html(subcategories);
-                },
-              error:function(error){
-                console.log(error);
-          }
-});
-});
 </script>
-@endsection
+ @endsection

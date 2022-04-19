@@ -12,6 +12,7 @@ use App\Http\Controllers\admin\CustomerController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\SubscriptionController;
 use App\Http\Controllers\admin\ServiceProviderController;
+use App\Http\Controllers\admin\MainScreenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,7 +93,15 @@ Route::group(['prefix' => 'admin'], function () {
       Route::get('/service/view/{id}', [ServiceController::class, 'detailView_service'])->name('service.view');
       Route::get('/search', [ServiceController::class, 'searchservice'])->name('search');
       Route::get('/service/back',[ServiceController::class,'serviceBack']);
+      Route::get('/provider/category/{id}', [ServiceController::class, 'subcategory'])->name('provider.category');
 
+      //******************************************Admin Manage Main screen*********************************************//
+      Route::get('/splashscreen', [MainScreenController::class, 'splash_screen_View'])->name('splashscreen');
+      Route::post('/splash/screen/add', [MainScreenController::class, 'storeScreen'])->name('splash.screen.add');
+      Route::get('/screen/view/update', [MainScreenController::class, 'view_update'])->name('screen.view.update');
+      Route::get('/splash/screen/delete', [MainScreenController::class, 'deletescreen'])->name('splash.screen.delete');
+      Route::post('/screen/update', [MainScreenController::class, 'update_screen_image'])->name('screen.update');
+      Route::get('/splash/screen/search', [MainScreenController::class, 'searchscreen'])->name('splash.screen.search');
 
       //******************************************Admin Manage Subscription*********************************************//
       Route::get('/subscription', [SubscriptionController::class, 'subscriptionView'])->name('subscription');

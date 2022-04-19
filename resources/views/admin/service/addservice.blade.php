@@ -54,12 +54,14 @@
                         <select class="form-control select2" id="service_category_id" name="service_category_id">
                         <option value="N/A" disabled selected="true">--Select category--</option>
                        @foreach($categorynames as $categoryname)
-                      <option class="form-drop-items" value="{{$categoryname->id}}">{{$categoryname->category_name}}</option>
+                      <option class="form-drop-items" value="{{$categoryname->id}}">{{$categoryname->name}}</option>
                         @endforeach
                        </select>
+                       <div class="error" id="error_service_category_id">
+                        </div>
                         </div>
                       </div> 
-                   <div class="form-group row">
+                  <div class="form-group row">
                         <div class="offset-sm-2 col-sm-10">
                           <button type="submit" class="btn btn-success">Submit</button>
                           <button type="reset" class="btn btn-danger">Reset</button>

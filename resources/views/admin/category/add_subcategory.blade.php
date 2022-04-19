@@ -1,10 +1,10 @@
 <form class="form-horizontal"  id="add_subcategory"   enctype="multipart/form-data">
                       @csrf
                       <div class="form-group row">
-                        <label for="category_name" class="col-sm-3 col-form-label">Sub Category Name :</label>
+                        <label for="name" class="col-sm-3 col-form-label">Sub Category Name :</label>
                         <div class="col-sm-8">
-                          <input type="text" class="form-control" id="category_name" name="category_name" placeholder="Enter Sub category name">
-                          <div class="error" id="error_category_name">
+                          <input type="text" class="form-control" id="name" name="name" placeholder="Enter Sub category name">
+                          <div class="error" id="error_name">
                          </div>
                         </div>
                       </div>
@@ -21,7 +21,7 @@
                           <div class="col-sm-8">
                           <select class="form-control" id="is_parent" name="is_parent">
                   @foreach($getnames as $getname)
-                      <option class="form-drop-items" value="{{$getname->id}}">{{$getname->category_name}}</option>
+                      <option class="form-drop-items" value="{{$getname->id}}">{{$getname->name}}</option>
                  @endforeach
                </select>
                  </div>
