@@ -16,6 +16,8 @@ use App\Http\Requests\UpdateServiceProviderRequest;
 use App\Traits\ImageUpload;
 use App\Models\Files;
 use App\Models\Country;
+use App\Models\ServiceDetail;
+use App\Models\Services;
 
 class ServiceProviderController extends Controller
 {
@@ -48,9 +50,10 @@ catch (\Throwable $th) {
      * @return 
      */
     public function addformServiceProvider(){
-        $categorynames = ServiceCategory::get();  
+        $categorynames = ServiceCategory::where('is_parent','+','0')->get();  
         $getcountry=Country::get();
-        return view('admin.serviceprovider.addform',compact('categorynames','getcountry'));
+        $getservices=Services::get();
+        return view('admin.serviceprovider.addform',compact('categorynames','getcountry','getservices'));
     }
     
     /*
@@ -62,14 +65,14 @@ catch (\Throwable $th) {
        
     public function AddServiceProvider(ServiceProviderRequest $request){
         try{ 
-    $serviceprovideruser =  User::create([
+        $serviceprovideruser =  User::create([
         "business_name" => $request->business_name,
         "first_name" => $request->firstname,
         "last_name" => $request->lastname,
         "email" => $request->email,
         "password" => Hash::make($request->password),
         "nationality" =>$request->nationality,
-        "address" => $request->Address,
+        "address" => $request->address,
         "phone" => $request->phone,
         "whatsapp_no" => $request->whatsappNumber,
         "snapchat_link" => $request->snapchat,
@@ -101,6 +104,14 @@ catch (\Throwable $th) {
         $workexperiences = WorkExperience::create([
             "no_of_years"=>$request->experience,
             "brief_of_experience"=>$request->brief_of_experience,
+            "user_id" => $user,
+        ]);
+        $servicedetail = ServiceDetail::create([
+            "service_id	"=>$request->service_category_id,
+            "service_cat_id"=>$request->service_category_id,
+            "price_per_hour"=>$request->price_per_hour,
+            "price_per_day"=>$request->price_per_day,
+            "price_per_month"=>$request->price_per_month,
             "user_id" => $user,
         ]);
         return response()->json(redirect()->back()->with('success', 'New service provider is added Successfully'));
@@ -198,6 +209,7 @@ catch (\Throwable $th) {
        $data=User::select('*')->where('id', '=', $id)->first();
        $geteducation=EducationDetail::select('*')->where('user_id', '=', $id)->first();
        $getwork=WorkExperience::select('*')->where('user_id', '=', $id)->first();
+    //    $getwork=WorkExperience::select('*')->where('user_id', '=', $id)->first();
         return view('admin.serviceprovider.update',compact('data','getwork','geteducation'));
 
         }

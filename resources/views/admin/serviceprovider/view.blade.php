@@ -35,25 +35,7 @@
             <a href="{{route('provider.viewdata',$value->id)}}" target="_blank" class="btn btn-outline-success btn-xs view">View</a>
             <!-- <a class="btn btn-outline-success btn-xs update" style="cursor:pointer;" id="updateserviceprovider" >Update</a> -->
             <button style="cursor:pointer"  class="btn btn-outline-success btn-xs updateserviceprovider" data-userid="{{$value->id}}" >Update</button>
-            <!-- The Modal -->
-            <!-- <div class="modal " id="myModal1">
-              <div class="modal-dialog modal-lg">
-                <div class="modal-content"> -->
-
-                  <!-- Modal Header -->
-                  <!-- <div class="modal-header">
-                    <h4 class="modal-title">Update</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  </div> -->
-
-                  <!-- Modal body -->
-                  <!-- <div class="modal-body updatemodaluser">
-
-                  </div>
-
-                </div>
-              </div>
-            </div> -->
+          
             <button data-id="{{$value->id}}" class="btn btn-danger btn-xs remove">Remove</button>
           </td>
         </tr>

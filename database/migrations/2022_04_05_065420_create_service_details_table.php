@@ -22,6 +22,7 @@ class CreateServiceDetailsTable extends Migration
             $table->unsignedBigInteger('service_id');
             $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');
 
+            $table->integer("service_cat_id")->default(null);
             $table->double('price_per_hour')->default(0.00);
             $table->double('price_per_day')->default(0.00);
             $table->double('price_per_month')->default(0.00);

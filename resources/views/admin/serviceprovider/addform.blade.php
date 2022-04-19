@@ -97,7 +97,7 @@
                 <select class="form-control select2" id="nationality" name="nationality">
                 <option value="N/A" disabled selected="true">--Select Nationality--</option>
                 @foreach($getcountry as $getcountries)
-                <option class="form-drop-items" value="{{$getcountries->id}}">{{$getcountries->country_name}}</option>
+                <option class="form-drop-items" value="{{$getcountries->id}}" data-iconurl="{{URL::to('/')}}/flag/{{$getcountries->flag}}">{{$getcountries->country_name}}</option>
                 @endforeach
                 </select>
                 <div class="error" id="error_nationality">
@@ -108,8 +108,8 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="Address" class="col-sm-6 col-form-label">Address</label>
-                <input type="text" class="form-control" id="Address" name="Address" placeholder="Enter Your Address ">
-                <div class="error" id="error_Address">
+                <input type="text" class="form-control" id="address" name="address" placeholder="Enter Your Address ">
+                <div class="error" id="error_address">
                 </div>
             </div>
         </div>
@@ -211,6 +211,19 @@
                 </div> 
                 <div class="col-md-6">
                     <div class="form-group">
+                        <label for="service_category_id" class="col-md-6 col-form-label">Select Services :</label>
+                        <select class="form-control select2" id="service_services" name="service_services">
+                        <option value="N/A" disabled selected="true">--Select Services--</option>
+                       @foreach($getservices as $getservice)
+                      <option class="form-drop-items" value="{{$getservice->id}}">{{$getservice->name}}</option>
+                        @endforeach
+                       </select>
+                        <div class="error" id="error_service_services">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
                         <label for="service_category_id" class="col-md-6 col-form-label">Select category :</label>
                         <select class="form-control select2" id="service_category_id" name="service_category_id">
                         <option value="N/A" disabled selected="true">--Select category--</option>
@@ -230,7 +243,7 @@
                         </select>
                         <div class="error" id="error_subcategory">
                         </div>
-                    </div>
+                    </div>   
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
