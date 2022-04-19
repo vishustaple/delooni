@@ -106,14 +106,29 @@ catch (\Throwable $th) {
             "brief_of_experience"=>$request->brief_of_experience,
             "user_id" => $user,
         ]);
-        $servicedetail = ServiceDetail::create([
-            "service_id	"=>$request->service_category_id,
-            "service_cat_id"=>$request->service_category_id,
-            "price_per_hour"=>$request->price_per_hour,
-            "price_per_day"=>$request->price_per_day,
-            "price_per_month"=>$request->price_per_month,
-            "user_id" => $user,
-        ]);
+        $insert = new ServiceDetail;
+        $insert->service_id=$request->service_category_id;
+        $insert->service_cat_id=$request->service_category_id;
+        $insert->price_per_hour=$request->service_category_id;
+        $insert->price_per_day=$request->service_category_id;
+        $insert->price_per_month=$request->service_category_id;
+        $insert->user_id=$request->service_category_id;
+        $insert->save();
+        // if(){
+
+
+        // }
+
+        // $servicedetail = ServiceDetail::find($request->id);
+        // dd($servicedetail);
+        // create([
+        //     "service_id	"=>$request->service_category_id,
+        //     "service_cat_id"=>$request->service_category_id,
+        //     "price_per_hour"=>$request->price_per_hour,
+        //     "price_per_day"=>$request->price_per_day,
+        //     "price_per_month"=>$request->price_per_month,
+        //     "user_id" => $user,
+        // ]);
         return response()->json(redirect()->back()->with('success', 'New service provider is added Successfully'));
     }
     }
