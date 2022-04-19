@@ -31,7 +31,7 @@
                         <select class="form-control select2" id="service_category_id" name="service_category_id">
                         <option value="N/A" disabled selected="true">--Select category--</option>
                        @foreach($categorynames as $categoryname)
-                      <option class="form-drop-items" value="{{$categoryname->id}}">{{$categoryname->category_name}}</option>
+                      <option class="form-drop-items" value="{{$categoryname->id}}">{{$categoryname->name}}</option>
                         @endforeach
                        </select>
                         </div>

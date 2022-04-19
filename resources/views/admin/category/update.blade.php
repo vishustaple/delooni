@@ -2,9 +2,9 @@
                       @csrf
                       <input type="hidden" name="id"  id="id"  value="{{$categoryData->id}}"> 
                       <div class="form-group row">
-                        <label for="category_name" class="col-sm-3 col-form-label">Name :</label>
+                        <label for="name" class="col-sm-3 col-form-label">Name :</label>
                         <div class="col-sm-8">
-                          <input type="text" class="form-control" id="category_name" value="{{$categoryData->category_name}}"  name="category_name">
+                          <input type="text" class="form-control" id="name" value="{{$categoryData->name}}"  name="name">
                           <div class="error" id="error_name">
                          </div>
                         </div>

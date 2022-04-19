@@ -49,7 +49,7 @@
       </li>
 
       <li class="nav-item">
-        <a href="{{url('/admin/subscription')}}" class="nav-link">
+        <a href="{{url('/admin/splashscreen')}}" class="nav-link">
         <i class="fa fa-desktop nav-icon"></i>
         <!-- <i class="fa fa-mobile nav-icon"></i> -->
           <p>

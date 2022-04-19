@@ -19,6 +19,7 @@ class CreateServicesTable extends Migration
             $table->longtext('description')->nullable();
             $table->integer('status')->default(1)->comment("1=> active, 2=>inactive");
             $table->integer('service_image')->nullable();
+            $table->integer('path')->nullable();
             $table->float('price_per_hour')->nullable();
             $table->float('price_per_day')->nullable();
             $table->float('price_per_month')->nullable();

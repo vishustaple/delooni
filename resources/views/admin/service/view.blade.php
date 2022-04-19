@@ -27,11 +27,13 @@
     <td>{{$key+1}}</td>
     <td>{{$value->name}}</td>
     <td>{{$value->description}}</td>
-    <td>{{$value->service_image}}</td>
-    <td>{{$value->price_per_hour}}</td>
+    <td>
+   <img src="{{env('APP_URL')}}public/profile_image/{{$value->service_image}}" height="60px" width="60px">
+    </td>
+   <td>{{$value->price_per_hour}}</td>
     <td>{{$value->price_per_day}}</td>
     <td>{{$value->price_per_month}}</td>
-    <td>{{$value->category_name}}</td>
+    <td>{{$value->name}}</td>
     <td>@if($value->status==1)
     <button data-id="{{$value->id}}" class="disable_enable btn btn-success btn-xs" onclick="toggleDisableEnable(this)">Activate</button>
     @else

@@ -9,9 +9,9 @@
                       @csrf
                       <input type="hidden" name="id"  id="id"  value=""> 
                       <div class="form-group row">
-                        <label for="category_name" class="col-sm-3 col-form-label">Name :</label>
+                        <label for="name" class="col-sm-3 col-form-label">Name :</label>
                         <div class="col-sm-8">
-                          <input type="text" class="form-control" id="category_name" value="{{$data->category_name}}"  name="category_name"  readonly>
+                          <input type="text" class="form-control" id="name" value="{{$data->name}}"  name="name"  readonly>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -68,10 +68,12 @@
     @endif
     <tbody>
       @forelse($getdatas as $key=>$value)
-      <tr>
+        <tr>
         <td>{{$key+1}}</td>
-       <td>{{$value->category_name}}</td>
-        <td>{{$value->service_category_image}}</td>
+        <td>{{$value->name}}</td>
+        <td>
+        <img src="{{env('APP_URL')}}public/profile_image/{{$value->service_category_image}}" height="60px" width="60px">
+        </td>
         <td>{{$value->is_parent}}</td>
         <td>@if($value->status==1)
     <button data-id="{{$value->id}}" class="disable_enable btn btn-success btn-xs" onclick="toggleDisableEnable(this)">Activate</button>
