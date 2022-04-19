@@ -17,7 +17,7 @@ class ServiceDetail extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id','service_id','status','price_per_hour','price_per_day', 'price_per_month'
+        'user_id','service_id','status','price_per_hour','price_per_day', 'price_per_month','service_cat_id'
     ];
 
     public function jsonData()

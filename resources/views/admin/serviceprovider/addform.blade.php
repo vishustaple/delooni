@@ -4,6 +4,9 @@
     @csrf
 
     <div class="row">
+        <div class="col-md-12 mb-1">
+            <h3>General Details</h3>
+        </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label for="Business_name" class="col-sm-6 col-form-label">Business Name</label>
@@ -91,8 +94,12 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="Nationality" class="col-sm-6 col-form-label">Nationality</label>
-                <input type="text" class="form-control" id="nationality" name="nationality"
-                    placeholder="Enter Your Nationality ">
+                <select class="form-control select2" id="nationality" name="nationality">
+                <option value="N/A" disabled selected="true">--Select Nationality--</option>
+                @foreach($getcountry as $getcountries)
+                <option class="form-drop-items" value="{{$getcountries->id}}" data-iconurl="{{URL::to('/')}}/flag/{{$getcountries->flag}}">{{$getcountries->country_name}}</option>
+                @endforeach
+                </select>
                 <div class="error" id="error_nationality">
                 </div>
             </div>
@@ -101,8 +108,8 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="Address" class="col-sm-6 col-form-label">Address</label>
-                <input type="text" class="form-control" id="Address" name="Address" placeholder="Enter Your Address ">
-                <div class="error" id="error_Address">
+                <input type="text" class="form-control" id="address" name="address" placeholder="Enter Your Address ">
+                <div class="error" id="error_address">
                 </div>
             </div>
         </div>
@@ -197,41 +204,118 @@
                 </div>
             </div>
         </div>
-        <!-- <P>Education Details</p> -->
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="education">Enter College/School Name:</label>
-                <input type="text" class="form-control" id="education" name="education"
-                    placeholder="Enter Your College/School Name ">
-                <div class="error" id="error_education">
+        <div class="col-md-12 my-5">
+            <div class="row">
+                <div class="col-md-12 mb-2">
+                   <h3>Service Details</h3>
+                </div> 
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="service_category_id" class="col-md-6 col-form-label">Select Services :</label>
+                        <select class="form-control select2" id="service_services" name="service_services">
+                        <option value="N/A" disabled selected="true">--Select Services--</option>
+                       @foreach($getservices as $getservice)
+                      <option class="form-drop-items" value="{{$getservice->id}}">{{$getservice->name}}</option>
+                        @endforeach
+                       </select>
+                        <div class="error" id="error_service_services">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="service_category_id" class="col-md-6 col-form-label">Select category :</label>
+                        <select class="form-control select2" id="service_category_id" name="service_category_id">
+                        <option value="N/A" disabled selected="true">--Select category--</option>
+                       @foreach($categorynames as $categoryname)
+                      <option class="form-drop-items" value="{{$categoryname->id}}">{{$categoryname->name}}</option>
+                        @endforeach
+                       </select>
+                        <div class="error" id="error_service_category_id">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="subcategory" class="col-md-6 col-form-label">Select Sub category :</label>
+                        <select class="form-control select2" id="subcategory" name="subcategory">
+                        <option value="N/A" disabled selected="true">--Select sub category--</option>
+                        </select>
+                        <div class="error" id="error_subcategory">
+                        </div>
+                    </div>   
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                    <label for="price_per_hour" >Service Price(/hours) :</label>
+                    <input type="text" class="form-control" id="price_per_hour" name="price_per_hour" placeholder="Service Price per hour">
+                    <div class="error" id="error_price_per_hour">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                    <label for="price_per_day" >Service Price(/days) :</label>
+                    <input type="text" class="form-control" id="price_per_day" name="price_per_day" placeholder="Service Price per day">
+                          <div class="error" id="error_price_per_day">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                    <label for="price_per_month" >Service Price(/month) :</label>
+                    <input type="text" class="form-control" id="price_per_month" name="price_per_month" placeholder="Service Price per month">
+                          <div class="error" id="error_price_per_month">
+                         </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="degree">Degree:</label>
-                <input type="text" class="form-control" id="degree" name="degree"
-                    placeholder="Enter Your College/School Name ">
-                <div class="error" id="error_degree">
+        <div class="col-md-12 mb-5">
+            <div class="row">
+                <div class="col-md-12 mb-2">
+                   <h3>Education Details</h3>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="education">Enter College/School Name:</label>
+                        <input type="text" class="form-control" id="education" name="education"
+                            placeholder="Enter Your College/School Name ">
+                        <div class="error" id="error_education">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="degree">Degree:</label>
+                        <input type="text" class="form-control" id="degree" name="degree"
+                            placeholder="Enter Your College/School Name ">
+                        <div class="error" id="error_degree">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="startdate">Start Date:</label>
+                        <input type="date" class="form-control" id="startdate" name="startdate"
+                            placeholder="Enter Your Start Date ">
+                        <div class="error" id="error_startdate">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="enddate">End Date:</label>
+                        <input type="date" class="form-control" id="enddate" name="enddate" placeholder="Enter Your End Date ">
+                        <div class="error" id="error_enddate">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="startdate">Start Date:</label>
-                <input type="date" class="form-control" id="startdate" name="startdate"
-                    placeholder="Enter Your Start Date ">
-                <div class="error" id="error_startdate">
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="enddate">End Date:</label>
-                <input type="date" class="form-control" id="enddate" name="enddate" placeholder="Enter Your End Date ">
-                <div class="error" id="error_enddate">
-                </div>
-            </div>
+        <div class="col-md-12 mb-2">
+            <h3>Work Experience</h3>
         </div>
         <div class="col-md-6">
             <div class="form-group">
@@ -242,14 +326,22 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="brief_of_experience">Brief Of Experience:</label>
+                <textarea id="brief_of_experience" name="brief_of_experience" rows="4" cols="50" class="form-control" placeholder="Enter Your brief of Experience ">
+                </textarea>
+                <div class="error" id="error_brief_of_experience">
+                </div>
+            </div>
+        </div>
 </div>
 
 
-    <div class="form-group row">
-        <div class="offset-sm-2 col-sm-10">
+    <div class="form-group row mt-4">
+        <div class="col-sm-10">
             <button type="submit" class="btn btn-success">Submit</button>
             <button type="reset" class="btn btn-danger">Reset</button>
         </div>
     </div>
 </form>
-

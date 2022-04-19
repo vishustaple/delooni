@@ -43,7 +43,6 @@
                         <div class="col-sm-10">
                           <img src="{{URL::to('/')}}/profile_image/{{$data->profile_image}}">
                           <input type="file" class="form-control" id="img" name="img" accept="image/*">
-                         <!-- <input type="text" class="form-control" id="uploadimage" value="{{$data->profile_image}}" readonly>  -->
                          <div class="error" id="error_img"></div>
                         </div>
                       </div>
@@ -53,7 +52,7 @@
                         <video width="320" height="240" controls>
                            <source src="{{URL::to('/')}}/profile_video/{{$data->profile_video}}" type="video/mp4"></video>
                            <input type="file" class="form-control" id="video" name="video" accept="video/*">
-                       <!-- <input type="text" class="form-control" id="uploadedvideo" value="{{$data->profile_video}}" readonly> -->
+
                        <div class="error" id="error_video"></div>
                       </div>
                       </div>                      

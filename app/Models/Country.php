@@ -9,7 +9,10 @@ use Illuminate\Support\Facades\Config;
 class Country extends Model
 {
     use HasFactory;
-
+    
+    protected $fillable = [
+        'id','country_name','short_name','currency_name','country_code','usd_perc','symbol','flag'
+    ];
     const STATUS_ACTIVE=1;
     public function jsonData(){
         $json = [];
