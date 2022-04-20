@@ -13,6 +13,7 @@ use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\SubscriptionController;
 use App\Http\Controllers\admin\ServiceProviderController;
 use App\Http\Controllers\admin\MainScreenController;
+use App\Http\Controllers\admin\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -104,6 +105,18 @@ Route::group(['prefix' => 'admin'], function () {
       Route::get('/splash/screen/delete', [MainScreenController::class, 'deletescreen'])->name('splash.screen.delete');
       Route::post('/screen/update', [MainScreenController::class, 'update_screen_image'])->name('screen.update');
       Route::get('/splash/screen/search', [MainScreenController::class, 'searchscreen'])->name('splash.screen.search');
+
+      //******************************************Admin export excel file of Report*********************************************//
+      Route::get('/report', [ReportController::class, 'report_View'])->name('report');
+      Route::get('/reportexport',[ReportController::class,'reportexport'])->name('reportexport');
+
+
+      //******************************************Admin View Query*********************************************//
+      Route::get('/query', [ReportController::class, 'query_View'])->name('query');
+      Route::get('/query/delete', [ReportController::class, 'delete_query'])->name('query.delete');
+      Route::get('/query/search', [ReportController::class, 'search_query'])->name('query.search');
+      Route::get('/query/view/{id}', [ReportController::class, 'detailView_query'])->name('query.view');
+      Route::get('/query/back',[ReportController::class,'queryBack']);
 
       //******************************************Admin Manage Subscription*********************************************//
       Route::get('/subscription', [SubscriptionController::class, 'subscriptionView'])->name('subscription');

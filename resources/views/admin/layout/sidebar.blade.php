@@ -15,7 +15,7 @@
           <li class="nav-item">
             <a href="{{url('/admin/profile')}}" class="nav-link">
               <i class="fa fa-id-badge nav-icon"></i>
-              <p>Profile</p>
+              <p>Account</p>
             </a>
           </li>
         </ul>
@@ -58,13 +58,6 @@
         </a>
       </li>
 
-      <li class="nav-item">
-        <!-- <a href="{{url('/admin/user')}}" class="nav-link"> -->
-        <a href="" class="nav-link">
-          <i class="fa fa-user-circle nav-icon"></i>
-          <p>Users</p>
-        </a>
-      </li>
      <!--Users Start Here-->
      <li class="nav-item">
         <a href="javascript:void(0)" class="nav-link d-flex">
@@ -97,10 +90,18 @@
       </li>
 
       <li class="nav-item">
-        <a href="{{url('/admin/splashscreen')}}" class="nav-link">
+        <a href="{{url('/admin/report')}}" class="nav-link">
+       <i class="fa fa-file nav-icon"></i>
+         <p>
+            Report
+          </p>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="{{url('/admin/query')}}" class="nav-link">
        <i class="fa fa-question-circle nav-icon"></i>
-        <!-- <i class="fa fa-mobile nav-icon"></i> -->
-          <p>
+         <p>
             Queries
           </p>
         </a>

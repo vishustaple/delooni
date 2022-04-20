@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Country;
+use Spatie\Permission\Models\Role;
 
 
 class CustomerController extends Controller
@@ -17,8 +18,9 @@ class CustomerController extends Controller
     * @return view detail of all customers
   */
   public function customerView(){
-        $data = User::select('*')->orderBy('id', 'DESC')->paginate();
-        $countries = Country::get();
+        $data = User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))
+        ->orderBy('id', 'DESC')->paginate();
+         $countries = Country::get();
         return view('admin.customer.main', compact('data','countries'));
       }
       /**
@@ -42,7 +44,7 @@ class CustomerController extends Controller
    $insert->first_name = $request->first_name;
    $insert->last_name = $request->last_name;
    $insert->email = $request->email;
-   $insert->password = $request->password;
+   $insert->password = Hash::make($request->password);
    $insert->phone = $request->phone;
    $insert->address = $request->address;
    $insert->nationality = $request->nationality;

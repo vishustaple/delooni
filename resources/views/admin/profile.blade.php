@@ -82,7 +82,7 @@ form input[type="file"] {
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        
         </div>
       </div>
     </div>
@@ -103,7 +103,6 @@ form input[type="file"] {
                 @if(!empty($admin->profile_image))
                   <div class="profile-pic " style="background-image: url('{{asset('/').('images/'.($admin->profile_image ?? 'user_default.png'))}}')">
                       <span><i class="fas fa-camera"></i>
-
                       </span>
                       <span>Change Image</span>
                   </div>
