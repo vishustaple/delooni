@@ -4,9 +4,12 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ServiceCategory;
+use App\Traits\ImageUpload;
+
 
 class CategoryController extends Controller
 {
+    use ImageUpload;
 /**
     * category View
     *
@@ -14,7 +17,7 @@ class CategoryController extends Controller
     * @return view detail of all category
   */
 public function categoryView(){
-      $data = ServiceCategory::select('*')->where('is_parent', 0)->orderBy('Id','DESC')->paginate();
+      $data = ServiceCategory::where('is_parent', 0)->orderBy('Id','DESC')->paginate();
       return view('admin.category.main', compact('data'));
     }
 
@@ -25,17 +28,15 @@ public function categoryView(){
     * @return store data in database
 */
 public function storecategory(Request $request){
-$validatedData = $request->validate([
-    'category_name' => 'required',
+   $validatedData = $request->validate([
+    'name' => 'required',
     'description' => 'required',
     'service_category_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
 ]);
  $insert = new ServiceCategory;
- $insert->category_name = $request->category_name;
+ $insert->name = $request->name;
  $insert->description = $request->description;
- $insert->service_category_image  = $request->file('service_category_image')->getClientOriginalName();
- $insert->path = $request->file('service_category_image')->store('/public/images');
-//  echo "<pre>"; var_dump($request->file('service_category_image')->store('/public/images'));die;
+ $insert->service_category_image  = $this->uploadImage($request->service_category_image, 'profile_image');
  $insert->save();
  return response()->json(redirect()->back()->with('success','Category Add Successfully'));
 }
@@ -50,7 +51,7 @@ public function searchcategory(Request $request){
  $qry = ServiceCategory::select('*')->where('is_parent', 0);
  if(!empty($search)){
      $qry->where(function($q) use($search){
-         $q->where('category_name','like',"%$search%");
+         $q->where('name','like',"%$search%");
     });
  }
 $data = $qry->where('is_parent',0)->orderBy('id','DESC')->paginate();
@@ -86,11 +87,10 @@ public function view_update(Request $request){
 */
 public function update_category(Request $request){
     $insert = ServiceCategory::where('id', $request->id)->update([
-        "category_name" => $request->category_name,
+        "name" => $request->name,
         "description" => $request->description,
-        "service_category_image" =>  $request->file('service_category_image')->getClientOriginalName(),
-        "path" => $request->file('service_category_image')->store('/public/images'),
-    ]);
+        "service_category_image"  => $this->uploadImage($request->service_category_image, 'profile_image'),
+   ]);
     if($insert){
         return response()->json(redirect()->back()->with('success', 'Updated Successfully.'));
     } else {
@@ -106,7 +106,7 @@ public function update_category(Request $request){
     public function detailView_category(Request $request){
     $data = ServiceCategory::find($request->id);
     $getdatas = ServiceCategory::select('*')->where('is_parent',$request->id)->get(); 
-    $getnames = ServiceCategory::select('category_name','id')->where('id',$request->id)->get();
+    $getnames = ServiceCategory::select('name','id')->where('id',$request->id)->get();
     return view('admin.category.detailview', compact('data','getdatas','getnames'));
 }
 /**
@@ -131,13 +131,12 @@ public function update_category(Request $request){
 */
 public function store_sub_category(Request $request){
     $validatedData = $request->validate([
-        'category_name' => 'required',
+        'name' => 'required',
         'service_category_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
      ]);
      $insert = new ServiceCategory;
-     $insert->category_name = $request->category_name;
-     $insert->service_category_image  = $request->file('service_category_image')->getClientOriginalName();
-     $insert->path = $request->file('service_category_image')->store('/public/images');
+     $insert->name = $request->name;
+     $insert->service_category_image  = $this->uploadImage($request->service_category_image, 'profile_image');
      $insert->is_parent = $request->is_parent;
      $insert->save();
      return response()->json(redirect()->back()->with('success','Sub Category Add Successfully'));

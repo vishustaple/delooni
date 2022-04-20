@@ -3,19 +3,19 @@
 <div class="card" id="data">
               <div class="card-header p-2">
                 <ul class="nav nav-pills">
-                  <li class="nav-item"><a class="nav-link active" style="cursor:pointer" 
+                <li class="nav-item"><a class="nav-link active" style="cursor:pointer" 
                         data-toggle="modal" 
-                        data-target="#myModal">Add Customers</a></li>
+                        data-target="#myModal">Add Customer</a></li>
                    <!-- The Modal -->
                     <div class="modal" id="myModal"> 
                       <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                           <!-- Modal Header -->
                           <div class="modal-header">
-                            <h4 class="modal-title">Add customers</h4>
+                            <h4 class="modal-title">Add Customer</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                           </div>
-                            @include('admin.customer.addcustomer')
+                          @include('admin.customer.addcustomer')
                           <!-- Modal body -->
                           <div class="modal-body">
                          
@@ -43,6 +43,7 @@
                 <!-- /.tab-content -->
               </div><!-- /.card-body -->
       </div>
+
       <script>
 $("#add_customers").on('submit', function (e){
      e.preventDefault();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Country;
 
 
 class CustomerController extends Controller
@@ -17,7 +18,8 @@ class CustomerController extends Controller
   */
   public function customerView(){
         $data = User::select('*')->orderBy('id', 'DESC')->paginate();
-        return view('admin.customer.main', compact('data'));
+        $countries = Country::get();
+        return view('admin.customer.main', compact('data','countries'));
       }
       /**
     * Store Customer

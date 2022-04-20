@@ -5,9 +5,11 @@ use App\Models\Services;
 use App\Models\ServiceCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Traits\ImageUpload;
 
 class ServiceController extends Controller
 {
+    use ImageUpload;
   /**
     * service View
     *
@@ -17,10 +19,11 @@ class ServiceController extends Controller
 public function serviceView(){
    $data =Services::join('service_categories','services.service_category_id','=','service_categories.id')
     ->select('services.id','services.status','services.name','services.description','services.service_image',
-   'services.price_per_hour','services.price_per_day','services.price_per_month','service_categories.category_name')
+   'services.price_per_hour','services.price_per_day','services.price_per_month','service_categories.name')
    ->orderBy('Id','DESC')->paginate();
-    $categorynames = ServiceCategory::get(); 
-    return view('admin.service.main', compact('data','categorynames'));
+    $categorynames = ServiceCategory::where('is_parent',0)->get(); 
+    $subcategorys = ServiceCategory::where('is_parent','!=',0)->get(); 
+    return view('admin.service.main', compact('data','categorynames','subcategorys'));
 }
 /**
     * Store service
@@ -28,7 +31,7 @@ public function serviceView(){
     * @param  open pop up modal of registration form
     * @return store data in database
 */
-public function storeservice(Request $request){
+public function storeservice(Request $request){ 
     $validatedData = $request->validate([
         'name' => 'required',
         'description' => 'required',
@@ -40,8 +43,7 @@ public function storeservice(Request $request){
      $insert = new Services;
      $insert->name = $request->name;
      $insert->description = $request->description;
-     $insert->service_image  = $request->file('service_image')->getClientOriginalName();
-     $insert->path = $request->file('service_image')->store('/public/images');
+     $insert->service_image  = $this->uploadImage($request->service_image, 'profile_image');
      $insert->price_per_hour = $request->price_per_hour;
      $insert->price_per_day = $request->price_per_day;
      $insert->price_per_month = $request->price_per_month;
@@ -82,7 +84,7 @@ public function deleteservice(Request $request){
 */
  public function view_update(Request $request){ 
     $categoryData = Services::find($request->id);
-    $categorynames = ServiceCategory::select('*')->get(); 
+    $categorynames = ServiceCategory::where('is_parent',0)->get();
     $res =  view('admin.service.update', compact('categoryData','categorynames'))->render();
     return response()->json($res);
 }
@@ -102,8 +104,7 @@ public function update_service(Request $request){
     $insert = Services::where('id', $request->id)->update([
         "name" => $request->name,
         "description" => $request->description,
-        "service_image" =>  $request->file('service_image')->getClientOriginalName(),
-        "path" => $request->file('service_image')->store('/public/images'),
+        "service_image"  => $this->uploadImage($request->service_image, 'profile_image'),
      ]);
     if($insert){
         return response()->json(redirect()->back()->with('success', 'Updated Successfully.'));
@@ -149,5 +150,9 @@ public function  serviceBack()
     $url = route('services');
     return $url;
 }
-
+ 
+public function subcategory($id){
+    $categorynames = ServiceCategory::where('is_parent',$id)->get();
+    return response()->json($categorynames);
+}
 }

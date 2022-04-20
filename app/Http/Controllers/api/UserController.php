@@ -510,8 +510,18 @@ class UserController extends Controller
      */
     public function getcategories()
     {
-        $categories = ServiceCategory::where('is_parent',ServiceCategory::IS_PARENT)->paginate();
-        return $this->customPaginator($categories);
+        $categories = ServiceCategory::where('is_parent', ServiceCategory::IS_PARENT)->with('subcategories')->paginate();
+        $getbanners=\App\Models\ServiceBanner::get()->toArray();
+        //dd($getbanners);
+//         echo "<pre>";
+//         //  print_r($categories[0]);die;
+//         foreach($categories as $catg){
+//             echo "<br>".$catg->name;
+//             echo "<br>".count($catg->subcategories);
+            
+//         }
+// die;
+        return $this->customPaginator($categories, ['service_banners'=>$getbanners]);
     }
 
     /**
@@ -788,11 +798,12 @@ class UserController extends Controller
            foreach($serviceCategory as $category){
            $serviceDetail= ServiceDetail::where('service_id',$category->id)->get();
            foreach($serviceDetail as $service){
-               $user= User::where('id',$service->user_id)->get();
-               $custom[]= $user;
+               $user= User::where('id',$service->user_id)->get()->toarray();
+            //  $custom[]= $user;
             }
            }
-          return $this->successWithData($custom,'Data fetched successfully.');
+         //return $custom;
+       return $this->successWithData($user,'Data fetched successfully.');
           
         }
 

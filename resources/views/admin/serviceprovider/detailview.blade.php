@@ -105,17 +105,57 @@
                           </div>
                       </div>
                       <div class="form-group row">
-                        <label for="description" class="col-sm-2 col-form-label">Add Description</label>
-                        <div class="col-sm-10">
-                        <input type="text" class="form-control" id="description" value="{{$data->description}}" readonly>
-                          </div>
-                      </div>
-                      <div class="form-group row">
                         <label for="dob" class="col-sm-2 col-form-label">Date of Birth</label>
                         <div class="col-sm-10">
                         <input type="text" class="form-control" id="dob" value="{{$data->dob}}" readonly>
                           </div>
                       </div>
+                      <div class="form-group row">
+                        <label for="description" class="col-sm-2 col-form-label">Add Description</label>
+                        <div class="col-sm-10">
+                        <input type="text" class="form-control" id="description" value="{{$data->description}}" readonly>
+                          </div>
+                      </div>
+                      <!--servicedetail start-->
+                      <div class="form-group row">
+                        <label for="Service" class="col-sm-2 col-form-label">Service</label>
+                        <div class="col-sm-10">
+                        <input type="text" class="form-control" id="Service" value="{{$getservicename->name}}" readonly>
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="Category" class="col-sm-2 col-form-label">Category</label>
+                        <div class="col-sm-10">
+                        <input type="text" class="form-control" id="category" value="{{$getcatdata->name}}" readonly>
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="subcategory" class="col-sm-2 col-form-label">Sub Category</label>
+                        <div class="col-sm-10">
+                        <input type="text" class="form-control" id="subcategory" value="{{$subcategoryname->name}}" readonly>
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="price_per_hour" class="col-sm-2 col-form-label">Service Price(/hours)</label>
+                        <div class="col-sm-10">
+                        <input type="text" class="form-control" id="price_per_hour" value="{{$getservicedetail->price_per_hour}}" readonly>
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="price_per_day" class="col-sm-2 col-form-label">Service Price(/days)</label>
+                        <div class="col-sm-10">
+                        <input type="text" class="form-control" id="price_per_day" value="{{$getservicedetail->price_per_day}}" readonly>
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="price_per_month" class="col-sm-2 col-form-label">Service Price(/month)</label>
+                        <div class="col-sm-10">
+                        <input type="text" class="form-control" id="price_per_month" value="{{$getservicedetail->price_per_month}}" readonly>
+                          </div>
+                      </div>
+
+
+                       <!--servicedetail end-->
                       <div class="form-group row">
                         <label for="institutename" class="col-sm-2 col-form-label">College/School Name</label>
                         <div class="col-sm-10">
@@ -146,13 +186,13 @@
                         <input type="text" class="form-control" id="workexperience" value="{{$getwork->no_of_years}}" readonly>
                         </div>
                       </div>
-                      <!-- <div class="form-group row">
+                      <div class="form-group row">
                         <label for="workexperience" class="col-sm-2 col-form-label"> Brief Of Your Experience</label>
                         <div class="col-sm-10">
-                        <input type="text" class="form-control" id="workexperience" value="{{$getwork->no_of_years}}" readonly>
+                        <input type="text" class="form-control" id="briefexperience" value="{{$getwork->brief_of_experience}}" readonly>
                         </div>
                       </div>
-                       -->
+                      
                 </div>
 </div>
 

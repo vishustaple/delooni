@@ -5,7 +5,7 @@
                 <ul class="nav nav-pills">
                 <li class="nav-item"><a class="nav-link active" style="cursor:pointer" 
                         data-toggle="modal" 
-                        data-target="#myModal">Add</a></li>
+                        data-target="#myModal">Add Splash Screen</a></li>
                    <!-- The Modal -->
                     <div class="modal" id="myModal"> 
                       <div class="modal-dialog modal-lg">
@@ -15,7 +15,7 @@
                             <h4 class="modal-title">Add category</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                           </div>
-                            @include('admin.category.addcategory')
+                            @include('admin.mainscreen.addscreen')
                           <!-- Modal body -->
                           <div class="modal-body">
                          
@@ -33,25 +33,27 @@
                   </li>
                 </ul>
               </div>
-              <div class="card-body">
+<div class="card" id="data">
+             <div class="card-body">
                 <div class="tab-content">
                   <div class="active tab-pane" id="view">
-                     @include('admin.category.view')
+                     @include('admin.mainscreen.view')
                   </div>
                   <!-- /.tab-pane -->
                 </div>
                 <!-- /.tab-content -->
               </div><!-- /.card-body -->
       </div>
+</div>
 <script>
-$("#add_category").on('submit', function (e){
+$("#add_image").on('submit', function (e){
 
      e.preventDefault();
      var data = new FormData(this);
      console.log(data);
      $.ajax({
      method:'post',
-     url:"{{route('category.add')}}",
+     url:"{{route('splash.screen.add')}}",
      cache: false,
      contentType: false,
      processData: false,
@@ -75,76 +77,6 @@ $("#add_category").on('submit', function (e){
     
 })  
 
-$(document).on("keyup","#search",(e)=>{
-    fetch_data(1);
-});
-
-function fetch_data(page)
-{
-    $('#page-loader').show();
-    let value=document.querySelector("#search").value;
-    var make_url="{{route('category.search')}}";
-    var data={'page':page,'search':value};
-    $.ajax({
-        url:make_url,
-        data:data,
-        success:function(data)
-        {
-        $('#test').empty().html(data);
-        $('#page-loader').hide();
-        },
-        error:function(error){
-        $('#page-loader').hide();
-        }
-    })
-}
-$(document).on('click', '.pagination a', function(event){
- event.preventDefault();
- var page = $(this).attr('href').split('page=')[1];
- var sendurl=$(this).attr('href');
- fetch_data(page);
- 
-});
-
-
-$(document).on('click','.remove',function(){
-  var id = $(this).attr('data-id');
-  swal({
-         title: "Oops....",
-         text: "Are you sure you want to delete category ?",
-         icon: "error",
-         buttons: [
-           'NO',
-           'YES'
-         ],
-       }).then(function(isConfirm) {
-         if (isConfirm) {
-  $('#page-loader').show();
-  $.ajax({
-  url:"{{route('category.delete')}}",
-  data:{id:id},
-  success:function(data)
-  {
-    swal({
-          position: 'top-end',
-          icon: 'success',
-          title: 'Remove Successfully',
-          showConfirmButton: false,
-          timer: 1500
-          })
-   location.reload();
-   $('#page-loader').hide();
-  },
-  error:function(error){
-    $('#page-loader').hide();
-  }
- });
- } else {
-}
-});
-});
-
-
 $(document).on('click', '.update', function(event){
   $('#page-loader').show();
    $.ajaxSetup({
@@ -154,7 +86,7 @@ $(document).on('click', '.update', function(event){
   });
   var id = $(this).attr('data-id');
   $.ajax({
-        url:'{{route("category.view.update")}}',
+        url:'{{route("screen.view.update")}}',
         data:{id:id},
         success:function(data)
   {
@@ -170,13 +102,13 @@ $(document).on('click', '.update', function(event){
   }
  });
 });
-$(document).on('submit','#update_category', function(e){
+$(document).on('submit','#update_screen', function(e){
   e.preventDefault();
   var data = new FormData(this);
   console.log(data);
   $.ajax({
     type:'post',
-    url:"{{route('category.update')}}",
+    url:"{{route('screen.update')}}",
     cache:false,
     contentType: false,
     processData: false,
@@ -200,30 +132,72 @@ $(document).on('submit','#update_category', function(e){
         });
       });
 
- function toggleDisableEnable(e){
- var id = $(e).attr('data-id');
- $('#page-loader').show();
-  $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
-  });
-      $.ajax({
-      url:"{{route('category.update.status')}}",
-      data:{id:id},
-      dataType: "JSON",
-      success:function(data)
-      { 
-      // var page = $('#test').data('page');
-      $('#page-loader').hide();
-      location.reload();
-   
-      },
-     error:function(error){
-     $('#page-loader').hide();
-   }
+$(document).on('click','.remove',function(){
+  var id = $(this).attr('data-id');
+  swal({
+         title: "Oops....",
+         text: "Are you sure you want to delete Splash screen ?",
+         icon: "error",
+         buttons: [
+           'NO',
+           'YES'
+         ],
+       }).then(function(isConfirm) {
+         if (isConfirm) {
+  $('#page-loader').show();
+  $.ajax({
+  url:"{{route('splash.screen.delete')}}",
+  data:{id:id},
+  success:function(data)
+  {
+    swal({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Remove Successfully',
+          showConfirmButton: false,
+          timer: 1500
+          })
+   location.reload();
+   $('#page-loader').hide();
+  },
+  error:function(error){
+    $('#page-loader').hide();
+  }
  });
+ } else {
 }
+});
+});
 
+$(document).on("keyup","#search",(e)=>{
+    fetch_data(1);
+});
+
+function fetch_data(page)
+{
+    $('#page-loader').show();
+    let value=document.querySelector("#search").value;
+    var make_url="{{route('splash.screen.search')}}";
+    var data={'page':page,'search':value};
+    $.ajax({
+        url:make_url,
+        data:data,
+        success:function(data)
+        {
+        $('#test').empty().html(data);
+        $('#page-loader').hide();
+        },
+        error:function(error){
+        $('#page-loader').hide();
+        }
+    })
+}
+$(document).on('click', '.pagination a', function(event){
+ event.preventDefault();
+ var page = $(this).attr('href').split('page=')[1];
+ var sendurl=$(this).attr('href');
+ fetch_data(page);
+ 
+});
 </script>
-@endsection
+ @endsection
