@@ -92,7 +92,7 @@ class UserController extends Controller
     public function logout(request $r)
     {
         try {
-            $r->user()->currentAccessToken()->delete();
+            auth()->user()->tokens()->delete();
             return $this->success('Successfully loggged out');
         } catch (\Exception $e) {
             return $this->error('Please check your fields');
@@ -129,7 +129,6 @@ class UserController extends Controller
                 ['phone', '=', $r->phone],
                 ['country_code', '=', $r->country_code],
             ])->delete();
-
             $otp = Otp::create([
                 'phone' => $r->phone,
                 'country_code' => $r->country_code,
@@ -192,6 +191,13 @@ class UserController extends Controller
         $register->assignRole(User::ROLE_SERVICE_PROVIDER);
     }
        $token = $register->createToken('API Token')->plainTextToken;
+    //    $loginHistory = new LoginHistory();
+    //         $loginHistory->device_name = $r->device_name;
+    //         $loginHistory->device_token = $r->device_token;
+    //         $loginHistory->device_type = $r->device_type;
+    //         $loginHistory->personal_access_token = $token;
+    //         $loginHistory->created_by = $register->id;
+        //     $loginHistory->save();
         $data = [];
         $data['token'] =  $token;
         return $this->successWithData($register->jsonData(),'User Register Successfully.',  $data);
@@ -265,6 +271,7 @@ class UserController extends Controller
      */
     public function verifyOtp(request $r)
     {
+
         $v = Validator::make(
             $r->input(),
             [
@@ -277,7 +284,23 @@ class UserController extends Controller
             return $this->validation($v);
         }
         try {
-
+            $checkExist = User::where('phone', $r->phone)->where('country_code', $r->country_code)->first();
+            if ($checkExist) {
+                $token = $register->createToken('API Token')->plainTextToken;
+                $data = [];
+                $data['token'] =  $token;
+                return  $this->sucesswithData($checkExist->jsonData(),'Existing User Data',$data);
+            }
+            // if(User::where('phone', '=', $r->phone)->exists()) {
+                
+            //     dd(User::where('phone', '=', $r->phone)->exists());
+            //     $getdetail=User::where('phone', '=', $r->phone)->first();
+            //     $token = $register->createToken('API Token')->plainTextToken;
+            //     $data = [];
+            //     $data['token'] =  $token;
+            //     return  $this->sucesswithData($getdetail->jsonData(),'Existing User Data',$data);
+            // }
+            
             $otp = Otp::where(['phone' => $r->phone, 'otp' => $r->otp, 'otp_for' => 'signup'])
             ->first();
             if (empty($otp)) {
@@ -285,6 +308,7 @@ class UserController extends Controller
             }
             $otp->delete();
             return $this->success("OTP verified successfully");
+        
         } catch (\Throwable $e) {
             return $this->error($e->getMessage());
         }
@@ -512,16 +536,7 @@ class UserController extends Controller
     {
         $categories = ServiceCategory::where('is_parent', ServiceCategory::IS_PARENT)->with('subcategories')->paginate();
         $getbanners=\App\Models\ServiceBanner::get()->toArray();
-        //dd($getbanners);
-//         echo "<pre>";
-//         //  print_r($categories[0]);die;
-//         foreach($categories as $catg){
-//             echo "<br>".$catg->name;
-//             echo "<br>".count($catg->subcategories);
-            
-//         }
-// die;
-        return $this->customPaginator($categories, ['service_banners'=>$getbanners]);
+        return $this->customPaginator($categories,'jsonData', ['service_banners'=>$getbanners]);
     }
 
     /**
@@ -543,7 +558,7 @@ class UserController extends Controller
         }
         $categories = ServiceCategory::where('name', $r->category)->first();
         $subcategories = ServiceCategory::where('is_parent', $categories->id)->paginate();
-        return $this->customPaginator($subcategories);
+        return $this->customPaginator($subcategories,'jsonData');
     }
 
 
@@ -593,7 +608,7 @@ class UserController extends Controller
             $r->input(),
             [
                 'message' => 'required|string',
-                'to_user' => 'required',
+                'type' => "required|string",
             ]
         );
         if ($v->fails()) {
@@ -601,8 +616,8 @@ class UserController extends Controller
         }
         $contact= new ContactUs();
         $contact->message = $r->message;
-        $contact->to_user = $r->to_user;
         $contact->from_user = $user->id;
+        $contact->type = $r->type;
         $contact->save();
 
         return $this->successWithData($contact->jsonData(),'Message sent successfully');
@@ -697,10 +712,13 @@ class UserController extends Controller
             return $this->validation($v);
         }
         $service_id=ServiceDetail::where(['service_id'=> $r->service_id, 'user_id' => $r->userId])->first();
+        $favourite=FavouriteServices::where(['service_id'=> $service_id->id??0,'user_id'=>$user->id])->first();
+        if(!$favourite){
         $favourite = new FavouriteServices();
         $favourite->service_id = $service_id->id;
         $favourite->user_id = $user->id;
         $favourite->save();
+        }
         return $this->success('Service added to favourite list successfully.');
     } catch (\Throwable $e) {
         DB::rollback();
@@ -711,7 +729,7 @@ class UserController extends Controller
     public function getFavourite(request $r){ 
         $user = auth()->user();
         $favourite= FavouriteServices::where('user_id',$user->id)->paginate();
-        return $this->customPaginator($favourite);
+        return $this->customPaginator($favourite,'jsonData');
 
     }
 
@@ -739,7 +757,7 @@ class UserController extends Controller
             // $ratings=round($ratings/$userrating->count());
             $userrate=UserRating::whereBetween('rating',[$r->rating,UserRating::MAX_RATING])->paginate();
         
-            return $this->customPaginator($userrate);
+            return $this->customPaginator($userrate,'jsonData');
             }
             if($r->price){
 
@@ -790,21 +808,70 @@ class UserController extends Controller
         public function activeCountryList(Request $request)
     {
         $query = Country::where('status', Country::STATUS_ACTIVE)->paginate(500);
-        return $this->customPaginator($query);
+        return $this->customPaginator($query,'jsonData');
     }
 
         public function search(request $r){
-           $serviceCategory= ServiceCategory::where('name',$r->search)->get();
-           foreach($serviceCategory as $category){
-           $serviceDetail= ServiceDetail::where('service_id',$category->id)->get();
-           foreach($serviceDetail as $service){
-               $user= User::where('id',$service->user_id)->get()->toarray();
-            //  $custom[]= $user;
-            }
-           }
-         //return $custom;
-       return $this->successWithData($user,'Data fetched successfully.');
-          
+            $user = auth()->user();
+        try{
+        $v = Validator::make(
+            $r->input(),
+            [
+                'service_id' => 'numeric',
+                'provider_id' => 'numeric', //service provider id
+               
+            ]
+        );
+        if ($v->fails()) {
+            return $this->validation($v);
+        }
+           $serviceCategory= ServiceCategory::where('name',$r->search)->first();
+           $serviceDetail= ServiceDetail::where('service_id',$serviceCategory->id??0)->paginate();
+           if($r->provider_id){
+           $service_id=ServiceDetail::where(['service_id'=> $r->service_id, 'user_id' => $r->provider_id])->first();
+           return $this->success('Service added to favourite list successfully.');
+           
+        }
+       } catch (\Throwable $e) {
+           DB::rollback();
+           return $this->error($e->getMessage());
+       }
+           return $this->customPaginator($serviceDetail,'filterData');
         }
 
+
+        /**
+     * Notification enable disable 
+     *
+     * @param  contains user id 
+     * @return response 
+     */
+    //
+    public function NotificationStatus(request $r)
+    {
+        try{
+            $v = Validator::make(
+                $r->input(),
+                [
+                    'status' => 'numeric|required',
+                ]
+            );
+            if ($v->fails()) {
+                return $this->validation($v);
+            }
+        $notificationstatus=auth()->user()->update(['is_notification' => $r->status]);
+        if($r->status==0){
+        return $this->success('Notification Disabled');
+        }
+        if($r->status==1){
+            return $this->success('Notification Enabled');  
+        }
+        }
+        catch (\Throwable $e) {
+            DB::rollback();
+            return $this->error($e->getMessage());
+        }
+        
+
+    }
 }

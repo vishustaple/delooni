@@ -46,25 +46,23 @@ trait ApiResponser
         $response = ["status" =>  $status, "success" => $success, "message" => $message,'data'=>$data ,'total'=>$count];
         return response()->json($response, $status, $headers = [], $options = JSON_PRETTY_PRINT);
 	}
-	public function customPaginator($paginator,$options=[]){
-        
-        $list=[];
-            foreach($paginator->items() as $data){
-                $list[]=$data->jsonData();
-            }
-
-            $pagination=[
-                "list"=>$list,
-                "per_page"=>$paginator->perPage(),
-                "total"=>$paginator->total(),
-                "current_page"=>$paginator->currentPage(),
-                "last_page"=>$paginator->lastPage(),
-				//"next_page"=>$paginator->nextPageUrl()
-            ];
-
-			$response = array_merge(["status" =>  200,"message" => 'Data fatched successfuly'],$pagination,$options);
-			return response()->json($response, 200, $headers = [], $options = JSON_PRETTY_PRINT);
-
-	}
+	public function customPaginator($paginator, $json = "jsonData", $options = [])
+    {
+        //dd($options);
+        $list = [];
+        foreach ($paginator->items() as $data) {
+            $list[] = $data->$json();
+        }
+        $pagination = [
+            "list" => $list,
+            "per_page" => $paginator->perPage(),
+            "total" => $paginator->total(),
+            "current_page" => $paginator->currentPage(),
+            "last_page" => $paginator->lastPage(),
+            //"next_page"=>$paginator->nextPageUrl()
+        ];
+        $response = array_merge(["status" =>  200, "message" => 'Data fetched successfuly'], $pagination, $options);
+        return response()->json($response, 200, $headers = [], $options = JSON_PRETTY_PRINT);
+    }
 
 }

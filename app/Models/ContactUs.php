@@ -21,12 +21,12 @@ class ContactUs extends Model
     public function jsonData()
     {
         $json = [];
-        $json['subject'] = $this->subject??'';
+        // $json['subject'] = $this->subject??'';
         $json['message'] = $this->message;
         $json['from_user'] = $this->from_user;
-        $json['to_user'] = $this->to_user;
-        $json['status'] = $this->status??'';
-        $json['read'] = $this->read??'';
+        $json['type'] = $this->type;
+        // $json['status'] = $this->status??'';
+        // $json['read'] = $this->read??'';
         return $json;
     }
 }

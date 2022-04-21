@@ -178,4 +178,13 @@ class AdminController extends Controller
      
       
     }
+
+     /**
+     * View terms and condition 
+     * 
+     * 
+     */
+    public function termsAndCondition(){
+        return view('termsandconditions');
+    }
 }
