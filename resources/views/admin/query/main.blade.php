@@ -91,7 +91,7 @@ function fetch_data(page)
         url:make_url,
         data:data,
         success:function(data)
-        {alert("Success");
+        {
         $('#test').empty().html(data);
         $('#page-loader').hide();
         },

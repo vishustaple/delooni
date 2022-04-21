@@ -51,7 +51,7 @@
                       <div class="form-group row">
                         <label for="service_category_id" class="col-sm-3 col-form-label">Select category :</label>
                         <div class="col-sm-8">
-                        <select class="form-control select2" id="service_category_id" name="service_category_id">
+                        <select class="category select2" id="service_category_id"   name="service_category_id">
                         <option value="N/A" disabled selected="true">--Select category--</option>
                        @foreach($categorynames as $categoryname)
                       <option class="form-drop-items" value="{{$categoryname->id}}">{{$categoryname->name}}</option>
@@ -61,6 +61,16 @@
                         </div>
                         </div>
                       </div> 
+                      <div class="form-group row">
+                        <label for="subcategory" class="col-sm-3 col-form-label">Select Sub category :</label>
+                        <div class="col-sm-8">
+                        <select class="form-control select2" id="subcategory" name="subcategory">
+                        <option value="N/A" disabled selected="true">--Select sub category--</option>
+                        </select>
+                        <div class="error" id="error_subcategory">
+                        </div>
+                    </div> 
+                   </div>  
                   <div class="form-group row">
                         <div class="offset-sm-2 col-sm-10">
                           <button type="submit" class="btn btn-success">Submit</button>

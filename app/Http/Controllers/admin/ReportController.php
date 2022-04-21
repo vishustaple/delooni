@@ -19,12 +19,12 @@ class ReportController extends Controller
     * @return view detail of Query 
     */
     public function query_View(){
-    $query =Report::join('service_categories','reports.service_category_id','=','service_categories.id')
+    $data =Report::join('service_categories','reports.service_category_id','=','service_categories.id')
      ->join('users','reports.user_id','=','users.id')
      ->select('reports.id','reports.reporting_issue','reports.subcategory_id','reports.service_provider_id',
      'reports.message','reports.subject','users.first_name','service_categories.name')
      ->orderBy('Id','DESC')->paginate();
-     return view('admin.query.main',compact('query'));
+     return view('admin.query.main',compact('data'));
     }
    /**
      *  Delete query
@@ -45,15 +45,15 @@ class ReportController extends Controller
     */
     public function search_query(Request $request){
     $search = $request->search;
-    $qry = Report::select('*');dd($qry);
+    $qry = Report::select('*');
     if(!empty($search)){
         $qry->where(function($q) use($search){
             $q->where('subject','like',"%$search%");
        });
     }
-   $data = $qry->orderBy('id','DESC')->paginate();
-   return view('admin.query.view', compact('data','search'));
-   }
+    $data = $qry->orderBy('id','DESC')->paginate();
+    return view('admin.query.view', compact('data','search'));
+    }
 
      /**
      *  Detail view query

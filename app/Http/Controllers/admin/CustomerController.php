@@ -81,7 +81,7 @@ class CustomerController extends Controller
    }
    /**
      *  Detail view customer
-     *
+     * 
      * @param get $r->id on click view button
      * @return  detail view page of customer according $r->id
    */
@@ -143,7 +143,7 @@ class CustomerController extends Controller
           $q->where('first_name','like',"%$search%");
      });
   }
-  $data = $qry->orderBy('id','DESC')->paginate();
+  $data = $qry->role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->orderBy('id', 'DESC')->paginate();
   return view('admin.customer.view', compact('data','search'));
   }
   /**

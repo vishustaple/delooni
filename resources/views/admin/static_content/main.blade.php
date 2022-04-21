@@ -27,7 +27,7 @@
                   <li class="nav-item search-right">
                    <div>
                       <div class="input-group" data-widget="sidebar-search">
-                      <input class="form-control form-control-sidebar" id="search" type="search" placeholder="Search" aria-label="Search">
+                      
                       </div>
                    </div>
                   </li>

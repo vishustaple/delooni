@@ -314,6 +314,7 @@ $("#fileToUpload").change(function (e) {
         data:data,
         success:function(data){
             $('#changePassword').modal('hide');
+            location.reload();
         },
         error:function(data){
           $.each(data.responseJSON.errors, function(id,msg){

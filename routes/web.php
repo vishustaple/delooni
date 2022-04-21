@@ -97,7 +97,7 @@ Route::group(['prefix' => 'admin'], function () {
       Route::get('/service/view/{id}', [ServiceController::class, 'detailView_service'])->name('service.view');
       Route::get('/search', [ServiceController::class, 'searchservice'])->name('search');
       Route::get('/service/back',[ServiceController::class,'serviceBack']);
-      Route::get('/provider/category/{id}', [ServiceController::class, 'subcategory'])->name('provider.category');
+      Route::get('/service/category/{id}', [ServiceController::class, 'subcategory'])->name('service.category');
 
       //******************************************Admin Manage Main screen*********************************************//
       Route::get('/splashscreen', [MainScreenController::class, 'splash_screen_View'])->name('splashscreen');
@@ -125,6 +125,7 @@ Route::group(['prefix' => 'admin'], function () {
       Route::get('/static/content/delete', [StaticContentController::class, 'delete_content'])->name('static.content.delete');
       Route::get('/content/view/update', [StaticContentController::class, 'view_update'])->name('content.view.update');
       Route::post('/content/update', [StaticContentController::class, 'update_content'])->name('content.update');
+      Route::get('/content/view/{id}', [StaticContentController::class, 'detailView_content'])->name('content.view');
 
 
       //******************************************Admin Manage Subscription*********************************************//

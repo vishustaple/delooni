@@ -6,13 +6,13 @@
    <!-- /.card-header -->
    <div class="card-body">
    <table class="table table-bordered">
-    @if(count($query)>0)
+    @if(count($data)>0)
     <thead>
     <tr>
     <th style="width: 10px">S.no.</th>
     <th style="width: 10px">ID</th>
     <th>Customer name</th>
-   <th>Service Category name</th>
+    <th>Service Category name</th>
     <th>Subject</th>
     <th>Issue</th>
     <th>Message</th>
@@ -21,7 +21,7 @@
     </thead>
     @endif
     <tbody>
-    @forelse($query as $key=>$value)
+    @forelse($data as $key=>$value)
     <tr>
     <td>{{$key+1}}</td>
     <td>{{$value->id}}</td>
@@ -43,8 +43,8 @@
 </tbody>
 </table>
 </div>
-<div id="num"  data-page="{{$query->currentPage()}}">    
- {{$query->links()}} 
+<div id="num"  data-page="{{$data->currentPage()}}">    
+ {{$data->links()}} 
 </div>
 <!-- /.card-body -->
 </div>

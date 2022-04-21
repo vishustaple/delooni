@@ -24,7 +24,7 @@
     <img src="{{env('APP_URL')}}public/profile_image/{{$value->screen_baner_image}}" height="60px" width="60px">
     </td>
     <td>
-    <a href=''   target="_blank" class="btn btn-outline-success btn-xs view">View</a>
+    <a href='{{route("content.view", $value->id)}}'   target="_blank" class="btn btn-outline-success btn-xs view">View</a>
     <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-success btn-xs update" class="viewjob_update">Update</button>
     <!-- The Modal -->
     <div class="modal " id="myModal1">

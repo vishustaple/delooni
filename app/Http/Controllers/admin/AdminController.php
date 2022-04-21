@@ -242,47 +242,6 @@ class AdminController extends Controller
              }
              }
          }
-       /**
-       * Reset password.
-       *
-       * @param  get $id
-       * @return  after getting $id reset-password page will be show
-       */
-       //
-        public function resetPassword($token){
-            $token_time = User::select('expired_token_time')->where('password_reset_token',$token)->first();
-            $token_expire_time = Carbon::now()->subHour(3)->format('Y-m-d H:m:s');
-            if($token_time > $token_expire_time){
-               return view('admin.resetpassword', compact('token'));
-            }else{
-            }
-        }
-            /**
-      * update password.
-      *
-      * @param  $request, id get
-      * @return  if $id get, password will be reset and redirect on login page
-      */
-      //
-     public function updatePassword(Request $request){
-        $validated = $request->validate([
-            'password' => 'required|min:6',
-            'confirm_password' => 'required|required_with:password|same:password'
-        ]);
-         if(!$validated)
-                    {                 
-                         return redirect()->back()->withErrors($validated->errors());
-                    }
-         $token = $request->token;
-           if($token){ 
-               $insert = User::where('password_reset_token', $request->token)->update([   
-              "password" => Hash::make($request->password),
-           ]);
-            return view('/login')->with('success', 'Your password has been changed!');
-         }else{ 
-              return back()
-             ->with('error','Password could not update.');
-             }
-         }
+  
 
 }

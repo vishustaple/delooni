@@ -67,7 +67,14 @@ class StaticContentController extends Controller
      * @return  return response update successfully or not
      */
      public function update_content(Request $request){
-     $insert = StaticContent::where('id', $request->id)->update([
+      $content = StaticContent::find($request->id);
+
+      if($request->screen_baner_image)
+        $screen_baner_image = $this->uploadImage($request->screen_baner_image, 'profile_image');
+        else
+        $screen_baner_image = $content->screen_baner_image;
+
+      $insert = StaticContent::where('id', $request->id)->update([
         "terms_and_condition" => $request->terms_and_condition,
         "screen_baner_image"  => $this->uploadImage($request->screen_baner_image, 'profile_image'),
      ]);
@@ -77,5 +84,16 @@ class StaticContentController extends Controller
       return response()->json(redirect()->back()->with('error', 'Updated not successfully'));
      }
      }
+     /**
+     *  Detail view content
+     *
+     * @param get $r->id on click view button
+     * @return  detail view page of category according $r->id
+     */
+    public function detailView_content(Request $request){
+    $content = StaticContent::find($request->id);
+    return view('admin.static_content.detailview', compact('content'));
+    }
+
 
 }
