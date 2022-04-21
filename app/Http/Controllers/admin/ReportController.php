@@ -85,11 +85,6 @@ class ReportController extends Controller
     * @return view detail of Report 
     */
     public function report_View(){
-      // $query =Report::join('service_categories','reports.service_category_id','=','service_categories.id')
-      // ->join('users','reports.user_id','=','users.id')
-      // ->select('reports.subject','users.first_name','service_categories.name')
-      // ->get();
-      
       $user = User::get();
       $query = Report::get();
       return view('admin.report.main',compact('query','user'));

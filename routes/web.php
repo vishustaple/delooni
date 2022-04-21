@@ -14,6 +14,7 @@ use App\Http\Controllers\admin\SubscriptionController;
 use App\Http\Controllers\admin\ServiceProviderController;
 use App\Http\Controllers\admin\MainScreenController;
 use App\Http\Controllers\admin\ReportController;
+use App\Http\Controllers\admin\StaticContentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -117,6 +118,14 @@ Route::group(['prefix' => 'admin'], function () {
       Route::get('/query/search', [ReportController::class, 'search_query'])->name('query.search');
       Route::get('/query/view/{id}', [ReportController::class, 'detailView_query'])->name('query.view');
       Route::get('/query/back',[ReportController::class,'queryBack']);
+
+      //******************************************Admin manage Static Content*********************************************//
+      Route::get('/static/content', [StaticContentController::class, 'static_content_View'])->name('static.content');
+      Route::post('/static/content/add', [StaticContentController::class, 'storeContent'])->name('static.content.add');
+      Route::get('/static/content/delete', [StaticContentController::class, 'delete_content'])->name('static.content.delete');
+      Route::get('/content/view/update', [StaticContentController::class, 'view_update'])->name('content.view.update');
+      Route::post('/content/update', [StaticContentController::class, 'update_content'])->name('content.update');
+
 
       //******************************************Admin Manage Subscription*********************************************//
       Route::get('/subscription', [SubscriptionController::class, 'subscriptionView'])->name('subscription');

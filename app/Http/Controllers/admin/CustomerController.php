@@ -5,8 +5,10 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Country;
 use Spatie\Permission\Models\Role;
+use App\Models\Country;
+use Illuminate\Support\Facades\Hash;
+
 
 
 class CustomerController extends Controller
@@ -49,6 +51,7 @@ class CustomerController extends Controller
    $insert->address = $request->address;
    $insert->nationality = $request->nationality;
    $insert->save();
+   $insert->assignRole(User::ROLE_CUSTOMER);
    return response()->json(redirect()->back()->with('success','Customer Add Successfully'));
   }
    /**

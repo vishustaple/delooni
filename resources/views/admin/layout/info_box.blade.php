@@ -6,7 +6,7 @@
       <div class="info-box-content">
         <span class="info-box-text">Register Customer</span>
         <span class="info-box-number">
-          {{DB::table('users')->where('status','!=',0)->count()}}
+         {{$customer}}
         </span>
       </div>
     </div>
@@ -17,7 +17,7 @@
 
       <div class="info-box-content">
         <span class="info-box-text">Service provider</span>
-        <span class="info-box-number"> {{DB::table('users')->where('status','=',0)->count()}}</span>
+        <span class="info-box-number"> {{$service_provider}}</span>
       </div>
     </div>
   </div>
@@ -27,7 +27,7 @@
 
       <div class="info-box-content">
         <span class="info-box-text">Total Queries</span>
-        <span class="info-box-number">{{DB::table('reports')->where('status','=',1)->count()}} </span>
+        <span class="info-box-number">{{$query}} </span>
       </div>
     </div>
   </div>

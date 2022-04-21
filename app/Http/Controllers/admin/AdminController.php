@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Admin;
+use App\Models\Report;
 use App\Traits\ImageUpload;
 use App\Traits\Statuscheck;
 use App\Traits\togglestatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 use Validator;
 use Carbon\Carbon;
 class AdminController extends Controller
@@ -20,7 +22,6 @@ class AdminController extends Controller
     use togglestatus;
     public function login(){
         return view('admin.login');
-        
     }
     /**
      * Admin Login.
@@ -79,9 +80,12 @@ class AdminController extends Controller
     {
         $loginUser = auth()->user();
         ////////////////Admin/////////////////////
+        $customer=User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->count();
+        $service_provider=User::role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->count();
+        $query=Report::where('status','=',1)->count();
         if ($loginUser->hasRole('admin')) {
             $staff = User::all();
-            return view('admin.home', compact('staff'));
+            return view('admin.home', compact('staff','service_provider','customer','query'));
         }
         //////////////////Customer//////////////////
         $userModule = $loginUser->userModule;

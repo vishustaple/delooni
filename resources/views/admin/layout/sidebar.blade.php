@@ -106,6 +106,14 @@
           </p>
         </a>
       </li>
+      <li class="nav-item">
+        <a href="{{url('/admin/static/content')}}" class="nav-link">
+       <i class="fa fa-twitter nav-icon"></i>
+         <p>
+            Static Content
+          </p>
+        </a>
+      </li>
      <!--Users End-->
       <li class="nav-item">
         <a href="{{url('/admin/logout')}}" class="nav-link">
