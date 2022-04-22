@@ -12,16 +12,22 @@ class CreateReportsTable extends Migration
      * @return void
      */
     public function up()
-    {
+    {   
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
             $table->enum('reporting_issue',['inquiries', 'support request']);
             
             $table->unsignedBigInteger('service_category_id');
             $table->foreign('service_category_id')->references('id')->on('service_categories')->onDelete('cascade');
+
+            $table->unsignedBigInteger('subcategory_id');
+            $table->foreign('subcategory_id')->references('id')->on('service_categories')->onDelete('cascade');
             
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->unsignedBigInteger('service_provider_id');
+            $table->foreign('service_provider_id')->references('id')->on('users')->onDelete('cascade');
             
             $table->string('subject');
             $table->longtext('message');

@@ -75,12 +75,8 @@
                           <button type="reset" class="btn btn-danger">Reset</button>
                         </div>
                       </div>
-                    </form>
-                    </div>
- <script type="text/javascript"
- src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAd69fy-3SQFQiKECos32_6RICz0sa3ETQ&libraries=places">
- </script>
-<script> 
+                      </form>
+                    <script> 
 $(document).ready(function () {
 var autocomplete = new google.maps.places.Autocomplete($("#address")[0], {});
 google.maps.event.addListener(autocomplete, 'place_changed', function() {
@@ -90,3 +86,4 @@ $('#longitude').val(place.geometry.location.lng());
 });
 });
 </script> 
+

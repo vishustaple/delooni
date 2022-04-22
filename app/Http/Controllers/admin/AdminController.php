@@ -4,12 +4,15 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Admin;
+use App\Models\Report;
 use App\Traits\ImageUpload;
 use App\Traits\Statuscheck;
 use App\Traits\togglestatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 use Validator;
 use Carbon\Carbon;
 class AdminController extends Controller
@@ -19,7 +22,6 @@ class AdminController extends Controller
     use togglestatus;
     public function login(){
         return view('admin.login');
-        
     }
     /**
      * Admin Login.
@@ -78,9 +80,12 @@ class AdminController extends Controller
     {
         $loginUser = auth()->user();
         ////////////////Admin/////////////////////
+        $customer=User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->count();
+        $service_provider=User::role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->count();
+        $query=Report::where('status','=',1)->count();
         if ($loginUser->hasRole('admin')) {
             $staff = User::all();
-            return view('admin.home', compact('staff'));
+            return view('admin.home', compact('staff','service_provider','customer','query'));
         }
         //////////////////Customer//////////////////
         $userModule = $loginUser->userModule;
@@ -178,4 +183,65 @@ class AdminController extends Controller
      
       
     }
+      /**
+     * Forget password.
+     *
+     * @param  show Forget password
+     * @return  view 
+     */
+    //
+    public function forgotpwdView(){
+    return view('admin.forgotPassword');
+    }
+       /**
+     * Forget password.
+     *
+     * @param  $r request contains data to forget user password
+     * @return  response success or fail
+     */
+    //
+    public function forgotPassword(Request $request){
+        if ($request->isMethod('post')) {
+           $validate = Validator::make(
+               $request->input(),
+               [
+                   'email' => 'required|email|exists:users,email',
+               ]
+           );
+           if ($validate->fails())
+                   {                 
+                        return redirect()->back()->withErrors($validate->errors());
+                    }
+            $credentials = $request->only('email');
+             $remember = true;
+             $check = User::where('email', $request->email)->first();
+             if(!$check){
+                 return back()
+                 ->with('error','email does not match.'); 
+             }else{ 
+                 $token =rand(); 
+                 $id =  $check->first()->id;
+                 $user = User::findOrFail($id);
+                 $time = Carbon::now();
+                 try{
+                     Mail::send('admin.forget',['user' => $user, 'id' => $id, 'token'=>$token], function ($m) use ($user) {
+                         $m->from('ankur.mittal@richestsoft.in', 'Your Application');
+                           $m->to($user->email, $user->name)->subject('Your Reminder!');
+                      });
+                 }
+                 catch(Exception $e){
+                 } $insert = User::where('email', $request->email)->update([   
+                   "password_reset_token" => $token,
+                   "expired_token_time" => $time, 
+                 ]);
+                 if($insert){
+                 return redirect('/')->withSuccess('Password reset link has been sent on your email');
+                 }else{
+
+                 }
+             }
+             }
+         }
+  
+
 }
