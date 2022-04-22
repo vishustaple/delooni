@@ -48,7 +48,7 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::post('contact-us',[UserController::class, 'contactUs']);
     Route::post('report',[UserController::class, 'report']);
     Route::post('user-rating',[UserController::class, 'userRating']);
-    Route::post('add-favourite-service',[UserController::class, 'addFavourite']);
+    Route::post('add-favourite-service',[UserController::class, 'addRemoveFavourite']);
     Route::get('get-favourite-service',[UserController::class, 'getFavourite']);
     Route::post('service-filteration',[UserController::class, 'servicesFilteration']);
     

@@ -31,6 +31,6 @@ class ServiceBanner extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('service_banner');   
+        Schema::dropIfExists('service_banners');   
     }
 }

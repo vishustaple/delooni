@@ -75,7 +75,7 @@ class User extends Authenticatable
     public function jsonData()
     {
         $json = [];
-        
+        $json['id']=$this->id;
         $json['first_name']=$this->first_name;
         $json['last_name']= $this->last_name;
         $json['email'] = $this->email;
