@@ -87,15 +87,20 @@ class ReportController extends Controller
     public function report_View(){
       $user = User::get();
       $query = Report::get();
-      $maxcategory = Report::SELECT('service_category_id')->COUNT('service_category_id')->AS('value_occurrence')
-      ->orderBy('value_occurrence')->LIMIT(1)->paginate();dd($maxcategory);
-    //   SELECT       `column`,
-    //          COUNT(`column`) AS `value_occurrence`
-    // FROM     `my_table`
-    // GROUP BY `column`
-    // ORDER BY `value_occurrence` DESC
-    // LIMIT    1;
-      return view('admin.report.main',compact('query','user'));
+      $minquery = Report::join('service_categories','reports.service_category_id','=','service_categories.id')
+      ->where('is_parent',0)->select('service_categories.name', Report::raw('COUNT(*) as `count`'))
+      ->groupBy('service_categories.name')->having('count', '=', 1)->get();
+      $maxtwenty = Report::join('service_categories','reports.service_category_id','=','service_categories.id')
+      ->where('is_parent',0)->select('service_categories.name', Report::raw('COUNT(*) as `count`'))
+      ->groupBy('service_categories.name')->having('count', '>', 20)->get();
+      $mintwenty = Report::join('service_categories','reports.service_category_id','=','service_categories.id')
+      ->where('is_parent',0)->select('service_categories.name', Report::raw('COUNT(*) as `count`'))
+      ->groupBy('service_categories.name')->having('count', '<', 20)->get();
+      $maxtwentyprovider = Report::join('users','reports.service_provider_id','=','users.id')
+      ->select('users.first_name', Report::raw('COUNT(*) as `count`'))
+      ->groupBy('users.first_name')->having('count', '<', 20)->get();
+
+      return view('admin.report.main',compact('query','user','minquery','maxtwenty','mintwenty','maxtwentyprovider'));
     }
     /**
      * report export.
@@ -104,9 +109,11 @@ class ReportController extends Controller
      * @return  Can download excel file for User Report
      */
      //
-    public function reportexport(Request $request)
+    public function reportexport()
     { 
-     return Excel::download(new ReportExport($request->id), 'report.xlsx'); 
+      $name = User::select('first_name')->get();
+     return Excel::download(new ReportExport($name), 'report.xlsx'); 
+    // return Excel::download(new ReportExport, 'report.xlsx'); 
     }
 
 }

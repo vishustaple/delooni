@@ -10,13 +10,9 @@
     <tr>
     <th style="width: 10px">S.no.</th>
     <th>Total User</th>
-    <th>Total query</th>
-    <th>Category with maximum query</th>
-    <th>Category with minimum Query</th>
-    <th>Service Provider with maximum query</th>
-    <th>Action</th>
     </tr>
     </thead>
+
     <tbody>
     @forelse($user as $key=>$value)
     <tr>
@@ -24,18 +20,77 @@
     <td>{{$value->first_name}}</td>
     </tr>
     @empty
-    <center>
-    <h3> No Query </h3>
-    </center>
     @endforelse
-</tbody>
-</table>
-</table>
-<a href="{{ route('reportexport') }}" class="btn btn-warning btn-xs">Export Report</a>
-</div>
-<div id="num"  data-page="{{}}">    
- 
-</div>
+   
+    
+    <tr>
+    <th style="width: 10px">S.no.</th>
+    <th>Total query</th>
+    </tr>
+    @forelse($query as $key=>$value)
+    <tr>
+    <td>{{$key+1}}</td>
+    <td>{{$value->subject}}</td>
+    </tr>
+    @empty
+    @endforelse
+
+   
+    <tr>
+    <th style="width: 10px">S.no.</th>
+    <th>category has minimum query</th>
+    </tr>
+    @forelse($minquery as $key=>$value)
+    <tr>
+    <td>{{$key+1}}</td>
+    <td>{{$value->name}}</td>
+    </tr>
+    @empty
+    @endforelse
+
+    
+    <tr>
+    <th style="width: 10px">S.no.</th>
+    <th>category has maximum twenty query</th>
+    </tr>
+    @forelse($maxtwenty as $key=>$value)
+    <tr>
+    <td>{{$key+1}}</td>
+    <td>{{$value->name}}</td>
+    </tr>
+    @empty
+    @endforelse
+
+   
+    <tr>
+    <th style="width: 10px">S.no.</th>
+    <th>category has minimum twenty query</th>
+    </tr>
+    @forelse($mintwenty as $key=>$value)
+    <tr>
+    <td>{{$key+1}}</td>
+    <td>{{$value->name}}</td>
+    </tr>
+    @empty
+    @endforelse
+
+   
+    <tr>
+    <th style="width: 10px">S.no.</th>
+    <th>Service Provider with maximum twenty query</th>
+    </tr>
+    @forelse($maxtwentyprovider as $key=>$value)
+    <tr>
+    <td>{{$key+1}}</td>
+    <td>{{$value->first_name}}</td>
+    </tr>
+    @empty
+    @endforelse
+   </tbody>
+    </table>
+    </table>
+    <a href="{{ route('reportexport') }}" class="btn btn-warning btn-xs">Export Report</a>
+    </div>
 <!-- /.card-body -->
 </div>
 <!-- /.card -->
