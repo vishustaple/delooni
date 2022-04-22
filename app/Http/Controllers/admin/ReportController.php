@@ -87,6 +87,14 @@ class ReportController extends Controller
     public function report_View(){
       $user = User::get();
       $query = Report::get();
+      $maxcategory = Report::SELECT('service_category_id')->COUNT('service_category_id')->AS('value_occurrence')
+      ->orderBy('value_occurrence')->LIMIT(1)->paginate();dd($maxcategory);
+    //   SELECT       `column`,
+    //          COUNT(`column`) AS `value_occurrence`
+    // FROM     `my_table`
+    // GROUP BY `column`
+    // ORDER BY `value_occurrence` DESC
+    // LIMIT    1;
       return view('admin.report.main',compact('query','user'));
     }
     /**

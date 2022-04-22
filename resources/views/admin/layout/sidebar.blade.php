@@ -51,8 +51,7 @@
       <li class="nav-item">
         <a href="{{url('/admin/splashscreen')}}" class="nav-link">
         <i class="fa fa-desktop nav-icon"></i>
-        <!-- <i class="fa fa-mobile nav-icon"></i> -->
-          <p>
+       <p>
             Splash screen
           </p>
         </a>
@@ -72,14 +71,7 @@
               <p>Customers</p>
             </a>
           </li>
-      <!-- <li class="nav-item">
-        <a href="{{url('/admin/customer')}}" class="nav-link  {{ Request::routeIs('admin.customer') ? 'active' : '' }}">
-          <i class="fa fa-user-circle nav-icon"></i>
-          <p>
-            customer
-          </p>
-        </a>
-      </li> -->
+    
       <li class="nav-item">
             <a href="{{route('viewserviceprovider')}}" class="nav-link  {{ Request::routeIs('viewserviceprovider') ? 'active' : '' }}">
               <i class="fa fa-circle nav-icon"></i>
@@ -88,10 +80,6 @@
           </li>
         </ul>
       </li>
-<<<<<<< HEAD
-     <!--Users End-->
-      
-=======
 
       <li class="nav-item">
         <a href="{{url('/admin/report')}}" class="nav-link">
@@ -119,7 +107,6 @@
         </a>
       </li>
      <!--Users End-->
->>>>>>> 012a6ed7ae6161d9e503669f4b7ae12f89fd68fb
       <li class="nav-item">
         <a href="{{url('/admin/logout')}}" class="nav-link">
           <i class="fa fa-sign-out nav-icon"></i>
