@@ -15,7 +15,7 @@
           <li class="nav-item">
             <a href="{{url('/admin/profile')}}" class="nav-link">
               <i class="fa fa-id-badge nav-icon"></i>
-              <p>Profile</p>
+              <p>Account</p>
             </a>
           </li>
         </ul>
@@ -58,13 +58,6 @@
         </a>
       </li>
 
-      <li class="nav-item">
-        <!-- <a href="{{url('/admin/user')}}" class="nav-link"> -->
-        <a href="" class="nav-link">
-          <i class="fa fa-user-circle nav-icon"></i>
-          <p>Users</p>
-        </a>
-      </li>
      <!--Users Start Here-->
      <li class="nav-item">
         <a href="javascript:void(0)" class="nav-link d-flex">
@@ -95,40 +88,33 @@
           </li>
         </ul>
       </li>
-     <!--Users End-->
+
       <li class="nav-item">
-        <a href="javascript:void(0)" class="nav-link d-flex">
-           <span><i class="nav-icon fa fa-users"></i></span>
-          <p>User Management</p>
-          <i class="right fa fa-angle-left"></i>
+        <a href="{{url('/admin/report')}}" class="nav-link">
+       <i class="fa fa-file nav-icon"></i>
+         <p>
+            Report
+          </p>
         </a>
-        <ul class="nav nav-treeview">
-          <li class="nav-item">
-            <a href="{{route('permissions.index')}}" class="nav-link  {{ Request::routeIs('premissions') ? 'active' : '' }}">
-              <i class="fa fa-circle nav-icon"></i>
-              <p>Permissons</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{route('roles.index')}}" class="nav-link  {{ Request::routeIs('roles') ? 'active' : '' }}">
-              <i class="fa fa-circle nav-icon"></i>
-              <p>Roles</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{route('rolesPermission.index')}}" class="nav-link  {{ Request::routeIs('roles-permissions') ? 'active' : '' }}">
-              <i class="fa fa-circle nav-icon"></i>
-              <p>Role Permissons</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{route('manage-users')}}" class="nav-link  {{ Request::routeIs('manage-users') ? 'active' : '' }}">
-              <i class="fa fa-circle nav-icon"></i>
-              <p>Assign Roles</p>
-            </a>
-          </li>
-        </ul>
       </li>
+
+      <li class="nav-item">
+        <a href="{{url('/admin/query')}}" class="nav-link">
+       <i class="fa fa-question-circle nav-icon"></i>
+         <p>
+            Queries
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{url('/admin/static/content')}}" class="nav-link">
+       <i class="fa fa-twitter nav-icon"></i>
+         <p>
+            Static Content
+          </p>
+        </a>
+      </li>
+     <!--Users End-->
       <li class="nav-item">
         <a href="{{url('/admin/logout')}}" class="nav-link">
           <i class="fa fa-sign-out nav-icon"></i>

@@ -23,9 +23,9 @@
                       <div class="form-group row">
                         <label for="service_category_image" class="col-sm-3 col-form-label">Service Category Image :</label>
                         <div class="col-sm-8">
-                          <input type="text" class="form-control" value="{{$data->service_category_image}}"  id="service_category_image" name="service_category_image"  readonly>
+                        <img src="{{URL::to('/')}}/profile_image/{{$data->service_category_image}}">
                           </div>
-                      </div>                    
+                      </div>  
                     </form>
 </div>
 <div class="card" id="data">

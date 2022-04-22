@@ -13,6 +13,8 @@ use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\SubscriptionController;
 use App\Http\Controllers\admin\ServiceProviderController;
 use App\Http\Controllers\admin\MainScreenController;
+use App\Http\Controllers\admin\ReportController;
+use App\Http\Controllers\admin\StaticContentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,8 +29,10 @@ Route::get('verify-email', [AdminController::class, 'VerifyEmail']);
 
 Route::get('/', [AdminController::class, 'login']);
 Route::post('/login', [AdminController::class, 'Adminlogin'])->name('login');
-Route::get('/forgot-password', [HospitalController::class, 'forgotpwdView'])->name('forgot');
-Route::post('/forgotpwd', [HospitalController::class, 'forgotPassword'])->name('forgotpwd');
+Route::get('/forgot-password', [AdminController::class, 'forgotpwdView'])->name('forgot');
+Route::post('/forgotpwd', [AdminController::class, 'forgotPassword'])->name('forgotpwd');
+Route::get('/resetpwd/{token}', [AdminController::class, 'resetPassword'])->name('resetpwd');
+Route::post('/updatepwd', [AdminController::class, 'updatePassword'])->name('updatepwd');
 
 Route::group(['prefix' => 'admin'], function () {
     Route::middleware([
@@ -93,7 +97,7 @@ Route::group(['prefix' => 'admin'], function () {
       Route::get('/service/view/{id}', [ServiceController::class, 'detailView_service'])->name('service.view');
       Route::get('/search', [ServiceController::class, 'searchservice'])->name('search');
       Route::get('/service/back',[ServiceController::class,'serviceBack']);
-      Route::get('/provider/category/{id}', [ServiceController::class, 'subcategory'])->name('provider.category');
+      Route::get('/service/category/{id}', [ServiceController::class, 'subcategory'])->name('service.category');
 
       //******************************************Admin Manage Main screen*********************************************//
       Route::get('/splashscreen', [MainScreenController::class, 'splash_screen_View'])->name('splashscreen');
@@ -102,6 +106,27 @@ Route::group(['prefix' => 'admin'], function () {
       Route::get('/splash/screen/delete', [MainScreenController::class, 'deletescreen'])->name('splash.screen.delete');
       Route::post('/screen/update', [MainScreenController::class, 'update_screen_image'])->name('screen.update');
       Route::get('/splash/screen/search', [MainScreenController::class, 'searchscreen'])->name('splash.screen.search');
+
+      //******************************************Admin export excel file of Report*********************************************//
+      Route::get('/report', [ReportController::class, 'report_View'])->name('report');
+      Route::get('/reportexport',[ReportController::class,'reportexport'])->name('reportexport');
+
+
+      //******************************************Admin View Query*********************************************//
+      Route::get('/query', [ReportController::class, 'query_View'])->name('query');
+      Route::get('/query/delete', [ReportController::class, 'delete_query'])->name('query.delete');
+      Route::get('/query/search', [ReportController::class, 'search_query'])->name('query.search');
+      Route::get('/query/view/{id}', [ReportController::class, 'detailView_query'])->name('query.view');
+      Route::get('/query/back',[ReportController::class,'queryBack']);
+
+      //******************************************Admin manage Static Content*********************************************//
+      Route::get('/static/content', [StaticContentController::class, 'static_content_View'])->name('static.content');
+      Route::post('/static/content/add', [StaticContentController::class, 'storeContent'])->name('static.content.add');
+      Route::get('/static/content/delete', [StaticContentController::class, 'delete_content'])->name('static.content.delete');
+      Route::get('/content/view/update', [StaticContentController::class, 'view_update'])->name('content.view.update');
+      Route::post('/content/update', [StaticContentController::class, 'update_content'])->name('content.update');
+      Route::get('/content/view/{id}', [StaticContentController::class, 'detailView_content'])->name('content.view');
+
 
       //******************************************Admin Manage Subscription*********************************************//
       Route::get('/subscription', [SubscriptionController::class, 'subscriptionView'])->name('subscription');
@@ -117,12 +142,6 @@ Route::group(['prefix' => 'admin'], function () {
         return view('admin.user.includes.addform');
     });
 });
-
-//******************************************Permissions*********************************************//
-Route::resource('permissions', PermissionController::class);
-
-//***********************************************Role************************************************//
-Route::resource('roles', RolesController::class);
 
 
 /*********************************************Service Provider*******************************************************/

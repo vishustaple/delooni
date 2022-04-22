@@ -13,6 +13,7 @@
                       <div class="form-group row">
                         <label for="screen_image" class="col-sm-3 col-form-label">Service Category Image :</label>
                         <div class="col-sm-8">
+                        <img src="{{URL::to('/')}}/profile_image/{{$screenData->screen_image}}">
                           <input type="file" class="form-control" id="screen_image" name="screen_image" value="{{$screenData->screen_image}}">
                           <div class="error" id="error_screen_image">
                          </div>

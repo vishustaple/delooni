@@ -43,7 +43,7 @@
                 <!-- /.tab-content -->
               </div><!-- /.card-body -->
       </div>
-      <script>
+<script>
 $("#add_service").on('submit', function (e){ 
      e.preventDefault();
      var data = new FormData(this);
@@ -216,10 +216,10 @@ $(document).on('click', '.pagination a', function(event){
  
 });
 //ajax for subcategory
-$(document).on('change','#service_category_id',function(e){
+$(document).on('change','.category',function(e){
             var id = e.target.value;
             console.log(id);
-            var url = '{{ route("provider.category", ":id") }}';
+            var url = '{{ route("service.category", ":id") }}';
              url = url.replace(':id', id );
             //ajax
             $.ajax({
