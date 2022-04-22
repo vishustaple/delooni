@@ -114,4 +114,26 @@ class ListController extends Controller
             return $this->error($th->getMessage());
         }
     }
+
+    /**
+     *Get Notification
+     *
+     * @param  contains user id 
+     * @return response show list 
+     */
+    //
+    public function GetNotification(request $r)
+    {
+        try{
+        $user = auth()->user();
+        $list=Notification::where('to_user',$user->id)->paginate();
+        return $this->customPaginator($list,'jsonData');
+        }
+        catch (\Throwable $e) {
+            DB::rollback();
+            return $this->error($e->getMessage());
+        }
+        
+
+    }
 }

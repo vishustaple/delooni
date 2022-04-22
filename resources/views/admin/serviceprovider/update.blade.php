@@ -123,19 +123,102 @@
                   </div>
                       </div>
                       <div class="form-group row">
-                        <label for="description" class="col-sm-2 col-form-label">Add Description</label>
-                        <div class="col-sm-10">
-                        <input type="text" class="form-control" id="description" name="description" value="{{$data->description}}" >
-                        <div class="error" id="error_description"></div>
-                      </div>
-                      </div>
-                      <div class="form-group row">
                         <label for="dob" class="col-sm-2 col-form-label">Date of Birth</label>
                         <div class="col-sm-10">
                         <input type="text" class="form-control" id="dob" name="dateofbirth" value="{{$data->dob}}" >
                         <div class="error" id="error_dateofbirth"></div>
                       </div>
                       </div>
+                      <div class="form-group row">
+                        <label for="description" class="col-sm-2 col-form-label">Add Description</label>
+                        <div class="col-sm-10">
+                        <input type="text" class="form-control" id="description" name="description" value="{{$data->description}}" >
+                        <div class="error" id="error_description"></div>
+                      </div>
+                      </div>
+                      <!--service detail strat-->
+                      <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="service_category_id" class="col-md-6 col-form-label">Select Services :</label>
+                        <select class="form-control select2" id="service_services" name="service_services">
+                        <option value="N/A" disabled selected="true">--Select Services--</option>
+                        @foreach($getservices as $getservice)
+                        <option class="form-drop-items" value="{{$getservice->id}}">{{$getservice->name}}</option>
+                         @endforeach
+                       </select>
+                        <div class="error" id="error_service_services">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="service_category_id" class="col-md-6 col-form-label">Select category :</label>
+                        <select class="form-control select2" id="service_category_id" name="service_category_id">
+                        <option value="N/A" disabled selected="true">--Select category--</option>
+                       @foreach($categorynames as $categoryname)
+                      <option class="form-drop-items" value="{{$categoryname->id}}">{{$categoryname->name}}</option>
+                        @endforeach
+                       </select>
+                        <div class="error" id="error_service_category_id">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="subcategory" class="col-md-6 col-form-label">Select Sub category :</label>
+                        <select class="form-control select2" id="subcategory" name="subcategory">
+                        <option value="N/A" disabled selected="true">--Select sub category--</option>
+                        </select>
+                        <div class="error" id="error_subcategory">
+                        </div>
+                    </div>   
+                </div>
+                      <!---->
+                      <div class="form-group row">
+                        <label for="description" class="col-sm-2 col-form-label"> Services</label>
+                        <div class="col-sm-10">
+                        <input type="text" class="form-control" id="description" name="description" value="{{$data->description}}" >
+                        <div class="error" id="error_description"></div>
+                      </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="description" class="col-sm-2 col-form-label"> category</label>
+                        <div class="col-sm-10">
+                        <input type="text" class="form-control" id="description" name="description" value="{{$data->description}}" >
+                        <div class="error" id="error_description"></div>
+                      </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="description" class="col-sm-2 col-form-label">Sub category</label>
+                        <div class="col-sm-10">
+                        <input type="text" class="form-control" id="description" name="description" value="{{$data->description}}" >
+                        <div class="error" id="error_description"></div>
+                      </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="price_per_hour" class="col-sm-2 col-form-label">Service Price(/hours)</label>
+                        <div class="col-sm-10">
+                        <input type="text" class="form-control" id="price_per_hour" name="price_per_hour" value="{{$data->description}}" >
+                        <div class="error" id="error_price_per_hour"></div>
+                      </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="price_per_day" class="col-sm-2 col-form-label">Service Price(/days) </label>
+                        <div class="col-sm-10">
+                        <input type="text" class="form-control" id="price_per_day" name="price_per_day" value="{{$data->description}}" >
+                        <div class="error" id="error_price_per_day"></div>
+                      </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="price_per_month" class="col-sm-2 col-form-label">Service Price(/month)</label>
+                        <div class="col-sm-10">
+                        <input type="text" class="form-control" id="price_per_month" name="price_per_month" value="{{$data->description}}" >
+                        <div class="error" id="error_price_per_month"></div>
+                      </div>
+                      </div>
+
+
+                      <!--service detail end-->
                       <div class="form-group row">
                         <label for="institutename" class="col-sm-2 col-form-label">College/School Name</label>
                         <div class="col-sm-10">
@@ -169,6 +252,13 @@
                         <div class="col-sm-10">
                         <input type="text" class="form-control" id="workexperience" name="experience" value="{{$getwork->no_of_years}}" >
                         <div class="error" id="error_experience"></div>  
+                      </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="brief_of_experience" class="col-sm-2 col-form-label">Brief Of Experience</label>
+                        <div class="col-sm-10">
+                        <input type="text" class="form-control" id="brief_of_experience" name="brief_of_experience" value="{{$getwork->brief_of_experience}}" >
+                        <div class="error" id="error_brief_of_experience"></div>  
                       </div>
                       </div>
                      

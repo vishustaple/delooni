@@ -10,7 +10,7 @@ use Twilio\Rest\Client;
 
 class Notification extends Model
 {
-    protected $table = "notification";
+    protected $table = "notifications";
     use HasFactory;
     const STATUS_NEW = 0;
     const STATUS_CLEAR = 1;
@@ -108,4 +108,16 @@ class Notification extends Model
             Log::emergency($e->getMessage());
         }
     }
+
+
+  public function jsonData()
+  {
+      $json = [];
+      $json['id'] = $this->id;
+      $json['title'] = $this->title;
+      $json['description'] = $this->description;
+      $json['created_at'] = $this->created_at;
+      $json['updated_at'] = $this->updated_at;
+      return $json;
+  }
 }

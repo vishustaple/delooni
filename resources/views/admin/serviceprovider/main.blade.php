@@ -267,8 +267,9 @@ $(document).on('change','#service_category_id',function(e){
                       },
               success:function(response){
               console.log(response);
-              var subcategories = '<select class="form-control select2" id="_service_category_id" name="_service_category_id"><option value="N/A" disabled selected="true">--Select category--</option>'; 
+              var subcategories = '<select class="form-control select2" id="_service_category_id" name="_service_category_id"><option value="N/A" disabled selected="true">--Select sub category--</option>'; 
               
+  
               $.each(response, function (key, value) {                     
 
                 subcategories += '<option class="form-drop-items" value='+value.id+'>'+value.name+'</option>';

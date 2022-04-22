@@ -214,9 +214,9 @@
                         <label for="service_category_id" class="col-md-6 col-form-label">Select Services :</label>
                         <select class="form-control select2" id="service_services" name="service_services">
                         <option value="N/A" disabled selected="true">--Select Services--</option>
-                       @foreach($getservices as $getservice)
-                      <option class="form-drop-items" value="{{$getservice->id}}">{{$getservice->name}}</option>
-                        @endforeach
+                        @foreach($getservices as $getservice)
+                        <option class="form-drop-items" value="{{$getservice->id}}">{{$getservice->name}}</option>
+                         @endforeach
                        </select>
                         <div class="error" id="error_service_services">
                         </div>

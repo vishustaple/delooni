@@ -25,6 +25,7 @@ use App\Http\Controllers\admin\StaticContentController;
 |
 */
 //*****************************verify email*******************//
+Route::get('terms-condition',[AdminController::class, 'termsAndCondition']);
 Route::get('verify-email', [AdminController::class, 'VerifyEmail']);
 
 Route::get('/', [AdminController::class, 'login']);
