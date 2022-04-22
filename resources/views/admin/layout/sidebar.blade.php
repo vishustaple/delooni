@@ -15,7 +15,7 @@
           <li class="nav-item">
             <a href="{{url('/admin/profile')}}" class="nav-link">
               <i class="fa fa-id-badge nav-icon"></i>
-              <p>Profile</p>
+              <p>Account</p>
             </a>
           </li>
         </ul>
@@ -58,13 +58,6 @@
         </a>
       </li>
 
-      <li class="nav-item">
-        <!-- <a href="{{url('/admin/user')}}" class="nav-link"> -->
-        <a href="" class="nav-link">
-          <i class="fa fa-user-circle nav-icon"></i>
-          <p>Users</p>
-        </a>
-      </li>
      <!--Users Start Here-->
      <li class="nav-item">
         <a href="javascript:void(0)" class="nav-link d-flex">
@@ -95,8 +88,38 @@
           </li>
         </ul>
       </li>
+<<<<<<< HEAD
      <!--Users End-->
       
+=======
+
+      <li class="nav-item">
+        <a href="{{url('/admin/report')}}" class="nav-link">
+       <i class="fa fa-file nav-icon"></i>
+         <p>
+            Report
+          </p>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="{{url('/admin/query')}}" class="nav-link">
+       <i class="fa fa-question-circle nav-icon"></i>
+         <p>
+            Queries
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{url('/admin/static/content')}}" class="nav-link">
+       <i class="fa fa-twitter nav-icon"></i>
+         <p>
+            Static Content
+          </p>
+        </a>
+      </li>
+     <!--Users End-->
+>>>>>>> 012a6ed7ae6161d9e503669f4b7ae12f89fd68fb
       <li class="nav-item">
         <a href="{{url('/admin/logout')}}" class="nav-link">
           <i class="fa fa-sign-out nav-icon"></i>

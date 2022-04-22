@@ -5,8 +5,10 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Country;
 use Spatie\Permission\Models\Role;
+use App\Models\Country;
+use Illuminate\Support\Facades\Hash;
+
 
 
 class CustomerController extends Controller
@@ -43,7 +45,7 @@ class CustomerController extends Controller
    $insert->first_name = $request->first_name;
    $insert->last_name = $request->last_name;
    $insert->email = $request->email;
-   $insert->password = $request->password;
+   $insert->password = Hash::make($request->password);
    $insert->phone = $request->phone;
    $insert->address = $request->address;
    $insert->nationality = $request->nationality;
@@ -78,7 +80,7 @@ class CustomerController extends Controller
    }
    /**
      *  Detail view customer
-     *
+     * 
      * @param get $r->id on click view button
      * @return  detail view page of customer according $r->id
    */
@@ -140,7 +142,7 @@ class CustomerController extends Controller
           $q->where('first_name','like',"%$search%");
      });
   }
-  $data = $qry->orderBy('id','DESC')->paginate();
+  $data = $qry->role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->orderBy('id', 'DESC')->paginate();
   return view('admin.customer.view', compact('data','search'));
   }
   /**

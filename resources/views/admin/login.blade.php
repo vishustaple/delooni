@@ -27,7 +27,7 @@
                         <div class="base__heading text-center mb-3">
                             <div class="base__logo__img">
                                 <img src="{{asset('images/user-lg.png')}}" alt="Logo" />
-                            </div>                           
+                             </div>                           
                         </div>
                         <div class="base__form">
                             <h4 class="primary-color mb-3 text-center text-white">Admin</h4>
@@ -71,9 +71,6 @@
                                                 Remember Me
                                             </label>
                                         </div>
-                                    </div>
-                                    <div class="col-6 text-right">
-                                        <a href="{{route('forgot')}}" class="link__clr link__forgot">Forgot Password?</a>
                                     </div>
                                     <div class="col-12 mt-3">
                                         <button type="submit" class="btn btn-primary btn-block">Login</button>

@@ -64,7 +64,7 @@
     </tr>
     @empty
     <center>
-    <h3> No User Available </h3>
+    <h3> Service is not Available </h3>
     </center>
     @endforelse
 </tbody>

@@ -1,8 +1,6 @@
 <?php
 
-// namespace App\Http\Controllers;
 namespace App\Http\Controllers\admin;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -10,7 +8,7 @@ use Spatie\Permission\Models\Permission;
 use App\Models\User;
 use DB;
 class UserController extends Controller
-{
+    {
     /**
      * Display a listing of the resource.
      *
@@ -18,12 +16,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
         $users = User::with('roles')->get();
-    //    dd($user);
-        return view('admin.users.create',compact('users'));
-
-
+       return view('admin.users.create',compact('users'));
     }
 
     /**
@@ -46,32 +40,15 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+       {
         //
         $request->validate([
             'role'=>'required|integer',
             'permissions'=>'required|array',
         ]);
-        // Role::create(['name' => $request->role]);
-        // dd($request->permissions);
-        
         $role= Role::find($request->role);
         $role->givePermissionTo($request->permissions);
         return redirect()->route('rolesPermission.index')->with('success','permissions has Sucessfully Assigned');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-
-        
-        
     }
 
     /**
@@ -84,7 +61,6 @@ class UserController extends Controller
     {
         $id = $request->id;
         $roles = Role::all();
-        // $permissions = Permission::all();
         $user= User::with('roles')->find($id);
         $rolesdata =[];
             foreach($user->roles as $role){
@@ -106,25 +82,10 @@ class UserController extends Controller
             'roles'=>'required|array',
         ]);
         $user= User::findOrFail($id);
-        // $delData = DB::table("role_has_permissions")->where('role_id',$request->role)->whereNotIn('permission_id',$request->permissions)->delete();
         $user->syncRoles($request->roles);
-        // dd($delData);
         return redirect()->route('manage-users')->with('success','Roles has Sucessfully Assigned');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-        // Role::where('id',$id)->delete();
-        // return redirect()->route('roles')->with('success','Deleted Sucessfully');
-        
-    }
     
   
 

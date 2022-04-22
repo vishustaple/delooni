@@ -20,6 +20,7 @@
                  <div class="form-group row">
                         <label for="service_image" class="col-sm-3 col-form-label">Service Category Image :</label>
                         <div class="col-sm-8">
+                        <img src="{{URL::to('/')}}/profile_image/{{$categoryData->service_image}}">
                           <input type="file" class="form-control" id="service_image" name="service_image" value="{{$categoryData->service_image}}">
                           <div class="error" id="error_service_image">
                          </div>
