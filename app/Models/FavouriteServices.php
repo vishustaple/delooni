@@ -61,7 +61,6 @@ class FavouriteServices extends Model
         $json['phone']=$this->serviceProvider->phone;
         $json['price_per_hour']=$this->hourrate->price_per_hour??0;
         $json['is_favourite']=empty($favourite)?0:1;
-        
         return $json;
     }
 }

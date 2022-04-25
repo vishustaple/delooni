@@ -16,7 +16,10 @@ class UserRating extends Model
     protected $fillable = [
         'user_id','rating','from_user_id','status','message',
     ];
-
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
     const MAX_RATING=5;
     
     public function jsonData()

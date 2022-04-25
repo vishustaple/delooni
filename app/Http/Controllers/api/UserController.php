@@ -687,19 +687,29 @@ class UserController extends Controller
             if ($v->fails()) {
                 return $this->validation($v);
             }
+            DB::beginTransaction();
+
             $userrating =  new UserRating();
             $userrating->rating = $r->rating;
             $userrating->user_id  = $r->user_id;
             $userrating->from_user_id = $user->id;
             $userrating->message = $r->message;
-            $userrating->save();
+            if (!$userrating->save()) {
+                throw new Exception("Not rated");
+            }
+            $ratingUserModel = $userrating->user;
+            $ratingUserModel->rating = (int) UserRating::where(['user_id' => $ratingUserModel->id])->avg('rating');
+            if (!$ratingUserModel->save()) {
+                throw new Exception("Not rated");
+            }
+            DB::commit();
             return $this->successWithData($userrating->jsonData(), 'Rating successfully given to user.');
         } catch (\Throwable $e) {
             DB::rollback();
             return $this->error($e->getMessage());
         }
     }
-     /**
+    /**
      * add favorite 
      *
      * @param  send auth id 
@@ -712,25 +722,25 @@ class UserController extends Controller
             $v = Validator::make(
                 $r->input(),
                 [
-                   'provider_id' => 'required|numeric',//service provider id
-                   'is_favourite' =>  'required|numeric',//is favorite or not   0 or 1
+                    'provider_id' => 'required|numeric', //service provider id
+                    'is_favourite' =>  'required|numeric', //is favorite or not   0 or 1
 
                 ]
             );
             if ($v->fails()) {
                 return $this->validation($v);
             }
-        if($r->is_favourite==1){
+            if ($r->is_favourite == 1) {
                 $favourite = new FavouriteServices();
                 $favourite->service_id = $r->provider_id;
                 $favourite->user_id = $user->id;
                 $favourite->save();
 
-            return $this->success('Added to favourite');
-        }else{
-            $favourite=FavouriteServices::where(['service_id'=>$r->provider_id,'user_id'=>$user->id])->delete();
-            return $this->success('Remove from favourite.');
-        }
+                return $this->success('Added to favourite');
+            } else {
+                $favourite = FavouriteServices::where(['service_id' => $r->provider_id, 'user_id' => $user->id])->delete();
+                return $this->success('Remove from favourite.');
+            }
         } catch (\Throwable $e) {
             DB::rollback();
             return $this->error($e->getMessage());
@@ -746,7 +756,7 @@ class UserController extends Controller
     {
         $user = auth()->user();
         $favourite = FavouriteServices::where('user_id', $user->id)->paginate();
-        
+
         return $this->customPaginator($favourite, 'jsonData');
     }
 
@@ -845,25 +855,39 @@ class UserController extends Controller
                 return $this->validation($v);
             }
             $serviceCategory = ServiceCategory::where('name', $r->search)->first();
-         
-            // $rating = UserRating::where('rating', $r->rating)->first();
-            // if($rating){
-            //     $ratingDetail = UserRating::where('user_id', $r->id ?? 0)->paginate();
-            //     return $this->customPaginator($serviceDetail, 'filterData');
+            $serviceD = ServiceDetail::where('service_id', $serviceCategory->id ?? 0);
+            // if( isset($request->rating) ){
+
+            //     $serviceD = ServiceDetail::where('service_id', $serviceCategory->id ?? 0)->with('serviceUsers',function ($query) {
+            //         $query->where('rating',$request->rating);
+            //     });
+            // }
+            $serviceDetail = $serviceD->paginate();
+            //echo "<pre>"; print_r($serviceDetail);die;
+//             foreach($serviceDetail as $Detail){
+//                 echo $Detail->user_id."<br>";
+//                 echo $Detail->users->first_name."<br>";
+//                 echo $Detail->users->rating."<br>";           
+               
+//                 echo "<hr>";
+
+//             }
+// die;
+            // $ratings = User::where('rating', $r->rating)->paginate();
+            // if($ratings){
+            //     return $this->customPaginator($ratings, 'RatingResponse');
             //     }
             // $perhour= ServiceDetail::where('price_per_hour', $r->price_per_hour)->first();
             // if($perhour){
 
             // }
             // if($serviceCategory){
-            $serviceDetail = ServiceDetail::where('service_id', $serviceCategory->id ?? 0)->paginate();
-           
+            
         } catch (\Throwable $e) {
             DB::rollback();
             return $this->error($e->getMessage());
         }
         return $this->customPaginator($serviceDetail, 'filterData');
-        
     }
 
 

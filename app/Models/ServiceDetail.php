@@ -27,6 +27,9 @@ class ServiceDetail extends Model
     public function users(){
         return $this->hasMany(User::class,'id','user_id');
     }
+    public function serviceUsers(){
+        return $this->belongsTo(User::class,'user_id','id');
+    }
     public function favourite($id,$userId){
         return FavouriteServices::where('service_id',$id)->where('user_id',$userId)->first();
     }
@@ -41,8 +44,8 @@ public function filterData()
     $json['first_name'] = $this->users[0]->first_name;
     $json['last_name'] = $this->users[0]->last_name;
     $json['profile_image']=env('APP_URL').'public/profile_image/'.$this->users[0]->profile_image;
-    $json['rating'] = $this->Rating->rating??0;;
-    $json['is_favorite'] = empty($favourite)?0:1;
+    $json['rating'] = $this->Rating->rating??0;
+    $json['is_favourite'] = empty($favourite)?0:1;
     $json['whatsapp_no'] = $this->users[0]->whatsapp_no;
     $json['snapchat_link'] = $this->users[0]->snapchat_link;
     $json['instagram_link'] = $this->users[0]->instagram_link;
@@ -50,6 +53,7 @@ public function filterData()
     $json['description'] = $this->users[0]->description;
     $json['phone']=$this->users[0]->phone;
     $json['price_per_hour']=$this->users[0]->price_per_hour??0;
+    $json['serviceUsers']=$this->serviceUsers??null;
 
     return $json;
 }
