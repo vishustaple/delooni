@@ -68,13 +68,7 @@ class StaticContentController extends Controller
      */
      public function update_content(Request $request){
       $content = StaticContent::find($request->id);
-
-      if($request->screen_baner_image)
-        $screen_baner_image = $this->uploadImage($request->screen_baner_image, 'profile_image');
-        else
-        $screen_baner_image = $content->screen_baner_image;
-
-      $insert = StaticContent::where('id', $request->id)->update([
+        $insert = StaticContent::where('id', $request->id)->update([
         "terms_and_condition" => $request->terms_and_condition,
         "screen_baner_image"  => $this->uploadImage($request->screen_baner_image, 'profile_image'),
      ]);

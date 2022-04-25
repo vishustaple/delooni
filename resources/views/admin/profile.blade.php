@@ -125,8 +125,7 @@ form input[type="file"] {
                 <h3 class="profile-username text-center">{{$admin->first_name." ".$admin->last_name}}</h3>
 
                 <!-- <p class="text-muted text-center">Software Engineer</p> -->
-
-                <ul class="list-group list-group-unbordered mb-3">
+              <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
                     <b>Phone</b> <a class="float-right">{{$admin->phone}}</a>
                   </li>
@@ -138,9 +137,6 @@ form input[type="file"] {
                    
         
                   </li>
-                  <!-- <li class="list-group-item">
-                    <b>Friends</b> <a class="float-right">13,287</a>
-                  </li> -->
                 </ul>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changePassword">
                     Change Password
@@ -152,22 +148,11 @@ form input[type="file"] {
               <!-- /.card-body -->
             </div>
             <!-- /.card -->
-
-
-          </div>
+ </div>
           <!-- /.col -->
           <div class="col-md-9">
             <div class="card">
-              <!-- <div class="card-header p-2"> -->
-                <!-- <ul class="nav nav-pills"> -->
-                  <!-- <li class="nav-item"><a class="nav-link active" href="#notifications" data-toggle="tab">Notifications</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#update_profile" data-toggle="tab">Update Profile</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li> -->
-                <!-- </ul> -->
-              <!-- </div> -->
-              <!-- /.card-header -->
-              <!-- <div class="card-body"> -->
-                <div class="tab-content">
+              <div class="tab-content">
                   <div class="tab-pane" id="activity">
                    <!-- settings section -->
                   </div>
@@ -210,37 +195,7 @@ form input[type="file"] {
                           <div class="error" id="phone_number_error"></div>
                         </div>
                       </div>
-                      <!-- <div class="form-group row">
-                        <label for="password" class="col-sm-2 col-form-label">Password</label>
-                        <div class="col-sm-10">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                        <div class="error" id="password_error"></div>
-                      </div>
-</div>
-                      <div class="form-group row">
-                        <label for="confirm_password" class="col-sm-2 col-form-label">Confirm Password</label>
-                        <div class="col-sm-10">
-                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password">
-                        <div class="error " id="confirm_password_error"></div>
-                      </div>
-                      </div> -->
-                      <!-- <div class="form-group row">
-                        <div class="offset-sm-2 col-sm-10">
-                          <div class="checkbox">
-                            <label>
-                              <input type="checkbox" name="terms"> I agree to the <a href="#">terms and conditions</a>
-                            </label>
-                          </div>
-                        </div>
-                      </div> -->
-                      <div class="form-group row">
-                        <div class="offset-sm-2 col-sm-10">
-                          <button type="submit" class="btn btn-success">Submit</button>
-                          <button type="reset" class="btn btn-danger">Reset</button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
+                 
                   <!-- /.tab-pane -->
                 </div>
                 <!-- /.tab-content -->
@@ -290,10 +245,6 @@ $("#fileToUpload").change(function (e) {
         success:function(data){
             $('#changePassword').modal('hide');
              location.reload();
-            // $("#render_test").empty().html(data);
-        //     $("#alert_for_update").append(
-        //   `<div class="alert alert-success alert-block"><button type="button" class="close" data-dismiss="alert">×</button><strong>Image Updated Success Fully</strong></div>`
-        //     );
         },
         error:function(data){
         }

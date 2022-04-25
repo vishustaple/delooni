@@ -86,10 +86,10 @@ public function view_update(Request $request){
      * @return  return response update successfully or not
 */
 public function update_category(Request $request){
-    $insert = ServiceCategory::where('id', $request->id)->update([
+   $insert = ServiceCategory::where('id', $request->id)->update([
         "name" => $request->name,
         "description" => $request->description,
-        "service_category_image"  => $this->uploadImage($request->service_category_image, 'profile_image'),
+         "service_category_image"  => $this->uploadImage($request->service_category_image, 'profile_image'),
    ]);
     if($insert){
         return response()->json(redirect()->back()->with('success', 'Updated Successfully.'));

@@ -21,7 +21,7 @@
     <td>{{$key+1}}</td>
     <td>{{$value->terms_and_condition}}</td>
     <td>
-    <img src="{{env('APP_URL')}}public/profile_image/{{$value->screen_baner_image}}" height="60px" width="60px">
+     <img src="{{URL::to('/')}}/profile_image/{{$value->screen_baner_image}}" width="100px" height="100px">
     </td>
     <td>
     <a href='{{route("content.view", $value->id)}}'   target="_blank" class="btn btn-outline-success btn-xs view">View</a>
