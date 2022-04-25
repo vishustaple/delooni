@@ -153,7 +153,7 @@ catch (\Throwable $th) {
      * @return  data from db and show into view 
      */
 
-    public function ViewServiceProviderData($id){
+    public function ViewServiceProviderData($id){ 
 
         $data=User::select('*')->where('id', '=', $id)->first();
         $getwork=WorkExperience::select('*')->where('user_id', '=', $id)->first();
@@ -163,12 +163,13 @@ catch (\Throwable $th) {
         $getservicename=Services::select('*')->where('id', '=', $serviceid)->first();
         $servicecatid=$getservicedetail->service_cat_id;
         $getcatdata=ServiceCategory::select('*')->where('id', '=', $servicecatid)->first();
-        if($getcatdata->is_parent){
-            $id=$getcatdata->is_parent;
+        $subcategory=ServiceCategory::select('*')->where('id', '=', $servicecatid)->where('is_parent','=',0)->first();
+        if($subcategory){
+            //  $id=$subcategory->is_parent;
             $subcategoryname=ServiceCategory::select('*')->where('id', '=',  $id)->first();
         }
         
-        return view('admin.serviceprovider.detailview',compact('data','getwork','geteducation','getservicedetail','getservicename','subcategoryname','getcatdata'));
+        return view('admin.serviceprovider.detailview',compact('data','getwork','geteducation','getservicedetail','getservicename','getcatdata'));
       
      }
      /**
@@ -224,8 +225,10 @@ catch (\Throwable $th) {
        $data=User::select('*')->where('id', '=', $id)->first();
        $geteducation=EducationDetail::select('*')->where('user_id', '=', $id)->first();
        $getwork=WorkExperience::select('*')->where('user_id', '=', $id)->first();
+       $getservices=Services::select('*')->get();
+       $categorynames=ServiceCategory::select('*')->get();
     //    $getwork=WorkExperience::select('*')->where('user_id', '=', $id)->first();
-        return view('admin.serviceprovider.update',compact('data','getwork','geteducation'));
+        return view('admin.serviceprovider.update',compact('data','getwork','geteducation','getservices','categorynames'));
 
     }
 

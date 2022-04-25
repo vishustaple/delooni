@@ -129,12 +129,12 @@
                         <input type="text" class="form-control" id="category" value="{{$getcatdata->name}}" readonly>
                           </div>
                       </div>
-                      <div class="form-group row">
+                      <!-- <div class="form-group row">
                         <label for="subcategory" class="col-sm-2 col-form-label">Sub Category</label>
                         <div class="col-sm-10">
-                        <input type="text" class="form-control" id="subcategory" value="{{$subcategoryname->name}}" readonly>
+                        
                           </div>
-                      </div>
+                      </div> -->
                       <div class="form-group row">
                         <label for="price_per_hour" class="col-sm-2 col-form-label">Service Price(/hours)</label>
                         <div class="col-sm-10">

@@ -36,14 +36,14 @@ class ReportExport implements FromCollection,WithHeadings
       $maxtwentyprovider = Report::join('users','reports.service_provider_id','=','users.id')
       ->select('users.first_name', Report::raw('COUNT(*) as `count`'))
       ->groupBy('users.first_name')->having('count', '<', 20)->get();
-      // return ($user, $query, $minquery, $maxtwenty,$mintwenty, $maxtwentyprovider);
-      // return (['User'=>$user,'Report'=>$query]);
-      return $user;
-      return $query;
-      return $minquery;
-      return $maxtwenty;
-      return $mintwenty;
-      return $maxtwentyprovider;
+    //   return $user;
+    //   return $query;
+    //   return $minquery;
+    //   return $maxtwenty;
+    //   return $mintwenty;
+    //   return $maxtwentyprovider;
+      return json(["user"=>$user, "query" =>$query, "minquery" =>$minquery,"maxtwenty" =>$maxtwenty,
+      "mintwenty" =>$mintwenty, "maxtwentyprovider" =>$maxtwentyprovider]);
  
 }
  
