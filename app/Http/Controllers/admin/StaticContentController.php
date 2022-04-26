@@ -67,17 +67,25 @@ class StaticContentController extends Controller
      * @return  return response update successfully or not
      */
      public function update_content(Request $request){
-      $content = StaticContent::find($request->id);
-        $insert = StaticContent::where('id', $request->id)->update([
-        "terms_and_condition" => $request->terms_and_condition,
-        "screen_baner_image"  => $this->uploadImage($request->screen_baner_image, 'profile_image'),
+      $validatedData = $request->validate([
+      'terms_and_condition' => 'required',
+      'screen_baner_image' => 'image|mimes:jpg,png,jpeg,gif,svg',
      ]);
-     if($insert){
-        return response()->json(redirect()->back()->with('success', 'Updated Successfully.'));
-     } else {
-      return response()->json(redirect()->back()->with('error', 'Updated not successfully'));
-     }
-     }
+     $user = StaticContent::find($request->id);
+    if($request->screen_baner_image)
+    $service_cate = $this->uploadImage($request->screen_baner_image, 'profile_image');
+    else
+   $service_cate = $user->screen_baner_image;
+   $user->terms_and_condition = $request->terms_and_condition;
+   $user->screen_baner_image = $service_cate;
+   $user->save();
+   if($user){
+  return response()->json(redirect()->back()->with('success', 'Updated Successfully.'));
+   }
+  else{
+  return response()->json(redirect()->back()->with('error', 'Updated not successfully'));
+  }
+  }
      /**
      *  Detail view content
      *

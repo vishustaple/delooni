@@ -94,24 +94,34 @@ public function deleteservice(Request $request){
      * @param $r get form data 
      * @return  return response update successfully or not
 */
-public function update_service(Request $request){
-    $validatedData = $request->validate([
-        'name' => 'required',
-        'description' => 'required',
-        'service_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
+     public function update_service(Request $request){
+     $validatedData = $request->validate([
+     'name' => 'required',
+     'price_per_hour' => 'required',
+     'price_per_day' => 'required',
+     'price_per_month' => 'required',
+     'description' => 'required',
+     'service_image' => 'image|mimes:jpg,png,jpeg,gif,svg',
      ]);
-     
-    $insert = Services::where('id', $request->id)->update([
-        "name" => $request->name,
-        "description" => $request->description,
-        "service_image"  => $this->uploadImage($request->service_image, 'profile_image'),
-     ]);
-    if($insert){
-        return response()->json(redirect()->back()->with('success', 'Updated Successfully.'));
-    } else {
-      return response()->json(redirect()->back()->with('error', 'Updated not successfully'));
+     $user = Services::find($request->id);
+    if($request->service_image)
+    $service_cate = $this->uploadImage($request->service_image, 'profile_image');
+    else
+    $service_cate = $user->service_image;
+    $user->name = $request->name;
+    $user->price_per_hour = $request->price_per_hour;
+    $user->price_per_day = $request->price_per_day;
+    $user->price_per_month = $request->price_per_month;
+    $user->description = $request->description;
+    $user->service_image = $service_cate;
+    $user->save();
+    if($user){
+    return response()->json(redirect()->back()->with('success', 'Updated Successfully.'));
     }
-}
+    else{
+    return response()->json(redirect()->back()->with('error', 'Updated not successfully'));
+    }
+    }
 /**
      *  Search service
      *

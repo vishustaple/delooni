@@ -11,14 +11,14 @@
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label for="screen_image" class="col-sm-3 col-form-label">Service Category Image :</label>
+                        <label for="screen_image" class="col-sm-3 col-form-label">Screen Image</label>
                         <div class="col-sm-8">
-                        <img src="{{URL::to('/')}}/profile_image/{{$screenData->screen_image}}">
-                          <input type="file" class="form-control" id="screen_image" name="screen_image" value="{{$screenData->screen_image}}">
-                          <div class="error" id="error_screen_image">
-                         </div>
+                          <img src="{{URL::to('/')}}/profile_image/{{$screenData->screen_image}}">
+                          <input type="file" class="form-control" id="screen_image" name="screen_image" accept="image/*">
+                         <div class="error" id="error_screen_image"></div>
                         </div>
-                      </div>  
+                      </div>
+
                       <div class="form-group row">
                         <label for="description" class="col-sm-3 col-form-label">Description :</label>
                         <div class="col-sm-8">

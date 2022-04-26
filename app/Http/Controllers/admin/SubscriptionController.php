@@ -39,7 +39,7 @@ public function storesubscription(Request $request){
      $insert->validity  = $request->validity;
      $insert->price_per_plan = $request->price_per_plan;
      $insert->save();
-     return response()->json(redirect()->back()->with('success','Category Add Successfully'));
+     return response()->json(redirect()->back()->with('success','Subscription Add Successfully'));
     }
     /**
      *  Status Subscription

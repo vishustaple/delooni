@@ -240,7 +240,7 @@ catch (\Throwable $th) {
          */
          public function UpdateProviderData(UpdateServiceProviderRequest $request)
         {
-
+        
         $user = User::find($request->id);
 
         if($request->licensephoto)
@@ -286,16 +286,13 @@ catch (\Throwable $th) {
         ]);
         $workexperienceupdate = WorkExperience::where('user_id', $request->id)->update([
             "no_of_years"=>$request->experience,
-            
         ]);
         if($user){
-            //User::find($request->id)->assignRole($request->roles);
             return response()->json(redirect()->back()->with('success', 'ServiceProvider updated successfully'));
         }
         else{
             return response()->json(redirect()->back()->with('error', 'Getting error while adding user.'));
-
-        }
+         }
 
     }
      /**

@@ -85,18 +85,41 @@ public function view_update(Request $request){
      * @param $r get form data 
      * @return  return response update successfully or not
 */
-public function update_category(Request $request){
-   $insert = ServiceCategory::where('id', $request->id)->update([
-        "name" => $request->name,
-        "description" => $request->description,
-         "service_category_image"  => $this->uploadImage($request->service_category_image, 'profile_image'),
+// public function update_category(Request $request){
+//    $insert = ServiceCategory::where('id', $request->id)->update([
+//         "name" => $request->name,
+//         "description" => $request->description,
+//          "service_category_image"  => $this->uploadImage($request->service_category_image, 'profile_image'),
+//    ]);
+//     if($insert){
+//         return response()->json(redirect()->back()->with('success', 'Updated Successfully.'));
+//     } else {
+//       return response()->json(redirect()->back()->with('error', 'Updated not successfully'));
+//     }
+// }
+
+public function update_category(Request $request)
+{  $validatedData = $request->validate([
+    'name' => 'required',
+    'description' => 'required',
+    'service_category_image' => 'image|mimes:jpg,png,jpeg,gif,svg',
    ]);
-    if($insert){
+     $user = ServiceCategory::find($request->id);
+     if($request->service_category_image)
+     $service_cate = $this->uploadImage($request->service_category_image, 'profile_image');
+     else
+     $service_cate = $user->service_category_image;
+     $user->name = $request->name;
+     $user->description = $request->description;
+     $user->service_category_image = $service_cate;
+     $user->save();
+     if($user){
         return response()->json(redirect()->back()->with('success', 'Updated Successfully.'));
-    } else {
-      return response()->json(redirect()->back()->with('error', 'Updated not successfully'));
+     }
+    else{
+        return response()->json(redirect()->back()->with('error', 'Updated not successfully'));
     }
-}
+    }
 /**
      *  Detail view category
      *

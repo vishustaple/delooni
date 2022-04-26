@@ -58,20 +58,26 @@ class MainScreenController extends Controller
       public function update_screen_image(Request $request){ 
         $validatedData = $request->validate([
           'title' => 'required',
-          'screen_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
+          'screen_image' => 'image|mimes:jpg,png,jpeg,gif,svg',
           'description' => 'required',
         ]);
-      $insert = MainScreen::where('id', $request->id)->update([
-        "title" => $request->title,
-        "screen_image"  => $this->uploadImage($request->screen_image, 'profile_image'),
-        "description" => $request->description,
-     ]);
-      if($insert){
-        return response()->json(redirect()->back()->with('success', 'Updated Successfully.'));
-      } else {
-      return response()->json(redirect()->back()->with('error', 'Updated not successfully'));
+     $user = MainScreen::find($request->id);
+     if($request->screen_image)
+     $service_cate = $this->uploadImage($request->screen_image, 'profile_image');
+     else
+     $service_cate = $user->screen_image;
+     $user->title = $request->title;
+     $user->description = $request->description;
+     $user->screen_image = $service_cate;
+     $user->save();
+     if($user){
+      return response()->json(redirect()->back()->with('success', 'Updated Successfully.'));
      }
+    else{
+      return response()->json(redirect()->back()->with('error', 'Updated not successfully'));
     }
+    }
+
      /**
      *   splash screen
      *
