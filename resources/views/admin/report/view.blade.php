@@ -2,15 +2,19 @@
 td table {
     width: 100%;
 }
+.excel-table tbody table tr td {
+    border-width: 0px 0px 1px 0px !important;
+}
 
 </style>
 
 <div class="card" id ="test">
     <div class="card-header">
-    <h3 class="card-title">Report List</h3>
-</div>
+        <h3 class="card-title">Report List</h3>
+    </div>
     <!-- CUSTOM TABLE  -->
-    <table class="table table-bordered">
+    <table class="table table-bordered excel-table">
+    
   <thead>
     <tr>
       <th scope="col">S.no.</th>
@@ -23,114 +27,91 @@ td table {
     </tr>
   </thead>
   <tbody>
-    <tr>
-    <td> 
-        <table>
-            <tr>
-                <td>
-                @forelse($user as $key=>$value)
+  <tr>
+            <td> 
+                <table>
+                    @forelse($user as $key=>$value)
                     <tr>
                         <td>{{$key+1}}</td>
                     </tr>
                     @empty
                     @endforelse
-                </td>
-            </tr>
-        </table>
-      <td> 
-        <table>
-            <tr>
-                <td>
-                @forelse($user as $key=>$value)
+                </table>
+            </td>
+            <td> 
+                <table>
+                    @forelse($user as $key=>$value)
                     <tr>
                         <td>{{$value->first_name}}</td>
                     </tr>
                     @empty
                     @endforelse
-                </td>
-            </tr>
-        </table>
-      </td>
+                </table>
+            </td>
 
-      <td>   
-        <table>
-            <tr>
-                <td>
+            <td>   
+                <table>
                     @forelse($query as $key=>$value)
-                <tr>
-                    <td>{{$value->subject}}</td>
-                </tr>
-                @empty
-                @endforelse
-                </td>
-            </tr>
-        </table>
-      </td>
-      <td>   
-        <table>
-            <tr>
-                <td>
-                    @forelse($minquery as $key=>$value)
+                    <tr>
+                        <td>{{$value->subject}}</td>
+                    </tr>
+                    @empty
+                    @endforelse
+                </table>
+            </td>
+
+            <td>   
+                <table>
+                        @forelse($minquery as $key=>$value)
+                        <tr>
+                            <td>{{$value->name}}</td>
+                        </tr>
+                        @empty
+                        @endforelse
+                </table>
+            </td>
+
+            <td>   
+                <table>
+                    @forelse($maxtwenty as $key=>$value)
                     <tr>
                         <td>{{$value->name}}</td>
                     </tr>
                     @empty
                     @endforelse
-                </td>
+                </table>
+            </td>
+
+            <td>   
+                <table>
+                    @forelse($mintwenty as $key=>$value)
+                    <tr>
+                        <td>{{$value->name}}</td>
+                    </tr>
+                    @empty
+                    @endforelse
+                </table>
+            </td>
+
+            <td>   
+                <table>
+                    @forelse($maxtwentyprovider as $key=>$value)
+                    <tr>
+                        <td>{{$value->first_name}}</td>
+                    </tr>
+                    @empty
+                    @endforelse
+                </table>
+            </td>
+ 
             </tr>
-        </table>
-      </td>
-      <td>   
-        <table>
-            <tr>
-                <td>
-                @forelse($maxtwenty as $key=>$value)
-    <tr>
-    <td>{{$value->name}}</td>
-    </tr>
-    @empty
-    @endforelse
-                </td>
-            </tr>
-        </table>
-      </td>
-      <td>   
-        <table>
-            <tr>
-                <td>
-                @forelse($mintwenty as $key=>$value)
-    <tr>
-    <td>{{$value->name}}</td>
-    </tr>
-    @empty
-    @endforelse
-                </td>
-            </tr>
-        </table>
-      </td>
-      <td>   
-        <table>
-            <tr>
-                <td>
-                @forelse($maxtwentyprovider as $key=>$value)
-    <tr>
-    <td>{{$value->first_name}}</td>
-    </tr>
-    @empty
-    @endforelse
-                </td>
-            </tr>
-        </table>
-      </td>
-     
-    </tr>
-    
-  </tbody>
+    </tbody>
+  
 </table>
 
-
-    <a href="{{ route('reportexport') }}" class="btn btn-warning btn-xs">Export Report</a>
+    <div class="p-3">
+       <a href="{{ route('reportexport') }}" class="btn btn-warning w-25 btn-sm py-2">Export Report</a>
     </div>
-<!-- /.card-body -->
-</div>
-<!-- /.card -->
+ </div>
+
+

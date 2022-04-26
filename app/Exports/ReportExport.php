@@ -22,7 +22,7 @@ class ReportExport implements FromCollection,WithHeadings
    */
     public function collection()
     {  
-      $user = User::get();
+      $user = User::select('first_name')->get();
       $query = Report::get();
       $minquery = Report::join('service_categories','reports.service_category_id','=','service_categories.id')
       ->where('is_parent',0)->select('service_categories.name', Report::raw('COUNT(*) as `count`'))
@@ -36,14 +36,15 @@ class ReportExport implements FromCollection,WithHeadings
       $maxtwentyprovider = Report::join('users','reports.service_provider_id','=','users.id')
       ->select('users.first_name', Report::raw('COUNT(*) as `count`'))
       ->groupBy('users.first_name')->having('count', '<', 20)->get();
+      return $name;
     //   return $user;
     //   return $query;
     //   return $minquery;
     //   return $maxtwenty;
     //   return $mintwenty;
     //   return $maxtwentyprovider;
-      return json(["user"=>$user, "query" =>$query, "minquery" =>$minquery,"maxtwenty" =>$maxtwenty,
-      "mintwenty" =>$mintwenty, "maxtwentyprovider" =>$maxtwentyprovider]);
+      // return json(["user"=>$user, "query" =>$query, "minquery" =>$minquery,"maxtwenty" =>$maxtwenty,
+      // "mintwenty" =>$mintwenty, "maxtwentyprovider" =>$maxtwentyprovider]);
  
 }
  

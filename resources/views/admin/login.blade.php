@@ -26,7 +26,7 @@
                     <div class="base__form__wrapper">
                         <div class="base__heading text-center mb-3">
                             <div class="base__logo__img">
-                                <img src="{{asset('images/user-lg.png')}}" alt="Logo" />
+                            <img src="{{URL::to('/')}}/images/user-lg.png" alt="Logo" height="600px" width="500px">
                              </div>                           
                         </div>
                         <div class="base__form">

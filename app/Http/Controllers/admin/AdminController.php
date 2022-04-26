@@ -53,6 +53,18 @@ class AdminController extends Controller
            return back();
         }
     }
+      /**
+     * Admin Home.
+     *
+     * @param  fetch data from database
+     * @return show at admin home page
+     */
+    //
+     public function home()
+  {
+      $staff = User::all();
+      return view('admin.home', compact('staff'));
+  }
     /**
      * Admin Logout.
      *

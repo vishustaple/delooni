@@ -34,6 +34,7 @@ Route::get('/forgot-password', [AdminController::class, 'forgotpwdView'])->name(
 Route::post('/forgotpwd', [AdminController::class, 'forgotPassword'])->name('forgotpwd');
 Route::get('/resetpwd/{token}', [AdminController::class, 'resetPassword'])->name('resetpwd');
 Route::post('/updatepwd', [AdminController::class, 'updatePassword'])->name('updatepwd');
+Route::get('/home', [AdminController::class, 'home'])->name('home');
 
 Route::group(['prefix' => 'admin'], function () {
     Route::middleware([
