@@ -43,7 +43,7 @@
 </div>
 </div>
 </div>
-<button data-id="{{$value->id}}" class="btn btn-danger btn-xs remove">Remove</button>
+<a href='{{route("screen.view", $value->id)}}'   target="_blank" class="btn btn-outline-success btn-xs view">View</a>
     </td>
     </tr>
     @empty

@@ -100,5 +100,14 @@ class MainScreenController extends Controller
     $datas = $qry->orderBy('id','DESC')->paginate();
     return view('admin.mainscreen.view', compact('datas','search'));
     }
-
+      /**
+     *  Detail view main screen
+     *
+     * @param get $r->id on click view button
+     * @return  detail view page of category according $r->id
+     */
+    public function detail_screen(Request $request){
+      $screen = MainScreen::find($request->id);
+      return view('admin.mainscreen.detailview', compact('screen'));
+      }
 }

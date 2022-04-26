@@ -42,7 +42,7 @@
 </div>
 </div>
 </div>
-<button data-id="{{$value->id}}" class="btn btn-danger btn-xs remove">Remove</button>
+<!-- <button data-id="{{$value->id}}" class="btn btn-danger btn-xs remove">Remove</button> -->
     </td>
     </tr>
     @empty

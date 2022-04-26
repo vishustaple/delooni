@@ -34,7 +34,7 @@ Route::get('/forgot-password', [AdminController::class, 'forgotpwdView'])->name(
 Route::post('/forgotpwd', [AdminController::class, 'forgotPassword'])->name('forgotpwd');
 Route::get('/resetpwd/{token}', [AdminController::class, 'resetPassword'])->name('resetpwd');
 Route::post('/updatepwd', [AdminController::class, 'updatePassword'])->name('updatepwd');
-Route::get('/home', [AdminController::class, 'home'])->name('home');
+
 
 Route::group(['prefix' => 'admin'], function () {
     Route::middleware([
@@ -108,6 +108,7 @@ Route::group(['prefix' => 'admin'], function () {
       Route::get('/splash/screen/delete', [MainScreenController::class, 'deletescreen'])->name('splash.screen.delete');
       Route::post('/screen/update', [MainScreenController::class, 'update_screen_image'])->name('screen.update');
       Route::get('/splash/screen/search', [MainScreenController::class, 'searchscreen'])->name('splash.screen.search');
+      Route::get('/screen/view/{id}', [MainScreenController::class, 'detail_screen'])->name('screen.view');
 
       //******************************************Admin export excel file of Report*********************************************//
       Route::get('/report', [ReportController::class, 'report_View'])->name('report');
