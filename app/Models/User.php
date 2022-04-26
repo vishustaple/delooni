@@ -44,6 +44,10 @@ class User extends Authenticatable
         'name','first_name','last_name','business_name','phone','email','dob','latitude','longitude','address','city','state','pincode','country','counry_code','country_short_code','spoken_language','other_spoken_language','primary_mode_of_transport','experience','travel_distance','earliest_start_date','aspire_to_achieve','hobbies','long_term_goal','goal','profile_image','cover_image','is_notification','role_id','status','created_by','email_verified_at','password','form_step','email_verified_token','whatsapp_no','snapchat_link','instagram_link','twitter_link','license_cr_no','license_cr_photo','description','profile_video','profile_image','nationality',
     ];
 
+    public function rating()
+    {
+        return $this->hasMany(UserRating::class, 'user_id', 'id');
+    }
     public function education(){
         return $this->hasOne(EducationDetail::class, 'user_id');
     }
@@ -54,6 +58,7 @@ class User extends Authenticatable
     {
         return $this->hasOne(Files::class, 'created_by')->where('model_type','App/Models/User');
     }
+    
 
     /**
      * The attributes that should be hidden for arrays.
@@ -72,10 +77,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function favourite($id){
+        return FavouriteServices::where('user_id',$id)->first();
+    }
     public function jsonData()
     {
         $json = [];
-        
+        $json['id']=$this->id;
         $json['first_name']=$this->first_name;
         $json['last_name']= $this->last_name;
         $json['email'] = $this->email;
@@ -130,5 +138,26 @@ class User extends Authenticatable
         return $json;
 
     }
+    public function RatingResponse()
+    { 
+        $favourite= $this->id;
+        $json = [];
+        $json['id'] = $this->id;
+        $json['first_name'] = $this->first_name;
+        $json['last_name'] = $this->last_name;
+        $json['profile_image']=env('APP_URL').'public/profile_image/'.$this->profile_image;
+        $json['rating'] = $this->rating??0;;
+        $json['is_favourite'] = empty($favourite)?0:1;
+        $json['whatsapp_no'] = $this->whatsapp_no;
+        $json['snapchat_link'] = $this->snapchat_link;
+        $json['instagram_link'] = $this->instagram_link;
+        $json['twitter_link'] = $this->twitter_link;
+        $json['description'] = $this->description;
+        $json['phone']=$this->phone;
+        $json['price_per_hour']=$this->price_per_hour??0;
+        return $json;
+
+    }
+
     
 }
