@@ -1,28 +1,11 @@
 @extends('admin.layout.template')
 @section('contents')
 <div class="card" id="data">
-              <div class="card-header p-2 yellow-bg">
+              <div class="card-header p-4 yellow-bg">
                 <ul class="nav nav-pills">
-                <li class="nav-item"><a class=" active" style="cursor:pointer" 
-                        data-toggle="modal" 
-                        data-target="#myModal"></a></li>
-                   <!-- The Modal -->
-                    <div class="modal" id="myModal"> 
-                      <div class="modal-dialog modal-md">
-                        <div class="modal-content">
-                          <!-- Modal Header -->
-                          <div class="modal-header">
-                            <h5 class="modal-title">Add category</h5>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                          </div>
-                          
-                          <!-- Modal body -->
-                          <div class="modal-body">
-                          @include('admin.mainscreen.addscreen')
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                <li class="nav-item">
+                  <h3 class="card-title">Splash Screen</h3>
+                </li>
                   <!-- <li class="nav-item"><a class="nav-link" href="#view" data-toggle="tab">Add User</a></li> -->
                   <li class="nav-item search-right">
                    <div>

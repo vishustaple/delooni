@@ -10,9 +10,8 @@
     <thead>
     <tr>
     <th style="width: 10px">S.no.</th>
-    <th style="width:40%;">Terms and condition</th>
-    <th>Screen Baner Image</th>
-     <th>Action</th>
+   <th style="width: 40%">Screen Baner Image</th>
+     <th style="width: 20%">Action</th>
     </tr>
     </thead>
     @endif
