@@ -194,10 +194,6 @@ $("#fileToUpload").change(function (e) {
         success:function(data){
             $('#changePassword').modal('hide');
              location.reload();
-            // $("#render_test").empty().html(data);
-        //     $("#alert_for_update").append(
-        //   `<div class="alert alert-success alert-block"><button type="button" class="close" data-dismiss="alert">×</button><strong>Image Updated Success Fully</strong></div>`
-        //     );
         },
         error:function(data){
         }

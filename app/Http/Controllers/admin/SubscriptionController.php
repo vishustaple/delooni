@@ -39,7 +39,7 @@ public function storesubscription(Request $request){
      $insert->validity  = $request->validity;
      $insert->price_per_plan = $request->price_per_plan;
      $insert->save();
-     return response()->json(redirect()->back()->with('success','Category Add Successfully'));
+     return response()->json(redirect()->back()->with('success','Subscription Add Successfully'));
     }
     /**
      *  Status Subscription
@@ -72,4 +72,62 @@ public function searchsubscription(Request $request){
    $data = $qry->orderBy('id','DESC')->paginate();
    return view('admin.subscription.view', compact('data','search'));
    }
+   /**
+     *  Delete subscription
+     *
+     * @param click on delete button get $r->id
+     * @return  delete data accordig to $r->id
+    */
+    public function delete_subscription(Request $request){
+    $data = Subscription::where('id',$request->id);
+    $data->delete();
+    return response()->json(['success' => true]);
+    } 
+    /**
+     *  view update
+     *
+     * @param click on update button get $r->id
+     * @return  open pop up model of $r->id with value
+     */
+        public function view_update(Request $request){
+        $content = Subscription::find($request->id);
+        $res =  view('admin.subscription.update', compact('content'))->render();
+        return response()->json($res);
+        }
+
+    /**
+     *  update subscription
+     *
+     * @param $r get form data 
+     * @return  return response update successfully or not
+     */
+       public function update_subscription(Request $request){
+       $validatedData = $request->validate([
+        'plan_name' => 'required',
+        'description' => 'required',
+        'validity' => 'required',
+        'price_per_plan' => 'required',
+      ]);
+    $insert = Subscription::where('id', $request->id)->update([
+      "plan_name" => $request->plan_name,
+      "description" => $request->description,
+      "validity" => $request->validity,
+      "price_per_plan" => $request->price_per_plan,
+   ]);
+    if($insert){
+      return response()->json(redirect()->back()->with('success', 'Updated Successfully.'));
+    } else {
+    return response()->json(redirect()->back()->with('error', 'Updated not successfully'));
+   }
+}
+    /**
+     *  Detail subscription
+     *
+     * @param get $r->id on click view button
+     * @return  detail view page of subscription according $r->id
+     */
+     public function detailView_subscription(Request $request){
+        $content = Subscription::find($request->id);
+        return view('admin.subscription.detailview', compact('content'));
+        }
 }

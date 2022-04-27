@@ -19,12 +19,10 @@
                         </div>
                       </div>
                     </div>
-                  <!-- <li class="nav-item"><a class="nav-link" href="#view" data-toggle="tab">Add User</a></li> -->
-                  <li class="nav-item search-right">
+                 <li class="nav-item search-right">
                    <div>
                       <div class="input-group" data-widget="sidebar-search">
-                      <input class="form-control form-control-sidebar" id="search" type="search" placeholder="Search" aria-label="Search">
-                      </div>
+                     </div>
                    </div>
                   </li>
                 </ul>

@@ -34,7 +34,7 @@
     @endif
     </td>
     <td>
-    <a href='{{route("service.view", $value->id)}}'   target="_blank" class="btn btn-outline-success btn-xs view">View</a>
+    <a href='{{route("subscription.view", $value->id)}}'   target="_blank" class="btn btn-outline-success btn-xs view">View</a>
     <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-success btn-xs update" class="viewjob_update">Update</button>
     <!-- The Modal -->
     <div class="modal " id="myModal1">

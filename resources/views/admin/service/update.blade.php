@@ -10,9 +10,33 @@
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label for="description" class="col-sm-12 col-form-label">Description </label>
-                        <div class="col-sm-12">
-                          <textarea type="text" class="form-control" id="description" name="description">{{$categoryData->description}}</textarea>
+                        <label for="price_per_hour" class="col-sm-3 col-form-label">Price Per Hour :</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="price_per_hour" name="price_per_hour" value="{{$categoryData->price_per_hour}}">
+                          <div class="error" id="error_price_per_hour">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="price_per_day" class="col-sm-3 col-form-label">Price Per Day :</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="price_per_day" name="price_per_day" value="{{$categoryData->price_per_day}}">
+                          <div class="error" id="error_price_per_day">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="price_per_month" class="col-sm-3 col-form-label">Price Per Month :</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="price_per_month" name="price_per_month" value="{{$categoryData->price_per_month}}">
+                          <div class="error" id="error_price_per_month">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="description" class="col-sm-3 col-form-label">Description :</label>
+                        <div class="col-sm-8">
+                        <textarea type="text" class="form-control" id="description" name="description">{{$categoryData->description}}</textarea>
                           <div class="error" id="error_description">
                           </div>
                         </div>

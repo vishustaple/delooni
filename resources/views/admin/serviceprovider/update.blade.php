@@ -174,20 +174,19 @@
                       <option class="form-drop-items" value="{{$categoryname->id}}">{{$categoryname->name}}</option>
                         @endforeach
                        </select>
-                        <div class="error" id="error_service_category_id">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="subcategory" class="col-md-6 col-form-label">Select Sub category :</label>
+                        <div class="error" id="error_service_category_id"></div>
+                      </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="subcategory" class="col-sm-2 col-form-label">Select Sub category</label>
+                        <div class="col-sm-10">
                         <select class="form-control select2" id="subcategory" name="subcategory">
                         <option value="N/A" disabled selected="true">--Select sub category--</option>
                         </select>
-                        <div class="error" id="error_subcategory">
-                        </div>
-                    </div>   
-                </div>
+                        <div class="error" id="error_subcategory"></div>
+                      </div>
+                      </div>
+                
                       <!---->
                       <div class="form-group row">
                         <label for="description" class="col-sm-12 col-form-label"> Services</label>

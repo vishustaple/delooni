@@ -80,7 +80,7 @@
         <td>{{$key+1}}</td>
         <td>{{$value->name}}</td>
         <td>
-        <img src="{{env('APP_URL')}}public/profile_image/{{$value->service_category_image}}" height="60px" width="60px">
+        <img src="{{URL::to('/')}}/profile_image/{{$value->service_category_image}}" width="100px" height="100px">
         </td>
         <td>{{$value->is_parent}}</td>
         <td>@if($value->status==1)

@@ -3,9 +3,9 @@
 <div class="card" id="data">
               <div class="card-header p-2 yellow-bg">
                 <ul class="nav nav-pills">
-                <li class="nav-item"><a class="nav-link active" style="cursor:pointer" 
+                <li class="nav-item"><a class=" active" style="cursor:pointer" 
                         data-toggle="modal" 
-                        data-target="#myModal">Add Splash Screen</a></li>
+                        data-target="#myModal"></a></li>
                    <!-- The Modal -->
                     <div class="modal" id="myModal"> 
                       <div class="modal-dialog modal-md">
@@ -27,7 +27,6 @@
                   <li class="nav-item search-right">
                    <div>
                       <div class="input-group" data-widget="sidebar-search">
-                      <input class="form-control form-control-sidebar" id="search" type="search" placeholder="Search" aria-label="Search">
                       </div>
                    </div>
                   </li>

@@ -27,6 +27,11 @@
                           <input type="file" class="form-control"  value="{{$categoryData->service_category_image}}" id="service_category_image" name="service_category_image">
                           <div class="error" id="error_service_category_image">
                           </div>
+                        <label for="service_category_image" class="col-sm-12 col-form-label">Uploaded image</label>
+                        <div class="col-sm-12">
+                          <img src="{{URL::to('/')}}/profile_image/{{$categoryData->service_category_image}}">
+                          <input type="file" class="form-control" id="service_category_image" name="service_category_image" accept="image/*">
+                         <div class="error" id="error_service_category_image"></div>
                         </div>
                       </div>
                    <div class="form-group row mb-0">

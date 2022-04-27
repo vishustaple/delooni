@@ -25,7 +25,7 @@
    <td>{{$value->name}}</td>
     <td>{{$value->description}}</td>
     <td>
-    <img src="{{env('APP_URL')}}public/profile_image/{{$value->service_category_image}}" height="60px" width="60px">
+    <img src="{{URL::to('/')}}/profile_image/{{$value->service_category_image}}" width="100px" height="100px">
     </td>
     <td>@if($value->status==1)
     <button data-id="{{$value->id}}" class="disable_enable btn btn-success btn-xs" onclick="toggleDisableEnable(this)">Activate</button>

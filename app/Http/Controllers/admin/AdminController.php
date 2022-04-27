@@ -53,6 +53,7 @@ class AdminController extends Controller
            return back();
         }
     }
+    
     /**
      * Admin Logout.
      *
