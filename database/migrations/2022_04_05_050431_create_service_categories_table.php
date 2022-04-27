@@ -18,7 +18,6 @@ class CreateServiceCategoriesTable extends Migration
             $table->string("name");
             $table->longtext("description")->nullable();
             $table->string("service_category_image")->nullable();
-            $table->integer("is_parent")->default(0);
             $table->integer('status')->default(1)->comment("1=> active, 2=>inactive");
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
