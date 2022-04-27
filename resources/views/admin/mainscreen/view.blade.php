@@ -22,7 +22,7 @@
     <td>{{$key+1}}</td>
     <td>{{$value->title}}</td>
     <td>
-   <img src="{{env('APP_URL')}}public/profile_image/{{$value->screen_image}}" height="60px" width="60px">
+  <img src="{{URL::to('/')}}/profile_image/{{$value->screen_image}}" width="100px" height="100px">
     </td>
     <td>{{$value->description}}</td>
     <td>
@@ -43,7 +43,7 @@
 </div>
 </div>
 </div>
-<button data-id="{{$value->id}}" class="btn btn-danger btn-xs remove">Remove</button>
+<a href='{{route("screen.view", $value->id)}}'   target="_blank" class="btn btn-outline-success btn-xs view">View</a>
     </td>
     </tr>
     @empty

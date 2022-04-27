@@ -28,12 +28,10 @@ class StaticContentController extends Controller
     */
     public function storeContent(Request $request){
         $validatedData = $request->validate([
-          'terms_and_condition' => 'required',
-          'screen_baner_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
+           'screen_baner_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
          ]);
       $insert = new StaticContent;
-      $insert->terms_and_condition = $request->terms_and_condition;
-      $insert->screen_baner_image  = $this->uploadImage($request->screen_baner_image, 'profile_image');
+       $insert->screen_baner_image  = $this->uploadImage($request->screen_baner_image, 'profile_image');
       $insert->save();
       return response()->json(redirect()->back()->with('success','Static Content Add Successfully'));
         }
@@ -67,23 +65,23 @@ class StaticContentController extends Controller
      * @return  return response update successfully or not
      */
      public function update_content(Request $request){
-      $content = StaticContent::find($request->id);
-
-      if($request->screen_baner_image)
-        $screen_baner_image = $this->uploadImage($request->screen_baner_image, 'profile_image');
-        else
-        $screen_baner_image = $content->screen_baner_image;
-
-      $insert = StaticContent::where('id', $request->id)->update([
-        "terms_and_condition" => $request->terms_and_condition,
-        "screen_baner_image"  => $this->uploadImage($request->screen_baner_image, 'profile_image'),
+      $validatedData = $request->validate([
+      'screen_baner_image' => 'image|mimes:jpg,png,jpeg,gif,svg',
      ]);
-     if($insert){
-        return response()->json(redirect()->back()->with('success', 'Updated Successfully.'));
-     } else {
-      return response()->json(redirect()->back()->with('error', 'Updated not successfully'));
-     }
-     }
+     $user = StaticContent::find($request->id);
+    if($request->screen_baner_image)
+    $service_cate = $this->uploadImage($request->screen_baner_image, 'profile_image');
+    else
+   $service_cate = $user->screen_baner_image;
+   $user->screen_baner_image = $service_cate;
+   $user->save();
+   if($user){
+  return response()->json(redirect()->back()->with('success', 'Updated Successfully.'));
+   }
+  else{
+  return response()->json(redirect()->back()->with('error', 'Updated not successfully'));
+  }
+  }
      /**
      *  Detail view content
      *
@@ -94,6 +92,56 @@ class StaticContentController extends Controller
     $content = StaticContent::find($request->id);
     return view('admin.static_content.detailview', compact('content'));
     }
-
-
+    /**
+    * Screen Baner View
+    *
+    * @param  show admin dashboard
+    * @return view baner image
+    */
+   public function condition_View(){
+    $condition = StaticContent::where('id',4)->get();
+    return view('admin.terms_condition.main',compact('condition'));
+  }
+       /**
+     *  view condition update
+     *
+     * @param click on update button get $r->id
+     * @return  open pop up model of $r->id with value
+     */
+    public function condition_update(Request $request){
+      $condition = StaticContent::find($request->id);
+      $res =  view('admin.terms_condition.update', compact('condition'))->render();
+      return response()->json($res);
+      }
+      
+     /**
+     *  update condition
+     *
+     * @param $r get form data 
+     * @return  return response update successfully or not
+     */
+    public function update_condition(Request $request){
+      $validatedData = $request->validate([
+      'terms_and_condition' => 'required',
+     ]);
+     $insert = StaticContent::where('id', $request->id)->update([
+      "terms_and_condition" => $request->terms_and_condition,
+   ]);
+      if($insert){
+      return response()->json(redirect()->back()->with('success', 'Updated Successfully.'));
+      }
+      else{
+      return response()->json(redirect()->back()->with('error', 'Updated not successfully'));
+      }
+      }
+    /**
+     *  Detail view condition
+     *
+     * @param get $r->id on click view button
+     * @return  detail view page of condition according $r->id
+     */
+    public function detailView_condition(Request $request){
+      $condition = StaticContent::find($request->id);
+      return view('admin.terms_condition.detailview', compact('condition'));
+      }
 }

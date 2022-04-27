@@ -1,28 +1,28 @@
 <div class="card" id ="test">
     <div class="card-header">
-    <h3 class="card-title">Terms and condition</h3>
+    <h3 class="card-title">Terms and Condition</h3>
 </div>
 <!-- /.card-header -->
  <div class="card-body" >
     <table class="table table-bordered">
-    @if(count($content)>0)
+    @if(count($condition)>0)
     <thead>
     <tr>
     <th style="width: 10px">S.no.</th>
-    <th>Screen Baner Image</th>
+    <th>Terms and condition</th>
      <th>Action</th>
     </tr>
     </thead>
     @endif
     <tbody>
-    @forelse($content as $key=>$value)
+    @forelse($condition as $key=>$value)
     <tr>
     <td>{{$key+1}}</td>
-    <td>
-    <img src="{{URL::to('/')}}/profile_image/{{$value->screen_baner_image}}" width="100px" height="100px">
-    </td>
+    <td>    <textarea rows="15" cols="80" name="terms_and_condition" id="terms_and_condition" readonly>
+    {{$value->terms_and_condition}}</textarea></td>
    <td>
-    <a href='{{route("content.view", $value->id)}}'   target="_blank" class="btn btn-outline-success btn-xs view">View</a>
+
+    <a href='{{route("condition.view", $value->id)}}'   target="_blank" class="btn btn-outline-success btn-xs view">View</a>
     <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-success btn-xs update" class="viewjob_update">Update</button>
     <!-- The Modal -->
     <div class="modal " id="myModal1">
@@ -40,7 +40,7 @@
 </div>
 </div>
 </div>
-<button data-id="{{$value->id}}" class="btn btn-danger btn-xs remove">Remove</button>
+<!-- <button data-id="{{$value->id}}" class="btn btn-danger btn-xs remove">Remove</button> -->
     </td>
     </tr>
     @empty

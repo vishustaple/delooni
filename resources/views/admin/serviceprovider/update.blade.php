@@ -137,42 +137,40 @@
                       </div>
                       </div>
                       <!--service detail strat-->
-                      <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="service_category_id" class="col-md-6 col-form-label">Select Services :</label>
+                      <div class="form-group row">
+                        <label for="service_category_id" class="col-sm-2 col-form-label">Select services</label>
+                        <div class="col-sm-10">
                         <select class="form-control select2" id="service_services" name="service_services">
                         <option value="N/A" disabled selected="true">--Select Services--</option>
                         @foreach($getservices as $getservice)
                         <option class="form-drop-items" value="{{$getservice->id}}">{{$getservice->name}}</option>
                          @endforeach
                        </select>
-                        <div class="error" id="error_service_services">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="service_category_id" class="col-md-6 col-form-label">Select category :</label>
+                        <div class="error" id="error_service_services"></div>
+                      </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="service_category_id" class="col-sm-2 col-form-label">Select category</label>
+                        <div class="col-sm-10">
                         <select class="form-control select2" id="service_category_id" name="service_category_id">
                         <option value="N/A" disabled selected="true">--Select category--</option>
                        @foreach($categorynames as $categoryname)
                       <option class="form-drop-items" value="{{$categoryname->id}}">{{$categoryname->name}}</option>
                         @endforeach
                        </select>
-                        <div class="error" id="error_service_category_id">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="subcategory" class="col-md-6 col-form-label">Select Sub category :</label>
+                        <div class="error" id="error_service_category_id"></div>
+                      </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="subcategory" class="col-sm-2 col-form-label">Select Sub category</label>
+                        <div class="col-sm-10">
                         <select class="form-control select2" id="subcategory" name="subcategory">
                         <option value="N/A" disabled selected="true">--Select sub category--</option>
                         </select>
-                        <div class="error" id="error_subcategory">
-                        </div>
-                    </div>   
-                </div>
+                        <div class="error" id="error_subcategory"></div>
+                      </div>
+                      </div>
+                
                       <!---->
                       <div class="form-group row">
                         <label for="description" class="col-sm-2 col-form-label"> Services</label>

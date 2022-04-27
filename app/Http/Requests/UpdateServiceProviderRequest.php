@@ -29,7 +29,6 @@ class UpdateServiceProviderRequest extends FormRequest
             'lastname' => 'required|alpha|max:100',
             'email' => 'required|email|unique:users,email,'.$this->id,
             'phone' => 'required',
-           
             'nationality'=>'required',
             'img' => $this->id== null?'required|mimes:jpeg,bmp,png,jpg':'',
             'video'=>$this->id== null?'required|mimes:mp4':'',
@@ -43,8 +42,6 @@ class UpdateServiceProviderRequest extends FormRequest
             'licensephoto' => $this->id== null?'required':'',
             'dateofbirth' => 'required',
             'description' => 'required',
-            'service_services'=>'required',
-            'service_category_id'=>"required",
             'price_per_hour'=>"required",
             'price_per_day'=>"required",
             'price_per_month'=>"required",

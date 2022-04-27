@@ -51,8 +51,7 @@
       <li class="nav-item">
         <a href="{{url('/admin/splashscreen')}}" class="nav-link">
         <i class="fa fa-desktop nav-icon"></i>
-        <!-- <i class="fa fa-mobile nav-icon"></i> -->
-          <p>
+       <p>
             Splash screen
           </p>
         </a>
@@ -72,14 +71,7 @@
               <p>Customers</p>
             </a>
           </li>
-      <!-- <li class="nav-item">
-        <a href="{{url('/admin/customer')}}" class="nav-link  {{ Request::routeIs('admin.customer') ? 'active' : '' }}">
-          <i class="fa fa-user-circle nav-icon"></i>
-          <p>
-            customer
-          </p>
-        </a>
-      </li> -->
+    
       <li class="nav-item">
             <a href="{{route('viewserviceprovider')}}" class="nav-link  {{ Request::routeIs('viewserviceprovider') ? 'active' : '' }}">
               <i class="fa fa-circle nav-icon"></i>
@@ -88,10 +80,6 @@
           </li>
         </ul>
       </li>
-<<<<<<< HEAD
-     <!--Users End-->
-      
-=======
 
       <li class="nav-item">
         <a href="{{url('/admin/report')}}" class="nav-link">
@@ -110,16 +98,31 @@
           </p>
         </a>
       </li>
-      <li class="nav-item">
-        <a href="{{url('/admin/static/content')}}" class="nav-link">
-       <i class="fa fa-twitter nav-icon"></i>
-         <p>
-            Static Content
-          </p>
+       <!--Static content Start Here-->
+     <li class="nav-item">
+        <a href="javascript:void(0)" class="nav-link d-flex">
+           <span><i class="fa fa-twitter nav-icon"></i></span>
+          <p>Static content</p>
+          <i class="right fa fa-angle-left"></i>
         </a>
+        <ul class="nav nav-treeview" style="display: {{ Request::routeIs('staticcontent')|| Request::routeIs('condition') ? 'block' : 'none' }}">
+          <li class="nav-item">
+            <a href="{{url('/admin/staticcontent')}}" class="nav-link  {{ Request::routeIs('staticcontent') ? 'active' : '' }}">
+              <i class="fa fa-picture-o nav-icon"></i>
+              <p>Screen Baner image</p>
+            </a>
+          </li>
+    
+      <li class="nav-item">
+            <a href="{{route('condition')}}" class="nav-link  {{ Request::routeIs('condition') ? 'active' : '' }}">
+              <i class="fa fa-disease nav-icon"></i>
+              <p>Terms and Condition</p>
+            </a>
+          </li>
+        </ul>
       </li>
+      
      <!--Users End-->
->>>>>>> 012a6ed7ae6161d9e503669f4b7ae12f89fd68fb
       <li class="nav-item">
         <a href="{{url('/admin/logout')}}" class="nav-link">
           <i class="fa fa-sign-out nav-icon"></i>

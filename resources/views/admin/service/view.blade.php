@@ -28,7 +28,7 @@
     <td>{{$value->name}}</td>
     <td>{{$value->description}}</td>
     <td>
-   <img src="{{env('APP_URL')}}public/profile_image/{{$value->service_image}}" height="60px" width="60px">
+   <img src="{{URL::to('/')}}/profile_image/{{$value->service_image}}" width="100px" height="100px">
     </td>
    <td>{{$value->price_per_hour}}</td>
     <td>{{$value->price_per_day}}</td>
