@@ -20,6 +20,9 @@
   <link rel="stylesheet" href="{{asset('css/adminlte.min.css')}}">
   <!-- Theme css -->
   <link rel="stylesheet" href="{{asset('css/theme.css')}}">
+
+  <!-- Custom css -->
+  <link rel="stylesheet" href="{{asset('css/custom.css')}}">
   <!-- Select2 -->
   
   <link rel="stylesheet" href="{{asset('plugins/select2/css/select2.min.css')}}">

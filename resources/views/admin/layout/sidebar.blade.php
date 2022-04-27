@@ -88,10 +88,6 @@
           </li>
         </ul>
       </li>
-<<<<<<< HEAD
-     <!--Users End-->
-      
-=======
 
       <li class="nav-item">
         <a href="{{url('/admin/report')}}" class="nav-link">
@@ -119,7 +115,6 @@
         </a>
       </li>
      <!--Users End-->
->>>>>>> 012a6ed7ae6161d9e503669f4b7ae12f89fd68fb
       <li class="nav-item">
         <a href="{{url('/admin/logout')}}" class="nav-link">
           <i class="fa fa-sign-out nav-icon"></i>

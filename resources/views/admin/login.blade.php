@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
     <!-- Style css -->
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
+
+    <!-- custome style -->
+    <link rel="stylesheet" href="{{asset('css/custom.css')}}">
     <!-- Jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -26,11 +29,11 @@
                     <div class="base__form__wrapper">
                         <div class="base__heading text-center mb-3">
                             <div class="base__logo__img">
-                                <img src="{{asset('images/user-lg.png')}}" alt="Logo" />
+                               <img src="{{URL::to('/')}}/images/delooni-logo.svg" alt="Logo" height="600px" width="500px">
                              </div>                           
                         </div>
                         <div class="base__form">
-                            <h4 class="primary-color mb-3 text-center text-white">Admin</h4>
+                            <h4 class="mb-3 text-center">Admin</h4>
                             <form action="login" method="post">
                             @if ($message = Session::get('error'))
                                 <div class="alert alert-danger  alert-dismissible" role="alert">
@@ -73,7 +76,7 @@
                                         </div>
                                     </div>
                                     <div class="col-12 mt-3">
-                                        <button type="submit" class="btn btn-primary btn-block">Login</button>
+                                        <button type="submit" class="btn btn-primary btn-block app-button">Login</button>
                                     </div>
                                 </div>
                             </form>

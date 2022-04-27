@@ -1,5 +1,5 @@
-<div class="col-sm-12">
- <a href="{{url('/')}}/serviceprovider" class="btn btn-outline-success float-right"><i class="fas fa-arrow-alt-circle-left"></i>
+<div class="col-md-6">
+ <a href="{{url('/')}}/serviceprovider" class="btn btn-dark float-right"><i class="fa fa-arrow-circle-left"></i>
  Back
  </a>
 </div> 

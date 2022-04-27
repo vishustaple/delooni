@@ -1,10 +1,11 @@
-<div class="card" id ="test">
-    <div class="card-header">
-    <h3 class="card-title">Report List</h3>
+<div class="card shadow-none border-0" id ="test">
+    <div class="card-header px-0">
+    <h3 class="card-title font-weight-bold">Report List</h3>
 </div>
    <!-- /.card-header -->
-   <div class="card-body">
-   <table class="table table-bordered">
+   <div class="card-body p-0 border-0">
+   <div class="table-responsive">
+   <table class="table">
     
     <thead>
     <tr>
@@ -31,7 +32,9 @@
 </tbody>
 </table>
 </table>
-<a href="{{ route('reportexport') }}" class="btn btn-warning btn-xs">Export Report</a>
+<div class="text-right">
+<a href="{{ route('reportexport') }}" class="btn btn-warning btn-xs mt-3">Export Report</a>
+</div>
 </div>
 <div id="num"  data-page="{{}}">    
  

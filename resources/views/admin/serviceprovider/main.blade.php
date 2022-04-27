@@ -1,5 +1,5 @@
 <div class="card" id="data">
-              <div class="card-header p-2">
+              <div class="card-header p-2 yellow-bg">
                 <ul class="nav nav-pills">
                   <li class="nav-item"><a class="nav-link active" style="cursor:pointer;" id="serviceform" >Add</a></li>
                   
@@ -12,7 +12,7 @@
                   </li>
                 </ul>
               </div>
-              <div class="card-body">
+              <div class="card-body py-0">
                 <div class="tab-content">
                   <div class="active tab-pane" id="view">
                      @include('admin.serviceprovider.view')
