@@ -29,7 +29,7 @@
                     <div class="base__form__wrapper">
                         <div class="base__heading text-center mb-3">
                             <div class="base__logo__img">
-                               <img src="{{URL::to('/')}}/images/delooni-logo.svg" alt="Logo" height="600px" width="500px">
+                               <a href="javascript:void(0)"><img src="{{URL::to('/')}}/images/delooni-logo.svg" alt="Logo" height="600px" width="500px"></a>
                              </div>                           
                         </div>
                         <div class="base__form">
