@@ -53,11 +53,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('get-provider-profile', [UserController::class, 'providerDetail']);
 
     /******************************* Common Api **********************************************/
-    Route::post('send-otp', [UserController::class, 'sendOtp']);
-    Route::post('verify-otp', [UserController::class, 'verifyOtp']);
-    Route::get('active-countries-list', [ListController::class, 'activeCountryList']);
     Route::get('get-categories', [ListController::class, 'getcategories']);
     Route::post('get-sub-categories', [ListController::class, 'getSubcategories']);
 });
 
+Route::post('send-otp', [UserController::class, 'sendOtp']);
 Route::resource('rolesPermission', RolesPermissionsController::class);
+Route::get('active-countries-list', [ListController::class, 'activeCountryList']);
+Route::post('verify-otp', [UserController::class, 'verifyOtp']);
