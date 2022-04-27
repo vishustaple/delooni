@@ -29,10 +29,12 @@ trait ImageUpload
   }
   public function UploadImage($file, $fileName)
   {
+    if(!empty($file)){
     $imageName = Str::random(10) . '.' . $file->extension();
     $destinationPath = public_path($fileName);
     $file->move($destinationPath, $imageName);
     return $imageName;
+    }
   }
 
   

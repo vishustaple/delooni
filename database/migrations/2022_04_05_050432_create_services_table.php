@@ -24,9 +24,8 @@ class CreateServicesTable extends Migration
             $table->float('price_per_month')->nullable();
             $table->unsignedBigInteger('service_category_id');
             $table->foreign('service_category_id')->references('id')->on('service_categories')->onDelete('cascade');
+            $table->timestamps();
 
-            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
     }
 
