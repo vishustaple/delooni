@@ -467,8 +467,8 @@ class UserController extends Controller
             $v = Validator::make(
                 $r->input(),
                 [
-                    'category' => 'required|integer',
-                    'sub_category' => 'required|integer',
+                    'category_id' => 'required|integer',
+                    'sub_category_id' => 'required|integer',
                     'price_per_hour ' => 'string',
                     'price_per_day' => 'string',
                     'price_per_month' => 'string',
@@ -477,11 +477,11 @@ class UserController extends Controller
             if ($v->fails()) {
                 return $this->validation($v);
             }
-            $category = ServiceCategory::where('id', $r->category)->where('is_parent', ServiceCategory::IS_PARENT)->first();
+            $category = ServiceCategory::where('id', $r->category_id)->where('is_parent', ServiceCategory::IS_PARENT)->first();
             if (empty($category)) {
                 return $this->error("No Category Found");
             }
-            $subCategory = ServiceCategory::where('id', $r->category)->where('is_parent', $category->id)->first();
+            $subCategory = ServiceCategory::where('id', $r->sub_category_id)->where('is_parent', $category->id)->first();
             if (empty($category)) {
                 return $this->error("No Sub Category Found");
             }
