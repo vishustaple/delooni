@@ -108,11 +108,6 @@ class UserController extends Controller
     {
 
         try {
-            # otp to phole integration here
-            // Otp::where([
-            //     ['phone', '=', $r->phone],
-            //     ['country_code', '=', $r->country_code],
-            // ])->delete();
             $otp = Otp::create([
                 'phone' => $r->phone,
                 'country_code' => $r->country_code,
@@ -120,16 +115,13 @@ class UserController extends Controller
             ]);
 
             if ($otp) {
-                return $this->successWithData(['otp' => $otp->otp]);
+                  return $this->success('OTP has been sent to your phone number.Please check.');
             }
             return $this->error("unable to processs your request. Please try again later.");
         } catch (\Throwable $e) {
-            Log::Info("\n==============OTP Error Logs==============\n");
             Log::error($e->getMessage());
-            Log::Info("\n==============End of OTP Error Logs==============\n");
             return $this->error("Gettig error while sending OTP. Please try again later.");
         }
-        exit;
     }
 
     /**
