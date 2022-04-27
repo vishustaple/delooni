@@ -1,7 +1,7 @@
 @extends('admin.layout.template')
 @section('contents')
 <div class="card" id="data">
-              <div class="card-header p-2">
+              <div class="card-header p-2 yellow-bg">
                 <ul class="nav nav-pills">
                 <li class="nav-item"> </li>
                      <!-- The Modal -->

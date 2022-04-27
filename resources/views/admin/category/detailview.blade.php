@@ -1,32 +1,38 @@
 @extends('admin.layout.template')
 @section('contents')
 <div class="card" id = "test">
-    <div class="card-header">
-    <h3 class="card-title">Category detailView</h3>
+    <div class="card-header yellow-bg">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+        <h3 class="card-title mb-0">Category Detail View</h3>
+       </div>
     @include('admin.category.back')
+   </div>
 </div>
+<div class="card-body">
 <form class="form-horizontal"  id="update_category"  method="post"  enctype="multipart/form-data">
                       @csrf
                       <input type="hidden" name="id"  id="id"  value=""> 
                       <div class="form-group row">
-                        <label for="name" class="col-sm-3 col-form-label">Name :</label>
-                        <div class="col-sm-8">
+                        <label for="name" class="col-sm-12 col-form-label">Name</label>
+                        <div class="col-sm-12">
                           <input type="text" class="form-control" id="name" value="{{$data->name}}"  name="name"  readonly>
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label for="description" class="col-sm-3 col-form-label">Description :</label>
-                        <div class="col-sm-8">
-                          <input type="text" class="form-control" id="description"  value="{{$data->description}}"  name="description"  readonly>
+                        <label for="description" class="col-sm-12 col-form-label">Description</label>
+                        <div class="col-sm-12">
+                          <textarea class="form-control" id="description"   name="description"  readonly>{{$data->description}}</textarea>
                        </div>
                       </div>
-                      <div class="form-group row">
-                        <label for="service_category_image" class="col-sm-3 col-form-label">Service Category Image :</label>
-                        <div class="col-sm-8">
+                      <div class="form-group row uploadimage">
+                        <label for="service_category_image" class="col-sm-12 col-form-label">Service Category Image</label>
+                        <div class="col-sm-12">
                         <img src="{{URL::to('/')}}/profile_image/{{$data->service_category_image}}">
                           </div>
                       </div>  
                     </form>
+</div>
 </div>
 <div class="card" id="data">
               <div class="card-header p-2">
@@ -36,16 +42,17 @@
                         data-target="#myModal">Add sub category</a></li>
                    <!-- The Modal -->
                     <div class="modal" id="myModal"> 
-                      <div class="modal-dialog modal-lg">
+                      <div class="modal-dialog modal-md">
                         <div class="modal-content">
                           <!-- Modal Header -->
                           <div class="modal-header">
-                            <h4 class="modal-title">Add category</h4>
+                            <h5 class="modal-title">Add category</h5>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                           </div>
-                            @include('admin.category.add_subcategory')
+                           
                           <!-- Modal body -->
                           <div class="modal-body">
+                          @include('admin.category.add_subcategory')
                           </div>
                         </div>
                       </div>
@@ -53,7 +60,8 @@
                     </div>    
 <!-- /.card-header -->
 <div class="card" id = "test">
-  <table class="table table-bordered">
+  <div class="table-responsive">
+  <table class="table">
     @if(count($getdatas)>0)
     <thead>
     <tr>
@@ -86,11 +94,11 @@
     <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-success btn-xs update" class="viewjob_update">Update</button>
     <!-- The Modal -->
     <div class="modal " id="myModal1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-md">
     <div class="modal-content">
    <!-- Modal Header -->
    <div class="modal-header">
-    <h4 class="modal-title">Update</h4>
+    <h5 class="modal-title">Update</h5>
     <button type="button" class="close" data-dismiss="modal">&times;</button>
     </div>
     <!-- Modal body -->
@@ -110,6 +118,7 @@
     @endforelse
 </tbody>
 </table>
+</div>
 </div>
 @endsection
 

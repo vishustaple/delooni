@@ -1,9 +1,10 @@
 @extends('admin.layout.template')
 @section('contents')
 <div class="card" id ="test">
-    <div class="card-header">
+    <div class="card-header yellow-bg">
     <h3 class="card-title">Static Content</h3>
 </div>
+<div class="card-body">
 <form class="form-horizontal"  id="content_update"  method="post"  enctype="multipart/form-data">
                       @csrf
                       <div class="form-group row">
@@ -13,5 +14,6 @@
                          </div>
                       </div>  
   </form>
+</div>
 </div>
   @endsection

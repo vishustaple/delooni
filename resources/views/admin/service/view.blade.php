@@ -1,10 +1,11 @@
-<div class="card" id ="test">
-    <div class="card-header">
-    <h3 class="card-title">Service List</h3>
+<div class="card shadow-none border-0" id ="test">
+    <div class="card-header px-0">
+    <h3 class="card-title font-weight-bold">Service List</h3>
 </div>
 <!-- /.card-header -->
- <div class="card-body" >
-    <table class="table table-bordered">
+ <div class="card-body p-0 border-0" >
+  <div class="table-responsive">
+    <table class="table">
     @if(count($data)>0)
     <thead>
     <tr>
@@ -17,7 +18,7 @@
     <th>Price (/month)</th>
     <th>Service category</th>
     <th>Status</th>
-    <th>Action</th>
+    <th style="width:18%">Action</th>
     </tr>
     </thead>
     @endif
@@ -45,11 +46,11 @@
     <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-success btn-xs update" class="viewjob_update">Update</button>
     <!-- The Modal -->
     <div class="modal " id="myModal1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-md">
     <div class="modal-content">
    <!-- Modal Header -->
    <div class="modal-header">
-    <h4 class="modal-title">Update</h4>
+    <h5 class="modal-title">Update</h5>
     <button type="button" class="close" data-dismiss="modal">&times;</button>
     </div>
     <!-- Modal body -->
@@ -69,6 +70,7 @@
     @endforelse
 </tbody>
 </table>
+</div>
 </div>
 <div id="num"  data-page="{{$data->currentPage()}}">    
  {{$data->links()}} 

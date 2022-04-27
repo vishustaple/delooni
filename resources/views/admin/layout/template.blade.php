@@ -10,7 +10,7 @@
   </div> -->
 
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-dark">
+  <nav class="main-header navbar navbar-expand navbar-dark black-bg">
 
     <!-- Left navbar links -->
    @include('admin.layout.menubar')
@@ -24,11 +24,13 @@
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <aside class="main-sidebar sidebar-dark-primary elevation-4 black-bg">
     <!-- Brand Logo -->
-    <a href="{{url('/admin/profile')}}" class="brand-link text-center">
-      <!-- <img src="{{asset('img/AdminLTELogo.png')}}" alt="Glitter Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
-      <span class="brand-text font-weight-light">Admin</span>
+    <a href="{{url('/admin/home')}}" class="brand-link text-center black-bg">
+      <span>
+        <img src="{{URL::to('/')}}/images/delooni-logo-text.svg" alt="Glitter Logo" class="brand-image mx-auto float-none">
+     </span>
+      <!-- <span class="brand-text font-weight-light">Admin</span> -->
       
     </a>
 

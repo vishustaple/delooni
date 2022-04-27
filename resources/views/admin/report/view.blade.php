@@ -1,19 +1,11 @@
-<style>
-td table {
-    width: 100%;
-}
-.excel-table tbody table tr td {
-    border-width: 0px 0px 1px 0px !important;
-}
-
-</style>
-
-<div class="card" id ="test">
-    <div class="card-header">
-        <h3 class="card-title">Report List</h3>
-    </div>
-    <!-- CUSTOM TABLE  -->
-    <table class="table table-bordered excel-table">
+<div class="card shadow-none border-0" id ="test">
+    <div class="card-header px-0">
+    <h3 class="card-title font-weight-bold">Report List</h3>
+</div>
+   <!-- /.card-header -->
+   <div class="card-body p-0 border-0">
+   <div class="table-responsive">
+   <table class="table">
     
   <thead>
     <tr>
@@ -25,8 +17,8 @@ td table {
       <th scope="col">category has minimum twenty query</th>
       <th scope="col">Service Provider with maximum twenty query</th>
     </tr>
-  </thead>
-  <tbody>
+    </thead>
+    <tbody>
   <tr>
             <td> 
                 <table>
@@ -103,6 +95,16 @@ td table {
                     @endforelse
                 </table>
             </td>
+ 
+            </tr>
+    </tbody>
+</table>
+</table>
+<div class="text-right">
+<a href="{{ route('reportexport') }}" class="btn btn-warning btn-xs mt-3">Export Report</a>
+</div>
+</div>
+<div id="num"  data-page="{{}}">    
  
             </tr>
     </tbody>

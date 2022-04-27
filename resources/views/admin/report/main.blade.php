@@ -1,12 +1,12 @@
 @extends('admin.layout.template')
 @section('contents')
 <div class="card" id="data">
-              <div class="card-header p-2">
+              <div class="card-header p-2 yellow-bg">
                 <ul class="nav nav-pills">
                 <li class="nav-item"> </li>
                      <!-- The Modal -->
                     <div class="modal" id="myModal"> 
-                      <div class="modal-dialog modal-lg">
+                      <div class="modal-dialog modal-md">
                         <div class="modal-content">
                           <!-- Modal Header -->
                           <div class="modal-header">
@@ -27,7 +27,7 @@
                   </li>
                 </ul>
               </div>
-              <div class="card-body">
+              <div class="card-body py-0">
                 <div class="tab-content">
                   <div class="active tab-pane" id="view">
                   @include('admin.report.view')
