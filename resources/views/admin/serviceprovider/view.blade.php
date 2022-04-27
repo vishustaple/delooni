@@ -1,10 +1,11 @@
-<div class="card">
-  <div class="card-header">
-    <h3 class="card-title">Service Provider List</h3>
+<div class="card border-0 shadow-none">
+  <div class="card-header px-0">
+    <h3 class="card-title font-weight-bold">Service Provider List</h3>
   </div>
   <!-- /.card-header -->
-  <div class="card-body">
-    <table class="table table-bordered">
+  <div class="card-body p-0 border-0">
+    <div class="table-responsive">
+    <table class="table">
       @if(count($data)>0)
       <thead>
         <tr>
@@ -46,6 +47,7 @@
         @endforelse
       </tbody>
     </table>
+   </div>
   </div>
   {{$data->links()}}
 

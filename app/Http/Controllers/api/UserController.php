@@ -439,6 +439,7 @@ class UserController extends Controller
                 $workExperience->user_id = $user->id;
                 $workExperience->save();
 
+                if($r->hasFile('video')){
                 $file = new Files();
                 $file->file_name = $this->UploadImage($r->file('video'), 'videos');
                 $extension = ($r->file('video'))->getClientOriginalExtension();
@@ -449,6 +450,7 @@ class UserController extends Controller
                 $file->created_by = $user->id;
                 $file->type = 1;
                 $file->save();
+                }
                 DB::commit();
                 return $this->successWithData($user->serviceProviderProfile(), " User Profile updated successfully");
             }

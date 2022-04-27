@@ -1,10 +1,11 @@
-<div class="card" id="test">
-    <div class="card-header">
-    <h3 class="card-title">Customers List</h3>
-</div>
+<div class="card border-0 shadow-none" id="test">
+    <div class="card-header px-0 border-0">
+    <h3 class="card-title font-weight-bold">Customers List</h3>
+    </div>
 <!-- /.card-header -->
-    <div class="card-body">
-    <table class="table table-bordered">
+    <div class="card-body border-0 p-0">
+    <div class="table-responsive">
+    <table class="table">
     @if(count($data)>0)
     <thead>
     <tr>
@@ -45,7 +46,7 @@
     <div class="modal-content">
    <!-- Modal Header -->
    <div class="modal-header">
-    <h4 class="modal-title">Update</h4>
+    <h5 class="modal-title">Update</h5>
     <button type="button" class="close" data-dismiss="modal">&times;</button>
     </div>
     <!-- Modal body -->
@@ -65,6 +66,7 @@
     @endforelse
 </tbody>
 </table>
+</div>
 </div>
 {{-- {{$data->links()}} --}}
 <!-- /.card-body -->

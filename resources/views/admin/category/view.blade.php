@@ -1,10 +1,11 @@
-<div class="card" id ="test">
-    <div class="card-header">
-    <h3 class="card-title">Category List</h3>
+<div class="card shadow-none border-0 p-0" id ="test">
+    <div class="card-header px-0 ">
+    <h3 class="card-title font-weight-bold">Category List</h3>
 </div>
 <!-- /.card-header -->
- <div class="card-body" >
-    <table class="table table-bordered">
+ <div class="card-body p-0 border-0">
+ <div class="table-responsive" >
+    <table class="table">
     @if(count($data)>0)
     <thead>
     <tr>
@@ -24,7 +25,7 @@
    <td>{{$value->name}}</td>
     <td>{{$value->description}}</td>
     <td>
-    <img src="{{env('APP_URL')}}public/profile_image/{{$value->service_category_image}}" height="60px" width="60px">
+    <img src="{{URL::to('/')}}/profile_image/{{$value->service_category_image}}" width="100px" height="100px">
     </td>
     <td>@if($value->status==1)
     <button data-id="{{$value->id}}" class="disable_enable btn btn-success btn-xs" onclick="toggleDisableEnable(this)">Activate</button>
@@ -37,15 +38,15 @@
     <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-success btn-xs update" class="viewjob_update">Update</button>
     <!-- The Modal -->
     <div class="modal " id="myModal1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-md">
     <div class="modal-content">
    <!-- Modal Header -->
    <div class="modal-header">
-    <h4 class="modal-title">Update</h4>
+    <h5 class="modal-title">Update</h5>
     <button type="button" class="close" data-dismiss="modal">&times;</button>
     </div>
     <!-- Modal body -->
-    <div class="modal-body viewJob_update">
+    <div class="modal-body viewJob_update pt-0">
     </div>
 
 </div>
@@ -61,6 +62,7 @@
     @endforelse
 </tbody>
 </table>
+</div>
 </div>
 <div id="num"  data-page="{{$data->currentPage()}}">    
  {{$data->links()}} 

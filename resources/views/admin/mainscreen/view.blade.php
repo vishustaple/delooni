@@ -1,10 +1,11 @@
-   <div class="card" id ="test">
-    <div class="card-header">
-    <h3 class="card-title">Splash screen</h3>
+   <div class="card shadow-none border-0" id ="test">
+    <div class="card-header px-0">
+    <h3 class="card-title font-weight-bold">Splash screen</h3>
 </div>
 <!-- /.card-header -->
- <div class="card-body" >
-    <table class="table table-bordered">
+ <div class="card-body p-0" >
+     <div class="table-responsive">
+    <table class="table">
     @if(count($datas)>0)
     <thead>
     <tr>
@@ -22,18 +23,18 @@
     <td>{{$key+1}}</td>
     <td>{{$value->title}}</td>
     <td>
-   <img src="{{env('APP_URL')}}public/profile_image/{{$value->screen_image}}" height="60px" width="60px">
+  <img src="{{URL::to('/')}}/profile_image/{{$value->screen_image}}" width="100px" height="100px">
     </td>
     <td>{{$value->description}}</td>
     <td>
     <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-success btn-xs update" class="viewJob_update">Update</button>
     <!-- The Modal -->
     <div class="modal " id="myModal1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-md">
     <div class="modal-content">
    <!-- Modal Header -->
    <div class="modal-header">
-    <h4 class="modal-title">Update</h4>
+    <h5 class="modal-title">Update</h5>
     <button type="button" class="close" data-dismiss="modal">&times;</button>
     </div>
     <!-- Modal body -->
@@ -43,7 +44,7 @@
 </div>
 </div>
 </div>
-<button data-id="{{$value->id}}" class="btn btn-danger btn-xs remove">Remove</button>
+<a href='{{route("screen.view", $value->id)}}'   target="_blank" class="btn btn-outline-success btn-xs view">View</a>
     </td>
     </tr>
     @empty
@@ -53,6 +54,7 @@
     @endforelse
 </tbody>
 </table>
+</div>
 </div>
 <div id="num"  data-page="{{$datas->currentPage()}}">    
  {{$datas->links()}} 

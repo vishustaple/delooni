@@ -24,8 +24,10 @@ class User extends Authenticatable
     const ROLE_SERVICE_PROVIDER = 3;
     const GUEST = 3;
 
+
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
+    const STATUS_NEW = 2;
  
 
 
