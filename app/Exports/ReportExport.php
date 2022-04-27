@@ -50,6 +50,7 @@ class ReportExport implements FromCollection,WithHeadings
  
     public function headings():array{
      return[
+      'S.no',
       'Total User',
       'Total query',
       'category has minimum query',

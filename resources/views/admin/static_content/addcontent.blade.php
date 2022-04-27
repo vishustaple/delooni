@@ -1,15 +1,6 @@
 <form class="form-horizontal"  id="add_static_content"  method="post"  enctype="multipart/form-data">
                       @csrf
                       <div class="form-group row">
-                        <label for="terms_and_condition" class="col-sm-3 col-form-label">Terms and Condition :</label>
-                        <div class="col-sm-8">
-                        <textarea rows="9" cols="57" name="terms_and_condition" id="terms_and_condition" placeholder="Terms and condition">
-                       </textarea>
-                        <div class="error" id="error_terms_and_condition">
-                         </div>
-                         </div>
-                        </div>
-                       <div class="form-group row">
                         <label for="screen_baner_image" class="col-sm-3 col-form-label">Screen Baner Image :</label>
                        <div class="col-sm-8">
                           <input type="file" class="form-control" id="screen_baner_image" name="screen_baner_image" placeholder="Upload Screen Baner Image">
