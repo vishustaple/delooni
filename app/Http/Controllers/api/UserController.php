@@ -441,7 +441,7 @@ class UserController extends Controller
                 $user->service_provider_type  = $r->service_provider_type;
                 $user->address = $r->address;
                 $user->phone = $r->phone;
-                $user->whatspp_no = $r->whatspp_no;
+                $user->whatsapp_no = $r->whatsapp_no;
                 $user->snapchat_link = $r->snapchat_link;
                 $user->instagram_link = $r->instagram_link;
                 $user->twitter_link = $r->twitter_link;
