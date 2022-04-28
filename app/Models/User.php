@@ -24,8 +24,10 @@ class User extends Authenticatable
     const ROLE_SERVICE_PROVIDER = 3;
     const GUEST = 3;
 
+
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
+    const STATUS_NEW = 2;
  
 
 
@@ -41,7 +43,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name','first_name','last_name','business_name','phone','email','dob','latitude','longitude','address','city','state','pincode','country','counry_code','country_short_code','spoken_language','other_spoken_language','primary_mode_of_transport','experience','travel_distance','earliest_start_date','aspire_to_achieve','hobbies','long_term_goal','goal','profile_image','cover_image','is_notification','role_id','status','created_by','email_verified_at','password','form_step','email_verified_token','whatsapp_no','snapchat_link','instagram_link','twitter_link','license_cr_no','license_cr_photo','description','profile_video','profile_image','nationality',
+        'name','first_name','last_name','business_name','phone','email','dob','latitude','longitude','address','city','state','pincode','country','country_code','country_short_code','spoken_language','other_spoken_language','primary_mode_of_transport','experience','travel_distance','earliest_start_date','aspire_to_achieve','hobbies','long_term_goal','goal','profile_image','cover_image','is_notification','role_id','status','created_by','email_verified_at','password','form_step','email_verified_token','whatsapp_no','snapchat_link','instagram_link','twitter_link','license_cr_no','license_cr_photo','description','profile_video','profile_image','nationality',
     ];
 
     public function rating()
@@ -53,6 +55,10 @@ class User extends Authenticatable
     }
     public function workexperience(){
         return $this->hasOne(WorkExperience::class, 'user_id');
+    }
+
+    public function serviceDetail(){
+        return $this->hasOne(ServiceDetail::class, 'user_id','id');
     }
     public function files()
     {
@@ -77,8 +83,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function favourite($id){
-        return FavouriteServices::where('user_id',$id)->first();
+    public function favourite($id,$userId){
+        return FavouriteServices::where(['service_id'=>$id,'user_id'=>$userId])->first();
     }
     public function jsonData()
     {
@@ -140,7 +146,9 @@ class User extends Authenticatable
     }
     public function RatingResponse()
     { 
-        $favourite= $this->id;
+        $userId=auth()->user()->id;
+        if ($this->roles->first()->id == User::ROLE_SERVICE_PROVIDER) {
+        $favourite= $this->favourite($this->id,$userId);
         $json = [];
         $json['id'] = $this->id;
         $json['first_name'] = $this->first_name;
@@ -156,6 +164,7 @@ class User extends Authenticatable
         $json['phone']=$this->phone;
         $json['price_per_hour']=$this->price_per_hour??0;
         return $json;
+        }
 
     }
 

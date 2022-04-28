@@ -1,24 +1,24 @@
 <form class="form-horizontal"  id="add_subcategory"   enctype="multipart/form-data">
                       @csrf
                       <div class="form-group row">
-                        <label for="name" class="col-sm-3 col-form-label">Sub Category Name :</label>
-                        <div class="col-sm-8">
+                        <label for="name" class="col-sm-12 col-form-label">Sub Category Name </label>
+                        <div class="col-sm-12">
                           <input type="text" class="form-control" id="name" name="name" placeholder="Enter Sub category name">
                           <div class="error" id="error_name">
                          </div>
                         </div>
                       </div>
                  <div class="form-group row">
-                        <label for="service_category_image" class="col-sm-3 col-form-label">Sub category Image :</label>
-                        <div class="col-sm-8">
+                        <label for="service_category_image" class="col-sm-12 col-form-label">Sub category Image </label>
+                        <div class="col-sm-12">
                           <input type="file" class="form-control" id="service_category_image" name="service_category_image" placeholder="Upload Service category Image">
                           <div class="error" id="error_service_category_image">
                          </div>
                         </div>
                       </div>  
                      <div class="form-group row">
-                        <label for="is_parent" class="col-sm-3 col-form-label">Parent category :</label>
-                          <div class="col-sm-8">
+                        <label for="is_parent" class="col-sm-12 col-form-label">Parent category </label>
+                          <div class="col-sm-12">
                           <select class="form-control" id="is_parent" name="is_parent">
                   @foreach($getnames as $getname)
                       <option class="form-drop-items" value="{{$getname->id}}">{{$getname->name}}</option>
@@ -27,8 +27,8 @@
                  </div>
                   </div>
                  <div class="form-group row">
-                        <div class="offset-sm-2 col-sm-10">
-                          <button type="submit" class="btn btn-success">Submit</button>
+                        <div class="col-sm-12 text-center">
+                          <button type="submit" class="btn app-button">Submit</button>
                           <button type="reset" class="btn btn-danger">Reset</button>
                         </div>
                       </div>

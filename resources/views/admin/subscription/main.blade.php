@@ -1,24 +1,24 @@
 @extends('admin.layout.template')
 @section('contents')
 <div class="card" id="data">
-              <div class="card-header p-2">
+              <div class="card-header p-2 yellow-bg">
                 <ul class="nav nav-pills">
                 <li class="nav-item"><a class="nav-link active" style="cursor:pointer" 
                         data-toggle="modal" 
                         data-target="#myModal">Add Subscription</a></li>
                    <!-- The Modal -->
                     <div class="modal" id="myModal"> 
-                      <div class="modal-dialog modal-lg">
+                      <div class="modal-dialog modal-md">
                         <div class="modal-content">
                           <!-- Modal Header -->
                           <div class="modal-header">
-                            <h4 class="modal-title">Add Subscription</h4>
+                            <h5 class="modal-title">Add Subscription</h5>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                           </div>
-                          @include('admin.subscription.add_subscription')
+                         
                           <!-- Modal body -->
                           <div class="modal-body">
-                         
+                            @include('admin.subscription.add_subscription')
                           </div>
                         </div>
                       </div>
@@ -43,7 +43,7 @@
                 <!-- /.tab-content -->
               </div><!-- /.card-body -->
       </div>
-<script>
+    <script>
     $("#add_subscription").on('submit', function (e){ 
      e.preventDefault();
      var data = new FormData(this);
@@ -59,20 +59,20 @@
     headers: {
      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
      },
-    data:data,
-    success:function(data){
-   location.reload();
-    $("body").removeClass("modal-open");
+     data:data,
+     success:function(data){
+     location.reload();
+     $("body").removeClass("modal-open");
      },
-  error:function(data){
+     error:function(data){
                                          
-    $.each(data.responseJSON.errors, function(id,msg){
-    $('#error_'+id).html(msg);
- })
-}
-});
+     $.each(data.responseJSON.errors, function(id,msg){
+     $('#error_'+id).html(msg);
+     })
+     }
+     });
     
-}) 
+     }) 
 function toggleDisableEnable(e){
  var id = $(e).attr('data-id');
  $('#page-loader').show();
@@ -123,5 +123,97 @@ $(document).on('click', '.pagination a', function(event){
  fetch_data(page);
  
 });
+   $(document).on('click','.remove',function(){
+    var id = $(this).attr('data-id');
+    swal({
+         title: "Oops....",
+         text: "Are you sure you want to delete subscription ?",
+         icon: "error",
+         buttons: [
+           'NO',
+           'YES'
+         ],
+       }).then(function(isConfirm) {
+         if (isConfirm) {
+     $('#page-loader').show();
+     $.ajax({
+     url:"{{route('subscription.delete')}}",
+     data:{id:id},
+     success:function(data)
+     {
+     swal({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Remove Successfully',
+          showConfirmButton: false,
+          timer: 1500
+          })
+     location.reload();
+     $('#page-loader').hide();
+     },
+     error:function(error){
+    $('#page-loader').hide();
+     }
+     });
+     } else {
+     }
+    });
+    });
+
+    $(document).on('click', '.update', function(event){
+  $('#page-loader').show();
+   $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+  var id = $(this).attr('data-id');
+  $.ajax({
+        url:'{{route("subscription.view.update")}}',
+        data:{id:id},
+        success:function(data)
+  {
+   $('.viewJob_update').empty().html(data);
+   $("#myModal1").modal('show');
+   $('#page-loader').hide();
+
+  },
+  error:function(error){
+    console.log(error.responseText);
+    $('#page-loader').hide();
+
+  }
+ });
+});
+$(document).on('submit','#update_subscription', function(e){
+  e.preventDefault();
+  var data = new FormData(this);
+  console.log(data);
+  $.ajax({
+    type:'post',
+    url:"{{route('subscription.update')}}",
+    cache:false,
+    contentType: false,
+    processData: false,
+    dataType: "JSON",
+    data : {data: data},
+    headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              },
+            data:data,
+            success:function(data){
+            window.location.reload();
+            setTimeout(function () {
+        
+            }, 2000);
+            },
+            error:function(data){
+            $.each(data.responseJSON.errors, function(id,msg){
+            $('#error_'+id).html(msg);
+            })
+            }
+        });
+      });
+
 </script>
 @endsection

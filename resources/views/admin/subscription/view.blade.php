@@ -1,10 +1,11 @@
-<div class="card" id ="test">
-    <div class="card-header">
-    <h3 class="card-title">Plan List</h3>
+<div class="card border-0 shadow-none" id ="test">
+    <div class="card-header px-0">
+    <h3 class="card-title font-weight-bold">Plan List</h3>
 </div>
 <!-- /.card-header -->
- <div class="card-body" >
-    <table class="table table-bordered">
+ <div class="card-body p-0 border-0" >
+     <div class="table-responsive">
+    <table class="table">
     @if(count($data)>0)
     <thead>
     <tr>
@@ -33,7 +34,7 @@
     @endif
     </td>
     <td>
-    <a href='{{route("service.view", $value->id)}}'   target="_blank" class="btn btn-outline-success btn-xs view">View</a>
+    <a href='{{route("subscription.view", $value->id)}}'   target="_blank" class="btn btn-outline-success btn-xs view">View</a>
     <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-success btn-xs update" class="viewjob_update">Update</button>
     <!-- The Modal -->
     <div class="modal " id="myModal1">
@@ -61,6 +62,7 @@
     @endforelse
 </tbody>
 </table>
+</div>
 </div>
 <div id="num"  data-page="{{$data->currentPage()}}">    
  {{$data->links()}} 

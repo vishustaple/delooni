@@ -1,22 +1,21 @@
 
-<div class="card" id ="test">
-    <div class="card-header">
-    <h3 class="card-title">Query List</h3>
-</div>
+<div class="card border-0 shadow-none" id ="test">
+    
    <!-- /.card-header -->
-   <div class="card-body">
-   <table class="table table-bordered">
+   <div class="card-body p-0">
+       <div class="table-responsive">
+   <table class="table">
     @if(count($data)>0)
     <thead>
     <tr>
-    <th style="width: 10px">S.no.</th>
-    <th style="width: 10px">ID</th>
+    <th style="width: 10px;">S.no.</th>
+    <th style="width: 10px;">ID</th>
     <th>Customer name</th>
     <th>Service Category name</th>
     <th>Subject</th>
     <th>Issue</th>
     <th>Message</th>
-     <th>Action</th>
+     <th style="width:15%">Action</th>
     </tr>
     </thead>
     @endif
@@ -42,6 +41,7 @@
     @endforelse
 </tbody>
 </table>
+</div>
 </div>
 <div id="num"  data-page="{{$data->currentPage()}}">    
  {{$data->links()}} 

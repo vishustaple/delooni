@@ -19,18 +19,14 @@ class CreateServiceDetailsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->unsignedBigInteger('service_id');
-            $table->foreign('service_id')->references('id')->on('service_categories')->onDelete('cascade');
-
-            $table->integer("service_cat_id")->default(null);
+            $table->integer("cat_id");
+            $table->integer("sub_cat_id");
             $table->double('price_per_hour')->default(0.00);
             $table->double('price_per_day')->default(0.00);
             $table->double('price_per_month')->default(0.00);
             $table->string('currency', 10)->nullable();
             $table->boolean('status')->default(1)->comment("0=> inactive, 1=> active");
-
-            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamps();
         });
     }
 
