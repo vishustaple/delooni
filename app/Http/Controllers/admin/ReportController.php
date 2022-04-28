@@ -85,6 +85,10 @@ class ReportController extends Controller
     * @return view detail of Report 
     */
     public function report_View(){
+      $user_info = Report::select('service_category_id', Report::raw('count(*) as total'))
+      ->groupBy('service_category_id')->where('service_category_id', \DB::raw("(select max(`service_category_id`) from reports)"))
+      ->get();
+      $query = Report::get();
       $user = User::get();
       $query = Report::get();
       $minquery = Report::join('service_categories','reports.service_category_id','=','service_categories.id')

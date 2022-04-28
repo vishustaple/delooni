@@ -1,8 +1,6 @@
 
 <div class="card border-0 shadow-none" id ="test">
-    <div class="card-header px-0">
-    <h3 class="card-title font-weight-bold">Query List</h3>
-</div>
+    
    <!-- /.card-header -->
    <div class="card-body p-0">
        <div class="table-responsive">

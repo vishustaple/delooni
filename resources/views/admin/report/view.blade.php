@@ -1,7 +1,4 @@
 <div class="card shadow-none border-0" id ="test">
-    <div class="card-header px-0">
-    <h3 class="card-title font-weight-bold">Report List</h3>
-</div>
    <!-- /.card-header -->
    <div class="card-body p-0 border-0">
    <div class="table-responsive">
@@ -100,11 +97,9 @@
     </tbody>
 </table>
 </table>
-<div class="text-right">
-<a href="{{ route('reportexport') }}" class="btn btn-warning btn-xs mt-3">Export Report</a>
+
 </div>
-</div>
-<div id="num"  data-page="{{}}">    
+<div id="num"  data-page="">    
  
             </tr>
     </tbody>
