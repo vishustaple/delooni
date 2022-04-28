@@ -36,7 +36,7 @@
     </tr>
     @empty
     <center>
-    <h3> No Query </h3>
+    <h5 class="border p-2"> No Query </h5>
     </center>
     @endforelse
 </tbody>

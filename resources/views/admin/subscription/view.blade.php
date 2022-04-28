@@ -57,7 +57,7 @@
     </tr>
     @empty
     <center>
-    <h3> No User Available </h3>
+    <h5 class="border p-2"> No User Available </h5>
     </center>
     @endforelse
 </tbody>

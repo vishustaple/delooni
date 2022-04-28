@@ -58,7 +58,7 @@
         </tr>
         @empty
         <center>
-          <h3> No User Availabale </h3>
+        <h5 class="border p-2"> No User Availabale </h5>
         </center>
         @endforelse
       </tbody>

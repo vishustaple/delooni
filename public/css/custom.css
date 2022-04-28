@@ -207,6 +207,23 @@ input[type=file]::file-selector-button{
    padding: 60px 0px;
 }
 
+.sidebar-search-results .search-title {
+   color: var(--body-clr) !important;
+}
+
+.sidebar-search-open{
+   position: relative;
+}
+
+.sidebar-search-results {
+   position: absolute;
+   display: none;
+   width: 100%;
+   margin-top: 10px;
+   left: 0;
+   right: 0;
+}
+
 @media (max-width: 767px){
 .section-padding {
     padding: 40px 0px;
