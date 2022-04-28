@@ -46,7 +46,7 @@
     </tr>
     @empty
     <center>
-    <h3> No condition </h3>
+    <h5 class="border p-2"> No condition </h5>
     </center>
     @endforelse
 </tbody>

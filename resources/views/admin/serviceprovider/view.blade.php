@@ -42,7 +42,7 @@
         </tr>
         @empty
         <center>
-          <h3> No Service Provider Availabale </h3>
+        <h5 class="border p-2"> No Service Provider Availabale </h5>
         </center>
         @endforelse
       </tbody>
