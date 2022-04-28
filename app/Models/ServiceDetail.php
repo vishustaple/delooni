@@ -66,7 +66,7 @@ public function filterData()
     {
         $json = [];
         $json['user_id'] = $this->user_id;
-        $json['service_id'] = $this->service_id;
+        $json['service_id'] = $this->sub_cat_id;
         $json['price_per_hour'] = $this->price_per_hour;
         $json['price_per_day'] = $this->price_per_day;
         $json['price_per_month'] = $this->price_per_month;
