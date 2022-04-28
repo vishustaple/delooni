@@ -19,6 +19,7 @@ use App\Models\Country;
 use App\Models\ServiceDetail;
 use App\Models\Services;
 
+
 class ServiceProviderController extends Controller
 {
     use ImageUpload;
@@ -64,7 +65,8 @@ catch (\Throwable $th) {
     */
        
     public function AddServiceProvider(ServiceProviderRequest $request){
-        try{ 
+        try{
+        
         $serviceprovideruser =  User::create([
         "business_name" => $request->business_name,
         "first_name" => $request->firstname,
@@ -86,10 +88,8 @@ catch (\Throwable $th) {
         "profile_video"=>$this->UploadImage($request->video,'profile_video'),
     ]);
    
-    
-
     if($serviceprovideruser){
-     
+        
         $serviceprovideruser->assignRole(User::ROLE_SERVICE_PROVIDER);
         $user =$serviceprovideruser->id;
     
@@ -106,14 +106,19 @@ catch (\Throwable $th) {
             "brief_of_experience"=>$request->brief_of_experience,
             "user_id" => $user,
         ]);
-        $servicedetail = ServiceDetail::create([
-            "service_id	"=>$request->service_category_id,
-            "service_cat_id"=>$request->service_category_id,
-            "price_per_hour"=>$request->price_per_hour,
-            "price_per_day"=>$request->price_per_day,
-            "price_per_month"=>$request->price_per_month,
-            "user_id" => $user,
-        ]);
+        $insert = new ServiceDetail;
+        $insert->service_id=$request->service_category_id;
+        if( isset($request->subcategory) && $request->subcategory != null  ){
+            $insert->service_cat_id = $request->subcategory;
+        } else {
+            $insert->service_cat_id = $request->service_category_id;
+        }
+        $insert->price_per_hour=$request->price_per_hour; 
+        $insert->price_per_day=$request->price_per_day;
+        $insert->price_per_month=$request->price_per_month;
+        $insert->user_id=$user;
+        $insert->save();
+
         return response()->json(redirect()->back()->with('success', 'New service provider is added Successfully'));
     }
     }
@@ -148,12 +153,23 @@ catch (\Throwable $th) {
      * @return  data from db and show into view 
      */
 
-    public function ViewServiceProviderData($id){
+    public function ViewServiceProviderData($id){ 
 
         $data=User::select('*')->where('id', '=', $id)->first();
         $getwork=WorkExperience::select('*')->where('user_id', '=', $id)->first();
         $geteducation=EducationDetail::select('*')->where('user_id', '=', $id)->first();
-        return view('admin.serviceprovider.detailview',compact('data','getwork','geteducation'));
+        $getservicedetail=ServiceDetail::select('*')->where('user_id', '=', $id)->first();
+        $serviceid=$getservicedetail->service_id;
+        $getservicename=Services::select('*')->where('id', '=', $serviceid)->first();
+        $servicecatid=$getservicedetail->service_cat_id;
+        $getcatdata=ServiceCategory::select('*')->where('id', '=', $servicecatid)->first();
+        $subcategory=ServiceCategory::select('*')->where('id', '=', $servicecatid)->where('is_parent','=',0)->first();
+        if($subcategory){
+            //  $id=$subcategory->is_parent;
+            $subcategoryname=ServiceCategory::select('*')->where('id', '=',  $id)->first();
+        }
+        
+        return view('admin.serviceprovider.detailview',compact('data','getwork','geteducation','getservicedetail','getservicename','getcatdata'));
       
      }
      /**
@@ -205,12 +221,14 @@ catch (\Throwable $th) {
      * @param    
      * @return  update form 
      */
-     public function UpdateForm($id){
+     public function UpdateForm($id){ 
        $data=User::select('*')->where('id', '=', $id)->first();
        $geteducation=EducationDetail::select('*')->where('user_id', '=', $id)->first();
        $getwork=WorkExperience::select('*')->where('user_id', '=', $id)->first();
+       $getservices=Services::select('*')->get();
+       $categorynames=ServiceCategory::select('*')->get();
     //    $getwork=WorkExperience::select('*')->where('user_id', '=', $id)->first();
-        return view('admin.serviceprovider.update',compact('data','getwork','geteducation'));
+        return view('admin.serviceprovider.update',compact('data','getwork','geteducation','getservices','categorynames'));
 
     }
 
@@ -222,24 +240,23 @@ catch (\Throwable $th) {
          */
          public function UpdateProviderData(UpdateServiceProviderRequest $request)
         {
-             // dd($request->all());
-        // $user= DB::table('model_has_roles')->where('model_id', $request->id)->delete();
+        
         $user = User::find($request->id);
 
-if($request->licensephoto)
-  $licensephoto = $this->uploadImage($request->licensephoto, 'profile_image');
-  else
-  $licensephoto = $user->license_cr_photo;
-    
-  if($request->img)
-  $profileimg = $this->uploadImage($request->img, 'profile_image');
-  else
-  $profileimg = $user->profile_image;
-    
-  if($request->video)
-  $profilevideo = $this->UploadImage($request->video,'profile_video');
-  else
-  $profilevideo = $user->profile_video;
+        if($request->licensephoto)
+        $licensephoto = $this->uploadImage($request->licensephoto, 'profile_image');
+        else
+        $licensephoto = $user->license_cr_photo;
+
+        if($request->img)
+        $profileimg = $this->uploadImage($request->img, 'profile_image');
+        else
+        $profileimg = $user->profile_image;
+
+        if($request->video)
+        $profilevideo = $this->UploadImage($request->video,'profile_video');
+        else
+        $profilevideo = $user->profile_video;
 
         $user->business_name = $request->business_name ?? $user->business_name;
         $user->first_name = $request->firstname ?? $user->first_name;
@@ -269,16 +286,13 @@ if($request->licensephoto)
         ]);
         $workexperienceupdate = WorkExperience::where('user_id', $request->id)->update([
             "no_of_years"=>$request->experience,
-            
         ]);
         if($user){
-            //User::find($request->id)->assignRole($request->roles);
             return response()->json(redirect()->back()->with('success', 'ServiceProvider updated successfully'));
         }
         else{
             return response()->json(redirect()->back()->with('error', 'Getting error while adding user.'));
-
-        }
+         }
 
     }
      /**

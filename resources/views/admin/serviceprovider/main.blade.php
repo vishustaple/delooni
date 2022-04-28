@@ -1,5 +1,5 @@
 <div class="card" id="data">
-              <div class="card-header p-2">
+              <div class="card-header p-2 yellow-bg">
                 <ul class="nav nav-pills">
                   <li class="nav-item"><a class="nav-link active" style="cursor:pointer;" id="serviceform" >Add</a></li>
                   
@@ -12,7 +12,7 @@
                   </li>
                 </ul>
               </div>
-              <div class="card-body">
+              <div class="card-body py-0">
                 <div class="tab-content">
                   <div class="active tab-pane" id="view">
                      @include('admin.serviceprovider.view')
@@ -267,8 +267,9 @@ $(document).on('change','#service_category_id',function(e){
                       },
               success:function(response){
               console.log(response);
-              var subcategories = '<select class="form-control select2" id="_service_category_id" name="_service_category_id"><option value="N/A" disabled selected="true">--Select category--</option>'; 
+              var subcategories = '<select class="form-control select2" id="_service_category_id" name="_service_category_id"><option value="N/A" disabled selected="true">--Select sub category--</option>'; 
               
+  
               $.each(response, function (key, value) {                     
 
                 subcategories += '<option class="form-drop-items" value='+value.id+'>'+value.name+'</option>';

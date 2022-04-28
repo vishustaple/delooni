@@ -17,10 +17,11 @@ class CreateContactUsTable extends Migration
             $table->id();
             $table->string('subject')->nullable();
             $table->longText('message');
-            $table->foreignId('to_user')->constrained('users')->onDelete('cascade');
+            $table->foreignId('to_user')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('from_user')->constrained('users')->onDelete('cascade');
             $table->boolean('status')->default(0);
             $table->boolean('read')->default(0);
+            $table->string('type')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

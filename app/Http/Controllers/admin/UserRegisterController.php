@@ -149,9 +149,9 @@ public function addUser(UserRegisterRequest $request)
         if (Hash::check($request->old_password, $thisUser->first()->password)) {
             $password = Hash::make($request->new_password);
             $thisUser->update(['password' => $password]);
-            return response()->json(redirect()->back()->with('success', 'Password is Updated Successfully'));
+            return response()->json(redirect()->back()->with('success', 'Password  Updated Successfully'));
         } else {
-            return response()->json(redirect()->back()->with(['errors' => 'Password did not matched']));
+            return response()->json(redirect()->back()->with(['errors' => 'Password not matched']));
         }
     }
     /**

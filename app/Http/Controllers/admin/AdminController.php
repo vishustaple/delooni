@@ -53,6 +53,7 @@ class AdminController extends Controller
            return back();
         }
     }
+    
     /**
      * Admin Logout.
      *
@@ -183,65 +184,13 @@ class AdminController extends Controller
      
       
     }
-      /**
-     * Forget password.
-     *
-     * @param  show Forget password
-     * @return  view 
+
+     /**
+     * View terms and condition 
+     * 
+     * 
      */
-    //
-    public function forgotpwdView(){
-    return view('admin.forgotPassword');
+    public function termsAndCondition(){
+        return view('termsandconditions');
     }
-       /**
-     * Forget password.
-     *
-     * @param  $r request contains data to forget user password
-     * @return  response success or fail
-     */
-    //
-    public function forgotPassword(Request $request){
-        if ($request->isMethod('post')) {
-           $validate = Validator::make(
-               $request->input(),
-               [
-                   'email' => 'required|email|exists:users,email',
-               ]
-           );
-           if ($validate->fails())
-                   {                 
-                        return redirect()->back()->withErrors($validate->errors());
-                    }
-            $credentials = $request->only('email');
-             $remember = true;
-             $check = User::where('email', $request->email)->first();
-             if(!$check){
-                 return back()
-                 ->with('error','email does not match.'); 
-             }else{ 
-                 $token =rand(); 
-                 $id =  $check->first()->id;
-                 $user = User::findOrFail($id);
-                 $time = Carbon::now();
-                 try{
-                     Mail::send('admin.forget',['user' => $user, 'id' => $id, 'token'=>$token], function ($m) use ($user) {
-                         $m->from('ankur.mittal@richestsoft.in', 'Your Application');
-                           $m->to($user->email, $user->name)->subject('Your Reminder!');
-                      });
-                 }
-                 catch(Exception $e){
-                 } $insert = User::where('email', $request->email)->update([   
-                   "password_reset_token" => $token,
-                   "expired_token_time" => $time, 
-                 ]);
-                 if($insert){
-                 return redirect('/')->withSuccess('Password reset link has been sent on your email');
-                 }else{
-
-                 }
-             }
-             }
-         }
-  
-
 }

@@ -4,7 +4,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\ListController;
 use App\Http\Controllers\admin\RolesPermissionsController;
-use App\Http\Controllers\admin\RolesController;
 use App\Http\Controllers\api\UserController;
 
 /*
@@ -21,40 +20,44 @@ use App\Http\Controllers\api\UserController;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+/********************************* Un-Authenticate Api's ******************************/
+Route::post('register', [UserController::class, 'register']);
+//Route::post('login',[UserController::class, 'login']);
+//Route::post('forgot-password',[UserController::class, 'forgotPassword']);
 
-/********************************* General Api's ******************************/
-Route::post('register',[UserController::class, 'register']);
-Route::post('login',[UserController::class, 'login']);
-Route::post('forgot-password',[UserController::class, 'forgotPassword']);
-Route::post('send-otp',[UserController::class, 'sendOtp']);
-Route::post('verify-otp',[UserController::class, 'verifyOtp']);
-Route::get('active-countries-list',[UserController::class, 'activeCountryList']);
-/**********(Service Provider User) Get Categories And Sub-Categories of Services ****************/
-Route::get('get-categories',[UserController::class, 'getcategories']);
-Route::post('get-sub-categories',[UserController::class, 'getSubcategories']);
-Route::post('search',[UserController::class, 'search']);
+
 //to show error when user not logged in --- used in middleware(Authenticate)
-Route::get('login-check',[UserController::class, 'loginCheck'])->name('login');
+Route::any('login-check', [UserController::class, 'loginCheck'])->name('login-check');
 
-Route::middleware('auth:sanctum')->group( function () {
-    Route::post('change-password',[UserController::class, 'changePassword']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('logout', [UserController::class, 'logout']);
+    Route::get('get-notification', [ListController::class, 'GetNotification']);
+    Route::post('notification-status', [UserController::class, 'NotificationStatus']);
+    Route::post('change-password', [UserController::class, 'changePassword']);
+    /******************************* Customer User Api **********************************************/
+    Route::get('get-customer-profile', [UserController::class, 'getCustomerProfile']);
+    Route::post('update-customer-detail', [UserController::class, 'updateCustomerDetail']);
+    Route::post('contact-us', [UserController::class, 'contactUs']);
+    Route::post('report', [UserController::class, 'report']);
+    Route::post('user-rating', [UserController::class, 'userRating']);
+    Route::post('add-favourite-service', [UserController::class, 'addRemoveFavourite']);
+    Route::get('get-favourite-service', [ListController::class, 'getFavourite']);
+    Route::post('service-filteration', [ListController::class, 'servicesFilteration']);
+    Route::post('search', [ListController::class, 'search']);
 
-/******************************* Customer User Api **********************************************/
-    Route::get('get-customer-profile',[UserController::class, 'getCustomerProfile']);
-    Route::post('update-customer-detail',[UserController::class, 'updateCustomerDetail']);
-    Route::post('contact-us',[UserController::class, 'contactUs']);
-    Route::post('report',[UserController::class, 'report']);
-    Route::post('user-rating',[UserController::class, 'userRating']);
-    Route::post('add-favourite-service',[UserController::class, 'addFavourite']);
-    Route::get('get-favourite-service',[UserController::class, 'getFavourite']);
-    Route::post('service-filteration',[UserController::class, 'servicesFilteration']);
-    
 
-/******************************* Service Provider User Api **********************************************/
-    Route::post('add-service-detail',[UserController::class, 'addServiceDetails']);
-    Route::post('complete-profile',[UserController::class, 'completeProfile']);
-    Route::post('update-sprovider-profile',[UserController::class, 'updateSpProfile']);
+    /******************************* Service Provider User Api **********************************************/
+    Route::post('add-service-detail', [UserController::class, 'addServiceDetails']);
+    Route::post('complete-profile', [UserController::class, 'completeProfile']);
+    Route::post('update-sprovider-profile', [UserController::class, 'updateSpProfile']);
+    Route::get('get-provider-profile', [UserController::class, 'providerDetail']);
+
+    /******************************* Common Api **********************************************/
+    Route::get('get-categories', [ListController::class, 'getcategories']);
+    Route::post('get-sub-categories', [ListController::class, 'getSubcategories']);
 });
 
+Route::post('send-otp', [UserController::class, 'sendOtp']);
 Route::resource('rolesPermission', RolesPermissionsController::class);
-
+Route::get('active-countries-list', [ListController::class, 'activeCountryList']);
+Route::post('verify-otp', [UserController::class, 'verifyOtp']);

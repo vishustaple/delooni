@@ -19,10 +19,9 @@ class CustomerController extends Controller
     * @param  show admin dashboard
     * @return view detail of all customers
   */
-  public function customerView(){
-        $data = User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))
-        ->orderBy('id', 'DESC')->paginate();
-         $countries = Country::get();
+      public function customerView(){
+        $data = User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->orderBy('id', 'DESC')->paginate();
+        $countries = Country::get();
         return view('admin.customer.main', compact('data','countries'));
       }
       /**

@@ -4,8 +4,8 @@
     @csrf
 
     <div class="row">
-        <div class="col-md-12 mb-1">
-            <h3>General Details</h3>
+        <div class="col-md-12 mt-3">
+            <h4 class="mb-0">General Details</h4>
         </div>
         <div class="col-md-6">
             <div class="form-group">
@@ -75,7 +75,7 @@
     
         <div class="col-md-6">
             <div class="form-group">
-                <label for="img">Upload image:</label>
+                <label for="img">Upload image</label>
                 <input type="file" class="form-control" id="img" name="img" accept="image/*">
                 <div class="error" id="error_img">
                 </div>
@@ -84,7 +84,7 @@
 
         <div class="col-md-6">
             <div class="form-group">
-                <label for="img">Upload Video(Brief of Service provider):</label>
+                <label for="img">Upload Video(Brief of Service provider)</label>
                 <input type="file" class="form-control" id="video" name="video" accept="video/*">
                 <div class="error" id="error_video">
                 </div>
@@ -108,7 +108,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="Address" class="col-sm-6 col-form-label">Address</label>
-                <input type="text" class="form-control" id="address" name="address" placeholder="Enter Your Address ">
+                <textarea class="form-control" id="address" name="address" placeholder="Enter Your Address "></textarea>
                 <div class="error" id="error_address">
                 </div>
             </div>
@@ -136,7 +136,7 @@
 
         <div class="col-md-6">
             <div class="form-group">
-                <label for="SnapChat">SnapChat Link:</label>
+                <label for="SnapChat">SnapChat Link</label>
                 <input type="url" class="form-control" id="snapchat" name="snapchat"
                     placeholder="Enter Your SnapChat Link">
                 <div class="error" id="error_snapchat">
@@ -146,7 +146,7 @@
 
         <div class="col-md-6">
             <div class="form-group">
-                <label for="Instargram">Instagram Link:</label>
+                <label for="Instargram">Instagram Link</label>
                 <input type="url" class="form-control" id="instagram" name="instagram"
                     placeholder="Enter Your Instagram Link ">
                 <div class="error" id="error_instagram">
@@ -156,7 +156,7 @@
 
         <div class="col-md-6">
             <div class="form-group">
-                <label for="Twitter">Twitter Link:</label>
+                <label for="Twitter">Twitter Link</label>
                 <input type="url" class="form-control" id="twitter" name="twitter"
                     placeholder="Enter Your Twitter Link ">
                 <div class="error" id="error_twitter">
@@ -166,7 +166,7 @@
 
         <div class="col-md-6">
             <div class="form-group">
-                <label for="License Number">License Number:</label>
+                <label for="License Number">License Number</label>
                 <input type="text" class="form-control" id="licensenumber" name="licensenumber"
                     placeholder="Enter Your License Number ">
                 <div class="error" id="error_licensenumber">
@@ -176,7 +176,7 @@
 
         <div class="col-md-6">
             <div class="form-group">
-                <label for="License photo">License Photo:</label>
+                <label for="License photo">License Photo</label>
                 <input type="file" accept="image/*" class="form-control" id="licensephoto" name="licensephoto"
                     placeholder="Enter Your License Photo ">
                 <div class="error" id="error_licensephoto">
@@ -186,7 +186,7 @@
 
         <div class="col-md-6">
             <div class="form-group">
-                <label for="Date of Birth">Date of Birth:</label>
+                <label for="Date of Birth">Date of Birth</label>
                 <input type="date" class="form-control" id="dateofbirth" name="dateofbirth"
                     placeholder="Enter Your Date of Birth  ">
                 <div class="error" id="error_dateofbirth">
@@ -196,27 +196,28 @@
 
         <div class="col-md-6">
             <div class="form-group">
-                <label for="Description">Add Description:</label>
-                <input type="textarea" class="form-control" id="description" name="description"
-                    placeholder="Enter Your Description  ">
+                <label for="Description">Add Description</label>
+                <textarea class="form-control" id="description" name="description"
+                    placeholder="Enter Your Description  "></textarea>
                 <div class="error" id="error_description">
 
                 </div>
             </div>
         </div>
-        <div class="col-md-12 my-5">
+        
+        <div class="col-md-12 my-3">
             <div class="row">
                 <div class="col-md-12 mb-2">
-                   <h3>Service Details</h3>
+                   <h4>Service Details</h4>
                 </div> 
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="service_category_id" class="col-md-6 col-form-label">Select Services :</label>
+                        <label for="service_category_id" class="col-md-6 col-form-label">Select Services </label>
                         <select class="form-control select2" id="service_services" name="service_services">
                         <option value="N/A" disabled selected="true">--Select Services--</option>
-                       @foreach($getservices as $getservice)
-                      <option class="form-drop-items" value="{{$getservice->id}}">{{$getservice->name}}</option>
-                        @endforeach
+                        @foreach($getservices as $getservice)
+                        <option class="form-drop-items" value="{{$getservice->id}}">{{$getservice->name}}</option>
+                         @endforeach
                        </select>
                         <div class="error" id="error_service_services">
                         </div>
@@ -224,7 +225,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="service_category_id" class="col-md-6 col-form-label">Select category :</label>
+                        <label for="service_category_id" class="col-md-6 col-form-label">Select category </label>
                         <select class="form-control select2" id="service_category_id" name="service_category_id">
                         <option value="N/A" disabled selected="true">--Select category--</option>
                        @foreach($categorynames as $categoryname)
@@ -237,7 +238,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="subcategory" class="col-md-6 col-form-label">Select Sub category :</label>
+                        <label for="subcategory" class="col-md-6 col-form-label">Select Sub category </label>
                         <select class="form-control select2" id="subcategory" name="subcategory">
                         <option value="N/A" disabled selected="true">--Select sub category--</option>
                         </select>
@@ -247,7 +248,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                    <label for="price_per_hour" >Service Price(/hours) :</label>
+                    <label for="price_per_hour" >Service Price(/hours) </label>
                     <input type="text" class="form-control" id="price_per_hour" name="price_per_hour" placeholder="Service Price per hour">
                     <div class="error" id="error_price_per_hour">
                         </div>
@@ -255,7 +256,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                    <label for="price_per_day" >Service Price(/days) :</label>
+                    <label for="price_per_day" >Service Price(/days) </label>
                     <input type="text" class="form-control" id="price_per_day" name="price_per_day" placeholder="Service Price per day">
                           <div class="error" id="error_price_per_day">
                         </div>
@@ -263,7 +264,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                    <label for="price_per_month" >Service Price(/month) :</label>
+                    <label for="price_per_month" >Service Price(/month) </label>
                     <input type="text" class="form-control" id="price_per_month" name="price_per_month" placeholder="Service Price per month">
                           <div class="error" id="error_price_per_month">
                          </div>
@@ -271,15 +272,15 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-12 mb-5">
+        <div class="col-md-12 mb-3">
             <div class="row">
                 <div class="col-md-12 mb-2">
-                   <h3>Education Details</h3>
+                   <h4>Education Details</h4>
                 </div>
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="education">Enter College/School Name:</label>
+                        <label for="education">Enter College/School Name</label>
                         <input type="text" class="form-control" id="education" name="education"
                             placeholder="Enter Your College/School Name ">
                         <div class="error" id="error_education">
@@ -288,7 +289,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="degree">Degree:</label>
+                        <label for="degree">Degree</label>
                         <input type="text" class="form-control" id="degree" name="degree"
                             placeholder="Enter Your College/School Name ">
                         <div class="error" id="error_degree">
@@ -297,7 +298,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="startdate">Start Date:</label>
+                        <label for="startdate">Start Date</label>
                         <input type="date" class="form-control" id="startdate" name="startdate"
                             placeholder="Enter Your Start Date ">
                         <div class="error" id="error_startdate">
@@ -306,7 +307,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="enddate">End Date:</label>
+                        <label for="enddate">End Date</label>
                         <input type="date" class="form-control" id="enddate" name="enddate" placeholder="Enter Your End Date ">
                         <div class="error" id="error_enddate">
                         </div>
@@ -314,12 +315,15 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-12 mb-2">
-            <h3>Work Experience</h3>
+
+
+
+        <div class="col-md-12 mb-3">
+            <h4>Work Experience</h4>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label for="experience">Work Experience:</label>
+                <label for="experience">Work Experience</label>
                 <input type="text" class="form-control" id="experience" name="experience"
                     placeholder="Enter Your Work Experience ">
                 <div class="error" id="error_experience">
@@ -328,9 +332,9 @@
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label for="brief_of_experience">Brief Of Experience:</label>
-                <textarea id="brief_of_experience" name="brief_of_experience" rows="4" cols="50" class="form-control" placeholder="Enter Your brief of Experience ">
-                </textarea>
+                <label for="brief_of_experience">Brief Of Experience</label>
+               
+                <textarea class="form-control" id="brief_of_experience" name="brief_of_experience" placeholder="Enter Your brief of Experience"></textarea>
                 <div class="error" id="error_brief_of_experience">
                 </div>
             </div>
@@ -339,8 +343,8 @@
 
 
     <div class="form-group row mt-4">
-        <div class="col-sm-10">
-            <button type="submit" class="btn btn-success">Submit</button>
+        <div class="col-sm-12 text-center">
+            <button type="submit" class="btn app-button">Submit</button>
             <button type="reset" class="btn btn-danger">Reset</button>
         </div>
     </div>
