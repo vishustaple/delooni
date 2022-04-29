@@ -34,3 +34,10 @@ Please check the form below for errors
 </div>
 
 @endif
+<script>
+$("document").ready(function(){
+    setTimeout(function(){
+       $("div.alert").remove();
+    }, 5000 ); // 5 secs
+});
+</script>

@@ -1,7 +1,7 @@
 @extends('admin.layout.template')
 @section('contents')
 <div class="card" id="data">
-              <div class="card-header p-4 yellow-bg">
+              <div class="card-header yellow-bg">
                 <ul class="nav nav-pills">
                 <li class="nav-item">
                   <h3 class="card-title">Splash Screen</h3>

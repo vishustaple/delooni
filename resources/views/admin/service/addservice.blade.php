@@ -73,13 +73,29 @@
         <div class="error" id="error_subcategory">
         </div>
     </div> 
-    </div>  
-  <div class="form-group row">
+    </div>
+    <div class="form-group row">
+        <label for="serviceprovider" class="col-sm-12 col-form-label">Select Serviceprovider </label>
+        <div class="col-sm-12 form-control">
+        <select class="select2" id="serviceprovider" name="serviceprovider">
+        <option value="N/A" disabled selected="true">--Select Serviceprovider--</option>
+        @foreach($serviceproviders as $serviceprovider)
+      <option class="form-drop-items" value="{{$serviceprovider->id}}">{{$serviceprovider->first_name}} {{$serviceprovider->last_name}}</option>
+        @endforeach
+        </select>
+        <div class="error" id="error_Serviceprovider">
+        </div>
+      </div> 
+    </div>
+    
+
+    <div class="form-group row">
         <div class="col-sm-12 text-center">
           <button type="submit" class="btn app-button">Submit</button>
           <button type="reset" class="btn btn-danger">Reset</button>
         </div>
-      </div>
+</div>
+   
     </form>
 
                     
