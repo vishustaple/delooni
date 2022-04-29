@@ -1,16 +1,7 @@
 <form class="form-horizontal"  id="content_update"  method="post"  enctype="multipart/form-data">
     @csrf
     <input type="hidden" name="id" id="id" value="{{$content->id}}">
-    <div class="form-group row">
-      <label for="terms_and_condition" class="col-sm-12 col-form-label">Terms and Condition</label>
-      <div class="col-sm-12">
-      <textarea class="form-control" rows="3" cols="30" name="terms_and_condition" id="terms_and_condition">
-      {{$content->terms_and_condition}}</textarea>
-      <div class="error" id="error_terms_and_condition">
-        </div>
-        </div>
-      </div>
-      <div class="form-group row uploadimage">
+    <div class="form-group row uploadimage">
       <label for="screen_baner_image" class="col-sm-12 col-form-label">Screen Baner Image</label>
       <div class="col-sm-12">
       <img src="{{URL::to('/')}}/profile_image/{{$content->screen_baner_image}}">
