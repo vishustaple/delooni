@@ -40,7 +40,7 @@ class UserRegisterRequest extends FormRequest
                 'email' => 'required|email|unique:users|max:255',
                 'address' => 'required|string',
                 'nationality' => 'required',
-                'dob' => 'date_format:Y-M-D|before:today',
+                'dob' => 'required',
                 'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15|unique:users',
                 'device_name' => 'required',
                 'device_token' => 'required',
