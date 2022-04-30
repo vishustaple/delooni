@@ -113,7 +113,8 @@ class UserController extends Controller
             $otp = Otp::create([
                 'phone' => $r->phone,
                 'country_code' => $r->country_code,
-                'otp' => random_int(1000, 9999),
+                ///'otp' => random_int(1000, 9999),
+                'otp' => 1234,
             ]);
 
             if ($otp) {
@@ -139,7 +140,10 @@ class UserController extends Controller
             [
                 'phone' => 'required|numeric',
                 'country_code' => 'required',
-                'otp' => 'required|numeric'
+                'otp' => 'required|numeric',
+                'device_name' => 'required',
+                'device_token' => 'required',
+                'device_type' => 'required',
             ]
         );
         if ($v->fails()) {
@@ -175,7 +179,15 @@ class UserController extends Controller
             $data['token'] =  $token;
             $data['is_new_profile'] =  false;
 
-            return $this->successWithData($user->jsonData(), "OTP verified successfully", $data);
+            if ($user->roles->first()->id == User::ROLE_SERVICE_PROVIDER) {
+                $json = "serviceProviderProfile";
+
+            }else{
+                $json = "customerProfile";
+
+            }
+
+            return $this->successWithData($user->$json(), "OTP verified successfully", $data);
         } catch (\Throwable $e) {
             return $this->error($e->getMessage());
         }
@@ -220,8 +232,10 @@ class UserController extends Controller
                     'country_code' => $r->country_code,
                     'phone' => $r->phone,
                     'email_verified_token' => $emailVerifiedAt,
+                    'address'=>$r->address,
                     'latitude' => $r->latitude,
-                    'longitude' => $r->longitude
+                    'longitude' => $r->longitude,
+                    'nationality'=>$r->nationality
                 ]
             );
             $register->assignRole(User::ROLE_SERVICE_PROVIDER);
@@ -289,7 +303,7 @@ class UserController extends Controller
                     'nationality' => 'string',
                     'address' => 'string|required',
                     'country_code' => 'required|string',
-                    'phone' => 'string|required',
+                    //'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15|unique:users',
                     'whatsapp_no' => 'string|required',
                     'snapchat_link' => 'url',
                     'instagram_link' => 'url',
@@ -319,7 +333,7 @@ class UserController extends Controller
                 $user->nationality = $r->nationality;
                 $user->service_provider_type  = $r->service_provider_type;
                 $user->address = $r->address;
-                $user->phone = $r->phone;
+                $user->phone = $user->phone;
                 $user->whatsapp_no = $r->whatsapp_no;
                 $user->snapchat_link = $r->snapchat_link;
                 $user->instagram_link = $r->instagram_link;
@@ -334,7 +348,7 @@ class UserController extends Controller
                 }
                 $user->save();
 
-                $education = new EducationDetail();
+                $education = $user->education??new EducationDetail();
                 $education->institute_name = $r->institute_name;
                 $education->degree = $r->degree;
                 $education->start_date = $r->start_date;
@@ -342,7 +356,7 @@ class UserController extends Controller
                 $education->user_id = $user->id;
                 $education->save();
 
-                $workExperience = new WorkExperience();
+                $workExperience = $user->workexperience??new WorkExperience();
                 $workExperience->no_of_years = $r->no_of_years;
                 $workExperience->brief_of_experience = $r->brief_of_experience;
                 $workExperience->user_id = $user->id;
