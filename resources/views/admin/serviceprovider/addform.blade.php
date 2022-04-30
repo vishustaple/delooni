@@ -209,19 +209,6 @@
             <div class="row">
                 <div class="col-md-12 mb-2">
                    <h4>Service Details</h4>
-                </div> 
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="service_category_id" class="col-md-6 col-form-label">Select Services </label>
-                        <select class="form-control select2" id="service_services" name="service_services">
-                        <option value="N/A" disabled selected="true">--Select Services--</option>
-                        @foreach($getservices as $getservice)
-                        <option class="form-drop-items" value="{{$getservice->id}}">{{$getservice->name}}</option>
-                         @endforeach
-                       </select>
-                        <div class="error" id="error_service_services">
-                        </div>
-                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">

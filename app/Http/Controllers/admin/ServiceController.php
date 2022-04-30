@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\admin;
 use App\Models\Services;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
 use App\Models\ServiceCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -22,8 +24,9 @@ public function serviceView(){
    'services.price_per_hour','services.price_per_day','services.price_per_month','service_categories.name')
    ->orderBy('Id','DESC')->paginate();
     $categorynames = ServiceCategory::where('is_parent',0)->get(); 
-    $subcategorys = ServiceCategory::where('is_parent','!=',0)->get(); 
-    return view('admin.service.main', compact('data','categorynames','subcategorys'));
+    $subcategorys = ServiceCategory::where('is_parent','!=',0)->get();
+    $serviceproviders=User::role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->get();
+    return view('admin.service.main', compact('data','categorynames','subcategorys','serviceproviders'));
 }
 /**
     * Store service
@@ -48,7 +51,7 @@ public function storeservice(Request $request){
      $insert->price_per_day = $request->price_per_day;
      $insert->price_per_month = $request->price_per_month;
      $insert->service_category_id = $request->service_category_id;
-    $insert->save();
+     $insert->save();
      return response()->json(redirect()->back()->with('success','Service Add Successfully'));
 }
 /**
@@ -65,13 +68,13 @@ public function status_service(Request $request){
     ]);
     return response()->json($data);
     }
-/**
+    /**
      *  Delete service
      *
      * @param click on delete button get $r->id
      * @return  delete data accordig to $r->id
-*/
-public function deleteservice(Request $request){
+    */
+ public function deleteservice(Request $request){
  $data = Services::where('id',$request->id);
  $data->delete();
  return response()->json(['success' => true]);
