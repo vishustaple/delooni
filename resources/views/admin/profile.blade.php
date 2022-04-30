@@ -157,8 +157,8 @@ form input[type="file"] {
                  </div>
               </div>
           </div>
-            </div>
-          </div>
+                </div>
+                </div>
           
         </div>
         <!-- /.row -->
