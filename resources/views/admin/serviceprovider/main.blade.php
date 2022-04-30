@@ -5,7 +5,7 @@
                   
                   <li class="nav-item search-right">
                    <div>
-                    <div class="input-group" data-widget="sidebar-search">
+                    <div class="input-group" data-widget="sidebar-search" id="searchp">
                       <input class="form-control form-control-sidebar border-0" id="search" type="search" placeholder="Search" aria-label="Search">
                       <div class="input-group-append">
                         <button class="btn btn-sidebar bg-white">
@@ -221,7 +221,7 @@ $(document).on('click','.remove',function(){
 });
 
 $(document).on("click", "#serviceform", function(){
-  $('#search').hide();
+  $('#searchp').hide();
   $(".error").html("");
   $("#createprovider").trigger("reset");
   

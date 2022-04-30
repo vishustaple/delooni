@@ -16,7 +16,6 @@ use App\Http\Requests\UpdateServiceProviderRequest;
 use App\Traits\ImageUpload;
 use App\Models\Files;
 use App\Models\Country;
-use App\Models\ServiceDetail;
 use App\Models\Services;
 
 
@@ -105,13 +104,14 @@ catch (\Throwable $th) {
             "brief_of_experience"=>$request->brief_of_experience,
             "user_id" => $user,
         ]);
-        $insert = new ServiceDetail;
+        $insert = new Services;
         $insert->cat_id =$request->service_category_id;
         $insert->sub_cat_id =$request->subcategory;
         $insert->price_per_hour=$request->price_per_hour; 
         $insert->price_per_day=$request->price_per_day;
         $insert->price_per_month=$request->price_per_month;
         $insert->user_id=$user;
+        $insert->created_by=Auth::user()->id;
         $insert->save();
 
         return response()->json(redirect()->back()->with('success', 'New service provider is added Successfully'));
@@ -153,7 +153,7 @@ catch (\Throwable $th) {
         $data=User::select('*')->where('id', '=', $id)->first();
         $getwork=WorkExperience::where('user_id', '=', $id)->first();
         $geteducation=EducationDetail::where('user_id', '=', $id)->first();
-        $getservicedetail=ServiceDetail::where('user_id', '=', $id)->first();
+        $getservicedetail=Services::where('user_id', '=', $id)->first();
         $serviceid=$getservicedetail->service_id;
         $getservicename=Services::where('id', '=', $serviceid)->first();
         $servicecatid=$getservicedetail->service_cat_id;
