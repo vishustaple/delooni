@@ -1,14 +1,12 @@
-<div class="card" id ="test">
-    <div class="card-header">
-    <h3 class="card-title">Terms and Condition</h3>
-</div>
+<div class="card shadow-none" id ="test">
+    
 <!-- /.card-header -->
- <div class="card-body" >
-    <table class="table table-bordered">
+ <div class="card-body p-0" >
+     <div class="table-responsive">
+    <table class="table">
     @if(count($condition)>0)
     <thead>
     <tr>
-    <th style="width: 10px">S.no.</th>
     <th>Terms and condition</th>
      <th>Action</th>
     </tr>
@@ -17,7 +15,7 @@
     <tbody>
     @forelse($condition as $key=>$value)
     <tr>
-    <td>{{$key+1}}</td>
+    
     <td>    <textarea rows="15" cols="80" name="terms_and_condition" id="terms_and_condition" readonly>
     {{$value->terms_and_condition}}</textarea></td>
    <td>
@@ -50,6 +48,7 @@
     @endforelse
 </tbody>
 </table>
+</div>
 </div>
 
 <!-- /.card-body -->

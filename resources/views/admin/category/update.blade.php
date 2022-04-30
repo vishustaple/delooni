@@ -20,7 +20,7 @@
                       </div>
                       @else
                       @endif
-                      <div class="form-group row">
+                      <div class="form-group row uploadimage">
                         <label for="service_category_image" class="col-sm-12 col-form-label">Category Image</label>
                         <div class="col-sm-12">
                         <!-- <img src="{{URL::to('/')}}/profile_image/{{$categoryData->service_category_image}}"> -->
@@ -34,6 +34,7 @@
                          <div class="error" id="error_service_category_image"></div>
                         </div>
                       </div>
+</div>
                    <div class="form-group row mb-0">
                         <div class="col-sm-12 text-center">
                           <button type="submit" class="btn app-button">Submit</button>

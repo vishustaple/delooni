@@ -1,90 +1,78 @@
-<div class="card shadow-none border-0" id ="test">
-    <div class="card-header px-0">
-    <h3 class="card-title font-weight-bold">Report List</h3>
-</div>
-   <!-- /.card-header -->
-   <div class="card-body p-0 border-0">
-   <div class="table-responsive table-bordered">
-   <table class="table">
+<div class="row pt-4">
+  <div class="col-12 col-sm-6 col-md-4  mb-5 sm-md-0">
+    <div class="info-box">
+      <span class="info-box-icon bg-info elevation-1"><i class="fa fa-user-o"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Total Register User</span>
+        <span class="info-box-number">
+         {{$user}}
+        </span>
+        <div>
+       <a href="{{ route('userexport') }}" class="btn btn-warning w-100 btn-sm py-0">Export Report</a>
+     </div>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="col-12 col-sm-6 col-md-4">
+    <div class="info-box mb-3">
+      <span class="info-box-icon bg-secondary elevation-1"><i class="fa fa-question-circle-o"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Total Queries</span>
+        <span class="info-box-number">{{$query}} </span>
+        <div>
+       <a href="{{ route('queryexport') }}" class="btn btn-warning w-100 btn-sm py-0">Export Report</a>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-sm-6 col-md-4">
+    <div class="info-box mb-3">
+      <span class="info-box-icon bg-secondary elevation-1"><i class="fa fa-question-circle-o"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Category has Maximum Query</span>
+        <span class="info-box-number"> {{$maxquery}}</span>
+        <div>
+       <a href="{{ route('maxqueryexport') }}" class="btn btn-warning w-100 btn-sm py-0">Export Report</a>
+     </div>
+      </div>
     
-  <thead>
-    <tr>
-      <th scope="col">S.no.</th>
-      <th scope="col">Total User</th>
-      <th scope="col">Total Query</th>
-      <th scope="col">category has minimum query</th>
-      <th scope="col">category has maximum twenty query</th>
-      <th scope="col">category has minimum twenty query</th>
-      <th scope="col">Service Provider with maximum twenty query</th>
-    </tr>
-    </thead>
-    <tbody>
-  <tr>
-            <td> 
-                <table>
-                    @forelse($user as $key=>$value)
-                    <tr>
-                        <td>{{$key+1}}</td>
-                    </tr>
-                    @empty
-                    @endforelse
-                </table>
-            </td>
-            <td> 
-                <table>
-                    @forelse($user as $key=>$value)
-                    <tr>
-                        <td>{{$value->first_name}}</td>
-                    </tr>
-                    @empty
-                    @endforelse
-                </table>
-            </td>
+    </div>
+  </div>
 
-            <td>   
-                <table>
-                    @forelse($query as $key=>$value)
-                    <tr>
-                        <td>{{$value->subject}}</td>
-                    </tr>
-                    @empty
-                    @endforelse
-                </table>
-            </td>
+  <div class="col-12 col-sm-6 col-md-4">
+    <div class="info-box mb-3">
+      <span class="info-box-icon bg-secondary elevation-1"><i class="fa fa-question-circle-o"></i></span>
 
-            <td>   
-                <table>
-                        @forelse($minquery as $key=>$value)
-                        <tr>
-                            <td>{{$value->name}}</td>
-                        </tr>
-                        @empty
-                        @endforelse
-                </table>
-            </td>
+      <div class="info-box-content">
+        <span class="info-box-text">Category has Minimum Query</span>
+        <span class="info-box-number"> {{$minquery}}</span>
+        <div>
+       <a href="{{ route('minqueryexport') }}" class="btn btn-warning w-100 btn-sm py-0">Export Report</a>
+     </div>
+      </div>
+    </div>
+  </div>
 
-            <td>   
-                <table>
-                    @forelse($maxtwenty as $key=>$value)
-                    <tr>
-                        <td>{{$value->name}}</td>
-                    </tr>
-                    @empty
-                    @endforelse
-                </table>
-            </td>
+  <div class="col-12 col-sm-6 col-md-4">
+    <div class="info-box mb-3">
+      <span class="info-box-icon bg-secondary elevation-1"><i class="fa fa-question-circle-o"></i></span>
 
-            <td>   
-                <table>
-                    @forelse($mintwenty as $key=>$value)
-                    <tr>
-                        <td>{{$value->name}}</td>
-                    </tr>
-                    @empty
-                    @endforelse
-                </table>
-            </td>
+      <div class="info-box-content">
+        <span class="info-box-text">Category has Maximum Twenty  Query</span>
+        <span class="info-box-number"> {{$maxtwenty}}</span>
+        <div>
+       <a href="{{ route('maxtwentyexport') }}" class="btn btn-warning w-100 btn-sm py-0">Export Report</a>
+     </div>
+      </div>
+    </div>
+  </div>
 
+<<<<<<< HEAD
             <td>   
                 <table>
                     @forelse($maxtwentyprovider as $key=>$value)
@@ -105,15 +93,39 @@
 </div>
 </div>
 <div id="num"  data-page="">    
- 
-            </tr>
-    </tbody>
-  
-</table>
+=======
+  <div class="col-12 col-sm-6 col-md-4">
+    <div class="info-box mb-3">
+      <span class="info-box-icon bg-secondary elevation-1"><i class="fa fa-question-circle-o"></i></span>
 
-    <div class="p-3">
-       <a href="{{ route('reportexport') }}" class="btn btn-warning w-25 btn-sm py-2">Export Report</a>
+      <div class="info-box-content">
+        <span class="info-box-text">Category has Minimum Twenty  Query</span>
+        <span class="info-box-number"> {{$mintwenty}}</span>
+        <div>
+       <a href="{{ route('mintwentyexport') }}" class="btn btn-warning w-100 btn-sm py-0">Export Report</a>
+      </div>
+      </div>
     </div>
- </div>
+  </div>
+>>>>>>> e89b997c249b9af7317d058b8d2624f728f69d53
+ 
+  <div class="col-12 col-sm-6 col-md-4  mb-5 sm-md-0">
+    <div class="info-box">
+      <span class="info-box-icon bg-info elevation-1"><i class="fa fa-user-o"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Service Provider has maximum query</span>
+        <span class="info-box-number"> {{$maxqueryprovider}}</span>
+        <div>
+       <a href="{{ route('maxproviderexport') }}" class="btn btn-warning w-100 btn-sm py-0">Export Report</a>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="clearfix hidden-md-up"></div>
+</div>
+   
+ 
 
 

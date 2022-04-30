@@ -7,9 +7,9 @@
 <div class="card-body">
 <form class="form-horizontal"  id="content_update"  method="post"  enctype="multipart/form-data">
                       @csrf
-                      <div class="form-group row">
-                        <label for="screen_baner_image" class="col-sm-3 col-form-label">Screen Baner Image :</label>
-                       <div class="col-sm-8">
+                      <div class="form-group row uploadimage">
+                        <label for="screen_baner_image" class="col-sm-12 col-form-label">Screen Baner Image :</label>
+                       <div class="col-sm-12">
                        <img src="{{URL::to('/')}}/profile_image/{{$content->screen_baner_image}}">
                          </div>
                       </div>  

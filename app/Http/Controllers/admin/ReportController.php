@@ -7,6 +7,7 @@ use App\Models\Report;
 use Illuminate\Http\Request;
 use App\Models\ServiceCategory;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ReportExport;
 
@@ -85,22 +86,23 @@ class ReportController extends Controller
     * @return view detail of Report 
     */
     public function report_View(){
-      $user = User::get();
-      $query = Report::get();
-      $minquery = Report::join('service_categories','reports.service_category_id','=','service_categories.id')
-      ->where('is_parent',0)->select('service_categories.name', Report::raw('COUNT(*) as `count`'))
-      ->groupBy('service_categories.name')->having('count', '=', 1)->get();
-      $maxtwenty = Report::join('service_categories','reports.service_category_id','=','service_categories.id')
-      ->where('is_parent',0)->select('service_categories.name', Report::raw('COUNT(*) as `count`'))
-      ->groupBy('service_categories.name')->having('count', '>', 20)->get();
-      $mintwenty = Report::join('service_categories','reports.service_category_id','=','service_categories.id')
-      ->where('is_parent',0)->select('service_categories.name', Report::raw('COUNT(*) as `count`'))
-      ->groupBy('service_categories.name')->having('count', '<', 20)->get();
-      $maxtwentyprovider = Report::join('users','reports.service_provider_id','=','users.id')
-      ->select('users.first_name', Report::raw('COUNT(*) as `count`'))
-      ->groupBy('users.first_name')->having('count', '<', 20)->get();
-
-      return view('admin.report.main',compact('query','user','minquery','maxtwenty','mintwenty','maxtwentyprovider'));
+      // $customer=User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->count();
+      $user = User::count();
+      $query = Report::count();
+      $maxquery = Report::select('service_category_id', Report::raw('count(*) as total'))
+      ->groupBy('service_category_id')->where('service_category_id', \DB::raw("(select max(`service_category_id`) from reports)"))
+      ->count();
+      $minquery = Report::select('service_category_id', Report::raw('count(*) as total'))
+      ->groupBy('service_category_id')->where('service_category_id', \DB::raw("(select max(`service_category_id`) from reports)"))
+      ->count();
+      $maxtwenty = Report::select('service_category_id', Report::raw('COUNT(*) as `count`'))
+       ->groupBy('service_category_id')->having('count', '>', 20)->count();
+      $mintwenty = Report::select('service_category_id', Report::raw('COUNT(*) as `count`'))
+      ->groupBy('service_category_id')->having('count', '<', 20)->count();
+      $maxqueryprovider = Report::select('service_provider_id', Report::raw('count(*) as total'))
+      ->groupBy('service_provider_id')->where('service_provider_id', \DB::raw("(select min(`service_provider_id`) from reports)"))
+      ->count();
+      return view('admin.report.main',compact('query','user','maxquery','minquery','maxtwenty','mintwenty','maxqueryprovider'));
     }
     /**
      * report export.
@@ -109,11 +111,102 @@ class ReportController extends Controller
      * @return  Can download excel file for User Report
      */
      //
-    public function reportexport()
+    public function export_user()
     { 
-      $name = User::select('first_name')->get();
-     return Excel::download(new ReportExport($name), 'report.xlsx'); 
-    // return Excel::download(new ReportExport, 'report.xlsx'); 
+      $user = User::select('first_name')->get();
+      return Excel::download(new ReportExport($user), 'user.xlsx'); 
     }
+     /**
+     * report export.
+     *
+     * @param  view Report of query
+     * @return  Can download excel file for User Report
+     */
+     //
+    public function export_query()
+    { 
+      $query = Report::select('subject')->get();
+      return Excel::download(new ReportExport("", $query), 'query.xlsx'); 
+   }
+    /**
+     * report export.
+     *
+     * @param  view Report of user
+     * @return  Can download excel file for User Report
+     */
+     //
+    public function export_max_query()
+    {
+      $maxquery = Report::join('service_categories','reports.service_category_id','=','service_categories.id')
+      ->select('service_category_id', Report::raw('count(*) as total'))
+      ->groupBy('service_category_id')->where('service_category_id', \DB::raw("(select max(`service_category_id`) from reports)"))
+      ->select('service_categories.name')
+      ->get();
+      return Excel::download(new ReportExport("","", $maxquery), 'maxquery.xlsx'); 
+
+    }
+     /**
+     * report export.
+     *
+     * @param  view Report of user
+     * @return  Can download excel file for User Report
+     */
+     //
+    public function export_min_query()
+    {
+      $minquery = Report::join('service_categories','reports.service_category_id','=','service_categories.id')
+      ->select('service_category_id', Report::raw('count(*) as total'))
+      ->groupBy('service_category_id')->where('service_category_id', \DB::raw("(select min(`service_category_id`) from reports)"))
+        ->select('service_categories.name')
+      ->get();
+      return Excel::download(new ReportExport("","","", $minquery), 'minquery.xlsx'); 
+    }
+     /**
+     * report export.
+     *
+     * @param  view Report of user
+     * @return  Can download excel file for User Report
+     */
+     //
+    public function export_max_twenty_query()
+    {
+      $maxtwenty = Report::join('service_categories','reports.service_category_id','=','service_categories.id')
+      ->where('is_parent',0)->select('service_categories.name', Report::raw('COUNT(*) as `count`'))
+      ->groupBy('service_categories.name')->having('count', '>', 20)->get();
+      return Excel::download(new ReportExport("","","","", $maxtwenty), 'maxtwentyquery.xlsx'); 
+    }
+     /**
+     * report export.
+     *
+     * @param  view Report of user
+     * @return  Can download excel file for User Report
+     */
+     //
+    public function export_min_twenty_query()
+    { 
+      $mintwenty = Report::join('service_categories','reports.service_category_id','=','service_categories.id')
+      ->where('is_parent',0)->select('service_categories.name', Report::raw('COUNT(*) as `count`'))
+      ->groupBy('service_categories.name')->having('count', '<', 20)->get();
+      return Excel::download(new ReportExport("","","","","", $mintwenty), 'mintwentyquery.xlsx'); 
+
+    }
+     /**
+     * report export.
+     *
+     * @param  view Report of user
+     * @return  Can download excel file for User Report
+     */
+     //
+    public function export_max_provider()
+    {
+      $maxqueryprovider = Report::join('users','reports.service_provider_id','=','users.id')
+      ->select('service_provider_id', Report::raw('count(*) as total'))
+      ->groupBy('service_provider_id')->where('service_provider_id', \DB::raw("(select max(`service_provider_id`) from reports)"))
+      ->select('users.first_name')
+      ->get();
+      return Excel::download(new ReportExport("","","","","","", $maxqueryprovider), 'maxprovider.xlsx'); 
+
+    }
+
 
 }

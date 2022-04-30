@@ -3,137 +3,132 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\City;
-use App\Models\Day;
-use App\Models\DefaultPostion;
-use App\Models\DefaultPreferToWorkIn;
-use App\Models\DeliveryAddress;
-use App\Models\Favorite;
-use App\Models\FoodItem;
-use App\Models\FoodType;
-use App\Models\Item;
-use App\Models\JobSession;
-use App\Models\Language;
-use App\Models\LoginHistory;
-use App\Models\Menu;
+use App\Models\Country;
+use App\Models\FavouriteServices;
 use App\Models\Notification;
-use App\Models\RestaurantServiceArea;
-use App\Models\State;
-use App\Models\Jobs;
-use App\Models\Order;
-use App\Models\Review;
-use App\Models\Transaction;
-use App\Models\Restaurant;
-use App\Models\Slot;
+use App\Models\ServiceCategory;
+use App\Models\ServiceDetail;
+use App\Models\User;
+use App\Models\UserRating;
 //facades
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
-
-
-//models
-use App\Models\User;
-
-
-//additional
-use Validator;
 
 //traits
 use App\Traits\ApiResponser;
 use App\Traits\ImageUpload;
 use App\Traits\Email;
-//use App\Traits\Togglestatus;
-use Carbon\Carbon;
-use Exception;
+
 
 class ListController extends Controller
 {
     use ApiResponser;
     use ImageUpload;
     use Email;
-  //  use Togglestatus;
+
     /**
-     *Get list
-     *
-     * @param  $r request contains data to days,slot,defalutPostion,defalutPreferToWorkIn,list
-     * @return List Data
-     */
-    //
-    public function secondStepDefaultList(request $r){
-        $data=[];
-        $data['days'] = Day::select('id','title')->orderBy('id', 'ASC')->get();
-        $data['slot']  = Slot::select('id','start_time','end_time')->orderBy('id', 'ASC')->get();
-        $data['defalutPostion']  = DefaultPostion::select('id','title')->orderBy('id', 'ASC')->get();
-        $data['defalutPreferToWorkIn'] = DefaultPreferToWorkIn::select('id','title')->orderBy('id', 'ASC')->get();
-        return $this->successWithData($data, "List fetched successfully");
-    }
-    /**
-     *Get Job Request list
-     *
-     * @param  $r request contains data to Job Request
-     * @return Job Request list
-     */
-    //
-    public function getJobRequest(request $r)
-    {
-        $data=[];
-        $data['job'] = Jobs::get();
-        return $this->successWithData($data, "List fetched successfully");
-    }
-    /**
-     *Accepted Job
-     *
-     * @param  $r request contains data to  auth user
+     * Get category list  
      * @return response success or fail
      */
-    //
-    public function acceptJob(request $r)
+    public function getcategories()
     {
-        try {
-            $loginUser = auth()->user();
-            $assignedJobs = Jobs::where(["assign_to" => $loginUser->id, "status" => Jobs::STATUS_ASSIGNED])->get();
-            if (!$assignedJobs->count()) {
-                throw new Exception("No assigned Job found");
-            }
-            foreach ($assignedJobs as $assignedJob) {
-                $assignedJob->accepted_at = Carbon::now();
-                $assignedJob->status = Jobs::STATUS_ACCEPTED;
-                $assignedJob->save();
-            }
-            //send push notification
-            $notification = (new Notification())->sendPushNotification([
-                "title" => "Assigned Job accepted.",
-                "message" => $loginUser->name . " has confirmed Job!" . ".",
-                "model_id" => 0,
-                "type" => Notification::STATUS_ASSIGNED,
-                "to_user" =>  User::where("role_id", User::ROLE_ADMIN)->first()->id
-            ]);
-            return $this->success('Job Accepted Successfully');
-        } catch (\Throwable $th) {
-            return $this->error($th->getMessage());
-        }
+        $categories = ServiceCategory::where('is_parent', ServiceCategory::IS_PARENT)->with('subcategories')->paginate();
+        $getbanners = \App\Models\ServiceBanner::get()->toArray();
+        return $this->customPaginator($categories, 'jsonData', ['service_banners' => $getbanners]);
     }
 
     /**
-     *Get Notification
+     * Get Sub-Categories List
      *
-     * @param  contains user id 
-     * @return response show list 
+     * @param  $r request contains data to show list of sub categories
+     * @return response success or fail
      */
-    //
-    public function GetNotification(request $r)
+    public function getSubcategories(request $r)
     {
-        try{
-        $user = auth()->user();
-        $list=Notification::where('to_user',$user->id)->paginate();
-        return $this->customPaginator($list,'jsonData');
+        $v = Validator::make(
+            $r->input(),
+            [
+                'category' => 'required',
+            ]
+        );
+        if ($v->fails()) {
+            return $this->validation($v);
         }
-        catch (\Throwable $e) {
-            DB::rollback();
-            return $this->error($e->getMessage());
-        }
-        
+        $categories = ServiceCategory::where('name', $r->category)->first();
+        $subcategories = ServiceCategory::where('is_parent', $categories->id)->paginate();
+        return $this->customPaginator($subcategories, 'jsonData');
+    }
 
+    /**
+     * get favorite 
+     *
+     * @param  send auth id 
+     * @return response get favourite service provider by user 
+     */
+    public function getFavourite(request $r)
+    {
+        $user = auth()->user();
+        $favourite = FavouriteServices::where('user_id', $user->id)->paginate();
+
+        return $this->customPaginator($favourite, 'jsonData');
+    }
+
+    public function servicesFilteration(request $r)
+    {
+
+        $user = auth()->user();
+
+        $v = Validator::make(
+            $r->input(),
+            [
+                // 'userId' => 'required|numeric', //service provider id
+                'rating' => 'required',
+            ]
+        );
+        if ($v->fails()) {
+            return $this->validation($v);
+        }
+        if ($r->rating) {
+         
+            $userrate = UserRating::whereBetween('rating', [$r->rating, UserRating::MAX_RATING])->paginate();
+
+            return $this->customPaginator($userrate, 'jsonData');
+        }
+        if ($r->price) {
+        }
+    }
+
+    public function activeCountryList(Request $request)
+    {
+        $query = Country::where('status', Country::STATUS_ACTIVE)->paginate(500);
+        return $this->customPaginator($query, 'jsonData');
+    }
+
+
+    public function search(request $r)
+    {
+        $user = auth()->user();
+        $search = $r->search;
+        $rating = $r->rating;
+        $pricePerHour = $r->price_per_hour;
+
+        $paginate = User::where(function ($query) use ($search) {
+            $query->where('first_name', 'like', "%$search%")
+                ->orWhere('business_name', 'like', "%$search%")
+                ->orWhere('last_name', 'like', "%$search%");
+        })
+            ->where('rating', 'like', "%$rating%")
+            ->where('users.id', '!=', $user->id);
+
+        if (!empty($pricePerHour)) {
+            $userId = ServiceDetail::where('price_per_hour', 'like', "%$pricePerHour%")->pluck('user_id')->toArray();
+            $paginate->wherein('id', $userId);
+        }
+        if (!empty($search)) {
+            $catId = ServiceCategory::where('name', 'like', "%$search%")->where('is_parent', ServiceCategory::IS_PARENT)->pluck('id')->toArray();
+            $userId = ServiceDetail::whereIn('cat_id', $catId)->pluck('user_id')->toArray();
+            $paginate->orWhereIn('id', $userId);
+        }
+
+        return $this->customPaginator($paginate->paginate());
     }
 }

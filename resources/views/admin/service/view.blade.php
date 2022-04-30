@@ -65,7 +65,7 @@
     </tr>
     @empty
     <center>
-    <h3> Service is not Available </h3>
+    <h5 class="border p-2"> Service is not Available </h5>
     </center>
     @endforelse
 </tbody>

@@ -179,7 +179,7 @@ $("#fileToUpload").change(function (e) {
     $("#changeProfilePic").submit();
  })
 
-    $(document).on('submit','#changeProfilePic',function(e){
+  $(document).on('submit','#changeProfilePic',function(e){
   e.preventDefault();
   data = getFormWithImage("changeProfilePic");
   console.log(data);

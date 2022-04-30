@@ -50,9 +50,8 @@ class ServiceProviderRequest extends FormRequest
             'enddate' => 'required|after:startdate',
             'experience' => 'required|numeric',
             'brief_of_experience'=>"required",
-            'service_services'=>'required',
             'service_category_id'=>"required",
-            
+            'subcategory'=>"required",
             'price_per_hour'=>"required",
             'price_per_day'=>"required",
             'price_per_month'=>"required"

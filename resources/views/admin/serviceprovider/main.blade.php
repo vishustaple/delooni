@@ -221,6 +221,7 @@ $(document).on('click','.remove',function(){
 });
 
 $(document).on("click", "#serviceform", function(){
+  $('#search').hide();
   $(".error").html("");
   $("#createprovider").trigger("reset");
   
@@ -255,7 +256,7 @@ $(document).on("click", "#serviceform", function(){
 });
 //ajax for subcategory
 $(document).on('change','#service_category_id',function(e){
-            //  alert();
+          
             var id = e.target.value;
             console.log(id);
             var url = '{{ route("provider.category", ":id") }}';
@@ -290,5 +291,6 @@ $(document).on('change','#service_category_id',function(e){
           }
 });
 });
+
 
 </script>

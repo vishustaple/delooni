@@ -69,6 +69,12 @@ a.nav-link:hover {
    color: var(--body-clr) !important;
 }
 
+nav.main-header .nav-link.active,
+nav.main-header .nav-link.active:hover{
+   background-color: transparent !important;
+   color: #fff!important;
+}
+
 .nav-link.active:hover{
    color: var(--body-clr) !important;
 }
