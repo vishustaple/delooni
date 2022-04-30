@@ -2,7 +2,7 @@
     @csrf
     <input type="hidden" name="id" id="id" value="{{$content->id}}">
     <div class="form-group row uploadimage">
-      <label for="screen_baner_image" class="col-sm-12 col-form-label">Screen Banner Image</label>
+      <label class="col-sm-12 col-form-label">Screen Banner Image</label>
       <div class="col-sm-12">
       <img src="{{URL::to('/')}}/profile_image/{{$content->screen_baner_image}}">
       <input type="file" class="form-control" id="screen_baner_image" name="screen_baner_image" accept="image/*">

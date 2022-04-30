@@ -13,9 +13,9 @@
 <form class="form-horizontal"   enctype="multipart/form-data">
     @csrf
     <div class="form-group row">
-      <label for="name" class="col-sm-12 col-form-label">Name </label>
+      <label for="title" class="col-sm-12 col-form-label">Name </label>
       <div class="col-sm-12">
-        <input type="text" class="form-control" id="name" value="{{$data->name}}"  name="name"  readonly>
+        <input type="text" class="form-control" id="name" value="{{$data->title}}"  name="title"  readonly>
       </div>
     </div>
     <div class="form-group row">
@@ -48,7 +48,37 @@
       <div class="col-sm-12">
         <input type="text" class="form-control" id="price_per_month" value="{{$data->price_per_month}}"  name="price_per_month"  readonly>
       </div>
-    </div>                  
+    </div>    
+    <div class="form-group row">
+      <label for="name" class="col-sm-12 col-form-label">Category name </label>
+      <div class="col-sm-12">
+        <input type="text" class="form-control" id="name" value="{{$category->name}}"  name="name"  readonly>
+      </div>
+    </div>    
+    <div class="form-group row">
+      <label for="name" class="col-sm-12 col-form-label">Sub Category name </label>
+      <div class="col-sm-12">
+        <input type="text" class="form-control" id="name" value="{{$subcategory->name}}"  name="name"  readonly>
+      </div>
+    </div> 
+    <div class="form-group row">
+      <label for="name" class="col-sm-12 col-form-label">Customer name </label>
+      <div class="col-sm-12">
+        <input type="text" class="form-control" id="name" value="{{$customer->first_name}}"  name="name"  readonly>
+      </div>
+    </div> 
+    <div class="form-group row">
+      <label for="name" class="col-sm-12 col-form-label">Service Provider name </label>
+      <div class="col-sm-12">
+        <input type="text" class="form-control" id="name" value="{{$serviceprovider->first_name}}"  name="name"  readonly>
+      </div>
+    </div>  
+    <div class="form-group row">
+      <label for="currency" class="col-sm-12 col-form-label">Currency </label>
+      <div class="col-sm-12">
+        <input type="text" class="form-control" id="currency" value="{{$data->currency}}"  name="currency"  readonly>
+      </div>
+    </div>           
   </form>
 </div>
 </div>

@@ -3,22 +3,16 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\QueryBuilder;
 //facades
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\LoginHistory;
-use Illuminate\Support\Facades\Mail;
 //models
 use App\Models\User;
 use App\Models\Report;
 use App\Models\Files;
-use Spatie\Permission\Models\Role;
-
-
 
 //additional
 use DB;
@@ -30,8 +24,6 @@ use App\Traits\Email;
 
 //requests
 use App\Http\Requests\OtpRequest;
-use App\Http\Requests\UserRegisterRequest;
-
 
 use App\Models\ContactUs;
 use App\Models\EducationDetail;
@@ -118,7 +110,7 @@ class UserController extends Controller
             ]);
 
             if ($otp) {
-                  return $this->success('OTP has been sent to your phone number.Please check.');
+                return $this->success('OTP has been sent to your phone number.Please check.');
             }
             return $this->error("unable to processs your request. Please try again later.");
         } catch (\Throwable $e) {
@@ -127,7 +119,7 @@ class UserController extends Controller
         }
     }
 
-     /**
+    /**
      * Verify Otp  
      *
      * @param  $r request contains data to verify Otp 
@@ -150,7 +142,7 @@ class UserController extends Controller
             return $this->validation($v);
         }
         try {
-         
+
             $otp = Otp::where(['phone' => $r->phone, 'otp' => $r->otp, 'country_code' => $r->country_code])
                 ->first();
             if (empty($otp)) {
@@ -181,10 +173,8 @@ class UserController extends Controller
 
             if ($user->roles->first()->id == User::ROLE_SERVICE_PROVIDER) {
                 $json = "serviceProviderProfile";
-
-            }else{
+            } else {
                 $json = "customerProfile";
-
             }
 
             return $this->successWithData($user->$json(), "OTP verified successfully", $data);
@@ -199,8 +189,54 @@ class UserController extends Controller
      * @param  $r request contains data to register
      * @return response success or fail
      */
-    public function register(UserRegisterRequest $r)
+    public function register(request $r)
     {
+
+        if ($r->user_type == 'customer') {
+            $val = [
+
+                'user_type' => 'required',
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'email' => 'required|email|unique:users|max:255',
+                'address' => 'required|string',
+                'nationality' => 'required',
+                'dob' => 'required',
+                'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15|unique:users',
+                'device_name' => 'required',
+                'device_token' => 'required',
+                'device_type' => 'required',
+                'country_code' => 'required',
+                'latitude' => 'required',
+                'longitude' => 'required'
+
+            ];
+        } else {
+            $val = [
+                'user_type' => 'required',
+                'business_name' => 'required',
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'email' => 'required|email|unique:users|max:255',
+                'dob' => 'required',
+                'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15|unique:users',
+                'device_name' => 'required',
+                'device_token' => 'required',
+                'device_type' => 'required',
+                'country_code' => 'required',
+                'latitude' => 'required',
+                'longitude' => 'required'
+
+            ];
+        }
+
+        $v = Validator::make(
+            $r->input(),
+            $val
+        );
+        if ($v->fails()) {
+            return $this->validation($v);
+        }
         $emailVerifiedAt = time();
 
         if ($r->user_type == "customer") {
@@ -232,15 +268,14 @@ class UserController extends Controller
                     'country_code' => $r->country_code,
                     'phone' => $r->phone,
                     'email_verified_token' => $emailVerifiedAt,
-                    'address'=>$r->address,
+                    'address' => $r->address,
                     'latitude' => $r->latitude,
                     'longitude' => $r->longitude,
-                    'nationality'=>$r->nationality
+                    'nationality' => $r->nationality
                 ]
             );
             $register->assignRole(User::ROLE_SERVICE_PROVIDER);
             $json = "serviceProviderProfile";
-
         }
         $token = $register->createToken('API Token')->plainTextToken;
         $loginHistory = new LoginHistory();
@@ -348,7 +383,7 @@ class UserController extends Controller
                 }
                 $user->save();
 
-                $education = $user->education??new EducationDetail();
+                $education = $user->education ?? new EducationDetail();
                 $education->institute_name = $r->institute_name;
                 $education->degree = $r->degree;
                 $education->start_date = $r->start_date;
@@ -356,23 +391,23 @@ class UserController extends Controller
                 $education->user_id = $user->id;
                 $education->save();
 
-                $workExperience = $user->workexperience??new WorkExperience();
+                $workExperience = $user->workexperience ?? new WorkExperience();
                 $workExperience->no_of_years = $r->no_of_years;
                 $workExperience->brief_of_experience = $r->brief_of_experience;
                 $workExperience->user_id = $user->id;
                 $workExperience->save();
 
-                if($r->hasFile('video')){
-                $file = new Files();
-                $file->file_name = $this->UploadImage($r->file('video'), 'videos');
-                $extension = ($r->file('video'))->getClientOriginalExtension();
-                $file->extension = $extension;
-                $file->model_id = $user->id;
-                $file->model_type = 'App/Models/User';
-                $file->file_size = 112;
-                $file->created_by = $user->id;
-                $file->type = 1;
-                $file->save();
+                if ($r->hasFile('video')) {
+                    $file = new Files();
+                    $file->file_name = $this->UploadImage($r->file('video'), 'videos');
+                    $extension = ($r->file('video'))->getClientOriginalExtension();
+                    $file->extension = $extension;
+                    $file->model_id = $user->id;
+                    $file->model_type = 'App/Models/User';
+                    $file->file_size = 112;
+                    $file->created_by = $user->id;
+                    $file->type = 1;
+                    $file->save();
                 }
                 DB::commit();
                 return $this->successWithData($user->serviceProviderProfile(), " User Profile updated successfully");
@@ -420,18 +455,18 @@ class UserController extends Controller
                 return $this->error("No Sub Category Found");
             }
 
-            $service=Services::where('user_id',$user->id)->first();
+            $service = Services::where('user_id', $user->id)->first();
 
-            if(empty($service)){
+            if (empty($service)) {
                 $service = new Services();
             }
-            $service->title = $category->title??$service->title;
-            $service->description = $category->description??$service->description;
-            $service->cat_id = $category->id??$service->cat_id;
-            $service->sub_cat_id = $subCategory->id??$service->sub_cat_id;
-            $service->price_per_hour = $r->price_per_hour??$service->price_per_hour;
-            $service->price_per_day = $r->price_per_day??$service->price_per_day;
-            $service->price_per_month = $r->price_per_month??$service->price_per_month;
+            $service->title = $category->title ?? $service->title;
+            $service->description = $category->description ?? $service->description;
+            $service->cat_id = $category->id ?? $service->cat_id;
+            $service->sub_cat_id = $subCategory->id ?? $service->sub_cat_id;
+            $service->price_per_hour = $r->price_per_hour ?? $service->price_per_hour;
+            $service->price_per_day = $r->price_per_day ?? $service->price_per_day;
+            $service->price_per_month = $r->price_per_month ?? $service->price_per_month;
             $service->user_id = $user->id;
             $service->created_by = $user->id;
 

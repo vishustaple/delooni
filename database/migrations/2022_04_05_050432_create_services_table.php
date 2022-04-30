@@ -25,8 +25,9 @@ class CreateServicesTable extends Migration
             $table->double('price_per_month')->default(0.00);
             $table->string('currency', 10)->nullable();
             $table->integer('status')->default(1)->comment("1=> active, 2=>inactive");
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
+
             $table->timestamps();
 
         });

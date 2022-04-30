@@ -20,13 +20,15 @@ class ServiceController extends Controller
   */  
    public function serviceView(){
    $data =Services::join('service_categories','services.cat_id','=','service_categories.id')
-    ->select('services.id','services.status','services.name','services.description','services.service_image',
-   'services.price_per_hour','services.price_per_day','services.price_per_month','service_categories.name')
+   ->join('users','services.created_by','=','users.id')
+    ->select('services.id','services.status','services.title','services.description','services.service_image',
+   'services.price_per_hour','services.price_per_day','services.price_per_month','service_categories.name','users.first_name')
    ->orderBy('Id','DESC')->paginate();
     $categorynames = ServiceCategory::where('is_parent',0)->get(); 
     $subcategorys = ServiceCategory::where('is_parent','!=',0)->get();
     $serviceproviders=User::role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->get();
-    return view('admin.service.main', compact('data','categorynames','subcategorys','serviceproviders'));
+    $customers=User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->get();
+    return view('admin.service.main', compact('data','categorynames','subcategorys','serviceproviders','customers'));
 }
 /**
     * Store service
@@ -36,7 +38,7 @@ class ServiceController extends Controller
 */
 public function storeservice(Request $request){ 
     $validatedData = $request->validate([
-        'name' => 'required',
+        'title' => 'required',
         'description' => 'required',
         'service_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
         'price_per_hour' => 'numeric',
@@ -44,13 +46,17 @@ public function storeservice(Request $request){
         'price_per_month' => 'numeric',
     ]);
      $insert = new Services;
-     $insert->name = $request->name;
+     $insert->title = $request->title;
      $insert->description = $request->description;
      $insert->service_image  = $this->uploadImage($request->service_image, 'profile_image');
      $insert->price_per_hour = $request->price_per_hour;
      $insert->price_per_day = $request->price_per_day;
      $insert->price_per_month = $request->price_per_month;
-     $insert->service_category_id = $request->service_category_id;
+     $insert->cat_id = $request->cat_id;
+     $insert->sub_cat_id = $request->sub_cat_id;
+     $insert->created_by = $request->created_by;
+     $insert->user_id = $request->user_id;
+     $insert->currency = $request->currency;
      $insert->save();
      return response()->json(redirect()->back()->with('success','Service Add Successfully'));
 }
@@ -88,7 +94,9 @@ public function status_service(Request $request){
  public function view_update(Request $request){ 
     $categoryData = Services::find($request->id);
     $categorynames = ServiceCategory::where('is_parent',0)->get();
-    $res =  view('admin.service.update', compact('categoryData','categorynames'))->render();
+    $serviceproviders=User::role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->get();
+    $customers=User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->get();
+    $res =  view('admin.service.update', compact('categoryData','categorynames','serviceproviders','customers'))->render();
     return response()->json($res);
 }
 /**
@@ -99,7 +107,7 @@ public function status_service(Request $request){
 */
      public function update_service(Request $request){
      $validatedData = $request->validate([
-     'name' => 'required',
+     'title' => 'required',
      'price_per_hour' => 'required',
      'price_per_day' => 'required',
      'price_per_month' => 'required',
@@ -111,12 +119,15 @@ public function status_service(Request $request){
     $service_cate = $this->uploadImage($request->service_image, 'profile_image');
     else
     $service_cate = $user->service_image;
-    $user->name = $request->name;
+    $user->title = $request->title;
     $user->price_per_hour = $request->price_per_hour;
     $user->price_per_day = $request->price_per_day;
     $user->price_per_month = $request->price_per_month;
     $user->description = $request->description;
-    $user->service_image = $service_cate;
+    $user->cat_id = $cat_id;
+    $user->sub_cat_id = $sub_cat_id;
+    $user->user_id = $user_id;
+    $user->created_by = $created_by;
     $user->save();
     if($user){
     return response()->json(redirect()->back()->with('success', 'Updated Successfully.'));
@@ -136,7 +147,7 @@ public function searchservice(Request $request){
     $qry = Services::select('*');
     if(!empty($search)){
         $qry->where(function($q) use($search){
-            $q->where('name','like',"%$search%");
+            $q->where('title','like',"%$search%");
        });
     }
    $data = $qry->orderBy('id','DESC')->paginate();
@@ -150,7 +161,15 @@ public function searchservice(Request $request){
 */
    public function detailView_service(Request $request){
     $data = Services::find($request->id);
-    return view('admin.service.detailview', compact('data'));
+    $category =Services::join('service_categories','services.cat_id','=','service_categories.id')
+    ->select('service_categories.name')->where('services.id',$request->id)->first();
+    $subcategory =Services::join('service_categories','services.sub_cat_id','=','service_categories.id')
+    ->select('service_categories.name')->where('services.id',$request->id)->first();
+    $customer =Services::join('users','services.user_id','=','users.id')
+    ->select('users.first_name')->where('services.id',$request->id)->first();
+    $serviceprovider =Services::join('users','services.created_by','=','users.id')
+    ->select('users.first_name')->where('services.id',$request->id)->first();
+    return view('admin.service.detailview', compact('data','category','subcategory','customer','serviceprovider'));
 }
 /**
      *  service Back

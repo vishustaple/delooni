@@ -17,6 +17,7 @@
     <th>Price (/day)</th>
     <th>Price (/month)</th>
     <th>Service category</th>
+    <th>Service Provider name</th>
     <th>Status</th>
     <th style="width:18%">Action</th>
     </tr>
@@ -26,7 +27,7 @@
     @forelse($data as $key=>$value)
     <tr>
     <td>{{$key+1}}</td>
-    <td>{{$value->name}}</td>
+    <td>{{$value->title}}</td>
     <td>{{$value->description}}</td>
     <td>
    <img src="{{URL::to('/')}}/profile_image/{{$value->service_image}}" width="100px" height="100px">
@@ -35,6 +36,7 @@
     <td>{{$value->price_per_day}}</td>
     <td>{{$value->price_per_month}}</td>
     <td>{{$value->name}}</td>
+    <td>{{$value->first_name}}</td>
     <td>@if($value->status==1)
     <button data-id="{{$value->id}}" class="disable_enable btn btn-success btn-xs" onclick="toggleDisableEnable(this)">Activate</button>
     @else
