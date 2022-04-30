@@ -30,21 +30,13 @@ class CreateUsersTable extends Migration
             $table->string('state')->nullable();
             $table->integer('pincode')->nullable();
             $table->string('country')->nullable();
-            $table->string('counry_code')->nullable()->comment('eg. +91, +62 etc');
+            $table->string('country_code')->nullable()->comment('eg. +91, +62 etc');
             $table->string('country_short_code')->nullable()->comment("eg. 'gb', 'in', 'us', etc");
             $table->string('spoken_language')->nullable()->comment("Drop down");
             $table->string('other_spoken_language')->nullable()->comment("input");
             $table->string('primary_mode_of_transport')->nullable()->comment("select box");
             $table->enum('service_provider_type', ['default', 'individual','company'])->default('default')->comment("default => it might be customer, guest but not service provider.");
             $table->string('rating')->nullable();
-            
-            // $table->string('experience')->nullable();
-            // $table->integer('travel_distance')->nullable();
-            // $table->string('earliest_start_date')->nullable();
-            // $table->string('aspire_to_achieve')->nullable()->comment("What do you aspire to achieve with an experience from Thorough?");
-            // $table->text('hobbies')->nullable();
-            // $table->text('long_term_goal')->nullable();
-            // $table->string('goal')->nullable();
             $table->string('profile_image')->nullable();
             $table->string('cover_image')->nullable();
             $table->string('profile_video')->nullable();
@@ -56,21 +48,18 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->integer('email_verified_token')->nullable();
             $table->integer('form_step')->default(1)->comment("0=>all form step completed, the value (1, 2 etc) stands for from no has to be submitted.");
-            
+        
             # socials
             $table->integer('whatsapp_no')->nullable();
             $table->string('snapchat_link')->nullable();
             $table->string('instagram_link')->nullable();
             $table->string('twitter_link')->nullable();
             
-            
             $table->string('license_cr_no')->nullable();
             $table->string('license_cr_photo')->nullable();
             $table->longtext('description')->nullable();
             $table->rememberToken();
-            // $table->timestamps();
-            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamps();
             $table->softDeletes();
         });
     }

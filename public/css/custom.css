@@ -21,7 +21,6 @@ section.form__section.base__bg{
 }
 
 
-
 .app-button,
 .black-bg{
    background: var(--body-clr) !important;
@@ -42,7 +41,6 @@ section.form__section.base__bg{
 }
 
 
-.form-control::placeholder,
 .form-control,
 .check__box label{
    color: var(--body-clr) !important;
@@ -71,14 +69,19 @@ a.nav-link:hover {
    color: var(--body-clr) !important;
 }
 
-nav .nav-link.active,
-nav .nav-link.active:hover{
+nav.main-header .nav-link.active,
+nav.main-header .nav-link.active:hover{
    background-color: transparent !important;
    color: #fff!important;
 }
 
 .nav-link.active:hover{
    color: var(--body-clr) !important;
+}
+
+nav.main-header .nav-link.active, nav.main-header .nav-link.active:hover {
+   background-color: transparent !important;
+   color: #fff!important;
 }
 
 .info-box {
@@ -97,6 +100,10 @@ nav .nav-link.active:hover{
 .info-box-content {
    text-align: right;
    padding: 0px !important;
+}
+
+.info-box .info-box-text{
+   font-weight: bold;
 }
 
 .info-box .info-box-number {
@@ -177,7 +184,8 @@ input[type=file]::file-selector-button{
  }
  
  .select2-container--default .select2-selection--single .select2-selection__rendered{
-    line-height: 15px !important;
+    line-height: 20px !important;
+    margin-top: -6px !important;
  }
 
  .select2-container .select2-selection--single .select2-selection__rendered{
@@ -195,20 +203,28 @@ input[type=file]::file-selector-button{
  .content-wrapper>.content{
    padding: 0 1rem;
 }
-
-
-.policy__block {
-   border-bottom: 1px dashed #ddd2d2;
-   padding-bottom: 10px;
-   margin-bottom: 30px;
+/* css start */
+.btn-outline-dark, a.list-group-item {
+   color: var(--body-clr);
 }
-
-.section-padding {
-   padding: 60px 0px;
+.btn-outline-dark:hover, .btn-outline-dark:not(:disabled):not(.disabled):active, .btn-outline-dark, .alert-dark {
+   border-color: var(--body-clr);
 }
-
-@media (max-width: 767px){
-.section-padding {
-    padding: 40px 0px;
+.select2-container--default .select2-results__option--highlighted[aria-selected], .select2-container--default .select2-results__option--highlighted[aria-selected]:hover, .btn-outline-dark:hover, .btn-outline-dark:not(:disabled):not(.disabled):active {
+   background-color: var(--body-clr)!important;
+   color: #fff;
 }
+.sidebar-search-results .list-group {
+   top: -17px;
 }
+.brand-link .brand-image {
+   max-height: 45px !important;
+}
+.form-control::placeholder {
+   color: #b3b3b3;
+}
+.alert .close {
+   color: #fff !important;
+   opacity: 1;
+}
+/* css end */

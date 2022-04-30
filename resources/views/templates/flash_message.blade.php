@@ -1,5 +1,5 @@
 @if ($message = Session::get('success'))
-<div class="alert alert-success alert-block">
+<div class="alert alert-dark alert-block">
     <button type="button" class="close" data-dismiss="alert">×</button>    
     <strong>{{ $message }}</strong>
 </div>
@@ -34,3 +34,10 @@ Please check the form below for errors
 </div>
 
 @endif
+<script>
+$("document").ready(function(){
+    setTimeout(function(){
+       $("div.alert").remove();
+    }, 5000 ); // 5 secs
+});
+</script>

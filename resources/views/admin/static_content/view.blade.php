@@ -4,7 +4,7 @@
 </div>
 <!-- /.card-header -->
  <div class="card-body p-0" >
-     <div class="table-responsive">
+     <div class="table-responsive table-bordered">
     <table class="table">
     @if(count($content)>0)
     <thead>
@@ -23,8 +23,8 @@
     <img src="{{URL::to('/')}}/profile_image/{{$value->screen_baner_image}}" width="100px" height="100px">
     </td>
    <td>
-    <a href='{{route("content.view", $value->id)}}'   target="_blank" class="btn btn-outline-success btn-xs view">View</a>
-    <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-success btn-xs update" class="viewjob_update">Update</button>
+    <a href='{{route("content.view", $value->id)}}'   target="_blank" class="btn btn-outline-dark btn-xs view">View</a>
+    <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-dark btn-xs update" class="viewjob_update">Update</button>
     <!-- The Modal -->
     <div class="modal " id="myModal1">
     <div class="modal-dialog modal-md">
@@ -46,7 +46,7 @@
     </tr>
     @empty
     <center>
-    <h3> No condition </h3>
+    <h5 class="border p-2"> No condition </h5>
     </center>
     @endforelse
 </tbody>

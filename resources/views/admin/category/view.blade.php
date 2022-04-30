@@ -4,7 +4,7 @@
 </div>
 <!-- /.card-header -->
  <div class="card-body p-0 border-0">
- <div class="table-responsive" >
+ <div class="table-responsive table-bordered">
     <table class="table">
     @if(count($data)>0)
     <thead>
@@ -12,7 +12,7 @@
     <th style="width: 10px">S.no.</th>
     <th>Name</th>
     <th>Description</th>
-    <th>Service category image</th>
+    <th>image</th>
    <th>Status</th>
     <th>Action</th>
     </tr>
@@ -57,7 +57,7 @@
     </tr>
     @empty
     <center>
-    <h3> No User Available </h3>
+    <h5 class="border p-2"> No User Available </h5>
     </center>
     @endforelse
 </tbody>

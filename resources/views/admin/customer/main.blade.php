@@ -25,9 +25,14 @@
                     </div>
                     <li class="nav-item search-right">
                    <div>
-                      <div class="input-group" data-widget="sidebar-search">
-                      <input class="form-control form-control-sidebar" id="search" type="search" placeholder="Search" aria-label="Search">
+                    <div class="input-group" data-widget="sidebar-search">
+                      <input class="form-control form-control-sidebar border-0" type="search" placeholder="Search" aria-label="Search">
+                      <div class="input-group-append">
+                        <button class="btn btn-sidebar bg-white">
+                          <i class="fa fa-search"></i>
+                        </button>
                       </div>
+                    </div>
                    </div>
                   </li>
                 </ul>

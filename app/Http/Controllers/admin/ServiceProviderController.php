@@ -30,7 +30,7 @@ class ServiceProviderController extends Controller
      * @return 
      */
     public function ViewServiceProvider(){
-try{
+    try{
         $data = User::role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))
                         ->orderBy('id', 'DESC')
                         ->paginate();
@@ -53,8 +53,7 @@ catch (\Throwable $th) {
     public function addformServiceProvider(){
         $categorynames = ServiceCategory::where('is_parent','+','0')->get();  
         $getcountry=Country::get();
-        $getservices=Services::get();
-        return view('admin.serviceprovider.addform',compact('categorynames','getcountry','getservices'));
+        return view('admin.serviceprovider.addform',compact('categorynames','getcountry'));
     }
     
     /*
@@ -107,12 +106,8 @@ catch (\Throwable $th) {
             "user_id" => $user,
         ]);
         $insert = new ServiceDetail;
-        $insert->service_id=$request->service_category_id;
-        if( isset($request->subcategory) && $request->subcategory != null  ){
-            $insert->service_cat_id = $request->subcategory;
-        } else {
-            $insert->service_cat_id = $request->service_category_id;
-        }
+        $insert->cat_id =$request->service_category_id;
+        $insert->sub_cat_id =$request->subcategory;
         $insert->price_per_hour=$request->price_per_hour; 
         $insert->price_per_day=$request->price_per_day;
         $insert->price_per_month=$request->price_per_month;
@@ -154,19 +149,19 @@ catch (\Throwable $th) {
      */
 
     public function ViewServiceProviderData($id){ 
-
+        
         $data=User::select('*')->where('id', '=', $id)->first();
-        $getwork=WorkExperience::select('*')->where('user_id', '=', $id)->first();
-        $geteducation=EducationDetail::select('*')->where('user_id', '=', $id)->first();
-        $getservicedetail=ServiceDetail::select('*')->where('user_id', '=', $id)->first();
+        $getwork=WorkExperience::where('user_id', '=', $id)->first();
+        $geteducation=EducationDetail::where('user_id', '=', $id)->first();
+        $getservicedetail=ServiceDetail::where('user_id', '=', $id)->first();
         $serviceid=$getservicedetail->service_id;
-        $getservicename=Services::select('*')->where('id', '=', $serviceid)->first();
+        $getservicename=Services::where('id', '=', $serviceid)->first();
         $servicecatid=$getservicedetail->service_cat_id;
-        $getcatdata=ServiceCategory::select('*')->where('id', '=', $servicecatid)->first();
-        $subcategory=ServiceCategory::select('*')->where('id', '=', $servicecatid)->where('is_parent','=',0)->first();
+        $getcatdata=ServiceCategory::where('id', '=', $servicecatid)->first();
+        $subcategory=ServiceCategory::where('id', '=', $servicecatid)->where('is_parent','=',0)->first();
         if($subcategory){
-            //  $id=$subcategory->is_parent;
-            $subcategoryname=ServiceCategory::select('*')->where('id', '=',  $id)->first();
+            $id=$subcategory->is_parent;
+            $subcategoryname=ServiceCategory::where('id', '=',  $id)->first();
         }
         
         return view('admin.serviceprovider.detailview',compact('data','getwork','geteducation','getservicedetail','getservicename','getcatdata'));

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Models\Role;
 
 class ServiceDetail extends Model
 {
@@ -20,10 +21,10 @@ class ServiceDetail extends Model
         'user_id','service_id','status','price_per_hour','price_per_day', 'price_per_month','service_cat_id'
     ];
     
-    public function Rating()
-    {
-        return $this->hasOne(UserRating::class, 'user_id', 'user_id');
-    }
+    // public function Rating()
+    // {
+    //     return $this->hasOne(UserRating::class, 'user_id', 'user_id');
+    // }
     public function users(){
         return $this->hasMany(User::class,'id','user_id');
     }
@@ -37,6 +38,7 @@ class ServiceDetail extends Model
 
 public function filterData()
 {
+    if(User::role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))) {
     $userId= auth()->user()->id;
     $favourite= $this->favourite($this->users[0]->id,$userId);
     $json = [];
@@ -44,7 +46,7 @@ public function filterData()
     $json['first_name'] = $this->users[0]->first_name;
     $json['last_name'] = $this->users[0]->last_name;
     $json['profile_image']=env('APP_URL').'public/profile_image/'.$this->users[0]->profile_image;
-    $json['rating'] = $this->Rating->rating??0;
+    $json['rating'] = $this->users[0]->rating??0;
     $json['is_favourite'] = empty($favourite)?0:1;
     $json['whatsapp_no'] = $this->users[0]->whatsapp_no;
     $json['snapchat_link'] = $this->users[0]->snapchat_link;
@@ -56,6 +58,7 @@ public function filterData()
     $json['serviceUsers']=$this->serviceUsers??null;
 
     return $json;
+    }
 }
 
 
@@ -63,7 +66,7 @@ public function filterData()
     {
         $json = [];
         $json['user_id'] = $this->user_id;
-        $json['service_id'] = $this->service_id;
+        $json['service_id'] = $this->sub_cat_id;
         $json['price_per_hour'] = $this->price_per_hour;
         $json['price_per_day'] = $this->price_per_day;
         $json['price_per_month'] = $this->price_per_month;
