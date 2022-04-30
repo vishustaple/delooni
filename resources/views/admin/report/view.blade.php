@@ -72,28 +72,6 @@
     </div>
   </div>
 
-<<<<<<< HEAD
-            <td>   
-                <table>
-                    @forelse($maxtwentyprovider as $key=>$value)
-                    <tr>
-                        <td>{{$value->first_name}}</td>
-                    </tr>
-                    @empty
-                    @endforelse
-                </table>
-            </td>
- 
-            </tr>
-    </tbody>
-</table>
-</table>
-<div class="text-right">
-<a href="{{ route('reportexport') }}" class="btn btn-warning btn-xs mt-3">Export Report</a>
-</div>
-</div>
-<div id="num"  data-page="">    
-=======
   <div class="col-12 col-sm-6 col-md-4">
     <div class="info-box mb-3">
       <span class="info-box-icon bg-secondary elevation-1"><i class="fa fa-question-circle-o"></i></span>
@@ -107,7 +85,6 @@
       </div>
     </div>
   </div>
->>>>>>> e89b997c249b9af7317d058b8d2624f728f69d53
  
   <div class="col-12 col-sm-6 col-md-4  mb-5 sm-md-0">
     <div class="info-box">

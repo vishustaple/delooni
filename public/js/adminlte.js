@@ -2085,7 +2085,7 @@
     highlightName: true,
     highlightPath: false,
     highlightClass: 'text-light',
-    notFoundText: 'No element found!'
+   
   };
   var SearchItems = [];
   /**
