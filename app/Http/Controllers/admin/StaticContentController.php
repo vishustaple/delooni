@@ -17,7 +17,7 @@ class StaticContentController extends Controller
     * @return view detail of all content
   */
    public function static_content_View(){
-   $content = StaticContent::get();
+   $content = StaticContent::where('status',1)->get();
    return view('admin.static_content.main',compact('content'));
  }
     /**
@@ -99,7 +99,7 @@ class StaticContentController extends Controller
     * @return view baner image
     */
    public function condition_View(){
-    $condition = StaticContent::where('id',4)->get();
+    $condition = StaticContent::where('status',2)->get();
     return view('admin.terms_condition.main',compact('condition'));
   }
        /**
