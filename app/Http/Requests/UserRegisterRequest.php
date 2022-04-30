@@ -40,13 +40,14 @@ class UserRegisterRequest extends FormRequest
                 'email' => 'required|email|unique:users|max:255',
                 'address' => 'required|string',
                 'nationality' => 'required',
-                'dob' => 'required',
+                'dob' => 'date_format:Y-M-D|before:today',
                 'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15|unique:users',
                 'device_name' => 'required',
                 'device_token' => 'required',
                 'device_type' => 'required',
                 'country_code' => 'required',
-
+                'latitude' => 'required',
+                'longitude' => 'required'
 
             ];
         } else {
@@ -62,6 +63,8 @@ class UserRegisterRequest extends FormRequest
                 'device_token' => 'required',
                 'device_type' => 'required',
                 'country_code' => 'required',
+                'latitude' => 'required',
+                'longitude' => 'required'
 
             ];
         }

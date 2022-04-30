@@ -38,12 +38,14 @@ use App\Models\EducationDetail;
 use App\Models\FavouriteServices;
 use App\Models\Otp;
 use App\Models\ServiceCategory;
-use App\Models\ServiceDetail;
 use App\Models\UserRating;
 use App\Models\WorkExperience;
-use App\Models\Country;
+use App\Models\Services;
+
+
 use Exception;
 use Illuminate\Support\Facades\Log;
+use PhpOffice\PhpSpreadsheet\Calculation\Web\Service;
 use Validator;
 
 class UserController extends Controller
@@ -124,6 +126,61 @@ class UserController extends Controller
         }
     }
 
+     /**
+     * Verify Otp  
+     *
+     * @param  $r request contains data to verify Otp 
+     * @return response success or fail
+     */
+    public function verifyOtp(request $r)
+    {
+        $v = Validator::make(
+            $r->input(),
+            [
+                'phone' => 'required|numeric',
+                'country_code' => 'required',
+                'otp' => 'required|numeric'
+            ]
+        );
+        if ($v->fails()) {
+            return $this->validation($v);
+        }
+        try {
+         
+            $otp = Otp::where(['phone' => $r->phone, 'otp' => $r->otp, 'country_code' => $r->country_code])
+                ->first();
+            if (empty($otp)) {
+                throw new Exception("wrong OTP");
+            }
+            $otp->delete();
+
+            $user = User::where('phone', $r->phone)->where('country_code', $r->country_code)->first();
+            if (empty($user)) {
+                $data = [];
+                $data['is_new_profile'] =  true;
+                return $this->successWithData([], "OTP verified successfully", $data);
+            }
+
+            //Genrate API Auth token
+            $token = $user->createToken('API Token')->plainTextToken;
+
+            $loginHistory = new LoginHistory();
+            $loginHistory->device_name = $r->device_name;
+            $loginHistory->device_token = $r->device_token;
+            $loginHistory->device_type = $r->device_type;
+            $loginHistory->personal_access_token = $token;
+            $loginHistory->created_by = $user->id;
+            $loginHistory->save();
+            $data = [];
+            $data['token'] =  $token;
+            $data['is_new_profile'] =  false;
+
+            return $this->successWithData($user->jsonData(), "OTP verified successfully", $data);
+        } catch (\Throwable $e) {
+            return $this->error($e->getMessage());
+        }
+    }
+
     /**
      *  Register
      *
@@ -146,9 +203,12 @@ class UserController extends Controller
                     'country_code' => $r->country_code,
                     'phone' => $r->phone,
                     'email_verified_token' => $emailVerifiedAt,
+                    'latitude' => $r->latitude,
+                    'longitude' => $r->longitude
                 ]
             );
             $register->assignRole(User::ROLE_CUSTOMER);
+            $json = "customerProfile";
         } else {
             $register = User::create(
                 [
@@ -160,9 +220,13 @@ class UserController extends Controller
                     'country_code' => $r->country_code,
                     'phone' => $r->phone,
                     'email_verified_token' => $emailVerifiedAt,
+                    'latitude' => $r->latitude,
+                    'longitude' => $r->longitude
                 ]
             );
             $register->assignRole(User::ROLE_SERVICE_PROVIDER);
+            $json = "serviceProviderProfile";
+
         }
         $token = $register->createToken('API Token')->plainTextToken;
         $loginHistory = new LoginHistory();
@@ -174,156 +238,9 @@ class UserController extends Controller
         $loginHistory->save();
         $data = [];
         $data['token'] =  $token;
-        return $this->successWithData($register->jsonData(), 'Registeration Successfull.',  $data);
+        return $this->successWithData($register->$json(), 'Registeration Successfull.',  $data);
     }
 
-
-    /**
-     *  login
-     *
-     * @param  $r request contains data to user login
-     * @return response success or fail
-     */
-    // public function login(request $r)
-    // {
-    //     try {
-    //         $v = Validator::make(
-    //             $r->input(),
-    //             [
-    //                 'email' => 'required',
-    //                 'password' => 'required|min:4|max:20',
-    //                 'device_name' => 'required',
-    //                 'device_token' => 'required',
-    //                 'device_type' => 'required',
-    //             ]
-    //         );
-    //         if ($v->fails()) {
-    //             return $this->validation($v);
-    //         }
-
-    //         $user = User::where('email', '=', $r->email)->first();
-    //         if (!$user) {
-    //             throw new Exception("Invalid email or password");
-    //         }
-    //         if (!Hash::check($r->password, $user->password)) {
-    //             throw new Exception("Invalid email or password");
-    //         }
-    //         //Genrate API Auth token
-    //         $token = $user->createToken('API Token')->plainTextToken;
-
-    //         $loginHistory = new LoginHistory();
-    //         $loginHistory->device_name = $r->device_name;
-    //         $loginHistory->device_token = $r->device_token;
-    //         $loginHistory->device_type = $r->device_type;
-    //         $loginHistory->personal_access_token = $token;
-    //         $loginHistory->created_by = $user->id;
-    //         $loginHistory->save();
-    //         $data = [];
-    //         $data['token'] =  $token;
-    //         return $this->successWithData($user->jsonData(), "Login successfully", $data);
-    //     } catch (\Throwable $e) {
-    //         return $this->error($e->getMessage());
-    //     }
-    // }
-
-
-    /**
-     * Verify Otp  
-     *
-     * @param  $r request contains data to verify Otp 
-     * @return response success or fail
-     */
-    public function verifyOtp(request $r)
-    {
-        $v = Validator::make(
-            $r->input(),
-            [
-                'phone' => 'required|numeric',
-                'country_code' => 'required',
-                'otp' => 'required|numeric'
-            ]
-        );
-        if ($v->fails()) {
-            return $this->validation($v);
-        }
-        try {
-            $user = User::where('phone', $r->phone)->where('country_code', $r->country_code)->first();
-            if (empty($user)) {
-                throw new Exception("This number is not registered yet");
-            }
-            $otp = Otp::where(['phone' => $r->phone, 'otp' => $r->otp, 'country_code' => $r->country_code])
-                ->first();
-            if (empty($otp)) {
-                throw new Exception("No otp found");
-            }
-            $otp->delete();
-
-            //Genrate API Auth token
-            $token = $user->createToken('API Token')->plainTextToken;
-
-            $loginHistory = new LoginHistory();
-            $loginHistory->device_name = $r->device_name;
-            $loginHistory->device_token = $r->device_token;
-            $loginHistory->device_type = $r->device_type;
-            $loginHistory->personal_access_token = $token;
-            $loginHistory->created_by = $user->id;
-            $loginHistory->save();
-            $data = [];
-            $data['token'] =  $token;
-            return $this->successWithData($user->jsonData(), "OTP verified successfully", $data);
-        } catch (\Throwable $e) {
-            return $this->error($e->getMessage());
-        }
-    }
-
-    /**
-     * Forgot Password   
-     *
-     * @param  $r request contains data to forgot password 
-     * @return response success or fail
-     */
-    // public function forgotPassword(request $r)
-    // {
-    //     $v = Validator::make(
-    //         $r->input(),
-    //         [
-    //             'email' => 'required|email',
-
-    //         ]
-    //     );
-    //     if ($v->fails()) {
-    //         return $this->validation($v);
-    //     }
-    //     try {
-    //         $update = 0;
-    //         $insert = 0;
-    //         $user = User::where('email', $r->email)->first();
-    //         if (!empty($user)) {
-
-    //             if ($update || $insert) {
-    //                 $link = url('') . '/change-password';
-    //                 $user['fname'] = $user->first_name . ' ' . $user->last_name;
-    //                 $user['email'] = $r->email;
-
-    //                 try {
-    //                     $sendMail = Mail::send('mails.change-password', ['user' => $user, 'link' => $link], function ($m) use ($user) {
-    //                         $m->from('shagun@richestsoft.in', 'Tranzlanta');
-    //                         $m->to($user['email'], $user['fname'])->subject('Password Reset!');
-    //                     });
-    //                     return $this->success('Mail has been sent to your email.Please check.');
-    //                 } catch (\Throwable $e) {
-    //                     return $this->error($e->getMessage());
-    //                 }
-    //             } else {
-    //                 return $this->error('Something went wrong please try again later.');
-    //             }
-    //         } else {
-    //             return $this->error('This email is not registered yet.');
-    //         }
-    //     } catch (\Throwable $e) {
-    //         return $this->error($e->getMessage());
-    //     }
-    // }
 
     /**
      *  Change Password
@@ -459,7 +376,7 @@ class UserController extends Controller
      * @param  $r request contains data to Add Service Detail 
      * @return response success or fail
      */
-    public function addServiceDetails(request $r)
+    public function addService(request $r)
     {
         try {
             $user = auth()->user();
@@ -467,6 +384,9 @@ class UserController extends Controller
             $v = Validator::make(
                 $r->input(),
                 [
+                    'title' => 'string',
+                    'description ' => 'string',
+                    'service_image ' => 'string',
                     'category_id' => 'required|integer',
                     'sub_category_id' => 'required|integer',
                     'price_per_hour ' => 'string',
@@ -485,15 +405,24 @@ class UserController extends Controller
             if (empty($category)) {
                 return $this->error("No Sub Category Found");
             }
-            $service = new ServiceDetail();
-            $service->cat_id = $category->id;
-            $service->sub_cat_id = $subCategory->id;
+
+            $service=Services::where('user_id',$user->id)->first();
+
+            if(empty($service)){
+                $service = new Services();
+            }
+            $service->title = $category->title??$service->title;
+            $service->description = $category->description??$service->description;
+            $service->cat_id = $category->id??$service->cat_id;
+            $service->sub_cat_id = $subCategory->id??$service->sub_cat_id;
+            $service->price_per_hour = $r->price_per_hour??$service->price_per_hour;
+            $service->price_per_day = $r->price_per_day??$service->price_per_day;
+            $service->price_per_month = $r->price_per_month??$service->price_per_month;
             $service->user_id = $user->id;
-            $service->price_per_hour = $r->price_per_hour;
-            $service->price_per_day = $r->price_per_day;
-            $service->price_per_month = $r->price_per_month;
+            $service->created_by = $user->id;
+
             $service->save();
-            return $this->successWithData($service->jsonData(), "Service Details Added");
+            return $this->successWithData($service->jsonData(), "Service Added");
         } catch (\Throwable $e) {
             DB::rollback();
             return $this->error($e->getMessage());

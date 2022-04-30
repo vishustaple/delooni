@@ -47,7 +47,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     /******************************* Service Provider User Api **********************************************/
-    Route::post('add-service-detail', [UserController::class, 'addServiceDetails']);
+    Route::post('add-service', [UserController::class, 'addService']);
     Route::post('complete-profile', [UserController::class, 'completeProfile']);
     Route::post('update-sprovider-profile', [UserController::class, 'updateSpProfile']);
     Route::get('get-provider-profile', [UserController::class, 'providerDetail']);
@@ -58,6 +58,5 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::post('send-otp', [UserController::class, 'sendOtp']);
-Route::resource('rolesPermission', RolesPermissionsController::class);
 Route::get('active-countries-list', [ListController::class, 'activeCountryList']);
 Route::post('verify-otp', [UserController::class, 'verifyOtp']);

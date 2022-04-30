@@ -20,7 +20,7 @@ class Services extends Model
      * @var array
      */
     protected $fillable = [
-        'name','description','status','service_image','path','price_per_hour','price_per_day','price_per_month','cat_id','sub_cat_id'
+        'title','description','status','service_image','path','price_per_hour','price_per_day','price_per_month','service_category_id'
     ];
 
    
@@ -28,15 +28,19 @@ class Services extends Model
     public function jsonData()
     {
         $json = [];
-        $json['name'] = $this->name;
+        $json['title'] = $this->title;
         $json['description'] = $this->description;
         $json['status'] = $this->status;
         $json['service_image'] = $this->service_image;
-        $json['path'] = $this->path;
         $json['price_per_hour'] = $this->price_per_hour;
         $json['price_per_day'] = $this->price_per_day;
         $json['price_per_month'] = $this->price_per_month;
-        $json['service_category_id'] = $this->service_category_id;
+        $json['cat_id'] = $this->cat_id;
+        $json['sub_cat_id'] = $this->sub_cat_id;
+        $json['user_id'] = $this->user_id;
+        $json['created_by'] = $this->created_by;
+
+
         return $json;
     }
 }
