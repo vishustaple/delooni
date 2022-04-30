@@ -52,25 +52,25 @@
       </div> 
     </div>
       <div class="form-group row">
-        <label for="service_category_id" class="col-sm-12 col-form-label">Select category </label>
+        <label for="cat_id" class="col-sm-12 col-form-label">Select category </label>
         <div class="col-sm-12 form-control">
-        <select class="category select2" id="service_category_id"   name="service_category_id">
+        <select class="category select2" id="cat_id"   name="cat_id">
         <option value="N/A" disabled selected="true">--Select category--</option>
         @foreach($categorynames as $categoryname)
       <option class="form-drop-items" value="{{$categoryname->id}}">{{$categoryname->name}}</option>
         @endforeach
         </select>
-        <div class="error" id="error_service_category_id">
+        <div class="error" id="error_cat_id">
         </div>
         </div>
       </div> 
       <div class="form-group row">
-        <label for="subcategory" class="col-sm-12 col-form-label">Select Sub category </label>
+        <label for="sub_cat_id" class="col-sm-12 col-form-label">Select Sub category </label>
         <div class="col-sm-12 form-control">
-        <select class="select2" id="subcategory" name="subcategory">
+        <select class="select2" id="sub_cat_id" name="sub_cat_id">
         <option value="N/A" disabled selected="true">--Select sub category--</option>
         </select>
-        <div class="error" id="error_subcategory">
+        <div class="error" id="error_sub_cat_id">
         </div>
     </div> 
     </div>

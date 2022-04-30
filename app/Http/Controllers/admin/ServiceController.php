@@ -19,7 +19,7 @@ class ServiceController extends Controller
     * @return view detail of all service
   */  
    public function serviceView(){
-   $data =Services::join('service_categories','services.service_category_id','=','service_categories.id')
+   $data =Services::join('service_categories','services.cat_id','=','service_categories.id')
     ->select('services.id','services.status','services.name','services.description','services.service_image',
    'services.price_per_hour','services.price_per_day','services.price_per_month','service_categories.name')
    ->orderBy('Id','DESC')->paginate();
