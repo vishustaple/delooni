@@ -106,6 +106,7 @@ class User extends Authenticatable
         return $json;
     }
 
+
     public function customerProfile(){
         $json=[];
         $json['id']=$this->id;
@@ -115,6 +116,10 @@ class User extends Authenticatable
         $json['nationality'] = $this->nationality;
         $json['address'] = $this->address;
         $json['email'] = $this->email;
+        $json['country_code'] = $this->country_code;
+        $json['phone'] = $this->phone;
+        $json['latitude'] = $this->latitude;
+        $json['longitude'] = $this->longitude;
         return $json;
     }
 
@@ -127,7 +132,10 @@ class User extends Authenticatable
         $json['service_provider_type ']=$this->service_provider_type ;
         $json['nationality']=$this->nationality;
         $json['address']=$this->address;
-        $json['phone']=$this->phone;
+        $json['country_code'] = $this->country_code;
+        $json['phone'] = $this->phone;
+        $json['latitude'] = $this->latitude;
+        $json['longitude'] = $this->longitude;
         $json['whatspp_no']=$this->whatspp_no;
         $json['snapchat_link']=$this->snapchat_link;
         $json['instagram_link']=$this->instagram_link;

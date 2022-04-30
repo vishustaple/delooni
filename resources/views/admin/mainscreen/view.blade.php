@@ -47,7 +47,7 @@
     </tr>
     @empty
     <center>
-    <h3> Screen not Available </h3>
+    <h5 class="border p-2"> Screen not Available </h5>
     </center>
     @endforelse
 </tbody>

@@ -112,8 +112,13 @@ Route::group(['prefix' => 'admin'], function () {
 
       //******************************************Admin export excel file of Report*********************************************//
       Route::get('/report', [ReportController::class, 'report_View'])->name('report');
-      Route::get('/reportexport',[ReportController::class,'reportexport'])->name('reportexport');
-
+      Route::get('/userexport',[ReportController::class,'export_user'])->name('userexport');
+      Route::get('/queryexport',[ReportController::class,'export_query'])->name('queryexport');
+      Route::get('/maxqueryexport',[ReportController::class,'export_max_query'])->name('maxqueryexport');
+      Route::get('/minqueryexport',[ReportController::class,'export_min_query'])->name('minqueryexport');
+      Route::get('/maxtwentyexport',[ReportController::class,'export_max_twenty_query'])->name('maxtwentyexport');
+      Route::get('/mintwentyexport',[ReportController::class,'export_min_twenty_query'])->name('mintwentyexport');
+      Route::get('/maxproviderexport',[ReportController::class,'export_max_provider'])->name('maxproviderexport');
 
       //******************************************Admin View Query*********************************************//
       Route::get('/query', [ReportController::class, 'query_View'])->name('query');

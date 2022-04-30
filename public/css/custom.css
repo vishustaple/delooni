@@ -71,8 +71,8 @@ a.nav-link:hover {
    color: var(--body-clr) !important;
 }
 
-nav .nav-link.active,
-nav .nav-link.active:hover{
+nav.main-header .nav-link.active,
+nav.main-header .nav-link.active:hover{
    background-color: transparent !important;
    color: #fff!important;
 }
@@ -205,6 +205,23 @@ input[type=file]::file-selector-button{
 
 .section-padding {
    padding: 60px 0px;
+}
+
+.sidebar-search-results .search-title {
+   color: var(--body-clr) !important;
+}
+
+.sidebar-search-open{
+   position: relative;
+}
+
+.sidebar-search-results {
+   position: absolute;
+   display: none;
+   width: 100%;
+   margin-top: 10px;
+   left: 0;
+   right: 0;
 }
 
 @media (max-width: 767px){
