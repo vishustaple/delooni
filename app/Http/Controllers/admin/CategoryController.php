@@ -85,23 +85,9 @@ public function view_update(Request $request){
      * @param $r get form data 
      * @return  return response update successfully or not
 */
-// public function update_category(Request $request){
-//    $insert = ServiceCategory::where('id', $request->id)->update([
-//         "name" => $request->name,
-//         "description" => $request->description,
-//          "service_category_image"  => $this->uploadImage($request->service_category_image, 'profile_image'),
-//    ]);
-//     if($insert){
-//         return response()->json(redirect()->back()->with('success', 'Updated Successfully.'));
-//     } else {
-//       return response()->json(redirect()->back()->with('error', 'Updated not successfully'));
-//     }
-// }
-
 public function update_category(Request $request)
 {  $validatedData = $request->validate([
     'name' => 'required',
-    'description' => 'required',
     'service_category_image' => 'image|mimes:jpg,png,jpeg,gif,svg',
    ]);
      $user = ServiceCategory::find($request->id);
