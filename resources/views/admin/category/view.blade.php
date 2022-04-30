@@ -34,8 +34,8 @@
     @endif
     </td>
     <td>
-    <a href='{{route("category.view", $value->id)}}'   target="_blank" class="btn btn-outline-success btn-xs view">Sub category</a>
-    <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-success btn-xs update" class="viewjob_update">Update</button>
+    <a href='{{route("category.view", $value->id)}}'   target="_blank" class="btn btn-outline-dark btn-xs view">Sub category</a>
+    <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-dark btn-xs update" class="viewjob_update">Update</button>
     <!-- The Modal -->
     <div class="modal " id="myModal1">
     <div class="modal-dialog modal-md">
@@ -69,25 +69,3 @@
 <!-- /.card-body -->
 </div>
 <!-- /.card -->
-  
-       
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
