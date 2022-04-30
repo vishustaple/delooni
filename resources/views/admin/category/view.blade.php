@@ -12,7 +12,7 @@
     <th style="width: 10px">S.no.</th>
     <th>Name</th>
     <th>Description</th>
-    <th>Service category image</th>
+    <th>image</th>
    <th>Status</th>
     <th>Action</th>
     </tr>
