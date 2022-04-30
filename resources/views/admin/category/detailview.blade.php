@@ -28,7 +28,7 @@
                       <div class="form-group row uploadimage">
                         <label for="service_category_image" class="col-sm-12 col-form-label">Service Category Image</label>
                         <div class="col-sm-12">
-                        <img src="{{URL::to('/')}}/profile_image/{{$data->service_category_image}}">
+                        <img class="lazyload" src="{{URL::to('/')}}/profile_image/{{$data->service_category_image}}">
                           </div>
                       </div>  
                     </form>
@@ -80,7 +80,7 @@
         <td>{{$key+1}}</td>
         <td>{{$value->name}}</td>
         <td>
-        <img src="{{URL::to('/')}}/profile_image/{{$value->service_category_image}}" width="100px" height="100px">
+        <img class="lazyload" src="{{URL::to('/')}}/profile_image/{{$value->service_category_image}}">
         </td>
         <td>{{$value->is_parent}}</td>
         <td>@if($value->status==1)

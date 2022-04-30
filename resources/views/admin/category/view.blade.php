@@ -25,7 +25,7 @@
    <td>{{$value->name}}</td>
     <td>{{$value->description}}</td>
     <td>
-    <img src="{{URL::to('/')}}/profile_image/{{$value->service_category_image}}" width="100px" height="100px">
+    <img class="lazyload" src="{{URL::to('/')}}/profile_image/{{$value->service_category_image}}">
     </td>
     <td>@if($value->status==1)
     <button data-id="{{$value->id}}" class="disable_enable btn btn-success btn-xs" onclick="toggleDisableEnable(this)">Activate</button>
@@ -48,7 +48,6 @@
     <!-- Modal body -->
     <div class="modal-body viewJob_update pt-0">
     </div>
-
 </div>
 </div>
 </div>
