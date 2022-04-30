@@ -4,7 +4,7 @@
   </div>
   <!-- /.card-header -->
   <div class="card-body p-0 border-0">
-    <div class="table-responsive">
+    <div class="table-responsive table-bordered">
     <table class="table">
       @if(count($data)>0)
       <thead>
@@ -33,9 +33,9 @@
             @endif
           </td>
           <td>
-            <a href="{{route('provider.viewdata',$value->id)}}" target="_blank" class="btn btn-outline-success btn-xs view">View</a>
+            <a href="{{route('provider.viewdata',$value->id)}}" target="_blank" class="btn btn-outline-dark btn-xs view">View</a>
             <!-- <a class="btn btn-outline-success btn-xs update" style="cursor:pointer;" id="updateserviceprovider" >Update</a> -->
-            <button style="cursor:pointer"  class="btn btn-outline-success btn-xs updateserviceprovider" data-userid="{{$value->id}}" >Update</button>
+            <button style="cursor:pointer"  class="btn btn-outline-dark btn-xs updateserviceprovider" data-userid="{{$value->id}}" >Update</button>
           
             <button data-id="{{$value->id}}" class="btn btn-danger btn-xs remove">Remove</button>
           </td>

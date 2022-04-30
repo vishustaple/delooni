@@ -4,7 +4,7 @@
 </div>
    <!-- /.card-header -->
    <div class="card-body p-0 border-0">
-   <div class="table-responsive">
+   <div class="table-responsive table-bordered">
    <table class="table">
     
   <thead>
@@ -104,7 +104,7 @@
 <a href="{{ route('reportexport') }}" class="btn btn-warning btn-xs mt-3">Export Report</a>
 </div>
 </div>
-<div id="num"  data-page="{{}}">    
+<div id="num"  data-page="">    
  
             </tr>
     </tbody>

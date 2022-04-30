@@ -5,7 +5,7 @@
 </div>
    <!-- /.card-header -->
    <div class="card-body p-0">
-       <div class="table-responsive">
+       <div class="table-responsive table-bordered">
    <table class="table">
     @if(count($data)>0)
     <thead>

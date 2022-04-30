@@ -114,7 +114,7 @@
           </li>
     
       <li class="nav-item">
-            <a href="{{route('condition')}}" class="nav-link  {{ Request::routeIs('condition') ? 'active' : '' }}">
+            <a href="" class="nav-link  {{ Request::routeIs('condition') ? 'active' : '' }}">
               <i class="fa fa-disease nav-icon"></i>
               <p>Terms and Condition</p>
             </a>

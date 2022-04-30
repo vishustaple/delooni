@@ -4,7 +4,7 @@
 </div>
 <!-- /.card-header -->
  <div class="card-body p-0 border-0">
- <div class="table-responsive" >
+ <div class="table-responsive table-bordered">
     <table class="table">
     @if(count($data)>0)
     <thead>
@@ -34,8 +34,8 @@
     @endif
     </td>
     <td>
-    <a href='{{route("category.view", $value->id)}}'   target="_blank" class="btn btn-outline-success btn-xs view">View</a>
-    <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-success btn-xs update" class="viewjob_update">Update</button>
+    <a href='{{route("category.view", $value->id)}}'   target="_blank" class="btn btn-outline-dark btn-xs view">View</a>
+    <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-dark btn-xs update" class="viewjob_update">Update</button>
     <!-- The Modal -->
     <div class="modal " id="myModal1">
     <div class="modal-dialog modal-md">

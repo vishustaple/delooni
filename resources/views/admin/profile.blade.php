@@ -89,7 +89,12 @@ form input[type="file"] {
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-        <div class="row">
+        <div class="card">
+          <div class="card-header yellow-bg">
+            <h3 class="card-title">Admin Profile</h3>
+          </div>
+          <div class="card-body">
+            <div class="row">
           <div class="col-md-4 d-flex">
 
             <!-- Profile Image -->
@@ -152,6 +157,8 @@ form input[type="file"] {
                  </div>
               </div>
           </div>
+                </div>
+                </div>
           
         </div>
         <!-- /.row -->
