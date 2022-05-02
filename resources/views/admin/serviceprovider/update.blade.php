@@ -151,21 +151,7 @@
                         <div class="error" id="error_description"></div>
                       </div>
                       </div>
-
-                      <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="service_category_id" class="col-md-6 col-form-label">Select Services :</label>
-                        <select class="form-control select2" id="service_services" name="service_services">
-                        <option value="N/A" disabled selected="true">--Select Services--</option>
-                        @foreach($getservices as $getservice)
-                        <option class="form-drop-items" value="{{$getservice->id}}">{{$getservice->title}}</option>
-                         @endforeach
-                       </select>
-                        <div class="error" id="error_service_services">
-                        </div>
-                    </div>
-                </div-->
-                <div class="col-md-6">
+                   <div class="col-md-6">
                     <div class="form-group">
                         <label for="service_category_id" class="col-md-6 col-form-label">Select category :</label>
                         <select class="form-control select2" id="service_category_id" name="service_category_id">
@@ -215,21 +201,20 @@
                          <div class="col-md-4">
                             <label for="price_per_hour" class="col-sm-12 col-form-label">Service Price(/hours)</label>
                             <div class="col-sm-12">
-                               <input type="text" class="form-control" id="price_per_hour" value="{{$getservice->price_per_hour}}">
+                               <input type="text" class="form-control" id="price_per_hour"  value="{{$servicename->price_per_hour}}">
                             </div>
                          </div>
 
                          <div class="col-md-4">
                          <label for="price_per_day" class="col-sm-12 col-form-label">Service Price(/days)</label>
                             <div class="col-sm-12">
-                            <input type="text" class="form-control" id="price_per_day" value="{{$getservice->price_per_day}}">
+                            <input type="text" class="form-control" id="price_per_day" value="{{$servicename->price_per_day}}">
                               </div>
                           </div>
-
-                           <div class="col-md-4">
+                          <div class="col-md-4">
                            <label for="price_per_month" class="col-sm-12 col-form-label">Service Price(/month)</label>
                             <div class="col-sm-12">
-                            <input type="text" class="form-control" id="price_per_month" value="{{$getservice->price_per_month}}">
+                            <input type="text" class="form-control" id="price_per_month" value="{{$servicename->price_per_month}}">
                               </div>
                            </div>
                       

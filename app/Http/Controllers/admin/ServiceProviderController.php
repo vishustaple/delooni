@@ -215,12 +215,11 @@ catch (\Throwable $th) {
        $data=User::where('id', '=', $id)->first();
        $geteducation=EducationDetail::where('user_id', '=', $id)->first();
        $getwork=WorkExperience::where('user_id', '=', $id)->first();
-       $getservices=Services::where('user_id', '=', $id)->get();
        $categorynames=ServiceCategory::select('*')->get();
-    
-       return view('admin.serviceprovider.update',compact('data','getwork','geteducation','getservices','categorynames'));
-
-    }
+       $servicename = Services::where('user_id', '=', $id)->first();
+       
+       return view('admin.serviceprovider.update',compact('data','getwork','geteducation','categorynames','servicename'));
+       }
 
         /**
          *  insert updated service providerdata

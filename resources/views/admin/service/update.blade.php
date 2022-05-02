@@ -53,25 +53,24 @@
                     <div class="form-group row">
                         <label for="service_category_id" class="col-sm-12 col-form-label">Select category </label>
                         <div class="col-sm-12">
-                        <select class="form-control select2" id="service_category_id" name="cat_id"  >
-                        <option value="N/A" disabled selected="true" value="{{$categoryData->service_category_id}}">--Select category--</option>
+                        <select name="cat_id" id="cat_id" class="form-control select2" >
+                         <option value="">Select Company</option>
                        @foreach($categorynames as $categoryname)
-                      <option class="form-drop-items" value="{{$categoryname->id}}">{{$categoryname->name}}</option>
-                        @endforeach
+                       <option value="{{ $categoryname->id }}" {{ $categoryData->cat_id == $categoryname->id ? 'selected' : '' }}>{{ $categoryname->name }}</option>
+                       @endforeach
                        </select>
-                        </div>
+                      </div>
                       </div> 
-               
-                      <div class="form-group row">
-                      <label for="created_by" class="col-sm-12 col-form-label">Select Serviceprovider </label>
+                   <div class="form-group row">
+                      <label for="user_id" class="col-sm-12 col-form-label">Select Serviceprovider </label>
                        <div class="col-sm-12">
-                     <select class=" form-control select2" id="created_by" name="created_by">
-                     <option value="N/A" disabled selected="true">--Select Serviceprovider--</option>
-                      @foreach($serviceproviders as $serviceprovider)
-                        <option class="form-drop-items" value="{{$serviceprovider->id}}">{{$serviceprovider->first_name}} {{$serviceprovider->last_name}}</option>
-                      @endforeach
-                    </select>
-                    <div class="error" id="error_user_id">
+                       <select name="sub_cat_id" id="sub_cat_id" class="form-control select2" >
+                         <option value="">Select Serviceprovider</option>
+                       @foreach($serviceproviders as $serviceprovider)
+                       <option value="{{ $serviceprovider->id }}" {{ $categoryData->user_id == $serviceprovider->id ? 'selected' : '' }}>{{ $serviceprovider->first_name }}</option>
+                       @endforeach
+                       </select>
+                   <div class="error" id="error_user_id">
                     </div>
                     </div> 
                     </div>
