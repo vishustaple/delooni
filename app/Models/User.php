@@ -106,7 +106,11 @@ class User extends Authenticatable
 
     public function serviceDetail()
     {
-        return $this->hasOne(ServiceDetail::class, 'user_id', 'id');
+        return $this->hasOne(Services::class, 'user_id', 'id');
+    }
+    public function servicecategoryDetail()
+    {
+        return $this->belongsto(ServiceCategory::class, 'id', 'cat_id');
     }
     public function files()
     {
@@ -198,12 +202,12 @@ class User extends Authenticatable
         $json['phone'] = $this->phone;
         $json['latitude'] = $this->latitude;
         $json['longitude'] = $this->longitude;
-        $json['whatspp_no'] = $this->whatspp_no;
-        $json['snapchat_link'] = $this->snapchat_link;
-        $json['instagram_link'] = $this->instagram_link;
-        $json['twitter_link'] = $this->twitter_link;
-        $json['license_cr_no'] = $this->license_cr_no;
-        $json['description'] = $this->description;
+        $json['whatspp_no'] = $this->whatspp_no?? '';
+        $json['snapchat_link'] = $this->snapchat_link?? '';
+        $json['instagram_link'] = $this->instagram_link?? '';
+        $json['twitter_link'] = $this->twitter_link?? '';
+        $json['license_cr_no'] = $this->license_cr_no?? '';
+        $json['description'] = $this->description?? '';
 
 
         if (!empty($this->education)) {
@@ -249,5 +253,69 @@ class User extends Authenticatable
             $json['price_per_hour'] = $this->price_per_hour ?? 0;
             return $json;
         }
+    }
+    public function serviceProvidercompleteProfile()
+    {
+        $json = [];
+        $userId = auth()->user()->id;
+        $favourite = $this->favourite($this->id, $userId);
+        $json['email'] = $this->email;
+        if (!empty($this->profile_image))
+            $json['profile_image'] = url('') . '/profile_image/' . $this->profile_image;
+        else
+            $json['profile_image'] = "";
+        if (!empty($this->files->file_name))
+            $json['video'] = url('') . '/videos/' . $this->files->file_name;
+        else
+            $json['video'] = "";
+
+        if (!empty($this->license_cr_photo))
+            $json['license_cr_photo'] = url('') . '/license_image/' . $this->license_cr_photo;
+        else
+            $json['license_cr_photo'] = "";
+
+        $json['service_provider_type '] = $this->service_provider_type;
+        $json['nationality'] = $this->nationality;
+        $json['address'] = $this->address;
+        $json['country_code'] = $this->country_code;
+        $json['phone'] = $this->phone;
+        $json['latitude'] = $this->latitude;
+        $json['longitude'] = $this->longitude;
+        $json['whatspp_no'] = $this->whatspp_no?? '';
+        $json['snapchat_link'] = $this->snapchat_link?? '';
+        $json['instagram_link'] = $this->instagram_link?? '';
+        $json['twitter_link'] = $this->twitter_link?? '';
+        $json['license_cr_no'] = $this->license_cr_no?? '';
+        $json['description'] = $this->description?? '';
+        $json['rating'] = $this->rating ?? 0;
+        $json['is_favourite'] = empty($favourite) ? 0 : 1;
+        // $json['category'] = $this->serviceDetail->servicecategoryDetail;
+        // dd($this->servicecategoryDetail->name);
+        // dd($this->servicecategoryDetail->name);
+        // $json['Subcategory'] = $this->rating ?? 0;
+       
+
+
+        if (!empty($this->education)) {
+            $json['institute_name'] = $this->education->institute_name;
+            $json['degree'] = $this->education->degree;
+            $json['start_date'] = $this->education->start_date;
+            $json['end_date'] = $this->education->end_date;
+        } else {
+            $json['institute_name'] = "";
+            $json['degree'] = "";
+            $json['start_date'] = "";
+            $json['end_date'] = "";
+        }
+
+        if (!empty($this->workexperience)) {
+            $json['no_of_years'] = $this->workexperience->no_of_years;
+            $json['brief_of_experience'] = $this->workexperience->brief_of_experience;
+        } else {
+            $json['no_of_years'] =  "";
+            $json['brief_of_experience'] = "";
+        }
+
+        return $json;
     }
 }

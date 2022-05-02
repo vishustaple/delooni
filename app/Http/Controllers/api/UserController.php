@@ -752,10 +752,11 @@ class UserController extends Controller
         }
 
         $query = User::where('id', $r->provider_id)->first();
-        if (empty($user)) {
+        if (empty($query)) {
             return $this->error("No provider found");
         }
         $message = "provider detail";
-        return $this->successWithData($query->serviceProviderProfile(), $message);
+        return $this->successWithData($query->serviceProvidercompleteProfile(), $message);
     }
 }
+
