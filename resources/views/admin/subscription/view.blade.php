@@ -48,7 +48,6 @@
     <!-- Modal body -->
     <div class="modal-body viewJob_update">
     </div>
-
 </div>
 </div>
 </div>
@@ -67,6 +66,6 @@
 <div id="num"  data-page="{{$data->currentPage()}}">    
  {{$data->links()}} 
 </div>
-<!-- /.card-body -->
+<!-- /card-body -->
 </div>
-<!-- /.card -->
+<!-- /card -->

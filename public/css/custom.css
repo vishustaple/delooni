@@ -124,8 +124,6 @@ nav.main-header .nav-link.active, nav.main-header .nav-link.active:hover {
    background-color: var(--theme-primary-color);
    color: var(--body-clr);
 }
-
-
 .profile-image-wrap{
    border: 3px solid var(--theme-primary-color);
    margin: 0 auto;
@@ -134,18 +132,13 @@ nav.main-header .nav-link.active, nav.main-header .nav-link.active:hover {
    height: 150px;
    border-radius: 100%;
 }
-
 .profile-image-wrap .profile-pic{
    width: 100% !important;
    height: 100% !important;
 }
-
 footer.main-footer{
    text-align: center;
 }
-
-
-
 footer.main-footer a{
    color: var(--body-clr);
 }
@@ -272,5 +265,13 @@ table th{
  }
  .export-btn .info-box-content {
    text-align: center;
+ }
+ .profile-img {
+   border-radius: 100%;
+   width: 40px;
+ }
+ .nav-sidebar .menu-is-opening > .nav-link i.right, .nav-sidebar .menu-open > .nav-link i.right {
+   -webkit-transform: rotate(90deg);
+   transform: rotate(90deg);
  }
 /* css end */

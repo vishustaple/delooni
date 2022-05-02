@@ -62,7 +62,7 @@
         <a href="javascript:void(0)" class="nav-link d-flex">
            <span><i class="nav-icon fa fa-users"></i></span>
           <p>Users</p>
-          <i class="right fa fa-angle-left"></i>
+          <i class="right fa fa-angle-right"></i>
         </a>
         <ul class="nav nav-treeview" style="display: {{ Request::routeIs('customer')|| Request::routeIs('viewserviceprovider') ? 'block' : 'none' }}">
           <li class="nav-item">
@@ -103,7 +103,7 @@
         <a href="javascript:void(0)" class="nav-link d-flex">
            <span><i class="fa fa-twitter nav-icon"></i></span>
           <p>Static content</p>
-          <i class="right fa fa-angle-left"></i>
+          <i class="right fa fa-angle-right"></i>
         </a>
         <ul class="nav nav-treeview" style="display: {{ Request::routeIs('staticcontent')|| Request::routeIs('condition') ? 'block' : 'none' }}">
           <li class="nav-item">
