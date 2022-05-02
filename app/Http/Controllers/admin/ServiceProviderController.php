@@ -154,17 +154,12 @@ catch (\Throwable $th) {
         $getwork=WorkExperience::where('user_id', '=', $id)->first();
         $geteducation=EducationDetail::where('user_id', '=', $id)->first();
         $getservicedetail=Services::where('user_id', '=', $id)->first();
-        $serviceid=$getservicedetail->service_id;
-        $getservicename=Services::where('id', '=', $serviceid)->first();
-        $servicecatid=$getservicedetail->service_cat_id;
+        $servicecatid=$getservicedetail->cat_id;
         $getcatdata=ServiceCategory::where('id', '=', $servicecatid)->first();
-        $subcategory=ServiceCategory::where('id', '=', $servicecatid)->where('is_parent','=',0)->first();
-        if($subcategory){
-            $id=$subcategory->is_parent;
-            $subcategoryname=ServiceCategory::where('id', '=',  $id)->first();
-        }
-        
-        return view('admin.serviceprovider.detailview',compact('data','getwork','geteducation','getservicedetail','getservicename','getcatdata'));
+        $subcatid=$getservicedetail->sub_cat_id;
+        $subcategory=ServiceCategory::where('id', '=', $subcatid)->first();
+     
+        return view('admin.serviceprovider.detailview',compact('data','getwork','geteducation','getservicedetail','getcatdata','subcategory'));
       
      }
      /**
@@ -217,13 +212,13 @@ catch (\Throwable $th) {
      * @return  update form 
      */
      public function UpdateForm($id){ 
-       $data=User::select('*')->where('id', '=', $id)->first();
-       $geteducation=EducationDetail::select('*')->where('user_id', '=', $id)->first();
-       $getwork=WorkExperience::select('*')->where('user_id', '=', $id)->first();
-       $getservices=Services::select('*')->get();
+       $data=User::where('id', '=', $id)->first();
+       $geteducation=EducationDetail::where('user_id', '=', $id)->first();
+       $getwork=WorkExperience::where('user_id', '=', $id)->first();
+       $getservices=Services::where('user_id', '=', $id)->get();
        $categorynames=ServiceCategory::select('*')->get();
-    //    $getwork=WorkExperience::select('*')->where('user_id', '=', $id)->first();
-        return view('admin.serviceprovider.update',compact('data','getwork','geteducation','getservices','categorynames'));
+    
+       return view('admin.serviceprovider.update',compact('data','getwork','geteducation','getservices','categorynames'));
 
     }
 

@@ -3,7 +3,8 @@
                 <ul class="nav nav-pills">
                   <li class="nav-item"><a class="nav-link active" style="cursor:pointer;" id="serviceform" >Add</a></li>
                   
-                  <li class="nav-item search-right">
+                  <li class="nav-item search-right hide">
+                 
                    <div>
                     <div class="input-group" data-widget="sidebar-search" id="searchp">
                       <input class="form-control form-control-sidebar border-0" id="search" type="search" placeholder="Search" aria-label="Search">
@@ -12,7 +13,11 @@
                           <i class="fa fa-search"></i>
                         </button>
                       </div>
-                    </div>                     
+                   
+                    </div> 
+                    <div style="display:none" id="back">
+                  @include('admin.serviceprovider.back')
+                  </div>                    
                    </div>
                   </li>
                 </ul>
@@ -222,6 +227,7 @@ $(document).on('click','.remove',function(){
 
 $(document).on("click", "#serviceform", function(){
   $('#searchp').hide();
+  $('#back').show();
   $(".error").html("");
   $("#createprovider").trigger("reset");
   
@@ -229,6 +235,7 @@ $(document).on("click", "#serviceform", function(){
 
   //update form on update button 
   $('.updateserviceprovider').on('click',function(e){ 
+  $('.card-header.p-2.yellow-bg.menu-is-opening.menu-open').hide();
    e.preventDefault();
    var id=$(this).attr("data-userid");
    console.log(id);

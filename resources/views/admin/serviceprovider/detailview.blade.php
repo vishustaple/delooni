@@ -8,7 +8,7 @@
                   <div class="col-md-6">
                     <h3 class="card-title">Service Provider User</h3>
                   </div>
-                @include('admin.serviceprovider.back')
+                  @include('admin.serviceprovider.back')
                </div>
               </div>
               <!-- /.card-header -->
@@ -140,8 +140,8 @@
                       <div class="form-group row">
                         <label for="Service" class="col-sm-12 col-form-label">Service</label>
                         <div class="col-sm-12">
-                        <input type="text" class="form-control" id="Service" value="{{$getservicename->name}}" readonly>
-                          </div>
+                        <input type="text" class="form-control" id="Service" value="{{$getservicedetail->title}}" readonly>
+                        </div>
                       </div>
                       <div class="form-group row">
                         <label for="Category" class="col-sm-12 col-form-label">Category</label>
@@ -149,12 +149,12 @@
                         <input type="text" class="form-control" id="category" value="{{$getcatdata->name}}" readonly>
                           </div>
                       </div>
-                      <!-- <div class="form-group row">
+                      <div class="form-group row">
                         <label for="subcategory" class="col-sm-2 col-form-label">Sub Category</label>
-                        <div class="col-sm-10">
-                        
-                          </div>
-                      </div> -->
+                        <div class="col-sm-12">
+                        <input type="text" class="form-control" id="category" value="{{$subcategory->name}}" readonly>
+                        </div>
+                      </div>
                       <div class="form-group row">
                          <div class="col-md-4">
                             <label for="price_per_hour" class="col-sm-12 col-form-label">Service Price(/hours)</label>
