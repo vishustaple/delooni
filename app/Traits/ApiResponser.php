@@ -28,7 +28,7 @@ trait ApiResponser
 	protected function error(string $message = '', int $status = 400 , $success = false)
 	{
         $response = ["status" =>  $status, "message" => $message];
-        return response()->json($response,400, $headers = [], $options = JSON_PRETTY_PRINT);
+        return response()->json($response,200, $headers = [], $options = JSON_PRETTY_PRINT);
 	}
 
 	protected function validation($v){
