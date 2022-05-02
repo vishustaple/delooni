@@ -2,7 +2,7 @@
 
 <form class="form-horizontal" id="createprovider" method="post" enctype="multipart/form-data">
     @csrf
-
+   @include('admin.service.back')
     <div class="row">
         <div class="col-md-12 mt-3">
             <h4 class="mb-0">General Details</h4>

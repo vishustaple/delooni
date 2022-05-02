@@ -30,9 +30,9 @@
     <td>{{$value->title}}</td>
     <td>{{$value->description}}</td>
     <td>
-   <img src="{{URL::to('/')}}/profile_image/{{$value->service_image}}" width="100px" height="100px">
+    <img src="{{URL::to('/')}}/profile_image/{{$value->service_image}}" width="100px" height="100px">
     </td>
-   <td>{{$value->price_per_hour}}</td>
+    <td>{{$value->price_per_hour}}</td>
     <td>{{$value->price_per_day}}</td>
     <td>{{$value->price_per_month}}</td>
     <td>{{$value->name}}</td>
@@ -58,7 +58,6 @@
     <!-- Modal body -->
     <div class="modal-body viewJob_update">
     </div>
-
 </div>
 </div>
 </div>

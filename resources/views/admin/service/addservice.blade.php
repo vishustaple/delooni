@@ -74,21 +74,7 @@
         </div>
     </div> 
     </div>
-    <div class="form-group row">
-        <label for="created_by" class="col-sm-12 col-form-label">Select Serviceprovider </label>
-        <div class="col-sm-12 form-control">
-        <select class="select2" id="created_by" name="created_by">
-        <option value="N/A" disabled selected="true">--Select Serviceprovider--</option>
-        @foreach($customers as $customers)
-      <option class="form-drop-items" value="{{$customers->id}}">{{$customers->first_name}} {{$customers->last_name}}</option>
-        @endforeach
-        </select>
-        <div class="error" id="error_created_by">
-        </div>
-      </div> 
-    </div>
-
-    <div class="form-group row">
+   <div class="form-group row">
         <label for="user_id" class="col-sm-12 col-form-label">Select Serviceprovider </label>
         <div class="col-sm-12 form-control">
         <select class="select2" id="user_id" name="user_id">

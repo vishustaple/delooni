@@ -62,15 +62,9 @@
       </div>
     </div> 
     <div class="form-group row">
-      <label for="name" class="col-sm-12 col-form-label">Customer name </label>
+      <label for="first_name" class="col-sm-12 col-form-label">Service Provider name </label>
       <div class="col-sm-12">
-        <input type="text" class="form-control" id="name" value="{{$customer->first_name}}"  name="name"  readonly>
-      </div>
-    </div> 
-    <div class="form-group row">
-      <label for="name" class="col-sm-12 col-form-label">Service Provider name </label>
-      <div class="col-sm-12">
-        <input type="text" class="form-control" id="name" value="{{$serviceprovider->first_name}}"  name="name"  readonly>
+        <input type="text" class="form-control" id="first_name" value="{{$serviceprovider->first_name}}"  name="first_name"  readonly>
       </div>
     </div>  
     <div class="form-group row">
