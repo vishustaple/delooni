@@ -136,6 +136,7 @@ class UserController extends Controller
                 'device_name' => 'required',
                 'device_token' => 'required',
                 'device_type' => 'required',
+                'user_type'=>'required'
             ]
         );
         if ($v->fails()) {
@@ -149,12 +150,23 @@ class UserController extends Controller
                 throw new Exception("wrong OTP");
             }
             $otp->delete();
-
+        
             $user = User::where('phone', $r->phone)->where('country_code', $r->country_code)->first();
+        
             if (empty($user)) {
                 $data = [];
                 $data['is_new_profile'] =  true;
                 return $this->successWithData([], "OTP verified successfully", $data);
+            }
+
+            if ($user->roles->first()->id!=$r->user_type) {
+                throw new Exception("wrong app login");
+            }
+            
+            if ($user->roles->first()->id == User::ROLE_SERVICE_PROVIDER) {
+                $json = "serviceProviderProfile";
+            } else {
+                $json = "customerProfile";
             }
 
             //Genrate API Auth token
@@ -170,12 +182,6 @@ class UserController extends Controller
             $data = [];
             $data['token'] =  $token;
             $data['is_new_profile'] =  false;
-
-            if ($user->roles->first()->id == User::ROLE_SERVICE_PROVIDER) {
-                $json = "serviceProviderProfile";
-            } else {
-                $json = "customerProfile";
-            }
 
             return $this->successWithData($user->$json(), "OTP verified successfully", $data);
         } catch (\Throwable $e) {
@@ -239,7 +245,7 @@ class UserController extends Controller
         }
         $emailVerifiedAt = time();
 
-        if ($r->user_type == "customer") {
+        if ($r->user_type == User::ROLE_CUSTOMER) {
             $register = User::create(
                 [
                     'email' => $r->email,
@@ -288,6 +294,7 @@ class UserController extends Controller
         $data = [];
         $data['token'] =  $token;
         return $this->successWithData($register->$json(), 'Registeration Successfull.',  $data);
+
     }
 
 
@@ -756,7 +763,15 @@ class UserController extends Controller
             return $this->error("No provider found");
         }
         $message = "provider detail";
-        return $this->successWithData($query->serviceProvidercompleteProfile(), $message);
+        return $this->successWithData($query->serviceProviderProfile(), $message);
     }
+    public function viewDetail(){
+      $message = "provider detail";
+     return $this->successWithData(auth()->user()->serviceProviderProfile(), $message);
+    
+    }
+   
+ 
+
 }
 

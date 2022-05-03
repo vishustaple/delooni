@@ -90,8 +90,11 @@ class User extends Authenticatable
         'nationality',
         'whatspp_no'
     ];
-
-    public function rating()
+    public function Favouriteservice()
+    {
+        return $this->hasOne(FavouriteServices::class, 'user_id', 'id');
+    }
+    public function Rating()
     {
         return $this->hasMany(UserRating::class, 'user_id', 'id');
     }
@@ -108,9 +111,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(Services::class, 'user_id', 'id');
     }
-    public function servicecategoryDetail()
+    //get category detail
+    public function servicecategoryDetail($id)
     {
-        return $this->belongsto(ServiceCategory::class, 'id', 'cat_id');
+        return ServiceCategory::where('id','=',$id)->first();
     }
     public function files()
     {
@@ -180,7 +184,11 @@ class User extends Authenticatable
     public function serviceProviderProfile()
     {
         $json = [];
-        $json['email'] = $this->email;
+        $json['email'] = $this->email?? '';
+        $json['dob'] = $this->dob?? '';
+        $json['business_name'] = $this->business_name?? '';
+        $json['first_name'] = $this->first_name?? '';
+        $json['last_name'] = $this->last_name?? '';
         if (!empty($this->profile_image))
             $json['profile_image'] = url('') . '/profile_image/' . $this->profile_image;
         else
@@ -202,13 +210,23 @@ class User extends Authenticatable
         $json['phone'] = $this->phone;
         $json['latitude'] = $this->latitude;
         $json['longitude'] = $this->longitude;
-        $json['whatspp_no'] = $this->whatspp_no?? '';
+        $json['whatsapp_no'] = $this->whatsapp_no?? '';
         $json['snapchat_link'] = $this->snapchat_link?? '';
         $json['instagram_link'] = $this->instagram_link?? '';
         $json['twitter_link'] = $this->twitter_link?? '';
         $json['license_cr_no'] = $this->license_cr_no?? '';
         $json['description'] = $this->description?? '';
-
+        $json['rating'] = $this->rating ?? 0;
+        $json['is_favourite'] = empty($this->Favouriteservice->user_id) ? 0 : 1;
+        //  //get categoryname
+        $catname=$this->servicecategoryDetail($this->serviceDetail->cat_id);
+        $json['category'] = $catname->name;
+         //get subcategory name
+         $subcatname=$this->servicecategoryDetail($this->serviceDetail->sub_cat_id);
+         $json['subcategory'] = $subcatname->name;
+         $json['price_per_hour'] = $this->serviceDetail->price_per_hour;
+         $json['price_per_day'] = $this->serviceDetail->price_per_day;
+         $json['price_per_month'] = $this->serviceDetail->price_per_month;
 
         if (!empty($this->education)) {
             $json['institute_name'] = $this->education->institute_name;
@@ -242,7 +260,7 @@ class User extends Authenticatable
             $json['first_name'] = $this->first_name;
             $json['last_name'] = $this->last_name;
             $json['profile_image'] = env('APP_URL') . 'public/profile_image/' . $this->profile_image;
-            $json['rating'] = $this->rating ?? 0;;
+            $json['rating'] = $this->rating ?? 0;
             $json['is_favourite'] = empty($favourite) ? 0 : 1;
             $json['whatsapp_no'] = $this->whatsapp_no;
             $json['snapchat_link'] = $this->snapchat_link;
@@ -288,14 +306,17 @@ class User extends Authenticatable
         $json['license_cr_no'] = $this->license_cr_no?? '';
         $json['description'] = $this->description?? '';
         $json['rating'] = $this->rating ?? 0;
-        $json['is_favourite'] = empty($favourite) ? 0 : 1;
-        // $json['category'] = $this->serviceDetail->servicecategoryDetail;
-        // dd($this->servicecategoryDetail->name);
-        // dd($this->servicecategoryDetail->name);
-        // $json['Subcategory'] = $this->rating ?? 0;
+        $json['is_favourite'] = empty($this->Favouriteservice->user_id) ? 0 : 1;
+        //get categoryname
+        $catname=$this->servicecategoryDetail($this->serviceDetail->cat_id);
+        $json['category'] = $catname->name;
+        //get subcategory name
+        $subcatname=$this->servicecategoryDetail($this->serviceDetail->sub_cat_id);
+        $json['subcategory'] = $subcatname->name;
+        $json['per_hour_rate'] = $this->serviceDetail->price_per_hour;
+        $json['reviews'] = $this->Rating->count();
+        
        
-
-
         if (!empty($this->education)) {
             $json['institute_name'] = $this->education->institute_name;
             $json['degree'] = $this->education->degree;
