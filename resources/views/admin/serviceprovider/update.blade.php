@@ -209,27 +209,26 @@
                         <div class="error" id="error_description"></div>
                       </div>
                       </div>
-                   
-
+ 
                       <div class="form-group row">
                          <div class="col-md-4">
                             <label for="price_per_hour" class="col-sm-12 col-form-label">Service Price(/hours)</label>
                             <div class="col-sm-12">
-                               <input type="text" class="form-control" id="price_per_hour" value="{{$getservice->price_per_hour}}">
+                               <input type="text" class="form-control" id="price_per_hour" value="{{$getservices->price_per_hour}}">
                             </div>
                          </div>
 
                          <div class="col-md-4">
                          <label for="price_per_day" class="col-sm-12 col-form-label">Service Price(/days)</label>
                             <div class="col-sm-12">
-                            <input type="text" class="form-control" id="price_per_day" value="{{$getservice->price_per_day}}">
+                            <input type="text" class="form-control" id="price_per_day" value="{{$getservices->price_per_day}}">
                               </div>
                           </div>
 
                            <div class="col-md-4">
                            <label for="price_per_month" class="col-sm-12 col-form-label">Service Price(/month)</label>
                             <div class="col-sm-12">
-                            <input type="text" class="form-control" id="price_per_month" value="{{$getservice->price_per_month}}">
+                            <input type="text" class="form-control" id="price_per_month" value="{{$getservices->price_per_month}}">
                               </div>
                            </div>
                       
@@ -279,8 +278,6 @@
                         <div class="error" id="error_brief_of_experience"></div>  
                       </div>
                       </div>
-                     
-                     
                       <div class="form-group row">
                         <div class="col-sm-12 text-center">
                           <button type="submit" class="btn app-button">Update</button>

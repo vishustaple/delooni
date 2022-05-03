@@ -2,7 +2,7 @@
    
 <!-- /.card-header -->
  <div class="card-body p-0" >
-     <div class="table-responsive">
+     <div class="table-responsive table-bordered">
     <table class="table">
     @if(count($datas)>0)
     <thead>
@@ -46,9 +46,7 @@
     </td>
     </tr>
     @empty
-    <center>
-    <h5 class="border p-2"> Screen not Available </h5>
-    </center>
+    <h5 class="text-center p-2"> Screen not Available </h5>
     @endforelse
 </tbody>
 </table>

@@ -16,7 +16,7 @@
     <th>Price (/hour)</th>
     <th>Price (/day)</th>
     <th>Price (/month)</th>
-    <th>Service category</th>
+    <th>Category</th>
     <th>Status</th>
     <th style="width:18%">Action</th>
     </tr>
@@ -29,7 +29,7 @@
     <td>{{$value->name}}</td>
     <td>{{$value->description}}</td>
     <td>
-   <img src="{{URL::to('/')}}/profile_image/{{$value->service_image}}" width="100px" height="100px">
+   <img class="lazyload" src="{{URL::to('/')}}/profile_image/{{$value->service_image}}" width="100px" height="100px">
     </td>
    <td>{{$value->price_per_hour}}</td>
     <td>{{$value->price_per_day}}</td>

@@ -25,7 +25,7 @@
    <td>{{$value->name}}</td>
     <td>{{$value->description}}</td>
     <td>
-    <img src="{{URL::to('/')}}/profile_image/{{$value->service_category_image}}" width="100px" height="100px">
+    <img class="lazyload" src="{{URL::to('/')}}/profile_image/{{$value->service_category_image}}">
     </td>
     <td>@if($value->status==1)
     <button data-id="{{$value->id}}" class="disable_enable btn btn-success btn-xs" onclick="toggleDisableEnable(this)">Activate</button>
@@ -34,8 +34,8 @@
     @endif
     </td>
     <td>
-    <a href='{{route("category.view", $value->id)}}'   target="_blank" class="btn btn-outline-success btn-xs view">Sub category</a>
-    <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-success btn-xs update" class="viewjob_update">Update</button>
+    <a href='{{route("category.view", $value->id)}}'   target="_blank" class="btn btn-outline-dark btn-xs view">Sub category</a>
+    <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-dark btn-xs update" class="viewjob_update">Update</button>
     <!-- The Modal -->
     <div class="modal " id="myModal1">
     <div class="modal-dialog modal-md">
@@ -48,7 +48,6 @@
     <!-- Modal body -->
     <div class="modal-body viewJob_update pt-0">
     </div>
-
 </div>
 </div>
 </div>
@@ -57,7 +56,7 @@
     </tr>
     @empty
     <center>
-    <h5 class="border p-2"> No User Available </h5>
+    <h5 class="border p-2"> No Category Available </h5>
     </center>
     @endforelse
 </tbody>
@@ -70,25 +69,3 @@
 <!-- /.card-body -->
 </div>
 <!-- /.card -->
-  
-       
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

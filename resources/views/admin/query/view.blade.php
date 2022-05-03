@@ -35,9 +35,7 @@
     </td>
     </tr>
     @empty
-    <center>
-    <h5 class="border p-2"> No Query </h5>
-    </center>
+    <h5 class="text-center p-2"> No Query </h5>
     @endforelse
 </tbody>
 </table>

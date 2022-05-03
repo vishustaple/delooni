@@ -28,7 +28,7 @@
                       <div class="form-group row uploadimage">
                         <label for="service_category_image" class="col-sm-12 col-form-label">Service Category Image</label>
                         <div class="col-sm-12">
-                        <img src="{{URL::to('/')}}/profile_image/{{$data->service_category_image}}">
+                        <img class="lazyload" src="{{URL::to('/')}}/profile_image/{{$data->service_category_image}}">
                           </div>
                       </div>  
                     </form>
@@ -80,7 +80,7 @@
         <td>{{$key+1}}</td>
         <td>{{$value->name}}</td>
         <td>
-        <img src="{{URL::to('/')}}/profile_image/{{$value->service_category_image}}" width="100px" height="100px">
+        <img class="lazyload" src="{{URL::to('/')}}/profile_image/{{$value->service_category_image}}">
         </td>
         <td>{{$value->is_parent}}</td>
         <td>@if($value->status==1)
@@ -91,7 +91,7 @@
     </td>
     <td>
     <!-- <a href='{{route("category.view", $value->id)}}'   target="_blank" class="btn btn-outline-success btn-xs view">View</a> -->
-    <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-success btn-xs update" class="viewjob_update">Update</button>
+    <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-dark btn-xs update" class="viewjob_update">Update</button>
     <!-- The Modal -->
     <div class="modal " id="myModal1">
     <div class="modal-dialog modal-md">

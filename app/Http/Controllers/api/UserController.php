@@ -220,7 +220,7 @@ class UserController extends Controller
         } else {
             $val = [
                 'user_type' => 'required',
-                'business_name' => 'required',
+                // 'business_name' => 'required',
                 'first_name' => 'required',
                 'last_name' => 'required',
                 'email' => 'required|email|unique:users|max:255',

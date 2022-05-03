@@ -15,7 +15,7 @@
                   </li>
                 </ul>
               </div>
-<div class="card" id="data">
+          <div class="card" id="data">
              <div class="card-body">
                 <div class="tab-content">
                   <div class="active tab-pane" id="view">

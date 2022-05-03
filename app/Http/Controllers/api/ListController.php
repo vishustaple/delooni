@@ -32,7 +32,6 @@ class ListController extends Controller
     public function getcategories()
     {
         $categories = ServiceCategory::where('is_parent', ServiceCategory::IS_PARENT)->with('subcategories')->paginate();
-        dd($categories);
         $getbanners = \App\Models\ServiceBanner::get()->toArray();
         return $this->customPaginator($categories, 'jsonData', ['service_banners' => $getbanners]);
     }
