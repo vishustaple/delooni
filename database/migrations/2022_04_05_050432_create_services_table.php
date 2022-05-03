@@ -15,7 +15,7 @@ class CreateServicesTable extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('title')->nullable();
             $table->longtext('description')->nullable();
             $table->string('service_image')->nullable();
             $table->integer("cat_id");
@@ -27,7 +27,6 @@ class CreateServicesTable extends Migration
             $table->integer('status')->default(1)->comment("1=> active, 2=>inactive");
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
-
             $table->timestamps();
 
         });

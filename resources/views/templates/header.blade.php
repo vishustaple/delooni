@@ -3,7 +3,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}" />
   <meta name="base-url" content="{{url('/')}}"/>
-  <title>Base | Dashboard</title>
+  <title>Delooni | Dashboard</title>
   <!-- sweetalert pop up -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <!-- Google map: location google api -->
