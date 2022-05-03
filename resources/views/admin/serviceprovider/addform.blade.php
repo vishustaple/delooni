@@ -73,23 +73,40 @@
             </div>
         </div>
     
+        {{-- <div class="col-md-6">
+            <div class="form-group">
+                <label class="col-form-label" for="img">Upload image</label>
+                <input type="file" class="form-control choose-file-box" id="img" name="img" accept="image/*">
+                <div class="error" id="error_img"></div>
+            </div>
+        </div> --}}
+
         <div class="col-md-6">
             <div class="form-group">
-                <label for="img">Upload image</label>
-                <input type="file" class="form-control" id="img" name="img" accept="image/*">
-                <div class="error" id="error_img">
-                </div>
+                <label for="screen_baner_image" class="col-sm-12 col-form-label">Upload image</label>
+                <div class="choose-file-box-col">
+                <input type="file" class="form-control choose-file-box" id="img" ame="img" accept="image/*">
+                <div class="error" id="error_img"></div>
+            </div>
+            </div>
+        </div> 
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="screen_baner_image" class="col-sm-12 col-form-label">Upload Video(Brief of Service provider)</label>
+                <div class="choose-file-box-col">
+                <input type="file" class="form-control choose-file-box" id="video" name="video" accept="video/*">
+                <div class="error" id="error_video"></div></div>
             </div>
         </div>
 
-        <div class="col-md-6">
+        {{-- <div class="col-md-6">
             <div class="form-group">
                 <label for="img">Upload Video(Brief of Service provider)</label>
                 <input type="file" class="form-control" id="video" name="video" accept="video/*">
                 <div class="error" id="error_video">
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="col-md-6">
             <div class="form-group">

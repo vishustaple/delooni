@@ -1,7 +1,7 @@
-<form class="form-horizontal"  id="add_category"  method="post"  enctype="multipart/form-data">
+  <form class="form-horizontal"  id="add_category"  method="post"  enctype="multipart/form-data">
                       @csrf
                       <div class="form-group row">
-                        <label for="name" class="col-sm-12 col-form-label">Name </label>
+                        <label for="name" class="col-sm-12 col-form-label">Name</label>
                         <div class="col-sm-12">
                           <input type="text" class="form-control" id="name" name="name" placeholder="Enter Category Name">
                           <div class="error" id="error_name">
@@ -15,15 +15,16 @@
                           <div class="error" id="error_description">
                           </div>
                         </div>
-                      </div>
-                       <div class="form-group row">
-                        <label for="service_category_image" class="col-sm-12 col-form-label">Service Category Image </label>
+                      </div>                       
+                      <div class="form-group row">
+                        <label for="screen_baner_image" class="col-sm-12 col-form-label">Screen Baner Image</label>
                         <div class="col-sm-12">
-                          <input type="file" class="form-control" id="service_category_image" name="service_category_image" placeholder="Upload Service category Image">
-                          <div class="error" id="error_service_category_image">
-                         </div>
+                          <input type="file" class="form-control" id="screen_baner_image" name="screen_baner_image" placeholder="Upload Screen Baner Image">
+                          <div class="error" id="error_screen_baner_image">
+                          </div>
                         </div>
-                      </div>                    
+                      </div>
+
                       <div class="form-group row">
                         <div class="col-sm-12 text-center">
                           <button type="submit" class="btn app-button">Submit</button>

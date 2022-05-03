@@ -31,7 +31,7 @@
               </div>
               <div class="card-body py-0">
                 <div class="tab-content">
-                  <div class="active tab-pane" id="view">
+                  <div class="active tab-pane register-blk export-btn" id="view">
                   @include('admin.report.view')
                  </div>
                   <!-- /.tab-pane -->
