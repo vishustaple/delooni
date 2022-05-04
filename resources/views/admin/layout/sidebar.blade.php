@@ -12,14 +12,14 @@
               <p>Dashboard</p>
             </a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a href="{{url('/admin/profile')}}" class="nav-link">
               <i class="fa fa-id-badge nav-icon"></i>
               <p>Account</p>
             </a>
           </li>
         </ul>
-      </li>
+      </li> -->
      
       <li class="nav-item">
         <a href="{{url('/admin/category')}}" class="nav-link">
@@ -123,17 +123,15 @@
       </li>
       
      <!--Users End-->
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a href="{{url('/admin/logout')}}" class="nav-link">
           <i class="fa fa-sign-out nav-icon"></i>
           <p>
             Logout
           </p>
         </a>
-      </li>
-
-
-    </ul>
+      </li> -->
+ </ul>
   </nav>
   <!-- /.sidebar-menu -->
   <script>

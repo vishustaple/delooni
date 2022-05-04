@@ -81,6 +81,7 @@ catch (\Throwable $th) {
         "license_cr_no" => $request->licensenumber,
         "license_cr_photo" => $this->uploadImage($request->licensephoto, 'profile_image'),
         "dob"=> $request->dateofbirth,
+        "service_provider_type"=> $request->service_provider_type,
         "description" => $request->description,
         "profile_image" => $this->uploadImage($request->img, 'profile_image'),
         "profile_video"=>$this->UploadImage($request->video,'profile_video'),
@@ -261,6 +262,7 @@ catch (\Throwable $th) {
         $user->twitter_link = $request->twitter ?? $user->twitter_link;
         $user->license_cr_no = $request->licensenumber ?? $user->license_cr_no;
         $user->dob = $request->dateofbirth ?? $user->dob;
+        $user->service_provider_type = $request->service_provider_type ?? $user->service_provider_type;
         $user->description = $request->description ?? $user->description;
         $user->profile_video = $profilevideo;
         $user->profile_image = $profileimg;

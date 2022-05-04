@@ -74,7 +74,7 @@
     
         <div class="col-md-6">
             <div class="form-group">
-                <label for="img" class="col-sm-12 col-form-label">Upload image</label>
+                <label class="col-sm-12 col-form-label">Upload image</label>
                 <div class="choose-file-box-col">
                 <input type="file" class="form-control choose-file-box" id="img" name="img" accept="image/*">
                 <div class="error" id="error_img"></div>
@@ -189,6 +189,19 @@
                 <input type="date" class="form-control" id="dateofbirth" name="dateofbirth"
                     placeholder="Enter Your Date of Birth  ">
                 <div class="error" id="error_dateofbirth">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="service_provider_type">Service Provider Type</label>
+                 <select class="form-control select2" id="service_provider_type" name="service_provider_type" placeholder="Service Provider Type">
+                        <option value="N/A">Service Provider Type</option>
+                        <option value="Individual" name="service_provider_type">Individual</option>
+                        <option value="Company" name="service_provider_type">Company</option>
+                        </select>
+                <div class="error" id="error_service_provider_type">
                 </div>
             </div>
         </div>

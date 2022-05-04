@@ -36,6 +36,7 @@ class ServiceProviderRequest extends FormRequest
             'video'=>'required|mimes:mp4',
             'nationality' => 'required',
             'address' => 'required',
+            'service_provider_type' => 'required',
             'whatsappNumber' => 'required',
             'snapchat' => 'required',
             'instagram' => 'required',

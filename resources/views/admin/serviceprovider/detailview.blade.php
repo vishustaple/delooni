@@ -130,6 +130,13 @@
                         <input type="text" class="form-control" id="dob" value="{{$data->dob}}" readonly>
                           </div>
                       </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="service_provider_type" class="col-sm-12 col-form-label">Service Provider Type</label>
+                        <div class="col-sm-12">
+                        <input type="text" class="form-control" id="service_provider_type" value="{{$data->service_provider_type}}" readonly>
+                         </div>
+                      </div>
                       <div class="form-group row">
                         <label for="description" class="col-sm-12 col-form-label">Add Description</label>
                         <div class="col-sm-12">

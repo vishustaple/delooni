@@ -144,6 +144,19 @@
                         <div class="error" id="error_dateofbirth"></div>
                       </div>
                       </div>
+
+                      <div class="form-group row">
+                        <label for="service_provider_type" class="col-sm-12 col-form-label">Select Service Provider Type </label>
+                        <div class="col-sm-12">
+                        <select name="service_provider_type" id="service_provider_type" class="form-control select2">
+                        <option value="{{ $data->service_provider_type   ? 'selected' : '' }}">{{ $data->service_provider_type }}</option>
+                          <option value="Individual" name="service_provider_type">Individual</option>
+                          <option value="Company" name="service_provider_type">Company</option>
+                       
+                      </select>
+                      </div>
+                      </div> 
+
                       <div class="form-group row">
                         <label for="description" class="col-sm-12 col-form-label">Add Description</label>
                         <div class="col-sm-12">

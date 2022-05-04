@@ -41,6 +41,7 @@ class UpdateServiceProviderRequest extends FormRequest
             'licensenumber' => 'required|numeric',
             'licensephoto' => $this->id== null?'required':'',
             'dateofbirth' => 'required',
+            'service_provider_type' => 'required',
             'description' => 'required',
             'price_per_hour'=>"required",
             'price_per_day'=>"required",

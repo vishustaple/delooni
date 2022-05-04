@@ -1,12 +1,6 @@
-<div class="form-inline">
+<div class="">
         <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fa fa-search"></i>
-            </button>
-          </div>
-        </div>
+       </div>
       </div>
       <script>
         $(document).ready(function(){

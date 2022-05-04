@@ -44,6 +44,9 @@ public function storeservice(Request $request){
         'price_per_hour' => 'numeric',
         'price_per_day' => 'numeric',
         'price_per_month' => 'numeric',
+        'cat_id' => 'required',
+        'user_id' => 'required',
+        'currency' => 'required|max:10',
     ]);
      $insert = new Services;
      $insert->title = $request->title;
@@ -113,6 +116,9 @@ public function status_service(Request $request){
      'price_per_month' => 'required',
      'description' => 'required',
      'service_image' => 'image|mimes:jpg,png,jpeg,gif,svg',
+     'cat_id' => 'required',
+     'user_id' => 'required',
+     
      ]);
      $user = Services::find($request->id);
     if($request->service_image)
@@ -143,7 +149,10 @@ public function status_service(Request $request){
 */
 public function searchservice(Request $request){
     $search = $request->search;
-    $qry = Services::select('*');
+    $qry = Services::join('service_categories','services.cat_id','=','service_categories.id')
+    ->join('users','services.user_id','=','users.id')
+     ->select('services.id','services.status','services.title','services.description','services.service_image',
+    'services.price_per_hour','services.price_per_day','services.price_per_month','service_categories.name','users.first_name');
     if(!empty($search)){
         $qry->where(function($q) use($search){
             $q->where('title','like',"%$search%");
