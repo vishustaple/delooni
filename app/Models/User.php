@@ -158,8 +158,15 @@ class User extends Authenticatable
             $json['address'] = $this->address;
         }
         if ($this->roles->first()->id == User::ROLE_SERVICE_PROVIDER) {
-
+            if (!empty($this->profile_image))
+            $json['profile_image'] = url('') . '/profile_image/' . $this->profile_image;
+        else
+            $json['profile_image'] = "";
             $json['business_name'] = $this->business_name ?? '';
+            $json['rating'] = !empty($this->rating)?$this->rating:'0';
+            $json['is_favourite'] = empty($this->Favouriteservice->user_id) ? 0 : 1;
+            $json['service'] = !empty($this->serviceDetail->serviceCategory)?$this->serviceDetail->serviceCategory->name:"";
+
         }
         return $json;
     }

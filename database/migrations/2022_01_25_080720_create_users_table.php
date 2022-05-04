@@ -36,7 +36,7 @@ class CreateUsersTable extends Migration
             $table->string('other_spoken_language')->nullable()->comment("input");
             $table->string('primary_mode_of_transport')->nullable()->comment("select box");
             $table->enum('service_provider_type', ['default', 'individual','company'])->default('default')->comment("default => it might be customer, guest but not service provider.");
-            $table->string('rating')->nullable();
+            $table->string('rating')->default(0);
             $table->string('profile_image')->nullable();
             $table->string('cover_image')->nullable();
             $table->string('profile_video')->nullable();

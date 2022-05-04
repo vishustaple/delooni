@@ -19,11 +19,11 @@
     <div class="dropdown profile-drop ml-auto">
       <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-expanded="false" class="nav-link txt-loki d-inline-flex align-items-center">
           <div class="sm-profile">
-            <img class="profile-img" src="https://indeedtraining.in/loki/public/images/user_default.png" alt="Profile">
+            <img class="profile-img" src="{{asset('/').('images/'.(auth()->user()->profile_image))}}" alt="Profile">
                             </div>
       </a>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="left: inherit; right: 0px;">
-          <a class="dropdown-item" href="https://indeedtraining.in/delooni/public/admin/profile"><i class="fa fa-user-circle-o pr-2" aria-hidden="true"></i> Profile</a>
-          <a class="dropdown-item" href="https://indeedtraining.in/delooni/public/admin/logout"><i class="fa fa-sign-out pr-2" aria-hidden="true"></i> Logout</a>
+      <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuLink" style="left: inherit; right: 0px;">
+          <a class="dropdown-item" href="{{url('/admin/profile')}}"><i class="fa fa-user-circle-o pr-2" aria-hidden="true"></i> Profile</a>
+          <a class="dropdown-item" href="{{url('/admin/logout')}}"><i class="fa fa-sign-out pr-2" aria-hidden="true"></i> Logout</a>
       </div>
   </div>

@@ -1,5 +1,5 @@
 <div class="card shadow-none border-0">
-              <div class="card-header px-0 border-0">
+              <div class="card-header border-0 yellow-bg">
                 <div class="row align-items-center">
                   <div class="col-md-6">
                     <h3 class="card-title font-weight-bold">Update User</h3> 
@@ -9,7 +9,7 @@
               </div>
               <!-- /.card-header -->
              
-             <div class="card-body p-0 border-0" id="updateUser">
+             <div class="card-body border-0" id="updateUser">
              <form class="form-horizontal" action="{{url('/')}}/updateproviderdata" id="update_provider" method="post">
                       @csrf
                       <input type="hidden" name="id" value="{{$data->id}}">
