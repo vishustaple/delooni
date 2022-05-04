@@ -27,14 +27,14 @@
                         <div class="col-md-6">
                           <label for="first_name" class="col-sm-12 col-form-label">First Name</label>
                           <div class="col-sm-12">
-                            <input type="text" class="form-control" id="firstname" value="{{$data->first_name}}">
+                            <input type="text" class="form-control" id="firstname" name="firstname" value="{{$data->first_name}}">
                           </div>
                         </div>
 
                         <div class="col-md-6">
                           <label for="lastname" class="col-sm-12 col-form-label">Last Name</label>
                           <div class="col-sm-12">
-                            <input type="text" class="form-control" id="lastname" value="{{$data->last_name}}">
+                            <input type="text" class="form-control" id="lastname" name="lastname" value="{{$data->last_name}}">
                           </div>
                         </div>
                        
@@ -84,14 +84,14 @@
                         <div class="col-md-6">
                           <label for="phone" class="col-sm-12 col-form-label">Phone Number</label>
                             <div class="col-sm-12">
-                              <input type="text" class="form-control" id="phone" value="{{$data->phone}}" >
+                              <input type="text" class="form-control" id="phone" name="phone" value="{{$data->phone}}" >
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <label for="whatsapp" class="col-sm-12 col-form-label">Whatsapp Number</label>
                             <div class="col-sm-12">
-                            <input type="text" class="form-control" id="whatsapp" value="{{$data->whatsapp_no}}" >
+                            <input type="text" class="form-control" id="whatsapp" name="whatsappNumber" value="{{$data->whatsapp_no}}" >
                           </div>
                         </div>
                         
@@ -100,21 +100,21 @@
                         <div class="col-md-4">
                           <label for="snapchat" class="col-sm-12 col-form-label">SnapChat Link</label>
                             <div class="col-sm-12">
-                             <input type="text" class="form-control" id="snapchat" value="{{$data->snapchat_link}}">
+                             <input type="text" class="form-control" id="snapchat" name="snapchat" value="{{$data->snapchat_link}}">
                             </div>
                         </div>
 
                         <div class="col-md-4">
                           <label for="instagram" class="col-sm-12 col-form-label">Instagram Link</label>
                             <div class="col-sm-12">
-                             <input type="text" class="form-control" id="instagram" value="{{$data->instagram_link}}">
+                             <input type="text" class="form-control" id="instagram" name="instagram" value="{{$data->instagram_link}}">
                             </div>
                         </div>
 
                         <div class="col-md-4">
                         <label for="twitter" class="col-sm-12 col-form-label">Twitter Link</label>
                         <div class="col-sm-12">
-                        <input type="text" class="form-control" id="twitter" value="{{$data->twitter_link}}">
+                        <input type="text" class="form-control" id="twitter" name="twitter" value="{{$data->twitter_link}}">
                           </div>
                         </div>
                         
@@ -151,21 +151,7 @@
                         <div class="error" id="error_description"></div>
                       </div>
                       </div>
-
-                      <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="service_category_id" class="col-md-6 col-form-label">Select Services :</label>
-                        <select class="form-control select2" id="service_services" name="service_services">
-                        <option value="N/A" disabled selected="true">--Select Services--</option>
-                        @foreach($getservices as $getservice)
-                        <option class="form-drop-items" value="{{$getservice->id}}">{{$getservice->title}}</option>
-                         @endforeach
-                       </select>
-                        <div class="error" id="error_service_services">
-                        </div>
-                    </div>
-                </div-->
-                <div class="col-md-6">
+                   <div class="col-md-6">
                     <div class="form-group">
                         <label for="service_category_id" class="col-md-6 col-form-label">Select category :</label>
                         <select class="form-control select2" id="service_category_id" name="service_category_id">
@@ -186,56 +172,29 @@
                         <div class="error" id="error_subcategory"></div>
                       </div>
                       </div>
-                
-                      <!---->
-                      <div class="form-group row">
-                        <label for="description" class="col-sm-12 col-form-label"> Services</label>
-                        <div class="col-sm-12">
-                        <input type="text" class="form-control" id="description" name="description" value="{{$data->description}}" >
-                        <div class="error" id="error_description"></div>
-                      </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="description" class="col-sm-12 col-form-label"> category</label>
-                        <div class="col-sm-12">
-                        <input type="text" class="form-control" id="description" name="description" value="{{$data->description}}" >
-                        <div class="error" id="error_description"></div>
-                      </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="description" class="col-sm-12 col-form-label">Sub category</label>
-                        <div class="col-sm-12">
-                        <input type="text" class="form-control" id="description" name="description" value="{{$data->description}}" >
-                        <div class="error" id="error_description"></div>
-                      </div>
-                      </div>
- 
-                      <div class="form-group row">
+                 <div class="form-group row">
                          <div class="col-md-4">
                             <label for="price_per_hour" class="col-sm-12 col-form-label">Service Price(/hours)</label>
                             <div class="col-sm-12">
-                               <input type="text" class="form-control" id="price_per_hour" value="{{$getservices->price_per_hour}}">
+                               <input type="text" class="form-control" id="price_per_hour" name="price_per_hour"  value="{{$servicename->price_per_hour}}">
                             </div>
                          </div>
-
-                         <div class="col-md-4">
+                       <div class="col-md-4">
                          <label for="price_per_day" class="col-sm-12 col-form-label">Service Price(/days)</label>
                             <div class="col-sm-12">
-                            <input type="text" class="form-control" id="price_per_day" value="{{$getservices->price_per_day}}">
+                            <input type="text" class="form-control" id="price_per_day"  name="price_per_day"  value="{{$servicename->price_per_day}}">
                               </div>
                           </div>
-
-                           <div class="col-md-4">
+                          <div class="col-md-4">
                            <label for="price_per_month" class="col-sm-12 col-form-label">Service Price(/month)</label>
                             <div class="col-sm-12">
-                            <input type="text" class="form-control" id="price_per_month" value="{{$getservices->price_per_month}}">
+                            <input type="text" class="form-control" id="price_per_month" name="price_per_month"  value="{{$servicename->price_per_month}}">
                               </div>
                            </div>
                       
                       </div>
 
-
-                      <!--service detail end-->
+                    <!--service detail end-->
                       <div class="form-group row">
                         <label for="institutename" class="col-sm-12 col-form-label">College/School Name</label>
                         <div class="col-sm-12">

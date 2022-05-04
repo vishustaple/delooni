@@ -20,7 +20,7 @@
                       </div>
                       @else
                       @endif
-                    <label for="service_category_image" class="col-sm-12 col-form-label">Uploaded image</label>
+                    <label  class="col-sm-12 col-form-label">Uploaded image</label>
                         <div class="col-sm-12">
                           <img class="lazyload mb-3" src="{{URL::to('/')}}/profile_image/{{$categoryData->service_category_image}}">
                           <input type="file" class="form-control" id="service_category_image" name="service_category_image" accept="image/*">

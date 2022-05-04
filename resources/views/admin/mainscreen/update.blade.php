@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="form-group row uploadimage">
-      <label for="screen_image" class="col-sm-12 col-form-label">Service Category Image</label>
+      <label class="col-sm-12 col-form-label">Service Category Image</label>
       <div class="col-sm-12">
       <img src="{{URL::to('/')}}/profile_image/{{$screenData->screen_image}}">
         <input type="file" class="form-control" id="screen_image" name="screen_image" value="{{$screenData->screen_image}}">

@@ -10,7 +10,7 @@
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label for="screen_image" class="col-sm-12  col-form-label">Service Category Image </label>
+                        <label class="col-sm-12  col-form-label">Service Category Image </label>
                         <div class="col-sm-12 ">
                           <input type="file" class="form-control" id="screen_image" name="screen_image" placeholder="Upload Screen Image">
                           <div class="error" id="error_screen_image">

@@ -136,14 +136,7 @@
                         <textarea class="form-control" id="description"  readonly>{{$data->description}}</textarea>
                           </div>
                       </div>
-                      <!--servicedetail start-->
-                      <div class="form-group row">
-                        <label for="Service" class="col-sm-12 col-form-label">Service</label>
-                        <div class="col-sm-12">
-                        <input type="text" class="form-control" id="Service" value="{{$getservicedetail->title}}" readonly>
-                        </div>
-                      </div>
-                      <div class="form-group row">
+                   <div class="form-group row">
                         <label for="Category" class="col-sm-12 col-form-label">Category</label>
                         <div class="col-sm-12">
                         <input type="text" class="form-control" id="category" value="{{$getcatdata->name}}" readonly>

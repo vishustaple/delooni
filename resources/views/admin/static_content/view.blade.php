@@ -10,7 +10,7 @@
     <thead>
     <tr>
     <th style="width: 10px">S.no.</th>
-   <th style="width: 40%">Screen Baner Image</th>
+   <th style="width: 40%">Screen Banner Image</th>
      <th style="width: 20%">Action</th>
     </tr>
     </thead>

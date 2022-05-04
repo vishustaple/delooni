@@ -73,7 +73,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/update', [CustomerController::class, 'view_update'])->name('update');
         Route::post('/customer/update', [CustomerController::class, 'update_customer'])->name('customer.update');
         Route::get('/customer/search', [CustomerController::class, 'search_customer'])->name('customer.search');
-        Route::get('/customer/back',[CategoryController::class,'customerBack']);
+        Route::get('/customer/back',[CustomerController::class,'customerBack']);
 
       //******************************************Admin Manage Category*********************************************//
         Route::get('/category', [CategoryController::class, 'categoryView'])->name('category');

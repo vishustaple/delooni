@@ -33,7 +33,7 @@ class StaticContentController extends Controller
       $insert = new StaticContent;
        $insert->screen_baner_image  = $this->uploadImage($request->screen_baner_image, 'profile_image');
       $insert->save();
-      return response()->json(redirect()->back()->with('success','Static Content Add Successfully'));
+      return response()->json(redirect()->back()->with('success','Banner Image Add Successfully'));
         }
 
       /**
