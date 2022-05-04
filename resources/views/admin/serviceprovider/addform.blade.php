@@ -2,7 +2,6 @@
 
 <form class="form-horizontal" id="createprovider" method="post" enctype="multipart/form-data">
     @csrf
-
     <div class="row">
         <div class="col-md-12 mt-3">
             <h4 class="mb-0">General Details</h4>
@@ -73,19 +72,15 @@
             </div>
         </div>
     
-        {{-- <div class="col-md-6">
-            <div class="form-group">
-                <label class="col-form-label" for="img">Upload image</label>
-                <input type="file" class="form-control choose-file-box" id="img" name="img" accept="image/*">
-                <div class="error" id="error_img"></div>
-            </div>
-        </div> --}}
-
         <div class="col-md-6">
             <div class="form-group">
+<<<<<<< HEAD
                 <label for="screen_baner_image" class="col-sm-12 col-form-label">Upload image</label>
+=======
+                <label for="img" class="col-sm-12 col-form-label">Upload image</label>
+>>>>>>> 458a66937df2c2614d70b0dcc4e6ad694dfd5532
                 <div class="choose-file-box-col">
-                <input type="file" class="form-control choose-file-box" id="img" ame="img" accept="image/*">
+                <input type="file" class="form-control choose-file-box" id="img" name="img" accept="image/*">
                 <div class="error" id="error_img"></div>
             </div>
             </div>
@@ -99,22 +94,13 @@
             </div>
         </div>
 
-        {{-- <div class="col-md-6">
-            <div class="form-group">
-                <label>Upload Video(Brief of Service provider)</label>
-                <input type="file" class="form-control" id="video" name="video" accept="video/*">
-                <div class="error" id="error_video">
-                </div>
-            </div>
-        </div> --}}
-
         <div class="col-md-6">
             <div class="form-group">
                 <label for="Nationality" class="col-sm-6 col-form-label">Nationality</label>
                 <select class="form-control select2" id="nationality" name="nationality">
                 <option value="N/A" disabled selected="true">--Select Nationality--</option>
                 @foreach($getcountry as $getcountries)
-                <option class="form-drop-items" value="{{$getcountries->id}}" data-iconurl="{{URL::to('/')}}/flag/{{$getcountries->flag}}">{{$getcountries->country_name}}</option>
+                <option class="form-drop-items" value="{{$getcountries->country_name}}" data-iconurl="{{URL::to('/')}}/flag/{{$getcountries->flag}}">{{$getcountries->country_name}}</option>
                 @endforeach
                 </select>
                 <div class="error" id="error_nationality">

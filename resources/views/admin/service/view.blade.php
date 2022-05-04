@@ -16,7 +16,8 @@
     <th>Price (/hour)</th>
     <th>Price (/day)</th>
     <th>Price (/month)</th>
-    <th>Category</th>
+    <th>Service category</th>
+    <th>Service Provider name</th>
     <th>Status</th>
     <th style="width:18%">Action</th>
     </tr>
@@ -26,15 +27,16 @@
     @forelse($data as $key=>$value)
     <tr>
     <td>{{$key+1}}</td>
-    <td>{{$value->name}}</td>
+    <td>{{$value->title}}</td>
     <td>{{$value->description}}</td>
     <td>
    <img class="lazyload" src="{{URL::to('/')}}/profile_image/{{$value->service_image}}" width="100px" height="100px">
     </td>
-   <td>{{$value->price_per_hour}}</td>
+    <td>{{$value->price_per_hour}}</td>
     <td>{{$value->price_per_day}}</td>
     <td>{{$value->price_per_month}}</td>
     <td>{{$value->name}}</td>
+    <td>{{$value->first_name}}</td>
     <td>@if($value->status==1)
     <button data-id="{{$value->id}}" class="disable_enable btn btn-success btn-xs" onclick="toggleDisableEnable(this)">Activate</button>
     @else
@@ -43,7 +45,7 @@
     </td>
     <td>
     <a href='{{route("service.view", $value->id)}}'   target="_blank" class="btn btn-outline-dark btn-xs view">View</a>
-    <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-dark btn-xs update" class="viewjob_update">Update</button>
+    <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-dark btn-xs update">Update</button>
     <!-- The Modal -->
     <div class="modal " id="myModal1">
     <div class="modal-dialog modal-md">
@@ -56,7 +58,6 @@
     <!-- Modal body -->
     <div class="modal-body viewJob_update">
     </div>
-
 </div>
 </div>
 </div>

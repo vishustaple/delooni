@@ -152,7 +152,7 @@ class CustomerController extends Controller
      * @return  redirect at home page
   */
   public function  customerBack()
-  {
+  { 
     $url = route('customer');
     return $url;
   }

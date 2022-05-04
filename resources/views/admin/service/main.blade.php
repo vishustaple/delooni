@@ -220,34 +220,35 @@ $(document).on('click', '.pagination a', function(event){
  fetch_data(page);
  
 });
-//ajax for subcategory
-$(document).on('change','.category',function(e){
-            var id = e.target.value;
-            console.log(id);
-            var url = '{{ route("service.category", ":id") }}';
-             url = url.replace(':id', id );
-            //ajax
-            $.ajax({
-            type:'get',
-            url:url,
-            cache: false,
-            contentType: false,
-            processData: false,
-            headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                      },
-              success:function(response){
-              console.log(response);
-              var subcategories = '<select class="form-control select2" id="_service_category_id" name="_service_category_id"><option value="N/A" disabled selected="true">--Select category--</option>';
-              $.each(response, function (key, value) {
-                subcategories += '<option class="form-drop-items" value='+value.id+'>'+value.name+'</option>';
-              });
-              subcategories += '</select>';
-              $("#subcategory").html(subcategories);
-                },
-              error:function(error){
-                console.log(error);
-          }
+        $(document).on('change','#service_category_id',function(e){
+          var id = e.target.value;
+          console.log(id);
+          var url = '{{ route("service.category", ":id") }}';
+           url = url.replace(':id', id );
+          //ajax
+          $.ajax({
+          type:'get',
+          url:url,
+          cache: false,
+          contentType: false,
+          processData: false,
+          headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+            success:function(response){
+            console.log(response);
+            var subcategories = '<select class="form-control select2" id="_service_category_id" name="_service_category_id"><option value="N/A" disabled selected="true">--Select sub category--</option>'; 
+            $.each(response, function (key, value) {                     
+            subcategories += '<option class="form-drop-items" value='+value.id+'>'+value.name+'</option>';
+            });   
+            subcategories += '</select>'; 
+
+            $("#subcategory").html(subcategories);  
+              },
+
+            error:function(error){                                     
+              console.log(error);
+        }
 });
 });
 </script>

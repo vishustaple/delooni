@@ -5,7 +5,7 @@
                 <ul class="nav nav-pills">
                 <li class="nav-item"><a class="nav-link active" style="cursor:pointer" 
                         data-toggle="modal" 
-                        data-target="#myModal">Add Screen Baner</a></li>
+                        data-target="#myModal">Add Screen Banner</a></li>
                    <!-- The Modal -->
                     <div class="modal" id="myModal"> 
                       <div class="modal-dialog modal-md">

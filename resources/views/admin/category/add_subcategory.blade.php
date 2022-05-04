@@ -9,7 +9,7 @@
                         </div>
                       </div>
                  <div class="form-group row">
-                        <label for="service_category_image" class="col-sm-12 col-form-label">Sub category Image </label>
+                        <label class="col-sm-12 col-form-label">Sub category Image </label>
                         <div class="col-sm-12">
                           <input type="file" class="form-control" id="service_category_image" name="service_category_image" placeholder="Upload Service category Image">
                           <div class="error" id="error_service_category_image">

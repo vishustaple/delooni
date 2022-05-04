@@ -1,10 +1,10 @@
 <form class="form-horizontal"  id="add_service"  method="post"  enctype="multipart/form-data">
       @csrf
       <div class="form-group row">
-        <label for="name" class="col-sm-12 col-form-label">Service Name </label>
+        <label for="title" class="col-sm-12 col-form-label">Service Name </label>
         <div class="col-sm-12">
-          <input type="text" class="form-control" id="name" name="name" placeholder="Enter Service Name">
-          <div class="error" id="error_name">
+          <input type="text" class="form-control" id="title" name="title" placeholder="Enter Service Name">
+          <div class="error" id="error_title">
           </div>
         </div>
       </div>
@@ -16,14 +16,14 @@
           </div>
         </div>
       </div>
-  {{-- <div class="form-group row">
-        <label for="service_image" class="col-sm-12 col-form-label">Service Category Image </label>
+  <div class="form-group row">
+        <label class="col-sm-12 col-form-label">Service Category Image </label>
         <div class="col-sm-12">
           <input type="file" class="form-control" id="service_image" name="service_image" placeholder="Upload Service Image">
           <div class="error" id="error_service_image">
           </div>
         </div>
-      </div>   --}}
+      </div>   
       <div class="form-group row">
         <label for="screen_baner_image" class="col-sm-12 col-form-label">Screen Baner Image</label>
         <div class="col-sm-12 choose-file-box-col">
@@ -62,7 +62,7 @@
       <div class="form-group row">
         <label for="service_category_id" class="col-sm-12 col-form-label">Select category </label>
         <div class="col-sm-12 form-control">
-        <select class="category select2" id="service_category_id"   name="service_category_id">
+        <select class="category select2" id="service_category_id"   name="cat_id">
         <option value="N/A" disabled selected="true">--Select category--</option>
         @foreach($categorynames as $categoryname)
       <option class="form-drop-items" value="{{$categoryname->id}}">{{$categoryname->name}}</option>
@@ -75,27 +75,34 @@
       <div class="form-group row">
         <label for="subcategory" class="col-sm-12 col-form-label">Select Sub category </label>
         <div class="col-sm-12 form-control">
-        <select class="select2" id="subcategory" name="subcategory">
+        <select class="select2" id="subcategory" name="sub_cat_id">
         <option value="N/A" disabled selected="true">--Select sub category--</option>
         </select>
         <div class="error" id="error_subcategory">
         </div>
     </div> 
     </div>
-    <div class="form-group row">
-        <label for="serviceprovider" class="col-sm-12 col-form-label">Select Serviceprovider </label>
+   <div class="form-group row">
+        <label for="user_id" class="col-sm-12 col-form-label">Select Serviceprovider </label>
         <div class="col-sm-12 form-control">
-        <select class="select2" id="serviceprovider" name="serviceprovider">
+        <select class="select2" id="user_id" name="user_id">
         <option value="N/A" disabled selected="true">--Select Serviceprovider--</option>
         @foreach($serviceproviders as $serviceprovider)
       <option class="form-drop-items" value="{{$serviceprovider->id}}">{{$serviceprovider->first_name}} {{$serviceprovider->last_name}}</option>
         @endforeach
         </select>
-        <div class="error" id="error_Serviceprovider">
+        <div class="error" id="error_user_id">
         </div>
       </div> 
     </div>
-    
+    <div class="form-group row">
+        <label for="currency" class="col-sm-12 col-form-label">Currency </label>
+        <div class="col-sm-12">
+          <input type="text" class="form-control" id="currency" name="currency" placeholder="Currency">
+          <div class="error" id="error_currency">
+          </div>
+        </div>
+      </div>
 
     <div class="form-group row">
         <div class="col-sm-12 text-center">
