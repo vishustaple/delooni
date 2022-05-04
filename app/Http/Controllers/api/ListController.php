@@ -18,7 +18,7 @@ use App\Traits\ApiResponser;
 use App\Traits\ImageUpload;
 use App\Traits\Email;
 
-
+use Validator;
 class ListController extends Controller
 {
     use ApiResponser;

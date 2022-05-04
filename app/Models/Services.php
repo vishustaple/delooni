@@ -23,10 +23,16 @@ class Services extends Model
         'title','description','status','service_image','path','price_per_hour','price_per_day','price_per_month','cat_id','sub_cat_id','user_id','created_by'
     ];
 
-    public function servicecategoryDetail()
+    public function serviceCategory()
     {
-        return $this->hasOne(ServiceCategory::class, 'id', 'cat_id');
+        return $this->hasOne(ServiceCategory::class, 'id', 'cat_id')->where('is_parent',ServiceCategory::IS_PARENT);
     }
+
+    public function serviceSubCategory()
+    {
+        return $this->hasOne(ServiceCategory::class, 'id', 'sub_cat_id');
+    }
+
 
     public function jsonData()
     {
@@ -40,9 +46,8 @@ class Services extends Model
         $json['price_per_month'] = $this->price_per_month;
         $json['cat_id'] = $this->cat_id;
         $json['sub_cat_id'] = $this->sub_cat_id;
-        $json['user_id'] = $this->user_id;
-        $json['created_by'] = $this->created_by;
-
+        $json['cat_name'] = $this->serviceCategory->name??"";
+        $json['sub_cat_name'] = $this->serviceSubCategory->name??"";
 
         return $json;
     }

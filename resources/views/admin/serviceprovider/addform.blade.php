@@ -83,12 +83,6 @@
 
         <div class="col-md-6">
             <div class="form-group">
-<<<<<<< HEAD
-                <label>Upload image</label>
-                <input type="file" class="form-control" id="img" name="img" accept="image/*">
-                <div class="error" id="error_img">
-                </div>
-=======
                 <label for="screen_baner_image" class="col-sm-12 col-form-label">Upload image</label>
                 <div class="choose-file-box-col">
                 <input type="file" class="form-control choose-file-box" id="img" ame="img" accept="image/*">
@@ -102,7 +96,6 @@
                 <div class="choose-file-box-col">
                 <input type="file" class="form-control choose-file-box" id="video" name="video" accept="video/*">
                 <div class="error" id="error_video"></div></div>
->>>>>>> 9b236b025a42befcf9e014fe1f3bd86f5da5fc90
             </div>
         </div>
 

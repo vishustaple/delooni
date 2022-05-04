@@ -198,7 +198,7 @@ class UserController extends Controller
     public function register(request $r)
     {
 
-        if ($r->user_type == 'customer') {
+        if ($r->user_type == User::ROLE_CUSTOMER) {
             $val = [
 
                 'user_type' => 'required',
@@ -534,7 +534,7 @@ class UserController extends Controller
                 $r->input(),
                 [
                     'message' => 'required|string',
-                    'type' => "required|string",
+                    'type' => "required",
                 ]
             );
             if ($v->fails()) {
