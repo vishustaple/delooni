@@ -24,29 +24,6 @@ class UpdateServiceProviderRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'business_name'=>'max:100|regex:/^[a-zA-Z]+ [a-zA-Z]+$/',
-            // 'firstname' => 'alpha|max:100',
-            // 'lastname' => 'alpha|max:100',
-            // 'email' => 'email|unique:users,email,'.$this->id,
-            
-            // 'nationality'=>'required',
-            // 'img' => $this->id== null?'required|mimes:jpeg,bmp,png,jpg':'',
-            // 'video'=>$this->id== null?'required|mimes:mp4':'',
-            // 'nationality' => 'required',
-            // 'Address' => 'required',
-          
-          
-
-            // 'licensenumber' => 'required|numeric',
-            // 'licensephoto' => $this->id== null?'required':'',
-            // 'dateofbirth' => 'required',
-            // 'description' => 'required',
-           
-            // 'education' => 'required',
-            // 'degree' => 'required',
-            // 'startdate' => 'required',
-            // 'enddate' => 'required',
-            // 'experience' => 'required|numeric',
             'business_name'=>'required|max:100|regex:/^[a-zA-Z]+ [a-zA-Z]+$/',
             'firstname' => 'required|alpha|max:100',
             'lastname' => 'required|alpha|max:100',

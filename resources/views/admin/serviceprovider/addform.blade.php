@@ -96,7 +96,7 @@
                 <select class="form-control select2" id="nationality" name="nationality">
                 <option value="N/A" disabled selected="true">--Select Nationality--</option>
                 @foreach($getcountry as $getcountries)
-                <option class="form-drop-items" value="{{$getcountries->id}}" data-iconurl="{{URL::to('/')}}/flag/{{$getcountries->flag}}">{{$getcountries->country_name}}</option>
+                <option class="form-drop-items" value="{{$getcountries->country_name}}" data-iconurl="{{URL::to('/')}}/flag/{{$getcountries->flag}}">{{$getcountries->country_name}}</option>
                 @endforeach
                 </select>
                 <div class="error" id="error_nationality">
