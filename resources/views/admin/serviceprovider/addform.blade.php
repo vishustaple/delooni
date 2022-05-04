@@ -74,11 +74,7 @@
     
         <div class="col-md-6">
             <div class="form-group">
-<<<<<<< HEAD
-                <label for="screen_baner_image" class="col-sm-12 col-form-label">Upload image</label>
-=======
                 <label for="img" class="col-sm-12 col-form-label">Upload image</label>
->>>>>>> 458a66937df2c2614d70b0dcc4e6ad694dfd5532
                 <div class="choose-file-box-col">
                 <input type="file" class="form-control choose-file-box" id="img" name="img" accept="image/*">
                 <div class="error" id="error_img"></div>
