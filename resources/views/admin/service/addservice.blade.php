@@ -23,7 +23,7 @@
           <div class="error" id="error_service_image">
           </div>
         </div>
-      </div>   --}}
+      </div>   
       <div class="form-group row">
         <label for="screen_baner_image" class="col-sm-12 col-form-label">Screen Baner Image</label>
         <div class="col-sm-12 choose-file-box-col">

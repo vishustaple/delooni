@@ -61,20 +61,19 @@
                        </select>
                       </div>
                       </div> 
-                   <div class="form-group row">
-                      <label for="user_id" class="col-sm-12 col-form-label">Select Serviceprovider </label>
-                       <div class="col-sm-12">
-                       <select name="first_name" id="first_name" class="form-control select2" >
-                       <option value="N/A" disabled selected="true">--Select serviceprovider--</option>
+                      <div class="form-group row">
+                        <label for="user_id" class="col-sm-12 col-form-label">Select serviceprovider :</label>
+                        <div class="col-sm-12">
+                        <select class="form-control select2" id="user_id" name="user_id">
+                        <option value="N/A" disabled selected="true">--Select serviceprovider--</option>
                        @foreach($serviceproviders as $serviceprovider)
-                       <option value="{{ $serviceprovider->id }}" {{ $categoryData->user_id == $serviceprovider->id ? 'selected' : '' }}>{{ $serviceprovider->first_name }}</option>
-                       @endforeach
+                      <option class="form-drop-items" value="{{$serviceprovider->id}}">{{$serviceprovider->first_name}}</option>
+                        @endforeach
                        </select>
-                   <div class="error" id="error_user_id">
-                    </div>
-                    </div> 
-                    </div>
-                   <div class="form-group row">
+                        <div class="error" id="error_user_id"></div>
+                      </div>
+                      </div>
+                    <div class="form-group row">
                         <div class="col-sm-12 text-center">
                           <button type="submit" class="btn app-button">Submit</button>
                           <button type="reset" class="btn btn-danger">Reset</button>
