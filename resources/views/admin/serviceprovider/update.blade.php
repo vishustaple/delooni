@@ -237,8 +237,6 @@
                         <div class="error" id="error_brief_of_experience"></div>  
                       </div>
                       </div>
-                     
-                     
                       <div class="form-group row">
                         <div class="col-sm-12 text-center">
                           <button type="submit" class="btn app-button">Update</button>

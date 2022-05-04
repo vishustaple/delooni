@@ -16,6 +16,7 @@
                          </div>
                         </div>
                       </div>  
+
                      <div class="form-group row">
                         <label for="is_parent" class="col-sm-12 col-form-label">Parent category </label>
                           <div class="col-sm-12">

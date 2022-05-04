@@ -27,7 +27,7 @@
     <div class="form-group row uploadimage">
       <label for="service_image" class="col-sm-12 col-form-label">Service Category Image </label>
       <div class="col-sm-12">
-      <img src="{{URL::to('/')}}/profile_image/{{$data->service_image}}">
+      <img class="lazyload" src="{{URL::to('/')}}/profile_image/{{$data->service_image}}">
         <input type="text" class="form-control" value="{{$data->service_image}}"  id="service_image" name="service_image"  readonly>
         </div>
     </div>  

@@ -20,10 +20,13 @@ class Services extends Model
      * @var array
      */
     protected $fillable = [
-        'title','description','status','service_image','path','price_per_hour','price_per_day','price_per_month','service_category_id'
+        'title','description','status','service_image','path','price_per_hour','price_per_day','price_per_month','cat_id','sub_cat_id','user_id','created_by'
     ];
 
-   
+    public function servicecategoryDetail()
+    {
+        return $this->hasOne(ServiceCategory::class, 'id', 'cat_id');
+    }
 
     public function jsonData()
     {

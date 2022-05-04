@@ -44,7 +44,7 @@
                     <div class="form-group row uploadimage">
                         <label class="col-sm-12 col-form-label">Service Category Image </label>
                         <div class="col-sm-12">
-                        <img src="{{URL::to('/')}}/profile_image/{{$categoryData->service_image}}">
+                        <img class="lazyload" src="{{URL::to('/')}}/profile_image/{{$categoryData->service_image}}">
                           <input type="file" class="form-control" id="service_image" name="service_image" value="{{$categoryData->service_image}}">
                           <div class="error" id="error_service_image">
                          </div>

@@ -51,6 +51,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('complete-profile', [UserController::class, 'completeProfile']);
     Route::post('update-sprovider-profile', [UserController::class, 'updateSpProfile']);
     Route::get('get-provider-profile', [UserController::class, 'providerDetail']);
+    Route::get('view-sprofile', [UserController::class, 'viewDetail']);
+
 
     /******************************* Common Api **********************************************/
     Route::get('get-categories', [ListController::class, 'getcategories']);

@@ -20,7 +20,7 @@
     <tr>
     <td>{{$key+1}}</td>
     <td>
-    <img src="{{URL::to('/')}}/profile_image/{{$value->screen_baner_image}}" width="100px" height="100px">
+    <img class="lazyload" src="{{URL::to('/')}}/profile_image/{{$value->screen_baner_image}}" width="100px" height="100px">
     </td>
    <td>
     <a href='{{route("content.view", $value->id)}}'   target="_blank" class="btn btn-outline-dark btn-xs view">View</a>

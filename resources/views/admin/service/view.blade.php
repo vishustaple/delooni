@@ -30,7 +30,7 @@
     <td>{{$value->title}}</td>
     <td>{{$value->description}}</td>
     <td>
-    <img src="{{URL::to('/')}}/profile_image/{{$value->service_image}}" width="100px" height="100px">
+   <img class="lazyload" src="{{URL::to('/')}}/profile_image/{{$value->service_image}}" width="100px" height="100px">
     </td>
     <td>{{$value->price_per_hour}}</td>
     <td>{{$value->price_per_day}}</td>
