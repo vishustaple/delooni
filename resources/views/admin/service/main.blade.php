@@ -184,7 +184,7 @@ $(document).on('submit','#update_service', function(e){
             },
             error:function(data){
             $.each(data.responseJSON.errors, function(id,msg){
-            $('#error_'+id).html(msg);
+            $('#_error_'+id).html(msg);
             })
             }
         });

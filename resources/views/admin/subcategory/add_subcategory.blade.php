@@ -1,4 +1,4 @@
-  <form class="form-horizontal"  id="add_category"  method="post"  enctype="multipart/form-data">
+<form class="form-horizontal"  id="add_subcategory"  method="post"  enctype="multipart/form-data">
                       @csrf
                       <div class="form-group row">
                         <label for="name" class="col-sm-12 col-form-label">Name</label>
@@ -32,3 +32,4 @@
                         </div>
                       </div>
                     </form>
+                

@@ -24,7 +24,7 @@ class ServiceProviderRequest extends FormRequest
     public function rules()
     {
         return [
-            'business_name'=>'required|max:100|regex:/^[a-zA-Z]+ [a-zA-Z]+$/',
+            'business_name'=>'required|max:100|regex:/^[a-zA-Z]+$/',
             'firstname' => 'required|alpha|max:100',
             'lastname' => 'required|alpha|max:100',
             'email' => 'required|unique:users',
@@ -37,7 +37,7 @@ class ServiceProviderRequest extends FormRequest
             'nationality' => 'required',
             'address' => 'required',
             'service_provider_type' => 'required',
-            'whatsappNumber' => 'required',
+            'whatsappNumber' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:8|max:12',
             'snapchat' => 'required',
             'instagram' => 'required',
             'twitter' => 'required',

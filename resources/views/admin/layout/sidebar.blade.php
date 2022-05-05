@@ -20,45 +20,8 @@
           </li>
         </ul>
       </li> -->
-     
-      <li class="nav-item">
-        <a href="{{url('/admin/category')}}" class="nav-link">
-        <i class="fa fa-building-o nav-icon"></i>
-          <p>
-            Service category
-          </p>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a href="{{url('/admin/services')}}" class="nav-link">
-        <i class="fa fa-wrench nav-icon"></i>
-          <p>
-            Services
-          </p>
-        </a>
-      </li>
-
-    <li class="nav-item">
-        <a href="{{url('/admin/subscription')}}" class="nav-link">
-        <i class="fa fa-rocket nav-icon"></i>
-          <p>
-            Subscription
-          </p>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a href="{{url('/admin/splashscreen')}}" class="nav-link">
-        <i class="fa fa-desktop nav-icon"></i>
-       <p>
-            Splash screen
-          </p>
-        </a>
-      </li>
- 
-     <!--Users Start Here-->
-     <li class="nav-item">
+        <!--Users Start Here-->
+        <li class="nav-item">
         <a href="javascript:void(0)" class="nav-link d-flex">
            <span><i class="nav-icon fa fa-users"></i></span>
           <p>Users</p>
@@ -81,7 +44,55 @@
         </ul>
       </li>
 
+    <!--Category Start Here-->
       <li class="nav-item">
+        <a href="javascript:void(0)" class="nav-link d-flex">
+           <span><i class="fa fa-twitter nav-icon"></i></span>
+          <p>Categories</p>
+          <i class="right fa fa-angle-right"></i>
+        </a>
+        <ul class="nav nav-treeview" style="display: {{ Request::routeIs('category')|| Request::routeIs('subcategory') ? 'block' : 'none' }}">
+          <li class="nav-item">
+            <a href="{{url('/admin/category')}}" class="nav-link  {{ Request::routeIs('category') ? 'active' : '' }}">
+              <i class="fa fa-building-o nav-icon"></i>
+              <p>Service Category</p>
+            </a>
+          </li>
+        <li class="nav-item">
+            <a href="{{url('/admin/subcategory')}}" class="nav-link  {{ Request::routeIs('subcategory') ? 'active' : '' }}">
+              <i class="fa fa-building-o nav-icon"></i>
+              <p>Sub category</p>
+            </a>
+          </li>
+        </ul>
+      </li>
+        <!-- <li class="nav-item">
+        <a href="{{url('/admin/services')}}" class="nav-link">
+        <i class="fa fa-wrench nav-icon"></i>
+          <p>
+            Services
+          </p>
+        </a>
+      </li> -->
+
+    <li class="nav-item">
+        <a href="{{url('/admin/subscription')}}" class="nav-link">
+        <i class="fa fa-rocket nav-icon"></i>
+          <p>
+            Subscription
+          </p>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="{{url('/admin/splashscreen')}}" class="nav-link">
+        <i class="fa fa-desktop nav-icon"></i>
+       <p>
+            Splash screen
+          </p>
+        </a>
+      </li>
+        <li class="nav-item">
         <a href="{{url('/admin/report')}}" class="nav-link">
        <i class="fa fa-file nav-icon"></i>
          <p>
@@ -109,7 +120,7 @@
           <li class="nav-item">
             <a href="{{url('/admin/staticcontent')}}" class="nav-link  {{ Request::routeIs('staticcontent') ? 'active' : '' }}">
               <i class="fa fa-picture-o nav-icon"></i>
-              <p>Screen Baner image</p>
+              <p>Screen Banner image</p>
             </a>
           </li>
     
@@ -121,8 +132,7 @@
           </li>
         </ul>
       </li>
-      
-     <!-- Users End-->
+      <!-- Users End-->
       <li class="nav-item">
         <a href="" class="nav-link">
           <i class="fa fa-paypal nav-icon"></i>
@@ -166,4 +176,4 @@ $(document).ready(function(){
     var parent = $("a.active").parent().parent().parent();
     parent.addClass("menu-is-opening menu-open");
 });
-    </script>
+</script>

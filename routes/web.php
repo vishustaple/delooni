@@ -86,6 +86,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/category/update/status', [CategoryController::class, 'status_category'])->name('category.update.status');
         Route::get('/category/back',[CategoryController::class,'categoryBack']);
      //******************************************Admin Manage Sub Category*********************************************//
+        Route::get('/subcategory', [CategoryController::class, 'subcategoryView'])->name('subcategory');
         Route::post('/subcategory/add', [CategoryController::class, 'store_sub_category'])->name('subcategory.add');
 
 

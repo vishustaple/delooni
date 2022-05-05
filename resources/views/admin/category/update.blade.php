@@ -5,7 +5,7 @@
                         <label for="name" class="col-sm-12 col-form-label">Name</label>
                         <div class="col-sm-12">
                           <input type="text" class="form-control" id="name" value="{{$categoryData->name}}"  name="name">
-                          <div class="error" id="error_name">
+                          <div class="error" id="_error_name">
                          </div>
                         </div>
                       </div>
@@ -14,7 +14,7 @@
                         <label for="description" class="col-sm-12 col-form-label">Description</label>
                         <div class="col-sm-12">
                           <textarea class="form-control" id="description"  name="description">{{$categoryData->description}}</textarea>
-                          <div class="error" id="error_description">
+                          <div class="error" id="_error_description">
                           </div>
                         </div>
                       </div>
@@ -24,7 +24,7 @@
                         <div class="col-sm-12">
                           <img class="lazyload mb-3" src="{{URL::to('/')}}/profile_image/{{$categoryData->service_category_image}}">
                           <input type="file" class="form-control" id="service_category_image" name="service_category_image" accept="image/*">
-                         <div class="error" id="error_service_category_image"></div>
+                         <div class="error" id="_error_service_category_image"></div>
                         </div>
                       </div>
                     </div>

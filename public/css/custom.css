@@ -36,8 +36,12 @@ section.form__section.base__bg{
    color: var(--body-clr) !important;
 }
 .sidebar .form-control,
-.sidebar .form-control::placeholder, .base__form__wrapper .form-control::placeholder{
+.sidebar .form-control::placeholder{
    color: #f7f7f7 !important;
+}
+
+.base__form__wrapper .form-control::placeholder{
+   color: var(--body-clr) !important;
 }
 a.nav-link:hover {
    color: var(--theme-primary-color) !important;

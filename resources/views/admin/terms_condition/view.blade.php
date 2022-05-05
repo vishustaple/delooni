@@ -16,7 +16,7 @@
     @forelse($condition as $key=>$value)
     <tr>
     
-    <td>    <textarea rows="15" cols="80" name="terms_and_condition" id="terms_and_condition" readonly>
+    <td>    <textarea class="form-control" rows="15" cols="80" name="terms_and_condition" id="terms_and_condition" readonly>
     {{$value->terms_and_condition}}</textarea></td>
    <td>
 
@@ -43,7 +43,7 @@
     </tr>
     @empty
     <center>
-    <h3> No condition </h3>
+    <h5 class="p-3 border mb-0"> No condition </h5>
     </center>
     @endforelse
 </tbody>
