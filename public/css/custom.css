@@ -36,7 +36,7 @@ section.form__section.base__bg{
    color: var(--body-clr) !important;
 }
 .sidebar .form-control,
-.sidebar .form-control::placeholder {
+.sidebar .form-control::placeholder, .base__form__wrapper .form-control::placeholder{
    color: #f7f7f7 !important;
 }
 a.nav-link:hover {
@@ -211,7 +211,7 @@ table th{
  input[type=file] {
    padding: 0px !important;
  }
- input, textarea, form label {
+ .form-control::placeholder, form label {
    text-transform: capitalize;
  }
  .export-btn .btn {
@@ -233,7 +233,9 @@ table th{
  .profile-img {
    border-radius: 100%;
    width: 40px;
- }
+   object-fit: cover;
+   height: 40px;
+}
  .nav-sidebar .menu-is-opening > .nav-link i.right, .nav-sidebar .menu-open > .nav-link i.right {
    -webkit-transform: rotate(90deg);
    transform: rotate(90deg);
@@ -244,11 +246,24 @@ table {
 .table-bordered td:not(last-child) , .table-bordered th:not(last-child) {
    border-right: 1px solid #dee2e6;
  }
-.dropdown-item:focus, .dropdown-item:hover {
+.dropdown-item:focus, .dropdown-item:hover,
+.dropdown-item.active, .dropdown-item:active{
    background-color: var(--theme-primary-color) !important;
+   color: var(--body-clr) !important;
  }
+ 
  .dropdown-menu.show {
-   right: -0.4rem !important;
+   /* right: -0.4rem !important; */
    top: 2.9rem !important;
  }
+
+ .serviceProviderBack .col-md-6{
+    max-width: 100% !important;
+ }
+ .profile-drop .dropdown-menu a:last-child {
+   border: 0;
+}
+.profile-drop .dropdown-menu a {
+   border-bottom: 1px solid #eee;
+}
 /* css end */

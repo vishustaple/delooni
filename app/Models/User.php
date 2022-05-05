@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Sanctum\HasApiTokens;
-
+use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 class User extends Authenticatable
 {
@@ -112,15 +112,16 @@ class User extends Authenticatable
     {
         return $this->hasOne(Services::class, 'user_id', 'id');
     }
-    //get category detail
-    public function servicecategoryDetail($id)
-    {
-        return ServiceCategory::where('id','=',$id)->first();
-    }
+
     public function files()
     {
         return $this->hasOne(Files::class, 'created_by')->where('model_type', 'App/Models/User');
     }
+    public function servicecatgoryDetail()
+    {
+        return $this->hasOne(Services::class, 'id', 'cat__id');
+    }
+
 
 
     /**
@@ -158,8 +159,15 @@ class User extends Authenticatable
             $json['address'] = $this->address;
         }
         if ($this->roles->first()->id == User::ROLE_SERVICE_PROVIDER) {
-
+            if (!empty($this->profile_image))
+            $json['profile_image'] = url('') . '/profile_image/' . $this->profile_image;
+        else
+            $json['profile_image'] = "";
             $json['business_name'] = $this->business_name ?? '';
+            $json['rating'] = !empty($this->rating)?$this->rating:'0';
+            $json['is_favourite'] = empty($this->Favouriteservice->user_id) ? 0 : 1;
+            $json['service'] = !empty($this->serviceDetail->serviceCategory)?$this->serviceDetail->serviceCategory->name:"";
+
         }
         return $json;
     }
@@ -185,11 +193,11 @@ class User extends Authenticatable
     public function serviceProviderProfile()
     {
         $json = [];
-        $json['email'] = $this->email?? '';
-        $json['dob'] = $this->dob?? '';
-        $json['business_name'] = $this->business_name?? '';
-        $json['first_name'] = $this->first_name?? '';
-        $json['last_name'] = $this->last_name?? '';
+        $json['email'] = $this->email ?? '';
+        $json['dob'] = $this->dob ?? '';
+        $json['business_name'] = $this->business_name ?? '';
+        $json['first_name'] = $this->first_name ?? '';
+        $json['last_name'] = $this->last_name ?? '';
         if (!empty($this->profile_image))
             $json['profile_image'] = url('') . '/profile_image/' . $this->profile_image;
         else
@@ -211,23 +219,20 @@ class User extends Authenticatable
         $json['phone'] = $this->phone;
         $json['latitude'] = $this->latitude;
         $json['longitude'] = $this->longitude;
-        $json['whatsapp_no'] = $this->whatsapp_no?? '';
-        $json['snapchat_link'] = $this->snapchat_link?? '';
-        $json['instagram_link'] = $this->instagram_link?? '';
-        $json['twitter_link'] = $this->twitter_link?? '';
-        $json['license_cr_no'] = $this->license_cr_no?? '';
-        $json['description'] = $this->description?? '';
+        $json['whatsapp_no'] = $this->whatsapp_no ?? '';
+        $json['snapchat_link'] = $this->snapchat_link ?? '';
+        $json['instagram_link'] = $this->instagram_link ?? '';
+        $json['twitter_link'] = $this->twitter_link ?? '';
+        $json['license_cr_no'] = $this->license_cr_no ?? '';
+        $json['description'] = $this->description ?? '';
         $json['rating'] = $this->rating ?? 0;
         $json['is_favourite'] = empty($this->Favouriteservice->user_id) ? 0 : 1;
-        //  //get categoryname
-        $catname=$this->servicecategoryDetail($this->serviceDetail->cat_id);
-        $json['category'] = $catname->name;
-         //get subcategory name
-         $subcatname=$this->servicecategoryDetail($this->serviceDetail->sub_cat_id);
-         $json['subcategory'] = $subcatname->name;
-         $json['price_per_hour'] = $this->serviceDetail->price_per_hour;
-         $json['price_per_day'] = $this->serviceDetail->price_per_day;
-         $json['price_per_month'] = $this->serviceDetail->price_per_month;
+        
+        // $json['category'] = $this->serviceDetail->serviceCategory->name ?? "";
+        // $json['sub_category'] = $this->serviceDetail->serviceSubCategory->name ?? "";
+        // $json['price_per_hour'] = $this->serviceDetail->price_per_hour ?? '';
+        // $json['price_per_day'] = $this->serviceDetail->price_per_day ?? '';
+        // $json['price_per_month'] = $this->serviceDetail->price_per_month ?? '';
 
         if (!empty($this->education)) {
             $json['institute_name'] = $this->education->institute_name;
@@ -248,6 +253,9 @@ class User extends Authenticatable
             $json['no_of_years'] =  "";
             $json['brief_of_experience'] = "";
         }
+
+        $json['service'] = !empty($this->serviceDetail)?$this->serviceDetail->jsonData():"";
+
 
         return $json;
     }
@@ -273,5 +281,4 @@ class User extends Authenticatable
             return $json;
         }
     }
-   
 }

@@ -198,7 +198,7 @@ class UserController extends Controller
     public function register(request $r)
     {
 
-        if ($r->user_type == 'customer') {
+        if ($r->user_type == User::ROLE_CUSTOMER) {
             $val = [
 
                 'user_type' => 'required',
@@ -436,12 +436,12 @@ class UserController extends Controller
     {
         try {
             $user = auth()->user();
-
+           
             $v = Validator::make(
                 $r->input(),
                 [
-                    'title' => 'string',
-                    'description ' => 'string',
+                    // 'title' => 'string',
+                    // 'description ' => 'string',
                     'service_image ' => 'string',
                     'category_id' => 'required|integer',
                     'sub_category_id' => 'required|integer',
@@ -467,8 +467,8 @@ class UserController extends Controller
             if (empty($service)) {
                 $service = new Services();
             }
-            $service->title = $category->title ?? $service->title;
-            $service->description = $category->description ?? $service->description;
+            // $service->title = $category->title ?? $service->title;
+            // $service->description = $category->description ?? $service->description;
             $service->cat_id = $category->id ?? $service->cat_id;
             $service->sub_cat_id = $subCategory->id ?? $service->sub_cat_id;
             $service->price_per_hour = $r->price_per_hour ?? $service->price_per_hour;
