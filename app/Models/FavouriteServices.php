@@ -15,17 +15,12 @@ class FavouriteServices extends Model
 
     public function Rating()
     {
-        return $this->hasOne(UserRating::class, 'user_id', 'user_id');
+        return $this->hasOne(User::class, 'id', 'service_id');
     }
 
     public function service()
     {
-        return $this->hasOne(ServiceDetail::class, 'id', 'service_id');
-    }
-
-    public function hourrate()
-    {
-        return $this->hasOne(ServiceDetail::class, 'user_id', 'user_id');
+        return $this->hasOne(Services::class, 'id', 'service_id');
     }
 
     public function serviceCategory()
@@ -35,7 +30,7 @@ class FavouriteServices extends Model
 
     public function serviceProvider()
     {
-        return $this->hasOne(User::class, 'id', 'user_id');
+        return $this->hasOne(User::class, 'id', 'service_id');
     }
     public function favourite($id){
         return FavouriteServices::where('user_id',$id)->first();
@@ -50,7 +45,7 @@ class FavouriteServices extends Model
         $json = [];
         $json['service_provider_id'] = $this->service_id;
         $json['service_provider'] = $serviceProvider->first_name . " " . $serviceProvider->last_name;
-        $json['service'] = $this->serviceCategory->name ?? "";
+        $json['service'] = $this->service->serviceCategory->name ?? "";
         $json['rating'] = $this->Rating->rating??0;
         $json['profile_image']= url('') . '/profile_image/' . $serviceProvider->profile_image ?? '';
         $json['description'] = $this->serviceProvider->description ?? "";
@@ -59,7 +54,7 @@ class FavouriteServices extends Model
         $json['instagram_link']=$this->serviceProvider->instagram_link;
         $json['twitter_link']= $this->serviceProvider->twitter_link;
         $json['phone']=$this->serviceProvider->phone;
-        $json['price_per_hour']=$this->hourrate->price_per_hour??0;
+        $json['price_per_hour']=$this->service->price_per_hour??0;
         $json['is_favourite']=empty($favourite)?0:1;
         return $json;
     }

@@ -44,7 +44,7 @@ class ServiceCategory extends Model
                 $json['subcategories'] = $subcategoriesData;     
             }
             else{
-                $json['subcategories'] = '';    
+                $json['subcategories'] = [];    
             }
             return $json;
      //   }

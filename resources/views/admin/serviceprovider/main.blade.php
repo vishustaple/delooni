@@ -5,7 +5,7 @@
                   
                   <li class="nav-item search-right hide">
                  
-                   <div>
+                   <div class="serviceProviderBack">
                     <div class="input-group" data-widget="sidebar-search" id="searchp">
                       <input class="form-control form-control-sidebar border-0" id="search" type="search" placeholder="Search" aria-label="Search">
                       <div class="input-group-append">
@@ -16,8 +16,8 @@
                    
                     </div> 
                     <div style="display:none" id="back">
-                  @include('admin.serviceprovider.back')
-                  </div>                    
+                      @include('admin.serviceprovider.back')
+                    </div>                    
                    </div>
                   </li>
                 </ul>

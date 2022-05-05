@@ -7,7 +7,7 @@ use App\Models\Country;
 use App\Models\FavouriteServices;
 use App\Models\Notification;
 use App\Models\ServiceCategory;
-use App\Models\ServiceDetail;
+use App\Models\Services;
 use App\Models\User;
 use App\Models\UserRating;
 //facades
@@ -17,8 +17,8 @@ use Illuminate\Http\Request;
 use App\Traits\ApiResponser;
 use App\Traits\ImageUpload;
 use App\Traits\Email;
-
-
+use Illuminate\Support\Facades\DB;
+use Validator;
 class ListController extends Controller
 {
     use ApiResponser;
@@ -115,20 +115,29 @@ class ListController extends Controller
             $query->where('first_name', 'like', "%$search%")
                 ->orWhere('business_name', 'like', "%$search%")
                 ->orWhere('last_name', 'like', "%$search%");
-        })
-            ->where('rating', 'like', "%$rating%")
-            ->where('users.id', '!=', $user->id);
+        });
+        
 
-        if (!empty($pricePerHour)) {
-            $userId = ServiceDetail::where('price_per_hour', 'like', "%$pricePerHour%")->pluck('user_id')->toArray();
-            $paginate->wherein('id', $userId);
-        }
+       
         if (!empty($search)) {
             $catId = ServiceCategory::where('name', 'like', "%$search%")->where('is_parent', ServiceCategory::IS_PARENT)->pluck('id')->toArray();
-            $userId = ServiceDetail::whereIn('cat_id', $catId)->pluck('user_id')->toArray();
+            $userId = Services::whereIn('cat_id', $catId)->pluck('user_id')->toArray();
             $paginate->orWhereIn('id', $userId);
         }
 
+        if (!empty($pricePerHour)) {
+            $userId = Services::where('price_per_hour', 'like', "%$pricePerHour%")->pluck('user_id')->toArray();
+            $paginate->whereIn('id', $userId);
+        }
+ 
+            $userId = DB::table('model_has_roles')->where('role_id', User::ROLE_SERVICE_PROVIDER)->pluck('model_id')->toArray();
+            $paginate->whereIn('id', $userId);
+
+            if (!empty($rating)) {
+                $paginate->where('rating', 'like', "%$rating%");
+            }
+        
+     
         return $this->customPaginator($paginate->paginate());
     }
 }
