@@ -82,11 +82,15 @@ class AdminController extends Controller
         $loginUser = auth()->user();
         ////////////////Admin/////////////////////
         $customer=User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->count();
-        $service_provider=User::role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->count();
+        $individual_service_provider=User::where('service_provider_type',"individual")
+        ->role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))
+        ->count();
+        $service_provider=User::role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->pluck("id");
+        $company_service_provider=User::whereIn('id',$service_provider)->where('service_provider_type','company')->count();
         $query=Report::where('status','=',1)->count();
         if ($loginUser->hasRole('admin')) {
             $staff = User::all();
-            return view('admin.home', compact('staff','service_provider','customer','query'));
+            return view('admin.home', compact('staff','individual_service_provider','company_service_provider','customer','query'));
         }
         //////////////////Customer//////////////////
         $userModule = $loginUser->userModule;

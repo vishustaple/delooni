@@ -40,7 +40,7 @@
       <!-- /.Sidebar user panel -->
 
       <!-- SidebarSearch Form (optional) -->
-   
+      @include('dashboard.sidebar_search')
       <!-- /.SidebarSearch Form  -->
 
     @include('dashboard.sidebar')

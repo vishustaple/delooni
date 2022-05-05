@@ -183,8 +183,7 @@ table th{
 }
 .lazyload {
    width: 50px !important;
-   height: 50px !important;
-   object-fit: cover;
+   object-fit: contain;
 }
 .register-blk .info-box .info-box-icon {
    transform: translateY(0px);

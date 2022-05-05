@@ -11,8 +11,7 @@
     <tr>
     <th style="width: 10px">S.no.</th>
    <th>Service Name</th>
-    <th>Description</th>
-    <th>Service image</th>
+   <th>Service image</th>
     <th>Price (/hour)</th>
     <th>Price (/day)</th>
     <th>Price (/month)</th>
@@ -28,7 +27,6 @@
     <tr>
     <td>{{$key+1}}</td>
     <td>{{$value->title}}</td>
-    <td>{{$value->description}}</td>
     <td>
    <img class="lazyload" src="{{URL::to('/')}}/profile_image/{{$value->service_image}}" width="100px" height="100px">
     </td>

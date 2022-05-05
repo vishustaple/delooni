@@ -1,6 +1,10 @@
-<div class="">
-        <div class="input-group" data-widget="sidebar-search">
-       </div>
+<div class="form-inline">
+        <div class="input-group">
+          <div class="form-control-sidebar">
+          <div class="input-group-append">
+          </div>
+          </div>
+        </div>
       </div>
       <script>
         $(document).ready(function(){

@@ -44,8 +44,7 @@
       <!-- SidebarSearch Form (optional) -->
       <!-- @include('templates.sidebar_search') -->
       <!-- /.SidebarSearch Form  -->
-
-    @include('admin.layout.sidebar')
+       @include('admin.layout.sidebar')
     </div>
     <!-- /.sidebar -->
   </aside>
