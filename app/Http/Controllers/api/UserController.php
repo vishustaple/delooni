@@ -136,7 +136,7 @@ class UserController extends Controller
                 'device_name' => 'required',
                 'device_token' => 'required',
                 'device_type' => 'required',
-                'user_type'=>'required'
+                'user_type' => 'required'
             ]
         );
         if ($v->fails()) {
@@ -150,19 +150,19 @@ class UserController extends Controller
                 throw new Exception("wrong OTP");
             }
             $otp->delete();
-        
+
             $user = User::where('phone', $r->phone)->where('country_code', $r->country_code)->first();
-        
+
             if (empty($user)) {
                 $data = [];
                 $data['is_new_profile'] =  true;
                 return $this->successWithData([], "OTP verified successfully", $data);
             }
 
-            if ($user->roles->first()->id!=$r->user_type) {
+            if ($user->roles->first()->id != $r->user_type) {
                 throw new Exception("wrong app login");
             }
-            
+
             if ($user->roles->first()->id == User::ROLE_SERVICE_PROVIDER) {
                 $json = "serviceProviderProfile";
             } else {
@@ -294,7 +294,6 @@ class UserController extends Controller
         $data = [];
         $data['token'] =  $token;
         return $this->successWithData($register->$json(), 'Registeration Successfull.',  $data);
-
     }
 
 
@@ -436,7 +435,7 @@ class UserController extends Controller
     {
         try {
             $user = auth()->user();
-           
+
             $v = Validator::make(
                 $r->input(),
                 [
@@ -561,6 +560,7 @@ class UserController extends Controller
      */
     public function report(request $r)
     {
+
         $user = auth()->user();
         try {
             $v = Validator::make(
@@ -568,6 +568,7 @@ class UserController extends Controller
                 [
                     'reporting_issue' => 'required|string',
                     'service_category' => 'required',
+                    'service_sub_category' => 'required',
                     'user_id' => 'required',
                     'subject' => 'required|string',
                     'message' => 'required|string',
@@ -576,11 +577,20 @@ class UserController extends Controller
             if ($v->fails()) {
                 return $this->validation($v);
             }
-            $serviceCategory = ServiceCategory::where('name', $r->service_category)->first();
+            $serviceCategory = ServiceCategory::where('id', $r->service_category)->first();
+            if (empty($serviceCategory)) {
+                throw new Exception("No Service Category Found");
+            }
+            $userId = User::where('id', $r->user_id)->first();
+            if (empty($userId)) {
+                throw new Exception("No Provider Found");
+            }
             $report = new Report();
             $report->reporting_issue = $r->reporting_issue;
-            $report->service_category_id = $serviceCategory->id;;
-            $report->user_id  = $r->user_id;     //service provider id
+            $report->service_category_id = $serviceCategory->id;
+            $report->subcategory_id = $r->service_sub_category;
+            $report->service_provider_id  = $r->user_id;     //service provider id
+            $report->user_id  = $user->id;
             $report->subject = $r->subject;
             $report->message = $r->message;
             $report->save();
@@ -628,7 +638,7 @@ class UserController extends Controller
                 throw new Exception("Not rated");
             }
             DB::commit();
-            return $this->successWithData($userrating->jsonData(), 'Rating successfully given to user.');
+            return $this->successWithData($userrating->jsonData(), 'Rating given succesfully');
         } catch (\Throwable $e) {
             DB::rollback();
             return $this->error($e->getMessage());
@@ -678,13 +688,14 @@ class UserController extends Controller
             $v = Validator::make(
                 $r->input(),
                 [
-                    'email' => 'email',
-                    'phone' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15',
-                    'whatsapp_no' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15',
+                    'video' => 'file',
                     'snapchat_link' => 'url',
                     'instagram_link' => 'url',
                     'twitter_link' => 'url',
                     'no_of_years' => 'numeric',
+                    'price_per_hour ' => 'numeric',
+                    'price_per_day' => 'numeric',
+                    'price_per_month' => 'numeric',
                 ]
             );
             if ($v->fails()) {
@@ -692,22 +703,36 @@ class UserController extends Controller
             }
             $user = auth()->user();
             $serviceprovider = User::where('id', $user->id)->first();
-            $serviceprovider->email = $r->email ?? $serviceprovider->email;
-            $serviceprovider->phone = $r->phone ?? $serviceprovider->phone;
-            $serviceprovider->whatsapp_no = $r->whatsapp_no ?? $serviceprovider->whatsapp_no;
+            if($r->video)
+            $profilevideo = $this->UploadImage($r->video,'profile_video');
+            else
+            $profilevideo = $user->profile_video;
+     
+            $serviceprovider->profile_video = $profilevideo;    
             $serviceprovider->snapchat_link = $r->snapchat_link ?? $serviceprovider->snapchat_link;
             $serviceprovider->instagram_link = $r->instagram_link ?? $serviceprovider->instagram_link;
             $serviceprovider->twitter_link = $r->twitter_link ?? $serviceprovider->twitter_link;
             $serviceprovider->save();
-            if (!empty($_FILES['video'])) {
-                $update_data = Files::where(['created_by' => $user->id])
-                    ->update(['file_name' => $this->UploadImage($r->file('video'), 'videos'), 'extension' => ($r->file('video'))->getClientOriginalExtension()]);
-            }
+
+
+            // if (!empty($_FILES['video'])) {
+            //     $update_data = Files::where(['created_by' => $user->id])
+            //         ->update(['file_name' => $this->UploadImage($r->file('video'), 'videos'), 'extension' => ($r->file('video'))->getClientOriginalExtension()]);
+            // }
+            // }
+
             $workExperience = WorkExperience::where('user_id', $user->id)->first();
             $workExperience->no_of_years = $r->no_of_years ?? $workExperience->no_of_years;
             $workExperience->save();
-            return $this->successWithData($user->serviceProviderProfile(), " User Profile updated successfully");
-        } catch (\Throwable $e) {
+            // dd("uygghuguy");
+            $services=Services::where('user_id', $user->id)->first();
+            $services->price_per_hour=$r->price_per_hour?? $services->price_per_hour;
+            $services->price_per_day=$r->price_per_day?? $services->price_per_day;
+            $services->price_per_month=$r->price_per_month?? $services->price_per_month;
+            $services->save();
+            // return $this->success("User Profile updated successfully");
+            return $this->successWithData($user->serviceProviderProfile(), "User Profile updated successfully");
+        }   catch (\Throwable $e) {
             DB::rollback();
             return $this->error($e->getMessage());
         }
@@ -759,19 +784,20 @@ class UserController extends Controller
         }
 
         $query = User::where('id', $r->provider_id)->first();
-        if (empty($query)) {
+
+        // if (empty($query)) {
+        //     return $this->error("No provider found");
+        // }
+        if ($query->roles->first()->id == User::ROLE_SERVICE_PROVIDER) {
+            $message = "provider detail";
+            return $this->successWithData($query->serviceProviderProfile(), $message);
+        } else {
             return $this->error("No provider found");
         }
+    }
+    public function viewDetail()
+    {
         $message = "provider detail";
-        return $this->successWithData($query->serviceProviderProfile(), $message);
+        return $this->successWithData(auth()->user()->serviceProviderProfile(), $message);
     }
-    public function viewDetail(){
-      $message = "provider detail";
-     return $this->successWithData(auth()->user()->serviceProviderProfile(), $message);
-    
-    }
-   
- 
-
 }
-

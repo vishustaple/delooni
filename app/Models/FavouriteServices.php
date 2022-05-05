@@ -46,7 +46,7 @@ class FavouriteServices extends Model
         $json['service_provider_id'] = $this->service_id;
         $json['service_provider'] = $serviceProvider->first_name . " " . $serviceProvider->last_name;
         $json['service'] = $this->service->serviceCategory->name ?? "";
-        $json['rating'] = $this->Rating->rating??0;
+        $json['rating'] = $this->Rating->rating??'0';
         $json['profile_image']= url('') . '/profile_image/' . $serviceProvider->profile_image ?? '';
         $json['description'] = $this->serviceProvider->description ?? "";
         $json['whatsapp_no']=$this->serviceProvider->whatsapp_no;

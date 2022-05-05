@@ -116,17 +116,14 @@ class ListController extends Controller
                 ->orWhere('business_name', 'like', "%$search%")
                 ->orWhere('last_name', 'like', "%$search%");
         });
-        
 
-       
         if (!empty($search)) {
             $catId = ServiceCategory::where('name', 'like', "%$search%")->where('is_parent', ServiceCategory::IS_PARENT)->pluck('id')->toArray();
             $userId = Services::whereIn('cat_id', $catId)->pluck('user_id')->toArray();
             $paginate->orWhereIn('id', $userId);
         }
-
         if (!empty($pricePerHour)) {
-            $userId = Services::where('price_per_hour', 'like', "%$pricePerHour%")->pluck('user_id')->toArray();
+            $userId = Services::whereBetween('price_per_hour', [Services::MIN_PRICE,$pricePerHour])->pluck('user_id')->toArray();
             $paginate->whereIn('id', $userId);
         }
  

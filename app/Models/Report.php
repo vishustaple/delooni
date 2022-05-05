@@ -18,11 +18,12 @@ class Report extends Model
         $json = [];
         $json['reporting_issue'] = $this->reporting_issue;
         $json['service_category_id'] = $this->service_category_id; 
+        $json['subcategory_id'] = $this->subcategory_id; 
         $json['service_provider_id'] = $this->service_provider_id; 
         $json['user_id'] = $this->user_id;
         $json['subject'] = $this->subject;
         $json['message'] = $this->message;
-        $json['status'] = $this->status??'';
+        $json['status'] = $this->status;
         return $json;
     }
 }

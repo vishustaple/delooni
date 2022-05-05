@@ -24,8 +24,6 @@ class ServiceCategory extends Model
     public function subcategories(){
         // return $this->hasMany('ServiceCategory','is_parent');
         return $this->hasMany(\App\Models\ServiceCategory::class,'is_parent', 'id');
-
-
     }
 
     public function jsonData()
