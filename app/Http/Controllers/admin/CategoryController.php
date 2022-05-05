@@ -90,7 +90,7 @@ public function update_category(Request $request)
     'name' => 'required',
     'service_category_image' => 'image|mimes:jpg,png,jpeg,gif,svg',
    ]);
-     $user = ServiceCategory::find($request->id);
+    $user = ServiceCategory::find($request->id);
      if($request->service_category_image)
      $service_cate = $this->uploadImage($request->service_category_image, 'profile_image');
      else
@@ -106,6 +106,23 @@ public function update_category(Request $request)
         return response()->json(redirect()->back()->with('error', 'Updated not successfully'));
     }
     }
+// public function update_category(Request $request)
+// {  $validatedData = $request->validate([
+//     'name' => 'required',
+//     'service_category_image' => 'image|mimes:jpg,png,jpeg,gif,svg',
+//    ]);
+//    if($validatedData){
+//     $user = ServiceCategory::find($request->id);
+//      $user->name = $request->name;
+//      $user->description = $request->description;
+//      $user->service_category_image = $request->service_category_image;
+//      $user->save();
+//    }
+//     else{
+//         return response()->json(redirect('admin.category.update')->back()->with('error', 'Updated not successfully'));
+//     }
+//     }
+ 
 /**
      *  Detail view category
      *

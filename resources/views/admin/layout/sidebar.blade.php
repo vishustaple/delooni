@@ -122,15 +122,15 @@
         </ul>
       </li>
       
-     <!--Users End-->
-      <!-- <li class="nav-item">
-        <a href="{{url('/admin/logout')}}" class="nav-link">
-          <i class="fa fa-sign-out nav-icon"></i>
+     <!-- Users End-->
+      <li class="nav-item">
+        <a href="" class="nav-link">
+          <i class="fa fa-paypal nav-icon"></i>
           <p>
-            Logout
+            Payment History
           </p>
         </a>
-      </li> -->
+      </li>
  </ul>
   </nav>
   <!-- /.sidebar-menu -->

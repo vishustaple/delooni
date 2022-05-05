@@ -94,10 +94,12 @@ public function status_service(Request $request){
      * @param click on update button get $r->id
      * @return  open pop up model of $r->id with value
 */
-    public function view_update(Request $request){ 
+    public function view_update(Request $request){
     $categoryData = Services::find($request->id);
     $categorynames = ServiceCategory::where('is_parent',0)->get();
     $serviceproviders=User::role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->get();
+    $service_provider=User::role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->pluck("id");
+    $company_service_provider=User::whereIn('id',$service_provider)->where('id','$request->id')->get();
     // $customers=User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->get();
     $res =  view('admin.service.update', compact('categoryData','categorynames','serviceproviders'))->render();
     return response()->json($res);
