@@ -28,7 +28,7 @@
     <!-- Brand Logo -->
     <a href="" class="brand-link text-center black-bg">
       <span>
-        <img src="{{URL::to('/')}}/images/delooni-logo-text.svg" alt="Glitter Logo" class="brand-image mx-auto float-none">
+        <img src="{{URL::to('/')}}/images/delooni-logo.svg" alt="Glitter Logo" class="brand-image mx-auto float-none">
      </span>
       <!-- <span class="brand-text font-weight-light">Admin</span> -->
       
@@ -38,14 +38,13 @@
     <div class="sidebar">
 
       <!-- Sidebar user panel (optional) -->
-      @include('admin.layout.user_panel')
+      <!-- @include('admin.layout.user_panel') -->
       <!-- /.Sidebar user panel -->
       @include('templates.sidebar_search') 
       <!-- SidebarSearch Form (optional) -->
       <!-- @include('templates.sidebar_search') -->
       <!-- /.SidebarSearch Form  -->
-
-    @include('admin.layout.sidebar')
+       @include('admin.layout.sidebar')
     </div>
     <!-- /.sidebar -->
   </aside>

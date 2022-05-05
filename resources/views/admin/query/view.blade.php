@@ -30,7 +30,7 @@
     <td>{{$value->reporting_issue}}</td>
     <td>{{$value->message}}</td>
     <td>
-    <a href='{{route("query.view", $value->id)}}'   target="_blank" class="btn btn-outline-success btn-xs view">View</a>
+    <a href='{{route("query.view", $value->id)}}'   target="_blank" class="btn btn-outline-dark btn-xs view">View</a>
     <button data-id="{{$value->id}}" class="btn btn-danger btn-xs remove">Remove</button>
     </td>
     </tr>

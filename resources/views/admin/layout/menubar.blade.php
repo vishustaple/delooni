@@ -5,15 +5,6 @@
       <li class="nav-item d-none d-sm-inline-block">
         <a href="{{url('/admin/dashboard')}}" class="nav-link">Dashboard</a>
       </li>
-      <!-- <li class="nav-item d-none d-sm-inline-block">
-        <a href="{{url('/admin/create/staff')}}" class="nav-link">Staff</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Finance</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Agencies</a>
-      </li> -->
     </ul>
 
     <div class="dropdown profile-drop ml-auto">

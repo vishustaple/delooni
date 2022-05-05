@@ -83,6 +83,7 @@ class User extends Authenticatable
         'instagram_link',
         'twitter_link',
         'license_cr_no',
+        'service_provider_type',
         'license_cr_photo',
         'description',
         'profile_video',

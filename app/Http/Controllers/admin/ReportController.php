@@ -46,7 +46,10 @@ class ReportController extends Controller
     */
     public function search_query(Request $request){
     $search = $request->search;
-    $qry = Report::select('*');
+    $qry = Report::join('service_categories','reports.service_category_id','=','service_categories.id')
+     ->join('users','reports.user_id','=','users.id')
+     ->select('reports.id','reports.reporting_issue','reports.subcategory_id','reports.service_provider_id',
+     'reports.message','reports.subject','users.first_name','service_categories.name');
     if(!empty($search)){
         $qry->where(function($q) use($search){
             $q->where('subject','like',"%$search%");
