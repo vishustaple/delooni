@@ -6,20 +6,21 @@
  <div class="card-body p-0 border-0">
  <div class="table-responsive table-bordered">
     <table class="table">
-    @if(count($data)>0)
+    @if(count($subcategory)>0)
     <thead>
     <tr>
     <th style="width: 10px">S.no.</th>
-    <th>Name</th>
+    <th>Sub Category Name</th>
     <th>Description</th>
     <th>image</th>
-   <th>Status</th>
+    <th>Category</th>
+    <th>Status</th>
     <th>Action</th>
     </tr>
     </thead>
     @endif
     <tbody>
-    @forelse($data as $key=>$value)
+    @forelse($subcategory as $key=>$value)
     <tr>
     <td>{{$key+1}}</td>
    <td>{{$value->name}}</td>
@@ -27,6 +28,7 @@
     <td>
     <img class="lazyload" src="{{URL::to('/')}}/profile_image/{{$value->service_category_image}}">
     </td>
+    <td>{{$value->is_parent}}</td>
     <td>@if($value->status==1)
     <button data-id="{{$value->id}}" class="disable_enable btn btn-success btn-xs" onclick="toggleDisableEnable(this)">Activate</button>
     @else
@@ -34,7 +36,7 @@
     @endif
     </td>
     <td>
-    <a href='{{route("category.view", $value->id)}}'   target="_blank" class="btn btn-outline-dark btn-xs view">Sub category</a>
+    <a href='{{route("subcategory.view", $value->id)}}'   target="_blank" class="btn btn-outline-dark btn-xs view">view</a>
     <button data-id="{{$value->id}}" style="cursor:pointer" data-toggle="modal" data-target="#myModal1" class="btn btn-outline-dark btn-xs update" class="viewjob_update">Update</button>
     <!-- The Modal -->
     <div class="modal " id="myModal1">
@@ -63,8 +65,8 @@
 </table>
 </div>
 </div>
-<div id="num"  data-page="{{$data->currentPage()}}">    
- {{$data->links()}} 
+<div id="num"  data-page="{{$subcategory->currentPage()}}">    
+ {{$subcategory->links()}} 
 </div>
 <!-- /.card-body -->
 </div>

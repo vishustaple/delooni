@@ -3,7 +3,7 @@
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
       <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-      <li class="nav-item menu-open">
+     <li class="nav-item menu-open">
         <ul class="nav nav-treeview">
           <li class="nav-item">
           <li class="nav-item">
@@ -12,6 +12,7 @@
               <p>Dashboard</p>
             </a>
           </li>
+
           <!-- <li class="nav-item">
             <a href="{{url('/admin/profile')}}" class="nav-link">
               <i class="fa fa-id-badge nav-icon"></i>
@@ -22,7 +23,7 @@
       </li> -->
         <!--Users Start Here-->
         <li class="nav-item">
-        <a href="javascript:void(0)" class="nav-link d-flex">
+        <a href="" class="nav-link d-flex">
            <span><i class="nav-icon fa fa-users"></i></span>
           <p>Users</p>
           <i class="right fa fa-angle-right"></i>
@@ -84,22 +85,7 @@
         </a>
       </li>
 
-      <li class="nav-item">
-        <a href="{{url('/admin/splashscreen')}}" class="nav-link">
-        <i class="fa fa-desktop nav-icon"></i>
-       <p>
-            Splash screen
-          </p>
-        </a>
-      </li>
-        <li class="nav-item">
-        <a href="{{url('/admin/report')}}" class="nav-link">
-       <i class="fa fa-file nav-icon"></i>
-         <p>
-            Report
-          </p>
-        </a>
-      </li>
+     
 
       <li class="nav-item">
         <a href="{{url('/admin/query')}}" class="nav-link">
@@ -131,6 +117,23 @@
             </a>
           </li>
         </ul>
+      </li>
+      <li class="nav-item">
+        <a href="{{url('/admin/splashscreen')}}" class="nav-link">
+        <i class="fa fa-desktop nav-icon"></i>
+       <p>
+            Splash screen
+          </p>
+        </a>
+      </li>
+      
+        <li class="nav-item">
+        <a href="{{url('/admin/report')}}" class="nav-link">
+       <i class="fa fa-file nav-icon"></i>
+         <p>
+            Report
+          </p>
+        </a>
       </li>
       <!-- Users End-->
       <li class="nav-item">

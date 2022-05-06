@@ -86,7 +86,7 @@ function fetch_data(page)
 {
     $('#page-loader').show();
     let value=document.querySelector("#search").value;
-    var make_url="{{route('category.search')}}";
+    var make_url="{{route('subcategory.search')}}";
     var data={'page':page,'search':value};
     $.ajax({
         url:make_url,
@@ -157,7 +157,7 @@ $(document).on('click', '.update', function(event){
   });
   var id = $(this).attr('data-id');
   $.ajax({
-        url:'{{route("category.view.update")}}',
+        url:'{{route("subcategory.view.update")}}',
         data:{id:id},
         success:function(data)
   {
@@ -173,13 +173,13 @@ $(document).on('click', '.update', function(event){
   }
  });
 });
-$(document).on('submit','#update_category', function(e){
+ $(document).on('submit','#update_subcategory', function(e){
   e.preventDefault();
   var data = new FormData(this);
   console.log(data);
   $.ajax({
     type:'post',
-    url:"{{route('category.update')}}",
+    url:"{{route('subcategory.update')}}",
     cache:false,
     contentType: false,
     processData: false,
@@ -197,7 +197,7 @@ $(document).on('submit','#update_category', function(e){
             },
             error:function(data){
             $.each(data.responseJSON.errors, function(id,msg){
-            $('#error_'+id).html(msg);
+            $('#_error_'+id).html(msg);
             })
             }
         });
