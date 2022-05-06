@@ -363,7 +363,7 @@ class UserController extends Controller
             if ($v->fails()) {
                 return $this->validation($v);
             }
-
+            
             if ($user->roles->first()->id == User::ROLE_SERVICE_PROVIDER) {
                 DB::beginTransaction();
 
@@ -371,6 +371,20 @@ class UserController extends Controller
                     $profile_image = $this->uploadImage($r->profile_image, 'profile_image');
                     $user->profile_image = $profile_image;
                 }
+
+                // if (!empty($_FILES['video'])) {
+                //     $profilevideo = $this->uploadImage($r->video, 'profile_video');
+                //     $user->profile_video = $profilevideo;
+                // }
+
+               
+                
+                // if(isset($r->video)){
+                //     $profilevideo = $this->uploadFiles('profile_video',$user->id,FILES::TYPE_VIDEO,$r->file('video'));
+                //   //dd($profilevideo);
+                //     $user->profile_video = $profilevideo;    
+                //     }
+                   
                 $user->nationality = $r->nationality;
                 $user->service_provider_type  = $r->service_provider_type;
                 $user->address = $r->address;
@@ -387,8 +401,9 @@ class UserController extends Controller
                     $licenseImage = $this->uploadImage($r->license_cr_photo, 'license_image');
                     $user->license_cr_photo = $licenseImage ?? $user->license_cr_photo;
                 }
+               
                 $user->save();
-
+               
                 $education = $user->education ?? new EducationDetail();
                 $education->institute_name = $r->institute_name;
                 $education->degree = $r->degree;
@@ -396,16 +411,16 @@ class UserController extends Controller
                 $education->end_date = $r->end_date;
                 $education->user_id = $user->id;
                 $education->save();
-
+                
                 $workExperience = $user->workexperience ?? new WorkExperience();
                 $workExperience->no_of_years = $r->no_of_years;
                 $workExperience->brief_of_experience = $r->brief_of_experience;
                 $workExperience->user_id = $user->id;
                 $workExperience->save();
-
+              
                 if ($r->hasFile('video')) {
                     $file = new Files();
-                    $file->file_name = $this->UploadImage($r->file('video'), 'videos');
+                    $file->file_name = $this->uploadImage($r->video, 'profile_video');
                     $extension = ($r->file('video'))->getClientOriginalExtension();
                     $file->extension = $extension;
                     $file->model_id = $user->id;
@@ -415,16 +430,17 @@ class UserController extends Controller
                     $file->type = 1;
                     $file->save();
                 }
+              
                 DB::commit();
+             
                 return $this->successWithData($user->serviceProviderProfile(), " User Profile updated successfully");
+             
             }
         } catch (\Throwable $e) {
             DB::rollback();
             return $this->error($e->getMessage());
         }
     }
-
-
     /**
      * Add Service Detail  
      *categories
@@ -441,7 +457,7 @@ class UserController extends Controller
                 [
                     // 'title' => 'string',
                     // 'description ' => 'string',
-                    'service_image ' => 'string',
+                    //'service_image ' => 'string',
                     'category_id' => 'required|integer',
                     'sub_category_id' => 'required|integer',
                     'price_per_hour ' => 'string',
@@ -452,32 +468,29 @@ class UserController extends Controller
             if ($v->fails()) {
                 return $this->validation($v);
             }
-            $category = ServiceCategory::where('id', $r->category_id)->where('is_parent', ServiceCategory::IS_PARENT)->first();
+            $category = Services::where('id', $r->category_id)->where('is_parent', Services::IS_PARENT)->first();
             if (empty($category)) {
                 return $this->error("No Category Found");
             }
-            $subCategory = ServiceCategory::where('id', $r->sub_category_id)->where('is_parent', $category->id)->first();
-            if (empty($category)) {
+            $subCategory = Services::where('id', $r->sub_category_id)->where('is_parent', $category->id)->first();
+            if (empty($subCategory)) {
                 return $this->error("No Sub Category Found");
             }
 
-            $service = Services::where('user_id', $user->id)->first();
+            $service = User::where('id', $user->id)->first();
 
             if (empty($service)) {
-                $service = new Services();
+                $service = new Users();
             }
-            // $service->title = $category->title ?? $service->title;
-            // $service->description = $category->description ?? $service->description;
             $service->cat_id = $category->id ?? $service->cat_id;
             $service->sub_cat_id = $subCategory->id ?? $service->sub_cat_id;
             $service->price_per_hour = $r->price_per_hour ?? $service->price_per_hour;
             $service->price_per_day = $r->price_per_day ?? $service->price_per_day;
             $service->price_per_month = $r->price_per_month ?? $service->price_per_month;
-            $service->user_id = $user->id;
-            $service->created_by = $user->id;
-
+            $service->id = $user->id;
+    
             $service->save();
-            return $this->successWithData($service->jsonData(), "Service Added");
+            return $this->successWithData($service->serviceProviderProfile(), "Service Added");
         } catch (\Throwable $e) {
             DB::rollback();
             return $this->error($e->getMessage());
@@ -567,7 +580,7 @@ class UserController extends Controller
                 $r->input(),
                 [
                     'reporting_issue' => 'required|string',
-                    'service_category' => 'required',
+                    //'service_category' => 'required',
                     'service_sub_category' => 'required',
                     'user_id' => 'required',
                     'subject' => 'required|string',
@@ -703,34 +716,22 @@ class UserController extends Controller
             }
             $user = auth()->user();
             $serviceprovider = User::where('id', $user->id)->first();
-            if($r->video)
-            $profilevideo = $this->UploadImage($r->video,'profile_video');
-            else
-            $profilevideo = $user->profile_video;
-     
+            if(isset($r->video)){
+            $profilevideo = $this->uploadFiles($r->file('video'),$user->id,'profile_video');
             $serviceprovider->profile_video = $profilevideo;    
+            }
             $serviceprovider->snapchat_link = $r->snapchat_link ?? $serviceprovider->snapchat_link;
             $serviceprovider->instagram_link = $r->instagram_link ?? $serviceprovider->instagram_link;
             $serviceprovider->twitter_link = $r->twitter_link ?? $serviceprovider->twitter_link;
             $serviceprovider->save();
-
-
-            // if (!empty($_FILES['video'])) {
-            //     $update_data = Files::where(['created_by' => $user->id])
-            //         ->update(['file_name' => $this->UploadImage($r->file('video'), 'videos'), 'extension' => ($r->file('video'))->getClientOriginalExtension()]);
-            // }
-            // }
-
             $workExperience = WorkExperience::where('user_id', $user->id)->first();
             $workExperience->no_of_years = $r->no_of_years ?? $workExperience->no_of_years;
             $workExperience->save();
-            // dd("uygghuguy");
             $services=Services::where('user_id', $user->id)->first();
             $services->price_per_hour=$r->price_per_hour?? $services->price_per_hour;
             $services->price_per_day=$r->price_per_day?? $services->price_per_day;
             $services->price_per_month=$r->price_per_month?? $services->price_per_month;
             $services->save();
-            // return $this->success("User Profile updated successfully");
             return $this->successWithData($user->serviceProviderProfile(), "User Profile updated successfully");
         }   catch (\Throwable $e) {
             DB::rollback();

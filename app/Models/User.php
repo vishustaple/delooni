@@ -88,7 +88,13 @@ class User extends Authenticatable
         'profile_video',
         'profile_image',
         'nationality',
-        'whatspp_no'
+        'whatsapp_no',
+        'cat_id',
+        'sub_cat_id',
+        'price_per_hour',
+        'price_per_day',
+        'price_per_month',
+        'service_provider_type'
     ];
     public function Favouriteservice()
     {
@@ -107,22 +113,18 @@ class User extends Authenticatable
         return $this->hasOne(WorkExperience::class, 'user_id', 'id');
     }
 
-    public function serviceDetail()
-    {
-        return $this->hasOne(Services::class, 'user_id', 'id');
-    }
-
     public function files()
     {
         return $this->hasOne(Files::class, 'created_by')->where('model_type', 'App/Models/User');
     }
     public function servicecatgoryDetail()
     {
-        return $this->hasOne(Services::class, 'id', 'cat__id');
+        return $this->hasOne(Services::class, 'id', 'cat_id');
     }
-
-
-
+    public function servicesubcatgoryDetail()
+    {
+        return $this->hasOne(Services::class, 'id', 'sub_cat_id');
+    }
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -200,7 +202,7 @@ class User extends Authenticatable
 
     public function serviceProviderProfile()
     {
-       
+  
         $json = [];
         $json['id'] = $this->id;
         $json['email'] = $this->email ?? '';
@@ -213,7 +215,7 @@ class User extends Authenticatable
         else
             $json['profile_image'] = "";
         if (!empty($this->files->file_name))
-            $json['video'] = url('') . '/videos/' . $this->files->file_name;
+            $json['video'] = url('') . '/profile_video/' . $this->files->file_name;
         else
             $json['video'] = "";
 
@@ -234,6 +236,11 @@ class User extends Authenticatable
         $json['instagram_link'] = $this->instagram_link ?? '';
         $json['twitter_link'] = $this->twitter_link ?? '';
         $json['license_cr_no'] = $this->license_cr_no ?? '';
+        $json['price_per_hour'] = $this->price_per_hour ?? '';
+        $json['price_per_day'] = $this->price_per_day ?? '';
+        $json['price_per_month'] = $this->price_per_month ?? '';
+        $json['category'] = $this->servicecatgoryDetail->name ?? "";
+        $json['sub_category'] = $this->servicesubcatgoryDetail->name ?? "";
         $json['description'] = $this->description ?? '';
         $json['rating'] = $this->rating ?? '0';
         $json['reviews_count'] = count($this->Rating)?? 0;
@@ -268,7 +275,7 @@ class User extends Authenticatable
             $json['brief_of_experience'] = "";
         }
 
-        $json['service'] = !empty($this->serviceDetail)?$this->serviceDetail->jsonData():"";
+        // $json['service'] = !empty($this->serviceDetail)?$this->serviceDetail->jsonData():"";
 
 
         return $json;
