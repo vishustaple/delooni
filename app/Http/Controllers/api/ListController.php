@@ -67,7 +67,6 @@ class ListController extends Controller
     {
         $user = auth()->user();
         $favourite = FavouriteServices::where('user_id', $user->id)->paginate();
-
         return $this->customPaginator($favourite, 'jsonData');
     }
 

@@ -98,6 +98,10 @@ class User extends Authenticatable
         'price_per_month',
         'service_provider_type'
     ];
+    public function gettoken()
+    {
+        return $this->hasOne(LoginHistory::class, 'created_by', 'id');
+    }
     public function Favouriteservice()
     {
         return $this->hasOne(FavouriteServices::class, 'id', 'user_id');
@@ -117,7 +121,7 @@ class User extends Authenticatable
 
     public function files()
     {
-        return $this->hasOne(Files::class, 'created_by')->where('model_type', 'App/Models/User');
+        return $this->hasOne(Files::class,'created_by')->where('model_type', 'App/Models/User');
     }
     public function servicecatgoryDetail()
     {
@@ -245,6 +249,7 @@ class User extends Authenticatable
         $json['sub_category'] = $this->servicesubcatgoryDetail->name ?? "";
         $json['description'] = $this->description ?? '';
         $json['rating'] = $this->rating ?? '0';
+        $json['token'] = $this->gettoken->personal_access_token ?? '0';
         $json['reviews_count'] = count($this->Rating)?? 0;
         if(auth()->user()){
         $userId = auth()->user()->id;

@@ -23,9 +23,9 @@ class FavouriteServices extends Model
         return $this->hasOne(Services::class, 'id', 'service_id');
     }
 
-    public function serviceCategory()
+    public function servicesubCategory()
     {
-        return $this->hasOne(ServiceCategory::class, 'id', 'service_id');
+        return $this->hasOne(Services::class, 'id', 'service_id');
     }
 
     public function serviceProvider()
@@ -45,7 +45,7 @@ class FavouriteServices extends Model
         $json = [];
         $json['service_provider_id'] = $this->service_id;
         $json['service_provider'] = $serviceProvider->first_name . " " . $serviceProvider->last_name;
-        $json['service'] = $this->service->serviceCategory->name ?? "";
+        $json['service'] = $this->servicesubCategory->name ?? "";
         $json['rating'] = $this->Rating->rating??'0';
         $json['profile_image']= url('') . '/profile_image/' . $serviceProvider->profile_image ?? '';
         $json['description'] = $this->serviceProvider->description ?? "";
@@ -54,7 +54,7 @@ class FavouriteServices extends Model
         $json['instagram_link']=$this->serviceProvider->instagram_link;
         $json['twitter_link']= $this->serviceProvider->twitter_link;
         $json['phone']=$this->serviceProvider->phone;
-        $json['price_per_hour']=$this->service->price_per_hour??0;
+        $json['price_per_hour']=$this->serviceProvider->price_per_hour??0;
         $json['is_favourite']=empty($favourite)?0:1;
         return $json;
     }

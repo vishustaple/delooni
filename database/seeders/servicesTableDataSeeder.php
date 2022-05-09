@@ -44,7 +44,37 @@ class servicesTableDataSeeder extends Seeder
                 'name' => 'Pest Control',
                 'status' => 1,
                 'is_parent'=>3
-            ]
+            ],
+            [
+                'name' => 'Painter',
+                'status' => 1,
+                'is_parent'=>2,
+            ],
+            [
+                'name' => 'Plumber',
+                'status' => 1,
+                'is_parent'=>2,
+            ],
+            [
+                'name' => 'Electrical',
+                'status' => 1,
+                'is_parent'=>2
+            ],
+            [
+                'name' => 'Mathematics',
+                'status' => 1,
+                'is_parent'=>1,
+            ],
+            [
+                'name' => 'Science',
+                'status' => 1,
+                'is_parent'=>1,
+            ],
+            [
+                'name' => 'English',
+                'status' => 1,
+                'is_parent'=>1
+            ],
         ]);
     }
 }
