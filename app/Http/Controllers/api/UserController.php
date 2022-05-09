@@ -683,7 +683,7 @@ class UserController extends Controller
                 $favourite->service_id = $r->provider_id;
                 $favourite->user_id = $user->id;
                 $favourite->save();
-
+            
                 return $this->success('Added to favourite');
             } else {
                 $favourite = FavouriteServices::where(['service_id' => $r->provider_id, 'user_id' => $user->id])->delete();

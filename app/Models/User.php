@@ -36,6 +36,8 @@ class User extends Authenticatable
     const OTHER = 3;
     const UPLOAD_PICTURE_PATH = "/public/images";
 
+    const MIN_PRICE = 0;
+
     const USER_VERIFIED = 1;
     /**
      * The attributes that are mass assignable.
@@ -173,9 +175,9 @@ class User extends Authenticatable
             $json['profile_image'] = "";
             $json['business_name'] = $this->business_name ?? '';
             $json['rating'] = !empty($this->rating)?$this->rating:'0';
-            $json['price_per_hour'] = $this->serviceDetail->price_per_hour ?? 0;
+            $json['price_per_hour'] = $this->price_per_hour ?? 0;
             $json['is_favourite'] = $this->favourite($this->id, $userId)?? 0;
-            $json['service'] = !empty($this->serviceDetail->serviceCategory)?$this->serviceDetail->serviceCategory->name:"";
+            $json['service'] = !empty($this->servicesubcatgoryDetail->name)?$this->servicesubcatgoryDetail->name:"";
 
         }
         return $json;

@@ -117,12 +117,17 @@ class ListController extends Controller
         });
 
         if (!empty($search)) {
-            $catId = ServiceCategory::where('name', 'like', "%$search%")->where('is_parent', ServiceCategory::IS_PARENT)->pluck('id')->toArray();
-            $userId = Services::whereIn('cat_id', $catId)->pluck('user_id')->toArray();
+            // $catId = ServiceCategory::where('name', 'like', "%$search%")->where('is_parent', ServiceCategory::IS_PARENT)->pluck('id')->toArray();
+            // $userId = Services::whereIn('cat_id', $catId)->pluck('user_id')->toArray();
+            // $paginate->orWhereIn('id', $userId);
+            $catId = Services::where('name', 'like', "%$search%")->pluck('id')->toArray();
+            $userId = User::whereIn('sub_cat_id', $catId)->pluck('id')->toArray();
             $paginate->orWhereIn('id', $userId);
         }
         if (!empty($pricePerHour)) {
-            $userId = Services::whereBetween('price_per_hour', [Services::MIN_PRICE,$pricePerHour])->pluck('user_id')->toArray();
+            // $userId = Services::whereBetween('price_per_hour', [Services::MIN_PRICE,$pricePerHour])->pluck('user_id')->toArray();
+            // $paginate->whereIn('id', $userId);
+            $userId = User::whereBetween('price_per_hour', [User::MIN_PRICE,$pricePerHour])->pluck('id')->toArray();
             $paginate->whereIn('id', $userId);
         }
  
