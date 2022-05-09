@@ -36,6 +36,8 @@ class User extends Authenticatable
     const OTHER = 3;
     const UPLOAD_PICTURE_PATH = "/public/images";
 
+    const MIN_PRICE = 0;
+
     const USER_VERIFIED = 1;
     /**
      * The attributes that are mass assignable.
@@ -89,11 +91,17 @@ class User extends Authenticatable
         'profile_video',
         'profile_image',
         'nationality',
-        'whatspp_no'
+        'whatsapp_no',
+        'cat_id',
+        'sub_cat_id',
+        'price_per_hour',
+        'price_per_day',
+        'price_per_month',
+        'service_provider_type'
     ];
     public function Favouriteservice()
     {
-        return $this->hasOne(FavouriteServices::class, 'user_id', 'id');
+        return $this->hasOne(FavouriteServices::class, 'id', 'user_id');
     }
     public function Rating()
     {
@@ -108,22 +116,18 @@ class User extends Authenticatable
         return $this->hasOne(WorkExperience::class, 'user_id', 'id');
     }
 
-    public function serviceDetail()
-    {
-        return $this->hasOne(Services::class, 'user_id', 'id');
-    }
-
     public function files()
     {
         return $this->hasOne(Files::class, 'created_by')->where('model_type', 'App/Models/User');
     }
     public function servicecatgoryDetail()
     {
-        return $this->hasOne(Services::class, 'id', 'cat__id');
+        return $this->hasOne(Services::class, 'id', 'cat_id');
     }
-
-
-
+    public function servicesubcatgoryDetail()
+    {
+        return $this->hasOne(Services::class, 'id', 'sub_cat_id');
+    }
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -143,10 +147,17 @@ class User extends Authenticatable
     ];
     public function favourite($id, $userId)
     {
-        return FavouriteServices::where(['service_id' => $id, 'user_id' => $userId])->first();
+        $exist=FavouriteServices::where(['service_id' => $id, 'user_id' => $userId])->first();
+        if($exist){
+            return 1;
+        }else{
+            return 0;
+        }
+
     }
     public function jsonData()
-    {
+    {    
+        $userId = auth()->user()->id;
         $json = [];
         $json['id'] = $this->id;
         $json['first_name'] = $this->first_name;
@@ -165,11 +176,13 @@ class User extends Authenticatable
             $json['profile_image'] = "";
             $json['business_name'] = $this->business_name ?? '';
             $json['rating'] = !empty($this->rating)?$this->rating:'0';
-            $json['is_favourite'] = empty($this->Favouriteservice->user_id) ? 0 : 1;
-            $json['service'] = !empty($this->serviceDetail->serviceCategory)?$this->serviceDetail->serviceCategory->name:"";
+            $json['price_per_hour'] = $this->price_per_hour ?? 0;
+            $json['is_favourite'] = $this->favourite($this->id, $userId)?? 0;
+            $json['service'] = !empty($this->servicesubcatgoryDetail->name)?$this->servicesubcatgoryDetail->name:"";
 
         }
         return $json;
+
     }
 
 
@@ -192,7 +205,9 @@ class User extends Authenticatable
 
     public function serviceProviderProfile()
     {
+  
         $json = [];
+        $json['id'] = $this->id;
         $json['email'] = $this->email ?? '';
         $json['dob'] = $this->dob ?? '';
         $json['business_name'] = $this->business_name ?? '';
@@ -203,7 +218,7 @@ class User extends Authenticatable
         else
             $json['profile_image'] = "";
         if (!empty($this->files->file_name))
-            $json['video'] = url('') . '/videos/' . $this->files->file_name;
+            $json['video'] = url('') . '/profile_video/' . $this->files->file_name;
         else
             $json['video'] = "";
 
@@ -217,16 +232,25 @@ class User extends Authenticatable
         $json['address'] = $this->address;
         $json['country_code'] = $this->country_code;
         $json['phone'] = $this->phone;
-        $json['latitude'] = $this->latitude;
-        $json['longitude'] = $this->longitude;
+        $json['latitude'] = $this->latitude?? '0.0';
+        $json['longitude'] = $this->longitude??'0.0';
         $json['whatsapp_no'] = $this->whatsapp_no ?? '';
         $json['snapchat_link'] = $this->snapchat_link ?? '';
         $json['instagram_link'] = $this->instagram_link ?? '';
         $json['twitter_link'] = $this->twitter_link ?? '';
         $json['license_cr_no'] = $this->license_cr_no ?? '';
+        $json['price_per_hour'] = $this->price_per_hour ?? '';
+        $json['price_per_day'] = $this->price_per_day ?? '';
+        $json['price_per_month'] = $this->price_per_month ?? '';
+        $json['category'] = $this->servicecatgoryDetail->name ?? "";
+        $json['sub_category'] = $this->servicesubcatgoryDetail->name ?? "";
         $json['description'] = $this->description ?? '';
-        $json['rating'] = $this->rating ?? 0;
-        $json['is_favourite'] = empty($this->Favouriteservice->user_id) ? 0 : 1;
+        $json['rating'] = $this->rating ?? '0';
+        $json['reviews_count'] = count($this->Rating)?? 0;
+        if(auth()->user()){
+        $userId = auth()->user()->id;
+        $json['is_favourite'] = $this->favourite($this->id, $userId);
+        }
         
         // $json['category'] = $this->serviceDetail->serviceCategory->name ?? "";
         // $json['sub_category'] = $this->serviceDetail->serviceSubCategory->name ?? "";
@@ -254,10 +278,11 @@ class User extends Authenticatable
             $json['brief_of_experience'] = "";
         }
 
-        $json['service'] = !empty($this->serviceDetail)?$this->serviceDetail->jsonData():"";
+        // $json['service'] = !empty($this->serviceDetail)?$this->serviceDetail->jsonData():"";
 
 
         return $json;
+    
     }
     public function RatingResponse()
     {

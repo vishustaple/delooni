@@ -17,30 +17,34 @@ class servicesTableDataSeeder extends Seeder
     {
         DB::table('services')->insert([
             [
-                'name' => 'Academics',
+                'name' => 'Tutoring',
                 'status' => 1,
-                'service_category_id' => 1,
             ],
             [
-                'name' => 'Science',
+                'name' => 'Maintenance Services',
                 'status' => 1,
-                'service_category_id' => 1,
             ],
             [
-                'name' => 'English',
+                'name' => 'House Services',
                 'status' => 1,
-                'service_category_id' => 1,
+            ],
+        ]);
+        DB::table('services')->insert([
+            [
+                'name' => 'House Cleaning',
+                'status' => 1,
+                'is_parent'=>3,
             ],
             [
-                'name' => 'Plumber',
+                'name' => 'Cook',
                 'status' => 1,
-                'service_category_id' => 2,
+                'is_parent'=>3,
             ],
             [
-                'name' => 'Elecrical',
+                'name' => 'Pest Control',
                 'status' => 1,
-                'service_category_id' => 2,
-            ],
+                'is_parent'=>3
+            ]
         ]);
     }
 }

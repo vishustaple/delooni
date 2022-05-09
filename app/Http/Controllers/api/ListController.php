@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Country;
 use App\Models\FavouriteServices;
 use App\Models\Notification;
-use App\Models\ServiceCategory;
 use App\Models\Services;
 use App\Models\User;
 use App\Models\UserRating;
@@ -31,7 +30,7 @@ class ListController extends Controller
      */
     public function getcategories()
     {
-        $categories = ServiceCategory::where('is_parent', ServiceCategory::IS_PARENT)->with('subcategories')->paginate();
+        $categories = Services::where('is_parent', Services::IS_PARENT)->with('subcategories')->paginate();
         $getbanners = \App\Models\ServiceBanner::get()->toArray();
         return $this->customPaginator($categories, 'jsonData', ['service_banners' => $getbanners]);
     }
@@ -116,17 +115,19 @@ class ListController extends Controller
                 ->orWhere('business_name', 'like', "%$search%")
                 ->orWhere('last_name', 'like', "%$search%");
         });
-        
 
-       
         if (!empty($search)) {
-            $catId = ServiceCategory::where('name', 'like', "%$search%")->where('is_parent', ServiceCategory::IS_PARENT)->pluck('id')->toArray();
-            $userId = Services::whereIn('cat_id', $catId)->pluck('user_id')->toArray();
+            // $catId = ServiceCategory::where('name', 'like', "%$search%")->where('is_parent', ServiceCategory::IS_PARENT)->pluck('id')->toArray();
+            // $userId = Services::whereIn('cat_id', $catId)->pluck('user_id')->toArray();
+            // $paginate->orWhereIn('id', $userId);
+            $catId = Services::where('name', 'like', "%$search%")->pluck('id')->toArray();
+            $userId = User::whereIn('sub_cat_id', $catId)->pluck('id')->toArray();
             $paginate->orWhereIn('id', $userId);
         }
-
         if (!empty($pricePerHour)) {
-            $userId = Services::where('price_per_hour', 'like', "%$pricePerHour%")->pluck('user_id')->toArray();
+            // $userId = Services::whereBetween('price_per_hour', [Services::MIN_PRICE,$pricePerHour])->pluck('user_id')->toArray();
+            // $paginate->whereIn('id', $userId);
+            $userId = User::whereBetween('price_per_hour', [User::MIN_PRICE,$pricePerHour])->pluck('id')->toArray();
             $paginate->whereIn('id', $userId);
         }
  
@@ -140,4 +141,37 @@ class ListController extends Controller
      
         return $this->customPaginator($paginate->paginate());
     }
+     //get Notification list
+     public function getNotification(request $r)
+     {
+         $loginUser = auth()->user();
+         $currentData = date('Y-m-d');
+         $query = Notification::where('to_user', $loginUser->id)->whereDate('created_at', '>', date('Y-m-d', strtotime($currentData . ' - 3 days')));
+ 
+         //make read notification
+         $notifications = $query;
+         $notifications->update(['is_read' => Notification::STATUS_CLEAR]);
+ 
+         $data = [];
+         $data['today_timestemp'] = Carbon::now()->toDateTimeString();
+ 
+         if ($loginUser->role_id == User::ROLE_ADMIN) {
+             //admin params
+             $data['check_today_unscheduled_event'] = $loginUser->haveEventsUnAssigned("today");
+             $data['check_today_is_multi_driver'] = $loginUser->haveEventsMultiDriver("today");
+ 
+             $data['check_yesterday_unscheduled_event'] = $loginUser->haveEventsUnAssigned();
+             $data['check_yesterday_is_multi_driver'] = $loginUser->haveEventsMultiDriver();
+ 
+         } else {
+             //driver app params
+             $data['check_today_confirm_assignment_pending'] = $loginUser->haveEventsConfirmPending();
+             $data['check_today_unassignment_pending'] = $loginUser->haveEventsUnassignmentPending();
+ 
+             $data['check_yesterday_confirm_assignment_pending'] = $loginUser->haveEventsConfirmPending();
+             $data['check_yesterday_unassignment_pending'] = $loginUser->haveEventsUnassignmentPending();
+         }
+ 
+         return $this->customPaginator($query->paginate(20), "listJsonData", $data);
+     }
 }

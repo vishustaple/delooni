@@ -33,13 +33,14 @@ trait ImageUpload
     $imageName = Str::random(10) . '.' . $file->extension();
     $destinationPath = public_path($fileName);
     $file->move($destinationPath, $imageName);
+    
     return $imageName;
     }
   }
 
   
 
-  public function uploadFiles($fileFolder, $fileType, $model,$file)
+  public function uploadFiles($fileFolder, $model,$file, $fileType)
   {
     if (!empty($fileFolder)) {
       $image = time() . $fileFolder->getClientOriginalName();
@@ -55,11 +56,12 @@ trait ImageUpload
       $file->extension = $extension;
       $file->model_id = $model->id;
       $file->model_type = get_class($model);
-      $file->type = $fileType;
+      $file->type =  $fileType;
       $file->file_size = 122; //
       $file->created_by = $model->id;
       $file->save();
     } catch (\Throwable $e) {
+
       return Log::error('upload fils error!' . $e->getMessage());
     }
   }

@@ -36,6 +36,11 @@ class CreateUsersTable extends Migration
             $table->string('other_spoken_language')->nullable()->comment("input");
             $table->string('primary_mode_of_transport')->nullable()->comment("select box");
             $table->enum('service_provider_type', ['default', 'individual','company'])->default('default')->comment("default => it might be customer, guest but not service provider.");
+            $table->integer("cat_id");
+            $table->integer("sub_cat_id");
+            $table->double('price_per_hour')->default(0.00);
+            $table->double('price_per_day')->default(0.00);
+            $table->double('price_per_month')->default(0.00);
             $table->string('rating')->default(0);
             $table->string('profile_image')->nullable();
             $table->string('cover_image')->nullable();
@@ -58,6 +63,7 @@ class CreateUsersTable extends Migration
             $table->string('license_cr_no')->nullable();
             $table->string('license_cr_photo')->nullable();
             $table->longtext('description')->nullable();
+
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

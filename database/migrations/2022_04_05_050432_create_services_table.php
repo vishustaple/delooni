@@ -15,19 +15,13 @@ class CreateServicesTable extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable();
+            $table->string('name');
             $table->longtext('description')->nullable();
-            $table->string('service_image')->nullable();
-            $table->integer("cat_id");
-            $table->integer("sub_cat_id");
-            $table->double('price_per_hour')->default(0.00);
-            $table->double('price_per_day')->default(0.00);
-            $table->double('price_per_month')->default(0.00);
-            $table->string('currency', 10)->nullable();
+            $table->string('service_category_image')->nullable();
+            $table->integer('is_parent')->default(0);
             $table->integer('status')->default(1)->comment("1=> active, 2=>inactive");
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
-            $table->timestamps();
+            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
 
         });
     }

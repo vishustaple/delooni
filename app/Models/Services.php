@@ -11,7 +11,9 @@ class Services extends Model
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
     const STATUS_NEW = 2;
-
+    
+    const MIN_PRICE = 0;
+    const IS_PARENT=0;
     use HasFactory;
 
     /**
@@ -20,8 +22,11 @@ class Services extends Model
      * @var array
      */
     protected $fillable = [
-        'title','description','status','service_image','path','price_per_hour','price_per_day','price_per_month','cat_id','sub_cat_id','user_id','created_by'
-    ];
+        'name','description','service_category_image','is_parent',    ];
+
+    public function subcategories(){
+        return $this->hasMany(\App\Models\Services::class,'is_parent', 'id');
+    }
 
     public function serviceCategory()
     {
@@ -33,22 +38,25 @@ class Services extends Model
         return $this->hasOne(ServiceCategory::class, 'id', 'sub_cat_id');
     }
 
-
     public function jsonData()
     {
-        $json = [];
-        $json['title'] = $this->title;
-        $json['description'] = $this->description;
-        $json['status'] = $this->status;
-        $json['service_image'] = $this->service_image;
-        $json['price_per_hour'] = $this->price_per_hour;
-        $json['price_per_day'] = $this->price_per_day;
-        $json['price_per_month'] = $this->price_per_month;
-        $json['cat_id'] = $this->cat_id;
-        $json['sub_cat_id'] = $this->sub_cat_id;
-        $json['cat_name'] = $this->serviceCategory->name??"";
-        $json['sub_cat_name'] = $this->serviceSubCategory->name??"";
-
-        return $json;
+       // if( $this->is_parent == 0 ){
+            $json = [];
+            $json['id'] = $this->id;
+            $json['name'] = $this->name;
+            if( count($this->subcategories) > 0 ){
+                $subcategoriesData = [];
+                foreach ($this->subcategories as $key => $value) {
+                        array_push($subcategoriesData, ['name'=>$value->name,'id'=>$value->id, 'icon'=>'http://192.168.1.210/delooni/public/profile_image/'.$value->service_category_image]);
+                   
+                }
+    
+                $json['subcategories'] = $subcategoriesData;     
+            }
+            else{
+                $json['subcategories'] = [];    
+            }
+            return $json;
+     //   }
     }
 }
