@@ -5,7 +5,7 @@
                         <label for="name" class="col-sm-12 col-form-label">Service Name </label>
                         <div class="col-sm-12">
                           <input type="text" class="form-control" id="title" name="title" value="{{$categoryData->title}}">
-                          <div class="error" id="error_name">
+                          <div class="error" id="_error_title">
                          </div>
                         </div>
                       </div>
@@ -13,7 +13,7 @@
                         <label for="price_per_hour" class="col-sm-12 col-form-label">Price Per Hour</label>
                         <div class="col-sm-12">
                           <input type="text" class="form-control" id="price_per_hour" name="price_per_hour" value="{{$categoryData->price_per_hour}}" placeholder="Price Per Month">
-                          <div class="error" id="error_price_per_hour">
+                          <div class="error" id="_error_price_per_hour">
                           </div>
                         </div>
                       </div>
@@ -21,7 +21,7 @@
                         <label for="price_per_day" class="col-sm-12 col-form-label">Price Per Day</label>
                         <div class="col-sm-12">
                           <input type="text" class="form-control" id="price_per_day" name="price_per_day" value="{{$categoryData->price_per_day}}" placeholder="Price Per Day">
-                          <div class="error" id="error_price_per_day">
+                          <div class="error" id="_error_price_per_day">
                           </div>
                         </div>
                       </div>
@@ -29,7 +29,7 @@
                         <label for="price_per_month" class="col-sm-12 col-form-label">Price Per Month</label>
                         <div class="col-sm-12">
                           <input type="text" class="form-control" id="price_per_month" name="price_per_month" value="{{$categoryData->price_per_month}}" placeholder="Price Per Month">
-                          <div class="error" id="error_price_per_month">
+                          <div class="error" id="_error_price_per_month">
                           </div>
                         </div>
                       </div>
@@ -37,7 +37,7 @@
                         <label for="description" class="col-sm-12 col-form-label">Description</label>
                         <div class="col-sm-12">
                         <textarea type="text" class="form-control" id="description" name="description" placeholder="Enter Description">{{$categoryData->description}}</textarea>
-                          <div class="error" id="error_description">
+                          <div class="error" id="_error_description">
                           </div>
                         </div>
                       </div>
@@ -46,7 +46,7 @@
                         <div class="col-sm-12">
                         <img class="lazyload" src="{{URL::to('/')}}/profile_image/{{$categoryData->service_image}}">
                           <input type="file" class="form-control" id="service_image" name="service_image" value="{{$categoryData->service_image}}">
-                          <div class="error" id="error_service_image">
+                          <div class="error" id="_error_service_image">
                          </div>
                         </div>
                       </div>  
@@ -70,7 +70,7 @@
                       <option class="form-drop-items" value="{{$serviceprovider->id}}">{{$serviceprovider->first_name}}</option>
                         @endforeach
                        </select>
-                        <div class="error" id="error_user_id"></div>
+                        <div class="error" id="_error_user_id"></div>
                       </div>
                       </div>
                     <div class="form-group row">

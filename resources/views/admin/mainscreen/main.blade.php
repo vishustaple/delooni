@@ -15,7 +15,7 @@
                   </li>
                 </ul>
               </div>
-          <div class="card" id="data">
+        
              <div class="card-body">
                 <div class="tab-content">
                   <div class="active tab-pane" id="view">
@@ -25,7 +25,7 @@
                 </div>
                 <!-- /.tab-content -->
               </div><!-- /.card-body -->
-      </div>
+     
 </div>
 <script>
 $("#add_image").on('submit', function (e){

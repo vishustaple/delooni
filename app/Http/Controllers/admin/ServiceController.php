@@ -98,6 +98,8 @@ public function status_service(Request $request){
     $categoryData = Services::find($request->id);
     $categorynames = ServiceCategory::where('is_parent',0)->get();
     $serviceproviders=User::role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->get();
+    $service_provider=User::role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->pluck("id");
+    $company_service_provider=User::whereIn('id',$service_provider)->where('service_provider_type','company')->count();
     // $customers=User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->get();
     $res =  view('admin.service.update', compact('categoryData','categorynames','serviceproviders'))->render();
     return response()->json($res);

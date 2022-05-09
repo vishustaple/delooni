@@ -30,8 +30,7 @@ public function categoryView(){
 public function storecategory(Request $request){
    $validatedData = $request->validate([
     'name' => 'required',
-    'description' => 'required',
-    'service_category_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
+    'service_category_image' => 'image|svg',
 ]);
  $insert = new ServiceCategory;
  $insert->name = $request->name;
@@ -88,9 +87,9 @@ public function view_update(Request $request){
 public function update_category(Request $request)
 {  $validatedData = $request->validate([
     'name' => 'required',
-    'service_category_image' => 'image|mimes:jpg,png,jpeg,gif,svg',
-   ]);
-     $user = ServiceCategory::find($request->id);
+    'service_category_image' => 'image|svg',
+    ]);
+    $user = ServiceCategory::find($request->id);
      if($request->service_category_image)
      $service_cate = $this->uploadImage($request->service_category_image, 'profile_image');
      else
@@ -106,6 +105,7 @@ public function update_category(Request $request)
         return response()->json(redirect()->back()->with('error', 'Updated not successfully'));
     }
     }
+
 /**
      *  Detail view category
      *
@@ -132,33 +132,132 @@ public function update_category(Request $request)
    ]);
    return response()->json($data);
    }
- /**
+
+    /**
+     * Category Back
+     *
+     * @param click on back button
+     * @return  redirect at home page
+     */
+    public function  categoryBack()
+    {
+    $url = route('category');
+    return $url;
+    }
+
+   /**
+    * subcategory View
+    *
+    * @param  show admin dashboard
+    * @return view detail of all subcategory
+   */
+      public function subcategoryView(){
+      $subcategory = ServiceCategory::where('is_parent','!=', 0)->orderBy('Id','DESC')->paginate();
+      $categories =  ServiceCategory::where('is_parent',0)->get();
+      return view('admin.subcategory.main', compact('subcategory','categories'));
+    }
+    /**
      *  Status category
      *
      * @param get get data according to $r
      * @return  sub category store according to parent category
-*/
-public function store_sub_category(Request $request){
+     */
+    public function store_sub_category(Request $request){
     $validatedData = $request->validate([
         'name' => 'required',
-        'service_category_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
+        'service_category_image' => 'required|image|svg',
+        'is_parent' => 'required',
      ]);
      $insert = new ServiceCategory;
      $insert->name = $request->name;
+     $insert->description = $request->description;
      $insert->service_category_image  = $this->uploadImage($request->service_category_image, 'profile_image');
      $insert->is_parent = $request->is_parent;
      $insert->save();
      return response()->json(redirect()->back()->with('success','Sub Category Add Successfully'));
 }
-/**
-     *  Category Back
+
+     /**
+     *  view update subcategory
+     *
+     * @param click on update button get $r->id
+     * @return  open pop up model of $r->id with value
+     */
+    public function view_update_subcategory(Request $request){
+    $category = ServiceCategory::where('id',$request->id)->pluck('is_parent');
+    $categorynames = ServiceCategory::whereIn('id',$category)->select('name')->get();
+    $categories =  ServiceCategory::where('is_parent',0)->get();
+    $categoryDatas = ServiceCategory::find($request->id);
+    $res =  view('admin.subcategory.update', compact('categoryDatas','categories','categorynames'))->render();
+    return response()->json($res);
+}
+   /**
+     *  update subcategory
+     *
+     * @param $r get form data 
+     * @return  return response update successfully or not
+    */
+    public function update_subcategory(Request $request)
+    {  $validatedData = $request->validate([
+    'name' => 'required',
+    'service_category_image' => 'image|svg',
+    'is_parent' => 'required',
+    ]);
+    $user = ServiceCategory::find($request->id);
+     if($request->service_category_image)
+     $service_cate = $this->uploadImage($request->service_category_image, 'profile_image');
+     else
+     $service_cate = $user->service_category_image;
+     $user->name = $request->name;
+     $user->description = $request->description;
+     $user->service_category_image = $service_cate;
+     $user->save();
+     if($user){
+        return response()->json(redirect()->back()->with('success', 'Updated Successfully.'));
+     }
+    else{
+        return response()->json(redirect()->back()->with('error', 'Updated not successfully'));
+    }
+    }
+    /**
+     *  Detail view subcategory
+     *
+     * @param get $r->id on click view button
+     * @return  detail view page of subcategory according $r->id
+     */
+    public function detailView_subcategory(Request $request){
+    $subcategory = ServiceCategory::where('id',$request->id)->first(); 
+    $data = ServiceCategory::where('id',$request->id)->pluck('is_parent');
+    $category = ServiceCategory::whereIn('id',$data)->select('name')->first();
+    return view('admin.subcategory.detailview', compact('subcategory','category'));
+    }
+    /**
+     *  Search Category
+     *
+     * @param search name in search bar
+     * @return  fetch data according to $request
+     */
+    public function searchsubcategory(Request $request){
+    $search = $request->search;
+    $qry = ServiceCategory::select('*')->where('is_parent','!=', 0);
+    if(!empty($search)){
+        $qry->where(function($q) use($search){
+            $q->where('name','like',"%$search%");
+       });
+    }
+   $subcategory = $qry->where('is_parent','!=', 0)->orderBy('id','DESC')->paginate();
+   return view('admin.subcategory.view', compact('subcategory','search'));
+   }
+    /**
+     *  Sub Category Back
      *
      * @param click on back button
      * @return  redirect at home page
-*/
-public function  categoryBack()
-{
-    $url = route('category');
+     */
+     public function  subcategoryBack()
+    {
+    $url = route('subcategory');
     return $url;
-}
-}  
+    }
+
+    }  

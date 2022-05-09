@@ -1,40 +1,54 @@
-<form class="form-horizontal"  id="add_subcategory"   enctype="multipart/form-data">
-                      @csrf
-                      <div class="form-group row">
-                        <label for="name" class="col-sm-12 col-form-label">Sub Category Name </label>
-                        <div class="col-sm-12">
-                          <input type="text" class="form-control" id="name" name="name" placeholder="Enter Sub category name">
-                          <div class="error" id="error_name">
-                         </div>
+@extends('admin.layout.template')
+@section('contents')
+<div class="card" id="data">
+              <div class="card-header p-2 yellow-bg">
+                <ul class="nav nav-pills">
+                <li class="nav-item"><a class="nav-link active" style="cursor:pointer" 
+                        data-toggle="modal" 
+                        data-target="#myModal">Add</a></li>
+                   <!-- The Modal -->
+                    <div class="modal" id="myModal"> 
+                      <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                          <!-- Modal Header -->
+                          <div class="modal-header">
+                            <h5 class="modal-title">Add Sub category</h5>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          </div>
+                          
+                          <!-- Modal body -->
+                          <div class="modal-body">
+                            @include('admin.subcategory.add_subcategory')
+                          </div>
                         </div>
                       </div>
-                 <div class="form-group row">
-                        <label class="col-sm-12 col-form-label">Sub category Image </label>
-                        <div class="col-sm-12">
-                          <input type="file" class="form-control" id="service_category_image" name="service_category_image" placeholder="Upload Service category Image">
-                          <div class="error" id="error_service_category_image">
-                         </div>
-                        </div>
-                      </div>  
-
-                     <div class="form-group row">
-                        <label for="is_parent" class="col-sm-12 col-form-label">Parent category </label>
-                          <div class="col-sm-12">
-                          <select class="form-control" id="is_parent" name="is_parent">
-                  @foreach($getnames as $getname)
-                      <option class="form-drop-items" value="{{$getname->id}}">{{$getname->name}}</option>
-                 @endforeach
-               </select>
-                 </div>
+                    </div>
+                  <!-- <li class="nav-item"><a class="nav-link" href="#view" data-toggle="tab">Add User</a></li> -->
+                  <li class="nav-item search-right">
+                   <div>
+                    <div class="input-group" data-widget="sidebar-search">
+                      <input class="form-control form-control-sidebar border-0" id="search" type="search" placeholder="Search" aria-label="Search">
+                      <div class="input-group-append">
+                        <button class="btn btn-sidebar bg-white">
+                          <i class="fa fa-search"></i>
+                        </button>
+                      </div>
+                    </div>
+                   </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="card-body py-0">
+                <div class="tab-content">
+                  <div class="active tab-pane" id="view">
+                     @include('admin.subcategory.view')
                   </div>
-                 <div class="form-group row">
-                        <div class="col-sm-12 text-center">
-                          <button type="submit" class="btn app-button">Submit</button>
-                          <button type="reset" class="btn btn-danger">Reset</button>
-                        </div>
-                      </div>
-                    </form>
-                    <script>
+                  <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+              </div><!-- /.card-body -->
+      </div>
+      <script>
     $("#add_subcategory").on('submit', function (e){
      e.preventDefault();
      var data = new FormData(this);
@@ -72,7 +86,7 @@ function fetch_data(page)
 {
     $('#page-loader').show();
     let value=document.querySelector("#search").value;
-    var make_url="{{route('category.search')}}";
+    var make_url="{{route('subcategory.search')}}";
     var data={'page':page,'search':value};
     $.ajax({
         url:make_url,
@@ -143,7 +157,7 @@ $(document).on('click', '.update', function(event){
   });
   var id = $(this).attr('data-id');
   $.ajax({
-        url:'{{route("category.view.update")}}',
+        url:'{{route("subcategory.view.update")}}',
         data:{id:id},
         success:function(data)
   {
@@ -159,13 +173,13 @@ $(document).on('click', '.update', function(event){
   }
  });
 });
-$(document).on('submit','#update_category', function(e){
+ $(document).on('submit','#update_subcategory', function(e){
   e.preventDefault();
   var data = new FormData(this);
   console.log(data);
   $.ajax({
     type:'post',
-    url:"{{route('category.update')}}",
+    url:"{{route('subcategory.update')}}",
     cache:false,
     contentType: false,
     processData: false,
@@ -183,7 +197,7 @@ $(document).on('submit','#update_category', function(e){
             },
             error:function(data){
             $.each(data.responseJSON.errors, function(id,msg){
-            $('#error_'+id).html(msg);
+            $('#_error_'+id).html(msg);
             })
             }
         });
@@ -214,3 +228,4 @@ $(document).on('submit','#update_category', function(e){
  });
 }
 </script>
+@endsection

@@ -5,7 +5,7 @@
                         <label for="plan_name" class="col-sm-12 col-form-label">Plan name</label>
                         <div class="col-sm-12">
                           <input type="text" class="form-control" id="plan_name" name="plan_name" value="{{$content->plan_name}}">
-                          <div class="error" id="error_plan_name">
+                          <div class="error" id="_error_plan_name">
                          </div>
                         </div>
                       </div>
@@ -13,7 +13,7 @@
                         <label for="description" class="col-sm-12 col-form-label">Description</label>
                         <div class="col-sm-12">
                           <textarea type="text" class="form-control" id="description" name="description" placeholder="Enter Description">{{$content->description}}</textarea>
-                          <div class="error" id="error_description">
+                          <div class="error" id="_error_description">
                           </div>
                         </div>
                       </div>
@@ -21,7 +21,7 @@
                         <label for="validity" class="col-sm-12 col-form-label">Plan validity</label>
                         <div class="col-sm-12">
                           <input type="text" class="form-control" id="validity" name="validity" value="{{$content->validity}}">
-                          <div class="error" id="error_validity">
+                          <div class="error" id="_error_validity">
                          </div>
                         </div>
                       </div>  
@@ -29,7 +29,7 @@
                         <label for="price_per_plan" class="col-sm-12 col-form-label">Price per plan</label>
                         <div class="col-sm-12">
                           <input type="text" class="form-control" id="price_per_plan" name="price_per_plan" value="{{$content->price_per_plan}}">
-                          <div class="error" id="error_price_per_plan">
+                          <div class="error" id="_error_price_per_plan">
                          </div>
                         </div>
                       </div> 

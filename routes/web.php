@@ -43,7 +43,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
         Route::get('/profile', [AdminController::class, 'adminProfile']);
         Route::get('/logout', [AdminController::class, 'Logout']);
-
+       
         //********************************************User*******************************************//
         Route::get('/user', [UserRegisterController::class, 'viewUser'])->name('view-user');
         Route::post('/user/adduser', [UserRegisterController::class, 'addUser']);
@@ -86,7 +86,13 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/category/update/status', [CategoryController::class, 'status_category'])->name('category.update.status');
         Route::get('/category/back',[CategoryController::class,'categoryBack']);
      //******************************************Admin Manage Sub Category*********************************************//
+        Route::get('/subcategory', [CategoryController::class, 'subcategoryView'])->name('subcategory');
         Route::post('/subcategory/add', [CategoryController::class, 'store_sub_category'])->name('subcategory.add');
+        Route::get('/subcategory/view/update', [CategoryController::class, 'view_update_subcategory'])->name('subcategory.view.update');
+        Route::post('/subcategory/update', [CategoryController::class, 'update_subcategory'])->name('subcategory.update');
+        Route::get('/subcategory/view/{id}', [CategoryController::class, 'detailView_subcategory'])->name('subcategory.view');
+        Route::get('/subcategory/search', [CategoryController::class, 'searchsubcategory'])->name('subcategory.search');
+        Route::get('/subcategory/back',[CategoryController::class,'subcategoryBack']);
 
 
       //******************************************Admin Manage Services*********************************************//

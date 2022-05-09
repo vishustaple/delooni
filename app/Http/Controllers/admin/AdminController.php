@@ -4,8 +4,10 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\ServiceCategory;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Admin;
+use App\Models\Subscription;
 use App\Models\Report;
 use App\Traits\ImageUpload;
 use App\Traits\Statuscheck;
@@ -78,24 +80,48 @@ class AdminController extends Controller
     }
     
     public function dashboard()
-    {
-        $loginUser = auth()->user();
-        ////////////////Admin/////////////////////
-        $customer=User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->count();
-        $individual_service_provider=User::where('service_provider_type',"individual")
-        ->role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))
-        ->count();
-        $service_provider=User::role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->pluck("id");
-        $company_service_provider=User::whereIn('id',$service_provider)->where('service_provider_type','company')->count();
-        $query=Report::where('status','=',1)->count();
-        if ($loginUser->hasRole('admin')) {
-            $staff = User::all();
-            return view('admin.home', compact('staff','individual_service_provider','company_service_provider','customer','query'));
-        }
-        //////////////////Customer//////////////////
-        $userModule = $loginUser->userModule;
-        return view('admin.customer.dashboard', compact('userModule'));
+    {       $total_customer = User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->count();
+                 $customer  =  User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->select(\DB::raw("COUNT(*) as count"))
+                              ->whereYear('created_at', date('Y'))
+                               ->groupBy(\DB::raw("Month(created_at)"))
+                               ->pluck('count');
+ $individual_serviceprovider = User::where('service_provider_type',"individual")
+                               ->role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->select(\DB::raw("COUNT(*) as count"))
+                               ->whereYear('created_at', date('Y'))
+                               ->groupBy(\DB::raw("Month(created_at)"))
+                               ->pluck('count');
+   $company_serviceprovider  = User::where('service_provider_type',"company")
+                                ->role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->select(\DB::raw("COUNT(*) as count"))
+                               ->whereYear('created_at', date('Y'))
+                               ->groupBy(\DB::raw("Month(created_at)"))
+                               ->pluck('count');
+                     $query  =  Report::select(\DB::raw("COUNT(*) as count"))
+                               ->whereYear('created_at', date('Y'))
+                               ->groupBy(\DB::raw("Month(created_at)"))
+                                ->pluck('count');
+          return view('admin.home', compact('customer','individual_serviceprovider','company_serviceprovider','query','total_customer'));
     }
+    
+    // public function dashboardd()
+    // {
+    //     $loginUser = auth()->user();
+    //     ////////////////Admin/////////////////////
+    //     $customer=User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->count();
+    //     $individual_service_provider=User::where('service_provider_type',"individual")
+    //     ->role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))
+    //     ->count();
+    //     $service_provider=User::role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->pluck("id");
+    //     $company_service_provider=User::whereIn('id',$service_provider)->where('service_provider_type','company')->count();
+    //     $query=Report::where('status','=',1)->count();
+    //     if ($loginUser->hasRole('admin')) {
+    //         $userModule = $loginUser->userModule;
+    //         return view('admin.customer.dashboard', compact('userModule'));
+    //     }
+    //     //////////////////Customer//////////////////
+    //     $staff = User::all();
+    //     return view('admin.home', compact('staff','individual_service_provider','company_service_provider','customer','query'));
+       
+    // }
     public function fetchStaffList(request $request)
     {
         if ($request->ajax()) {
@@ -197,4 +223,8 @@ class AdminController extends Controller
     public function termsAndCondition(){
         return view('termsandconditions');
     }
+
+
+
+
 }
