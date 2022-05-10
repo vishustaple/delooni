@@ -82,24 +82,30 @@ class AdminController extends Controller
     public function dashboard()
     {       $total_customer = User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->count();
                  $customer  =  User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->select(\DB::raw("COUNT(*) as count"))
-                              ->whereYear('created_at', date('Y'))
+                               ->whereYear('created_at', date('Y'))
                                ->groupBy(\DB::raw("Month(created_at)"))
                                ->pluck('count');
+        $total_individual   =  User::where('service_provider_type',"individual")
+                               ->role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->count();         
  $individual_serviceprovider = User::where('service_provider_type',"individual")
                                ->role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->select(\DB::raw("COUNT(*) as count"))
                                ->whereYear('created_at', date('Y'))
                                ->groupBy(\DB::raw("Month(created_at)"))
                                ->pluck('count');
+            $total_company   =  User::where('service_provider_type',"company")
+                               ->role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->count(); 
    $company_serviceprovider  = User::where('service_provider_type',"company")
                                 ->role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->select(\DB::raw("COUNT(*) as count"))
                                ->whereYear('created_at', date('Y'))
                                ->groupBy(\DB::raw("Month(created_at)"))
                                ->pluck('count');
+              $total_query   =  Report::count();                
                      $query  =  Report::select(\DB::raw("COUNT(*) as count"))
                                ->whereYear('created_at', date('Y'))
                                ->groupBy(\DB::raw("Month(created_at)"))
                                 ->pluck('count');
-          return view('admin.home', compact('customer','individual_serviceprovider','company_serviceprovider','query','total_customer'));
+          return view('admin.home', compact('customer','individual_serviceprovider','company_serviceprovider','query','total_customer',
+                    'total_individual','total_company','total_query'));
     }
     
     // public function dashboardd()

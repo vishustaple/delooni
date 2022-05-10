@@ -12,7 +12,7 @@
                         <div class="modal-content">
                           <!-- Modal Header -->
                           <div class="modal-header">
-                            <h5 class="modal-title">Add Sub category</h5>
+                            <h5 class="modal-title">Add Service</h5>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                           </div>
                           

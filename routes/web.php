@@ -179,3 +179,8 @@ Route::get('/serviceprovider/remove', [ServiceProviderController::class, 'Servic
 Route::get('/providerupdateform/{id}', [ServiceProviderController::class, 'UpdateForm'])->name('provider.updateform');
 Route::post('/updateproviderdata', [ServiceProviderController::class, 'UpdateProviderData'])->name('provider.updateproviderdata');
 Route::get('/category/{id}', [ServiceProviderController::class, 'GetCategory'])->name('provider.category');
+
+
+Route::get('/company', [ServiceProviderController::class, 'company_view'])->name('company');
+Route::get('/provider/company/search', [ServiceProviderController::class, 'search_company'])->name('provider.company.search');
+

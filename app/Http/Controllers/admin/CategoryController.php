@@ -30,7 +30,7 @@ public function categoryView(){
 public function storecategory(Request $request){
    $validatedData = $request->validate([
     'name' => 'required',
-    'service_category_image' => 'image|svg',
+    'service_category_image' => 'image|mimes:svg',
 ]);
  $insert = new ServiceCategory;
  $insert->name = $request->name;
@@ -87,7 +87,7 @@ public function view_update(Request $request){
 public function update_category(Request $request)
 {  $validatedData = $request->validate([
     'name' => 'required',
-    'service_category_image' => 'image|svg',
+    'service_category_image' => 'image|mimes:svg',
     ]);
     $user = ServiceCategory::find($request->id);
      if($request->service_category_image)
@@ -165,7 +165,7 @@ public function update_category(Request $request)
     public function store_sub_category(Request $request){
     $validatedData = $request->validate([
         'name' => 'required',
-        'service_category_image' => 'required|image|svg',
+        'service_category_image' => 'required|image|mimes:svg',
         'is_parent' => 'required',
      ]);
      $insert = new ServiceCategory;
@@ -200,7 +200,7 @@ public function update_category(Request $request)
     public function update_subcategory(Request $request)
     {  $validatedData = $request->validate([
     'name' => 'required',
-    'service_category_image' => 'image|svg',
+    'service_category_image' => 'image|mimes:svg',
     'is_parent' => 'required',
     ]);
     $user = ServiceCategory::find($request->id);

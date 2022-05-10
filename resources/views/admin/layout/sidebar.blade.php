@@ -12,8 +12,7 @@
               <p>Dashboard</p>
             </a>
           </li>
-
-          <!-- <li class="nav-item">
+        <!-- <li class="nav-item">
             <a href="{{url('/admin/profile')}}" class="nav-link">
               <i class="fa fa-id-badge nav-icon"></i>
               <p>Account</p>
@@ -23,23 +22,32 @@
       </li> -->
         <!--Users Start Here-->
         <li class="nav-item">
+        <a href="{{url('/admin/customer')}}" class="nav-link">
+        <i class="fa fa-user nav-icon"></i>
+          <p>
+            Users
+          </p>
+        </a>
+      </li>
+
+        <li class="nav-item">
         <a href="" class="nav-link d-flex">
-           <span><i class="nav-icon fa fa-users"></i></span>
-          <p>Users</p>
+           <span><i class="nav-icon fa fa-server"></i></span>
+          <p>Service Provider</p>
           <i class="right fa fa-angle-right"></i>
         </a>
-        <ul class="nav nav-treeview" style="display: {{ Request::routeIs('customer')|| Request::routeIs('viewserviceprovider') ? 'block' : 'none' }}">
+        <ul class="nav nav-treeview" style="display: {{ Request::routeIs('company')|| Request::routeIs('viewserviceprovider') ? 'block' : 'none' }}">
           <li class="nav-item">
-            <a href="{{route('customer')}}" class="nav-link  {{ Request::routeIs('customer') ? 'active' : '' }}">
-              <i class="fa fa-user-circle nav-icon"></i>
-              <p>Customers</p>
+            <a href="{{route('company')}}" class="nav-link  {{ Request::routeIs('company') ? 'active' : '' }}">
+              <i class="fa fa-users nav-icon"></i>
+              <p>Company</p>
             </a>
           </li>
     
       <li class="nav-item">
             <a href="{{route('viewserviceprovider')}}" class="nav-link  {{ Request::routeIs('viewserviceprovider') ? 'active' : '' }}">
-              <i class="fa fa-circle nav-icon"></i>
-              <p>Service Providers</p>
+              <i class="fa fa-child nav-icon"></i>
+              <p>Individual</p>
             </a>
           </li>
         </ul>
@@ -48,7 +56,7 @@
     <!--Category Start Here-->
       <li class="nav-item">
         <a href="javascript:void(0)" class="nav-link d-flex">
-           <span><i class="fa fa-twitter nav-icon"></i></span>
+           <span><i class="fa fa-check double nav-icon"></i></span>
           <p>Categories</p>
           <i class="right fa fa-angle-right"></i>
         </a>
@@ -56,13 +64,13 @@
           <li class="nav-item">
             <a href="{{url('/admin/category')}}" class="nav-link  {{ Request::routeIs('category') ? 'active' : '' }}">
               <i class="fa fa-building-o nav-icon"></i>
-              <p>Service Category</p>
+              <p>Categories</p>
             </a>
           </li>
         <li class="nav-item">
             <a href="{{url('/admin/subcategory')}}" class="nav-link  {{ Request::routeIs('subcategory') ? 'active' : '' }}">
-              <i class="fa fa-building-o nav-icon"></i>
-              <p>Sub category</p>
+              <i class="fa fa-cogs nav-icon"></i>
+              <p>Services</p>
             </a>
           </li>
         </ul>
