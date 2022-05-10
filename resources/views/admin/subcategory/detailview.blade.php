@@ -4,7 +4,7 @@
     <div class="card-header yellow-bg">
       <div class="row align-items-center">
         <div class="col-md-6">
-        <h3 class="card-title mb-0">Sub Category Detail View</h3>
+        <h3 class="card-title mb-0">Service Detail View</h3>
        </div>
     @include('admin.subcategory.back')
    </div>
@@ -25,7 +25,7 @@
                        </div>
                       </div>
                       <div class="form-group row uploadimage">
-                        <label for="service_category_image" class="col-sm-12 col-form-label">Service Category Image</label>
+                        <label for="service_category_image" class="col-sm-12 col-form-label">Service Image</label>
                         <div class="col-sm-12">
                         <img class="lazyload" src="{{URL::to('/')}}/profile_image/{{$subcategory->service_category_image}}">
                           </div>

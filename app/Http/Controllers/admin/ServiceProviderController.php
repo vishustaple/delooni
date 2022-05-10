@@ -30,7 +30,8 @@ class ServiceProviderController extends Controller
      */
     public function ViewServiceProvider(){
     try{
-        $data = User::role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))
+        $data = User::where('service_provider_type',"individual")
+               ->role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))
                         ->orderBy('id', 'DESC')
                         ->paginate();
 
@@ -191,7 +192,7 @@ catch (\Throwable $th) {
         });
     }
     // where('role_id',1)->where('status','!=',User::STATUS_INACTIVE)
-    $data = $qry->role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->orderBy('id', 'DESC')->paginate();
+    $data = $qry->where('service_provider_type',"individual")->role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->orderBy('id', 'DESC')->paginate();
     return view('admin.serviceprovider.view', compact('data','search'));
     }
 
@@ -298,8 +299,39 @@ catch (\Throwable $th) {
         $categorynames = ServiceCategory::where('is_parent','=',$cat_id)->get();
         return response()->json($categorynames);
     }
+     /**
+     *  Show ServiceProvider List
+     *
+     * @param 
+     * @return 
+     */
+    public function company_view(){
+        try{
+            $data = User::where('service_provider_type',"company")
+                    ->role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))
+                    ->orderBy('id', 'DESC')->paginate();
+              return view('admin.serviceprovider.company', compact('data'));
+    }
+    catch (\Throwable $th) {
+      
+        return $this->error($th->getMessage());
+    }
     
-        
+    }
+    public function search_company(Request $request){
+        $search = $request->search;
+        $qry = User::select('*');
+        if(!empty($search)){
+            $qry->where(function($q) use($search){
+                $q->where('first_name','like',"%$search%");
+                $q->orWhere('email','like',"%$search%");
+                // $q->orWhere('phone','like',"%$search%");
+            });
+        }
+        // where('role_id',1)->where('status','!=',User::STATUS_INACTIVE)
+        $data = $qry->where('service_provider_type',"company")->role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->orderBy('id', 'DESC')->paginate();
+        return view('admin.serviceprovider.view', compact('data','search'));
+        }
 
         
 }

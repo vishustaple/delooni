@@ -1,6 +1,6 @@
 <div class="card shadow-none border-0 p-0" id ="test">
     <div class="card-header px-0 ">
-    <h3 class="card-title font-weight-bold">Sub Category List</h3>
+    <h3 class="card-title font-weight-bold">Service List</h3>
 </div>
 <!-- /.card-header -->
  <div class="card-body p-0 border-0">
@@ -10,10 +10,9 @@
     <thead>
     <tr>
     <th style="width: 10px">S.no.</th>
-    <th>Sub Category Name</th>
+    <th>Service Name</th>
     <th>Description</th>
     <th>image</th>
-    <th>Category</th>
     <th>Status</th>
     <th>Action</th>
     </tr>
@@ -28,8 +27,7 @@
     <td>
     <img class="lazyload" src="{{URL::to('/')}}/profile_image/{{$value->service_category_image}}">
     </td>
-    <td>{{$value->is_parent}}</td>
-    <td>@if($value->status==1)
+     <td>@if($value->status==1)
     <button data-id="{{$value->id}}" class="disable_enable btn btn-success btn-xs" onclick="toggleDisableEnable(this)">Activate</button>
     @else
     <button data-id="{{$value->id}}" class="disable_enable btn btn-danger btn-xs" onclick="toggleDisableEnable(this)">Deactivate</button>
@@ -58,7 +56,7 @@
     </tr>
     @empty
     <center>
-    <h5 class="border p-2"> Sub Category not Available </h5>
+    <h5 class="border p-2"> Service not Available </h5>
     </center>
     @endforelse
 </tbody>

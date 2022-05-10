@@ -5,20 +5,30 @@
 <head>
     <title>delooni.com</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
 </head>
-   
 <body>
+
 <!-- <h3 class="mb-4">Graphic Chart Of Users</h3> -->
 <div class="row g-4">
     <div class="col-md-6">
+           <div class="mb-4">
+           <span class="info-box-text">Total Customer</span>
+                <span class="info-box-number"> 
+                {{ $total_customer }}</span> 
+           </div>
       <div class="card">
         <div class="card-body">
          <div id="container"></div>
        </div>
       </div>
       </div>
+   
       <div class="col-md-6">
+      <div class="mb-4">
+      <span class="info-box-text">Total Individual Service Provider</span>
+                <span class="info-box-number"> 
+                {{ $total_individual }}</span> 
+      </div>
       <div class="card">
         <div class="card-body">
          <div id="container1"></div>
@@ -26,6 +36,11 @@
       </div>
       </div>
       <div class="col-md-6">
+      <div class="mb-4">
+      <span class="info-box-text">Total Company Service Provider</span>
+                <span class="info-box-number"> 
+                {{ $total_company }}</span> 
+      </div>
       <div class="card">
         <div class="card-body">
          <div id="container2"></div>
@@ -33,6 +48,11 @@
       </div>
       </div>
       <div class="col-md-6">
+      <div class="mb-4">
+      <span class="info-box-text">Total Query</span>
+                <span class="info-box-number"> 
+                {{ $total_query }}</span> 
+      </div>
       <div class="card">
         <div class="card-body">
          <div id="container3"></div>
@@ -49,7 +69,7 @@
     Highcharts.chart('container', {
         title: {
             text: 'Customer'
-        },
+           },
         subtitle: {
             text: ''
         },
@@ -209,7 +229,7 @@ var users =  <?php echo json_encode($query) ?>;
     Highcharts.chart('container3', {
         width: 200,
         title: {
-            text: 'New Query Growth'
+            text: 'Queries'
         },
         subtitle: {
             text: ''
