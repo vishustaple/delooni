@@ -430,7 +430,7 @@ class UserController extends Controller
               
                 DB::commit();
              
-                return $this->successWithData($user->serviceProviderProfile(), " User Profile updated successfully");
+                return $this->successWithData($user->serviceProviderProfile(), " User Profile created successfully");
              
             }
         } catch (\Throwable $e) {
@@ -482,13 +482,13 @@ class UserController extends Controller
             if (empty($service)) {
                 $service = new Users();
             }
-            $service->cat_id = $category->id ?? $service->cat_id;
-            $service->sub_cat_id = $subCategory->id ?? $service->sub_cat_id;
-            $service->price_per_hour = $r->price_per_hour ?? $service->price_per_hour;
-            $service->price_per_day = $r->price_per_day ?? $service->price_per_day;
-            $service->price_per_month = $r->price_per_month ?? $service->price_per_month;
+            $service->cat_id = $category->id ;
+            $service->sub_cat_id = $subCategory->id ;
+            $service->price_per_hour = $r->price_per_hour ;
+            $service->price_per_day = $r->price_per_day ;
+            $service->price_per_month = $r->price_per_month ;
             $service->id = $user->id;
-    
+            $service->form_step = User::FORM_COMPLETED;
             $service->save();
             return $this->successWithData($service->serviceProviderProfile(), "Service Added");
         } catch (\Throwable $e) {
@@ -579,8 +579,8 @@ class UserController extends Controller
             $v = Validator::make(
                 $r->input(),
                 [
-                    'service_category' => 'integer',
-                    'service_sub_category' => 'integer',
+                    'service_category' => 'string',
+                    // 'service_sub_category' => 'integer',
                     'provider_id' => 'required',
                     'subject' => 'required|string',
                     'message' => 'required|string',
@@ -589,18 +589,17 @@ class UserController extends Controller
             if ($v->fails()) {
                 return $this->validation($v);
             }
-            $serviceCategory = Services::where('id', $r->service_category)->first();
-            if (empty($serviceCategory)) {
-                throw new Exception("No Service Category Found");
-            }
+            // $serviceCategory = Services::where('id', $r->service_category)->first();
+            // if (empty($serviceCategory)) {
+            //     throw new Exception("No Service Category Found");
+            // }
             $userId = User::where('id', $r->provider_id)->first();
             if (empty($userId)) {
                 throw new Exception("No Provider Found");
             }
             $report = new Report();
-            //$report->reporting_issue = $r->reporting_issue;
-            $report->service_category_id = $serviceCategory->id;
-            $report->subcategory_id = $r->service_sub_category;
+            $report->service_category_id = $userId->cat_id;
+            $report->subcategory_id = $userId->sub_cat_id;
             $report->service_provider_id  = $r->provider_id;     //service provider id
             $report->user_id  = $user->id;
             $report->subject = $r->subject;
@@ -748,11 +747,6 @@ class UserController extends Controller
             $workExperience = WorkExperience::where('user_id', $user->id)->first();
             $workExperience->no_of_years = $r->no_of_years ?? $workExperience->no_of_years;
             $workExperience->save();
-            // $services=Services::where('user_id', $user->id)->first();
-            // $services->price_per_hour=$r->price_per_hour?? $services->price_per_hour;
-            // $services->price_per_day=$r->price_per_day?? $services->price_per_day;
-            // $services->price_per_month=$r->price_per_month?? $services->price_per_month;
-            // $services->save();
             return $this->successWithData($user->serviceProviderProfile(), "User Profile updated successfully");
         }   catch (\Throwable $e) {
             DB::rollback();

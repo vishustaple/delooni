@@ -29,7 +29,7 @@ class User extends Authenticatable
     const STATUS_ACTIVE = 1;
     const STATUS_NEW = 2;
 
-
+    const FORM_COMPLETED=0;
 
     const MALE = 1;
     const FEMALE = 2;
@@ -121,7 +121,7 @@ class User extends Authenticatable
 
     public function files()
     {
-        return $this->hasOne(Files::class,'created_by')->where('model_type', 'App/Models/User');
+        return $this->hasOne(Files::class,'created_by','id')->where('model_type', 'App/Models/User')->orderBy('id', 'DESC');
     }
     public function servicecatgoryDetail()
     {
@@ -255,12 +255,6 @@ class User extends Authenticatable
         $userId = auth()->user()->id;
         $json['is_favourite'] = $this->favourite($this->id, $userId);
         }
-        
-        // $json['category'] = $this->serviceDetail->serviceCategory->name ?? "";
-        // $json['sub_category'] = $this->serviceDetail->serviceSubCategory->name ?? "";
-        // $json['price_per_hour'] = $this->serviceDetail->price_per_hour ?? '';
-        // $json['price_per_day'] = $this->serviceDetail->price_per_day ?? '';
-        // $json['price_per_month'] = $this->serviceDetail->price_per_month ?? '';
 
         if (!empty($this->education)) {
             $json['institute_name'] = $this->education->institute_name;

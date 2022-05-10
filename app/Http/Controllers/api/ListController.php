@@ -12,6 +12,8 @@ use App\Models\UserRating;
 //facades
 use Illuminate\Http\Request;
 
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 //traits
 use App\Traits\ApiResponser;
 use App\Traits\ImageUpload;
@@ -95,6 +97,49 @@ class ListController extends Controller
         }
     }
 
+    // public function search(request $r)
+    // {
+    //     $user = auth()->user();
+    //     $latitude = $r->latitude;
+    //     $longitude = $r->longitude;
+    //     $search = $r->search;
+    //     $pricePerHour=$r->price_per_hour;
+    //     if(!empty($latitude||$longitude)){
+    //         $userId = User::select("id", \DB::raw("6371 * acos(cos(radians(" . $latitude . "))
+    //         * cos(radians(latitude)) * cos(radians(longitude) - radians(" . $longitude . "))
+    //         + sin(radians(" .$latitude. ")) * sin(radians(latitude))) AS distance"))
+    //         // ->having('distance', '<', 1000)
+    //         // ->orderBy('distance')
+    //         ->pluck('id')->toArray();
+    //     }
+    //     if (!empty($search)) {
+    //                 $catId = Services::where('name', 'like', "%$search%")->pluck('id')->toArray();
+                    
+    //                 $useId = User::Where('form_step','=',User::FORM_COMPLETED)->whereIn('sub_cat_id', $catId)->pluck('id')->toArray();
+                    
+    //                // $paginate->orwhereIn('id', $userId);
+                  
+    //               //  $paginate->orwhereIn('sub_cat_id', $catId);
+    //             }
+        
+    //     $req = new Request([
+    //         'filter' => [ 'rating' => $r->rating, ],
+    //     ]);
+    //     $paginate = QueryBuilder::for(User::class, $req)
+    //         ->allowedFilters([
+                
+    //             AllowedFilter::exact('rating'),
+               
+          
+    //         ])
+    //         ->whereBetween('price_per_hour', [User::MIN_PRICE,$pricePerHour])
+    //         ->whereIn('id', $userId)
+    //         ->whereIn('id', $useId)
+    //         ->paginate();
+    //     return $this->customPaginator($paginate);
+    // }
+
+
     public function activeCountryList(Request $request)
     {
         $query = Country::where('status', Country::STATUS_ACTIVE)->paginate(500);
@@ -103,33 +148,48 @@ class ListController extends Controller
 
 
     public function search(request $r)
-    {
+    {   
         $user = auth()->user();
         $search = $r->search;
         $rating = $r->rating;
         $pricePerHour = $r->price_per_hour;
+        $latitude=$r->latitude;
+        $longitude=$r->longitude;
 
         $paginate = User::where(function ($query) use ($search) {
             $query->where('first_name', 'like', "%$search%")
                 ->orWhere('business_name', 'like', "%$search%")
                 ->orWhere('last_name', 'like', "%$search%");
         });
+        
+            $userId = User::Where('form_step','=',User::FORM_COMPLETED)->pluck('id')->toArray();
+            $paginate->WhereIn('form_step',$userId);
 
+        if(!empty($latitude||$longitude)){
+            $userId = User::select("id", \DB::raw("6371 * acos(cos(radians(" . $latitude . "))
+            * cos(radians(latitude)) * cos(radians(longitude) - radians(" . $longitude . "))
+            + sin(radians(" .$latitude. ")) * sin(radians(latitude))) AS distance"))
+            // ->having('distance', '<', 1000)
+            // ->orderBy('distance')
+            ->pluck('id')->toArray();
+         $paginate->whereIn('id', $userId);
+            
+         }
         if (!empty($search)) {
-            // $catId = ServiceCategory::where('name', 'like', "%$search%")->where('is_parent', ServiceCategory::IS_PARENT)->pluck('id')->toArray();
-            // $userId = Services::whereIn('cat_id', $catId)->pluck('user_id')->toArray();
-            // $paginate->orWhereIn('id', $userId);
             $catId = Services::where('name', 'like', "%$search%")->pluck('id')->toArray();
-            $userId = User::whereIn('sub_cat_id', $catId)->pluck('id')->toArray();
-            $paginate->orWhereIn('id', $userId);
+            
+            $userId = User::Where('form_step','=',User::FORM_COMPLETED)->whereIn('sub_cat_id', $catId)->pluck('id')->toArray();
+            
+           $paginate->orwhereIn('id', $userId);
+          
+            //$paginate->orwhereIn('sub_cat_id', $catId);
         }
+
         if (!empty($pricePerHour)) {
-            // $userId = Services::whereBetween('price_per_hour', [Services::MIN_PRICE,$pricePerHour])->pluck('user_id')->toArray();
-            // $paginate->whereIn('id', $userId);
             $userId = User::whereBetween('price_per_hour', [User::MIN_PRICE,$pricePerHour])->pluck('id')->toArray();
             $paginate->whereIn('id', $userId);
         }
- 
+            
             $userId = DB::table('model_has_roles')->where('role_id', User::ROLE_SERVICE_PROVIDER)->pluck('model_id')->toArray();
             $paginate->whereIn('id', $userId);
 
@@ -139,6 +199,7 @@ class ListController extends Controller
         
      
         return $this->customPaginator($paginate->paginate());
+
     }
      //get Notification list
      public function getNotification(request $r)
