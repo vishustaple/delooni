@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\ListController;
+use App\Http\Controllers\api\paymentcontroller;
 use App\Http\Controllers\admin\RolesPermissionsController;
 use App\Http\Controllers\api\UserController;
 
@@ -62,3 +63,8 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::post('send-otp', [UserController::class, 'sendOtp']);
 Route::get('active-countries-list', [ListController::class, 'activeCountryList']);
 Route::post('verify-otp', [UserController::class, 'verifyOtp']);
+
+
+
+    /******************************* Razorpay Payment Gateway Api **********************************************/
+    Route::post('razorpayPayment', [paymentController::class, 'razorpayPayment']);

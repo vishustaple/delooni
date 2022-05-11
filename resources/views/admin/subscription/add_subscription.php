@@ -31,6 +31,20 @@
           </div>
         </div>
       </div> 
+
+      <div class="form-group row">
+      <label for="service_provider_type" class="col-sm-12 col-form-label">Service Provider Type</label>
+      <div class="col-sm-12">
+                 <select class="form-control" id="service_provider_type" name="service_provider_type" placeholder="User Type">
+                        <option value="N/A" disabled selected="true">Service Provider Type</option>
+                        <option value="Individual" name="service_provider_type">Individual Service Provider</option>
+                        <option value="Company" name="service_provider_type">Company Service Provider</option>
+                  </select>
+                <div class="error" id="error_service_provider_type">
+                </div>
+            </div>
+        </div>
+
     <div class="form-group row">
         <div class="col-sm-12 text-center">
           <button type="submit" class="btn app-button">Submit</button>

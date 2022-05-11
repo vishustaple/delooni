@@ -31,13 +31,15 @@ public function storesubscription(Request $request){
         'plan_name' => 'required',
         'description' => 'required',
         'validity' => 'required',
-        'price_per_plan' => 'required',
+        'price_per_plan' => 'required|max:6',
+        'service_provider_type' => 'required',
     ]);
      $insert = new Subscription;
      $insert->plan_name = $request->plan_name;
      $insert->description = $request->description;
      $insert->validity  = $request->validity;
      $insert->price_per_plan = $request->price_per_plan;
+     $insert->service_provider_type  = $request->service_provider_type;
      $insert->save();
      return response()->json(redirect()->back()->with('success','Subscription Add Successfully'));
     }
@@ -119,7 +121,7 @@ public function searchsubscription(Request $request){
     } else {
     return response()->json(redirect()->back()->with('error', 'Updated not successfully'));
    }
-}
+ }
     /**
      *  Detail subscription
      *

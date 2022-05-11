@@ -31,6 +31,12 @@
                           <input type="text" class="form-control" id="price_per_plan" name="price_per_plan" value="{{$content->price_per_plan}}" readonly>
                         </div>
                       </div> 
+                      <div class="form-group row">
+                        <label for="service_provider_type" class="col-sm-12 col-form-label">User Type</label>
+                        <div class="col-sm-12">
+                          <input type="text" class="form-control" id="service_provider_type" name="service_provider_type" value="{{$content->service_provider_type}}" readonly>
+                        </div>
+                      </div> 
                    </form>
 </div>
 </div>
