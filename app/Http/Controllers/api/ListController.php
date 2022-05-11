@@ -9,8 +9,10 @@ use App\Models\Notification;
 use App\Models\Services;
 use App\Models\User;
 use App\Models\UserRating;
+
 //facades
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -20,6 +22,7 @@ use App\Traits\ImageUpload;
 use App\Traits\Email;
 use Illuminate\Support\Facades\DB;
 use Validator;
+
 class ListController extends Controller
 {
     use ApiResponser;
@@ -88,7 +91,7 @@ class ListController extends Controller
             return $this->validation($v);
         }
         if ($r->rating) {
-         
+
             $userrate = UserRating::whereBetween('rating', [$r->rating, UserRating::MAX_RATING])->paginate();
 
             return $this->customPaginator($userrate, 'jsonData');
@@ -96,49 +99,6 @@ class ListController extends Controller
         if ($r->price) {
         }
     }
-
-    // public function search(request $r)
-    // {
-    //     $user = auth()->user();
-    //     $latitude = $r->latitude;
-    //     $longitude = $r->longitude;
-    //     $search = $r->search;
-    //     $pricePerHour=$r->price_per_hour;
-    //     if(!empty($latitude||$longitude)){
-    //         $userId = User::select("id", \DB::raw("6371 * acos(cos(radians(" . $latitude . "))
-    //         * cos(radians(latitude)) * cos(radians(longitude) - radians(" . $longitude . "))
-    //         + sin(radians(" .$latitude. ")) * sin(radians(latitude))) AS distance"))
-    //         // ->having('distance', '<', 1000)
-    //         // ->orderBy('distance')
-    //         ->pluck('id')->toArray();
-    //     }
-    //     if (!empty($search)) {
-    //                 $catId = Services::where('name', 'like', "%$search%")->pluck('id')->toArray();
-                    
-    //                 $useId = User::Where('form_step','=',User::FORM_COMPLETED)->whereIn('sub_cat_id', $catId)->pluck('id')->toArray();
-                    
-    //                // $paginate->orwhereIn('id', $userId);
-                  
-    //               //  $paginate->orwhereIn('sub_cat_id', $catId);
-    //             }
-        
-    //     $req = new Request([
-    //         'filter' => [ 'rating' => $r->rating, ],
-    //     ]);
-    //     $paginate = QueryBuilder::for(User::class, $req)
-    //         ->allowedFilters([
-                
-    //             AllowedFilter::exact('rating'),
-               
-          
-    //         ])
-    //         ->whereBetween('price_per_hour', [User::MIN_PRICE,$pricePerHour])
-    //         ->whereIn('id', $userId)
-    //         ->whereIn('id', $useId)
-    //         ->paginate();
-    //     return $this->customPaginator($paginate);
-    // }
-
 
     public function activeCountryList(Request $request)
     {
@@ -148,90 +108,99 @@ class ListController extends Controller
 
 
     public function search(request $r)
-    {   
-        $user = auth()->user();
+    {
+       
+        $v = Validator::make(
+            $r->input(),
+            [
+                'latitude' => 'required',
+                'longitude' => 'required',
+            ]
+        );
+        if ($v->fails()) {
+            return $this->validation($v);
+        }
         $search = $r->search;
         $rating = $r->rating;
         $pricePerHour = $r->price_per_hour;
-        $latitude=$r->latitude;
-        $longitude=$r->longitude;
+        $latitude = $r->latitude;
+        $longitude = $r->longitude;
 
-        $paginate = User::where(function ($query) use ($search) {
+        $radius = 5000;
+        $paginate = User::select("users.*", \DB::raw("6371 * acos(cos(radians(" . $latitude . "))
+        * cos(radians(latitude)) * cos(radians(longitude) - radians(" . $longitude . "))
+        + sin(radians(" . $latitude . ")) * sin(radians(latitude))) AS distance"))
+            ->having('distance', '<', $radius)->where('form_step', User::FORM_COMPLETED);
+        
+        $paginate = $paginate->where(function ($query) use ($search) {
             $query->where('first_name', 'like', "%$search%")
                 ->orWhere('business_name', 'like', "%$search%")
                 ->orWhere('last_name', 'like', "%$search%");
         });
-        
-            $userId = User::Where('form_step','=',User::FORM_COMPLETED)->pluck('id')->toArray();
-            $paginate->WhereIn('form_step',$userId);
 
-        if(!empty($latitude||$longitude)){
-            $userId = User::select("id", \DB::raw("6371 * acos(cos(radians(" . $latitude . "))
-            * cos(radians(latitude)) * cos(radians(longitude) - radians(" . $longitude . "))
-            + sin(radians(" .$latitude. ")) * sin(radians(latitude))) AS distance"))
-            // ->having('distance', '<', 1000)
-            // ->orderBy('distance')
-            ->pluck('id')->toArray();
-         $paginate->whereIn('id', $userId);
-            
-         }
         if (!empty($search)) {
             $catId = Services::where('name', 'like', "%$search%")->pluck('id')->toArray();
-            
-            $userId = User::Where('form_step','=',User::FORM_COMPLETED)->whereIn('sub_cat_id', $catId)->pluck('id')->toArray();
-            
-           $paginate->orwhereIn('id', $userId);
-          
-            //$paginate->orwhereIn('sub_cat_id', $catId);
+            if(!empty($catId)){
+                $paginate->orwhereIn('sub_cat_id', $catId);
+            }
         }
 
         if (!empty($pricePerHour)) {
-            $userId = User::whereBetween('price_per_hour', [User::MIN_PRICE,$pricePerHour])->pluck('id')->toArray();
-            $paginate->whereIn('id', $userId);
+            $userId = $paginate->whereBetween('price_per_hour', [User::MIN_PRICE, $pricePerHour]);
         }
-            
-            $userId = DB::table('model_has_roles')->where('role_id', User::ROLE_SERVICE_PROVIDER)->pluck('model_id')->toArray();
-            $paginate->whereIn('id', $userId);
 
-            if (!empty($rating)) {
-                $paginate->where('rating', 'like', "%$rating%");
-            }
-        
-     
+        $userId = DB::table('model_has_roles')->where('role_id', User::ROLE_SERVICE_PROVIDER)->pluck('model_id')->toArray();
+        $paginate->whereIn('id', $userId);
+
+        if (!empty($rating)) {
+            $paginate->where('rating',$rating);
+        }
+
         return $this->customPaginator($paginate->paginate());
-
     }
-     //get Notification list
-     public function getNotification(request $r)
-     {
-         $loginUser = auth()->user();
-         $currentData = date('Y-m-d');
-         $query = Notification::where('to_user', $loginUser->id)->whereDate('created_at', '>', date('Y-m-d', strtotime($currentData . ' - 3 days')));
- 
-         //make read notification
-         $notifications = $query;
-         $notifications->update(['is_read' => Notification::STATUS_CLEAR]);
- 
-         $data = [];
-         $data['today_timestemp'] = Carbon::now()->toDateTimeString();
- 
-         if ($loginUser->role_id == User::ROLE_ADMIN) {
-             //admin params
-             $data['check_today_unscheduled_event'] = $loginUser->haveEventsUnAssigned("today");
-             $data['check_today_is_multi_driver'] = $loginUser->haveEventsMultiDriver("today");
- 
-             $data['check_yesterday_unscheduled_event'] = $loginUser->haveEventsUnAssigned();
-             $data['check_yesterday_is_multi_driver'] = $loginUser->haveEventsMultiDriver();
- 
-         } else {
-             //driver app params
-             $data['check_today_confirm_assignment_pending'] = $loginUser->haveEventsConfirmPending();
-             $data['check_today_unassignment_pending'] = $loginUser->haveEventsUnassignmentPending();
- 
-             $data['check_yesterday_confirm_assignment_pending'] = $loginUser->haveEventsConfirmPending();
-             $data['check_yesterday_unassignment_pending'] = $loginUser->haveEventsUnassignmentPending();
-         }
- 
-         return $this->customPaginator($query->paginate(20), "listJsonData", $data);
-     }
+    //get Notification list
+    public function getNotification(request $r)
+    {
+        $v = Validator::make(
+            $r->input(),
+            [
+                'device_token' => 'required',
+              
+            ]
+        );
+        if ($v->fails()) {
+            return $this->validation($v);
+        }
+        $loginUser = auth()->user();
+        
+
+
+        $currentData = date('Y-m-d');
+        $query = Notification::where('to_user', $loginUser->id)->whereDate('created_at', '>', date('Y-m-d', strtotime($currentData . ' - 3 days')));
+
+        //make read notification
+        $notifications = $query;
+        $notifications->update(['is_read' => Notification::STATUS_CLEAR]);
+
+        $data = [];
+        $data['today_timestemp'] = Carbon::now()->toDateTimeString();
+
+        if ($loginUser->role_id == User::ROLE_ADMIN) {
+            //admin params
+            $data['check_today_unscheduled_event'] = $loginUser->haveEventsUnAssigned("today");
+            $data['check_today_is_multi_driver'] = $loginUser->haveEventsMultiDriver("today");
+
+            $data['check_yesterday_unscheduled_event'] = $loginUser->haveEventsUnAssigned();
+            $data['check_yesterday_is_multi_driver'] = $loginUser->haveEventsMultiDriver();
+        } else {
+            //driver app params
+            $data['check_today_confirm_assignment_pending'] = $loginUser->haveEventsConfirmPending();
+            $data['check_today_unassignment_pending'] = $loginUser->haveEventsUnassignmentPending();
+
+            $data['check_yesterday_confirm_assignment_pending'] = $loginUser->haveEventsConfirmPending();
+            $data['check_yesterday_unassignment_pending'] = $loginUser->haveEventsUnassignmentPending();
+        }
+
+        return $this->customPaginator($query->paginate(20), "listJsonData", $data);
+    }
 }

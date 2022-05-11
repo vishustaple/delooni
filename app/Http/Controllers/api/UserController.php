@@ -33,6 +33,7 @@ use App\Models\ServiceCategory;
 use App\Models\UserRating;
 use App\Models\WorkExperience;
 use App\Models\Services;
+use App\Models\Notification;
 
 
 use Exception;
@@ -663,6 +664,7 @@ class UserController extends Controller
      */
     public function addRemoveFavourite(request $r)
     {
+       
         $user = auth()->user();
         try {
             $v = Validator::make(
@@ -681,8 +683,26 @@ class UserController extends Controller
                 $favourite->service_id = $r->provider_id;
                 $favourite->user_id = $user->id;
                 $favourite->save();
+                 //send push notification
+                 $token=LoginHistory::where('created_by','=',$user->id)->orderBy('id', 'DESC')->paginate();
+                
+                 //$devicetoken=$token->device_token;
+
+                 $notification = (new Notification())->sendPushNotification([
+                    "title" => "Add to favourite list.",
+                    "message" => " You have added a new favourite.",
+                    "model_id" => $favourite->id,
+                    "type" => Notification::STATUS_NEW,
+                    "to_user" => $r->provider_id
+                ]);
+                // if($notification){
+                //    return 1;
+                // }
+                // else{
+                //     return 0;
+                // }
+                 return $this->success('Added to favourite');
             
-                return $this->success('Added to favourite');
             } else {
                 $favourite = FavouriteServices::where(['service_id' => $r->provider_id, 'user_id' => $user->id])->delete();
                 return $this->success('Remove from favourite.');
