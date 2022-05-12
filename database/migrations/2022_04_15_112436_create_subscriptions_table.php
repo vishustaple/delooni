@@ -19,6 +19,7 @@ class CreateSubscriptionsTable extends Migration
             $table->longtext("description")->nullable();
             $table->string("validity")->nullable();
             $table->integer("price_per_plan");
+            $table->string("service_provider_type")->nullable();
             $table->integer('status')->default(1)->comment("1=> active, 2=>inactive");
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));

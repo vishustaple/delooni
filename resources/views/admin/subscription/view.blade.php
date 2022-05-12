@@ -55,7 +55,7 @@
     </td>
     </tr>
     @empty
-    <h5 class="text-center p-2"> No User Available </h5>
+    <h5 class="text-center p-2"> No Plan Available </h5>
     @endforelse
 </tbody>
 </table>

@@ -24,7 +24,7 @@ class UpdateServiceProviderRequest extends FormRequest
     public function rules()
     {
         return [
-            'business_name'=>'required|max:100|regex:/^[a-zA-Z]+ [a-zA-Z]+$/',
+            'business_name'=>'required|max:100',
             'firstname' => 'required|alpha|max:100',
             'lastname' => 'required|alpha|max:100',
             'email' => 'required|email|unique:users,email,'.$this->id,

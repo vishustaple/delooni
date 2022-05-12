@@ -27,6 +27,7 @@ class Subscription extends Model
         $json['description'] = $this->description;
         $json['validity'] = $this->validity;
         $json['price_per_plan'] = $this->price_per_plan;
+        $json['user_type'] = $this->user_type;
         $json['status'] = $this->status;
         return $json;
     }

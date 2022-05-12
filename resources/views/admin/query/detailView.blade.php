@@ -15,13 +15,13 @@
       <div class="form-group row">
         <label for="user_id" class="col-sm-12 col-form-label">Customer name</label>
         <div class="col-sm-12">
-          <input type="text" class="form-control" id="user_id" value="{{$data->user_id}}"  name="user_id"  readonly>
+          <input type="text" class="form-control" id="user_id" value="{{$customer_name->first_name}}"  name="user_id"  readonly>
         </div>
       </div>
       <div class="form-group row">
-        <label for="service_category_id" class="col-sm-12 col-form-label">Service Category name</label>
+        <label for="service_category_id" class="col-sm-12 col-form-label">Category name</label>
         <div class="col-sm-12">
-          <input type="text" class="form-control" value="{{$data->service_category_id}}"  id="service_category_id" name="service_category_id"  readonly>
+          <input type="text" class="form-control" value="{{$category_name->name}}"  id="service_category_id" name="service_category_id"  readonly>
           </div>
       </div>  
     <div class="form-group row">

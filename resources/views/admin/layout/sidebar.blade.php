@@ -54,21 +54,14 @@
       </li>
 
     <!--Category Start Here-->
-      <li class="nav-item">
-        <a href="javascript:void(0)" class="nav-link d-flex">
-           <span><i class="fa fa-check double nav-icon"></i></span>
-          <p>Categories</p>
-          <i class="right fa fa-angle-right"></i>
-        </a>
-        <ul class="nav nav-treeview" style="display: {{ Request::routeIs('category')|| Request::routeIs('subcategory') ? 'block' : 'none' }}">
-          <li class="nav-item">
-            <a href="{{url('/admin/category')}}" class="nav-link  {{ Request::routeIs('category') ? 'active' : '' }}">
+     <li class="nav-item">
+            <a href="{{url('/admin/category')}}" class="nav-link">
               <i class="fa fa-building-o nav-icon"></i>
-              <p>Categories</p>
+              <p>Category</p>
             </a>
           </li>
         <li class="nav-item">
-            <a href="{{url('/admin/subcategory')}}" class="nav-link  {{ Request::routeIs('subcategory') ? 'active' : '' }}">
+            <a href="{{url('/admin/subcategory')}}" class="nav-link">
               <i class="fa fa-cogs nav-icon"></i>
               <p>Services</p>
             </a>
@@ -145,7 +138,7 @@
       </li>
       <!-- Users End-->
       <li class="nav-item">
-        <a href="" class="nav-link">
+        <a href="{{route('payment')}}" class="nav-link">
           <i class="fa fa-paypal nav-icon"></i>
           <p>
             Payment History

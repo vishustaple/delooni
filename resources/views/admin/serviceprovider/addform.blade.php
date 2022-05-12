@@ -187,7 +187,7 @@
             <div class="form-group">
                 <label for="Date of Birth">Date of Birth</label>
                 <input type="date" class="form-control" id="dateofbirth" name="dateofbirth"
-                    placeholder="Enter Your Date of Birth  ">
+                    placeholder="Enter Your Date of Birth">
                 <div class="error" id="error_dateofbirth">
                 </div>
             </div>
@@ -197,7 +197,7 @@
             <div class="form-group">
                 <label for="service_provider_type">Service Provider Type</label>
                  <select class="form-control select2" id="service_provider_type" name="service_provider_type" placeholder="Service Provider Type">
-                        <option value="N/A">Service Provider Type</option>
+                        <option value="N/A" disabled selected="true">Service Provider Type</option>
                         <option value="Individual" name="service_provider_type">Individual</option>
                         <option value="Company" name="service_provider_type">Company</option>
                         </select>

@@ -92,7 +92,7 @@ nav.main-header .nav-link.active, nav.main-header .nav-link.active:hover {
    border:0;
 }
 .yellow-bg{
-   background-color: var(--theme-primary-color);
+   background-color: var(--theme-primary-color) !important;
    color: var(--body-clr);
 }
 .profile-image-wrap{

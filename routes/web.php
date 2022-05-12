@@ -15,6 +15,7 @@ use App\Http\Controllers\admin\ServiceProviderController;
 use App\Http\Controllers\admin\MainScreenController;
 use App\Http\Controllers\admin\ReportController;
 use App\Http\Controllers\admin\StaticContentController;
+use App\Http\Controllers\admin\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -184,3 +185,10 @@ Route::get('/category/{id}', [ServiceProviderController::class, 'GetCategory'])-
 Route::get('/company', [ServiceProviderController::class, 'company_view'])->name('company');
 Route::get('/provider/company/search', [ServiceProviderController::class, 'search_company'])->name('provider.company.search');
 
+    //******************************************  Payment  *********************************************//
+    Route::get('/payment', [PaymentController::class, 'payment_view'])->name('payment');
+    Route::get('/payment/delete', [PaymentController::class, 'payment_remove'])->name('payment.delete');
+    Route::get('/payment/search', [PaymentController::class, 'searchpayment'])->name('payment.search');
+    Route::get('/payment/view/{id}', [PaymentController::class, 'detailView_payment'])->name('payment.view');
+    Route::get('/payment/back', [PaymentController::class, 'paymentBack'])->name('payment.back');
+   

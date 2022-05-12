@@ -66,8 +66,12 @@ class ReportController extends Controller
      * @return  detail view page of query according $r->id
      */
     public function detailView_query(Request $request){
+    $category = Report::where('id',$request->id)->pluck('service_category_id');
+    $category_name = ServiceCategory::whereIn('id',$category)->select('name')->first();
+    $customer = Report::where('id',$request->id)->pluck('user_id');
+    $customer_name = User::whereIn('id',$customer)->select('first_name')->first();
     $data = Report::find($request->id);
-    return view('admin.query.detailView', compact('data'));
+    return view('admin.query.detailView', compact('data','category_name','customer_name'));
     }
 
     /**
