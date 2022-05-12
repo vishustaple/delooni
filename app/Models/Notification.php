@@ -17,6 +17,16 @@ class Notification extends Model
     const STATUS_ASSIGNED = 1;
     //public static function sendTwillioSms($message,$phone)
   
+    public function getCreatedBy()
+    {
+        return $this->hasOne(User::class, 'id', 'created_by');
+    }
+    public function getToUser()
+    {
+        return $this->hasOne(User::class, 'id', 'to_user');
+    }
+
+
     function sendPushNotification($data = [], $sendPushNotification = true, $sendEmail = false, $sendSms = false)
     {
 
@@ -47,21 +57,22 @@ class Notification extends Model
     }
     public function sendPushNotificationToDevice()
     {
+
         if (!empty($this->getToUser->loginHistory)) {
-            $toUser = $this->getToUser;
-            $deviceTokens = $toUser->loginHistory;
-
-            foreach ($deviceTokens as $deviceToken) {
-                $serverKey = 'AAAAJx5kHao:APA91bFFmFjjDLGMVu9iW_PG-UvP8PZLCSJYnI-Hk_f2A0uZtsDG5U5ZHDy_k8eISBcEYYxOa0WSFzLNkFWj6d4ngxqJkF94KsjwV-STTf_p1BDL5zcFmWImUKn669-5JzqheyGrJ4HA';
-
-                $URL = 'https://fcm.googleapis.com/fcm/send';
-
-                $fields = array(
-                    "to" => $deviceToken->device_token,
-                    "data" => array("title" => $this->title, 'body' => $this->description),
-                    "priority" => "high",
-                    "notification"  => (object)$this->description,
-                );
+           
+           $toUser = $this->getToUser;
+           $deviceTokens =  $toUser->loginHistory;            // 
+           foreach ($deviceTokens as $deviceToken) {
+            $serverKey = 'AAAAojk-ctw:APA91bE9bDjzs-2SrGXdvAtKdmkC_M_NeXgxsu9RuHjllQY_uUEqd67j6jKjV1TL2on7_4x52lMLLY6t-nczCHY0KcvCfN1u16t9XpCofdn0LIoh7nt__g1OBRT_1cRQYgkFJKyBpxFX';
+            $URL = 'https://fcm.googleapis.com/fcm/send';
+            
+            $fields = array(
+                
+                "to" => $deviceToken->device_token,
+                "data" => array("title" => $this->title, 'body' => $this->description),
+                "priority" => "high",
+                "notification"  => (object)$this->description,
+            );
 
                 $crl = curl_init();
 
@@ -83,13 +94,14 @@ class Notification extends Model
                     Log::debug('Error on send push notification.');
                     return false;
                 }
-                // } else {
-                //     $result_noti = 1;
-                // }
+            //       else {
+            //         Log::debug('successfully send push notification.');    
+            //            $result_noti = 1;
+            //  }
                 curl_close($crl);
                 //                return $result_noti;
-            }
-        }
+           }
+      }
         return true;
     }
     public static function sendTwillioSms($message)

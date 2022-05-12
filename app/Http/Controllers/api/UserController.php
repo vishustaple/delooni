@@ -356,7 +356,7 @@ class UserController extends Controller
                     'institute_name' => 'string|required',
                     'degree' => 'string',
                     'start_date' => 'date',
-                    'end_date' => 'date',
+                    'end_date' => 'date|after:startdate',
                     'no_of_years' => 'numeric',
                     'brief_of_experience' => 'string',
                 ]

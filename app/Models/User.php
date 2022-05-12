@@ -131,6 +131,11 @@ class User extends Authenticatable
     {
         return $this->hasOne(Services::class, 'id', 'sub_cat_id');
     }
+    //get loginhistory
+    public function loginHistory()
+    {
+        return $this->hasMany(LoginHistory::class, 'created_by', 'id');
+    }
     /**
      * The attributes that should be hidden for arrays.
      *

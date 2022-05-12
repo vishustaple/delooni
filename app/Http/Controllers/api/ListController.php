@@ -139,7 +139,7 @@ class ListController extends Controller
         });
 
         if (!empty($search)) {
-            $catId = Services::where('name', 'like', "%$search%")->pluck('id')->toArray();
+            $catId = Services::where('name', "%$search%")->pluck('id')->toArray();
             if(!empty($catId)){
                 $paginate->orwhereIn('sub_cat_id', $catId);
             }
