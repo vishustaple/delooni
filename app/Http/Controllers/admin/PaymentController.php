@@ -41,16 +41,18 @@ class PaymentController extends Controller
      *
      * @param search name in search bar
      * @return  fetch data according to $request
-    */
+    */ 
     public function searchpayment(Request $request){ 
         $search = $request->search;
-        $qry = Payment::orderBy('id','DESC')->paginate();
+        $qry = Payment::join('subscriptions','payments.plan_id','=','subscriptions.id')
+    ->join('users','payments.created_by','=','users.id')
+    ->select('payments.id','payments.amount','payments.transaction_id','payments.payment_status','users.first_name','subscriptions.plan_name');
         if(!empty($search)){
             $qry->where(function($q) use($search){
-                $q->where('plan_id','like',"%$search%");
+                $q->where('amount','like',"%$search%");
            });
         }
-        $data = $qry->orderBy('id','DESC')->paginate();dd($data);
+        $data = $qry->orderBy('id','DESC')->paginate();
         return view('admin.payment.view', compact('data','search'));
         }
 

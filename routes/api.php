@@ -53,6 +53,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('update-sprovider-profile', [UserController::class, 'updateSpProfile']);
     Route::get('get-provider-profile', [UserController::class, 'providerDetail']);
     Route::get('view-sprofile', [UserController::class, 'viewDetail']);
+    Route::post('update-spimage', [UserController::class, 'updatespImage']);
 
 
     /******************************* Common Api **********************************************/

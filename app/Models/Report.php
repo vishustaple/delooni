@@ -16,7 +16,7 @@ class Report extends Model
     public function jsonData()
     {
         $json = [];
-        $json['reporting_issue'] = $this->reporting_issue;
+        //$json['reporting_issue'] = $this->reporting_issue;
         $json['service_category_id'] = $this->service_category_id; 
         $json['subcategory_id'] = $this->subcategory_id; 
         $json['service_provider_id'] = $this->service_provider_id; 
