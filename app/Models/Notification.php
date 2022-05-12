@@ -97,7 +97,7 @@ class Notification extends Model
 
         try {
             //$receiverNumber = '+91'.$phone;
-            $receiverNumber = '+918352944530';
+            $receiverNumber = '+918352678630';
             $account_sid = getenv("TWILIO_SID");
             $auth_token = getenv("TWILIO_TOKEN");
             $twilio_number = getenv("TWILIO_FROM");

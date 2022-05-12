@@ -684,10 +684,6 @@ class UserController extends Controller
                 $favourite->user_id = $user->id;
                 $favourite->save();
                  //send push notification
-                 $token=LoginHistory::where('created_by','=',$user->id)->orderBy('id', 'DESC')->paginate();
-                
-                 //$devicetoken=$token->device_token;
-
                  $notification = (new Notification())->sendPushNotification([
                     "title" => "Add to favourite list.",
                     "message" => " You have added a new favourite.",
@@ -695,12 +691,6 @@ class UserController extends Controller
                     "type" => Notification::STATUS_NEW,
                     "to_user" => $r->provider_id
                 ]);
-                // if($notification){
-                //    return 1;
-                // }
-                // else{
-                //     return 0;
-                // }
                  return $this->success('Added to favourite');
             
             } else {
