@@ -88,7 +88,7 @@
             text: ''
         },
          xAxis: {
-            categories: ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec','Jan', 'Feb', 'Mar'],
+            categories: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec','Jan', 'Feb', 'Mar','Apr'],
             
         },
         yAxis: {
@@ -144,7 +144,7 @@ var users =  <?php echo json_encode($individual_serviceprovider) ?>;
             text: ''
         },
          xAxis: {
-            categories: ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec','Jan', 'Feb','Mar'],
+            categories: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec','Jan', 'Feb', 'Mar','Apr'],
             backgroundColor:'red',
             
         },
@@ -201,7 +201,7 @@ var users =  <?php echo json_encode($company_serviceprovider) ?>;
             text: ''
         },
          xAxis: {
-            categories: ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec','Jan', 'Feb','Mar'],
+            categories: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec','Jan', 'Feb', 'Mar','Apr'],
             backgroundColor:'red',
             
         },
@@ -258,7 +258,7 @@ var users =  <?php echo json_encode($query) ?>;
             text: ''
         },
          xAxis: {
-            categories: ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec','Jan', 'Feb','Mar'],
+            categories: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec','Jan', 'Feb', 'Mar','Apr'],
             backgroundColor:'red',
             
         },

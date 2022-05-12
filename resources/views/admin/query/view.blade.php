@@ -9,9 +9,8 @@
     <thead>
     <tr>
     <th style="width: 10px;">S.no.</th>
-    <th style="width: 10px;">ID</th>
     <th>Customer name</th>
-    <th>Service Category name</th>
+    <th>Category name</th>
     <th>Subject</th>
     <th>Issue</th>
     <th>Message</th>
@@ -23,7 +22,6 @@
     @forelse($data as $key=>$value)
     <tr>
     <td>{{$key+1}}</td>
-    <td>{{$value->id}}</td>
     <td>{{$value->first_name}}</td>
     <td>{{$value->name}}</td>
      <td>{{$value->subject}}</td>

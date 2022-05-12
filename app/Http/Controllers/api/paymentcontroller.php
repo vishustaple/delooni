@@ -3,14 +3,17 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\User;
-use App\Payment;
+use App\Models\User;
+use App\Models\Payment;
+use App\Models\Subscription;
 use Razorpay\Api\Api;
+
 
 class paymentcontroller extends Controller
 {
+
 public function razorpayPayment(Request $request)
-	{
+	{  
         $statusCode = 200;
         $v = Validator::make ( $request->input (),
 		[
@@ -35,17 +38,17 @@ public function razorpayPayment(Request $request)
 		} 
 
 
-		$session_id = $request->session_id;
+		// $session_id = $request->session_id;
 
-		$session = AppLogin::where("session_id", "=", $session_id)->first();
+		// $session = AppLogin::where("session_id", "=", $session_id)->first();
 
-	 if($session){
+	//  if($session){
 
-	    $user=$session->getUser();
+	//     $user=$session->getUser();
 
 		$planId = $request->plan_id;
 
-		$plan = Premium::where(['id' =>$planId])->first();
+		$plan = Subscription::where(['id' =>$planId])->first();
 
        if(!empty($plan)){
 
@@ -79,21 +82,20 @@ public function razorpayPayment(Request $request)
 		$response =json_decode($response);
 
 		if(empty($response->error->description)){
-
+            dd($response->all());
 			DB::table('payments')->insert(
 				[
-				'order_id' => $response->id, 
-				'model_id' => $plan->id,
-				'model_type' => 1,
-				'payment_status' => 0,
-				'transaction_id' => $response->id,
+				'id' => $response->id, 
+				'plan_id' => $plan->id,
 				'amount' => $plan->amount,
-				'created_by_id' => $user->id,
+				'transaction_id' => $response->id,
+				'payment_status' => 0,
+				'created_by' => $user->id,
 				]
 			);
 	
 			$data=[];
-			$data['order_id']=$response->id;
+			$data['id']=$response->id;
 		    $data['amount']=$response->amount;
 			$statusCode = 200;
 			$response = ["status_code" => 200,"error"=>false, "data"=> $data ,"message" => 'Order created Successfully.'];
@@ -105,10 +107,10 @@ public function razorpayPayment(Request $request)
 	}else{
 	    $response = ["status_code" => 200,"error"=>true,"message" => "No plan found"];
 	}
-}else{
-	$statusCode=403;
-	$response = ["status_code" => 403,"error"=>true,"message" => "Session expired"];
-}
+// }else{
+// 	$statusCode=403;
+// 	$response = ["status_code" => 403,"error"=>true,"message" => "Session expired"];
+// }
 
 	    return response()->json($response, $statusCode, $headers = [], $options = JSON_PRETTY_PRINT);
 
@@ -123,9 +125,8 @@ public function storePaymentDetail(Request $request)
 	[
 		 "session_id" => "required",
 		 "razorpay_payment_id" => "required",
-		 "razorpay_order_id" => "required",
+		 "razorpay_id" => "required",
 		 "razorpay_signature" => "required"
-					  
 	] );
 	  if ($v->fails ()) {
 			$error_description = "";
@@ -147,7 +148,7 @@ public function storePaymentDetail(Request $request)
 
 	$session = AppLogin::where("session_id", "=", $session_id)->first();
 
- if($session){
+   if($session){
 	 try{
 
 
@@ -156,7 +157,7 @@ public function storePaymentDetail(Request $request)
 	$paymentModel= Payment::where(["order_id"=>$request->razorpay_order_id,"created_by_id"=>$user->id,])->first();
 
 	if(!empty($paymentModel)){
-		$plan= Premium::where(['id' =>$paymentModel->model_id])->first();
+		$plan= Subscription::where(['id' =>$paymentModel->model_id])->first();
 	   if(!empty($plan)){
 
 		// $key_id="rzp_test_pXKkAC0NFyNNSB";
@@ -165,8 +166,8 @@ public function storePaymentDetail(Request $request)
 	// $key_id="rzp_live_0fnqxFUKxrXNaU";
 	    // $key_secret="ON8KT5QCtHBNNzzeMO6R8Sml";
 
-		$key_id="rzp_live_0fnqxFUKxrXNaU";
-		$key_secret="ON8KT5QCtHBNNzzeMO6R8Sml";
+		$key_id="rzp_test_qDLQi8noYdGJcE";
+		$key_secret="pihp0ZDR7sgh8PmZ24Qy6Ef9";
 		$api = new Api($key_id, $key_secret);
 
 	   //Add subscription on razorpay
@@ -182,16 +183,12 @@ public function storePaymentDetail(Request $request)
 		$paymentModel->razorpay_signature=$request->razorpay_signature;
 		$paymentModel->payment_status=1;
 		$paymentModel->save();
-
-		
-		//store subscription
+       //store subscription
 		$this->addPlan($plan,$user->id);
-
-		
-		 $statusCode = 200;
+        $statusCode = 200;
 		   $response = ["status_code" => 200,"error"=>false,
 				"userData" => $this->user_profile_response($user,$session_id),
-			   "message" => 'Your Premium Pack Activated Successfully for ₹'.$paymentModel->amount];
+			     "message" => 'Your Premium Pack Activated Successfully for ₹'.$paymentModel->amount];
 
 		}else{
 			$response = ["status_code" => 200,"error"=>false,"message" => "No plan found"];

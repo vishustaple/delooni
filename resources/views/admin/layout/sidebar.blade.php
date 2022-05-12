@@ -138,7 +138,7 @@
       </li>
       <!-- Users End-->
       <li class="nav-item">
-        <a href="" class="nav-link">
+        <a href="{{route('payment')}}" class="nav-link">
           <i class="fa fa-paypal nav-icon"></i>
           <p>
             Payment History
