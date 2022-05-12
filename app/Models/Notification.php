@@ -16,8 +16,10 @@ class Notification extends Model
     const STATUS_CLEAR = 1;
     const STATUS_ASSIGNED = 1;
     //public static function sendTwillioSms($message,$phone)
+  
     function sendPushNotification($data = [], $sendPushNotification = true, $sendEmail = false, $sendSms = false)
     {
+
         try {
             $model = new self();
             $model->title = $data['title'];
@@ -26,7 +28,7 @@ class Notification extends Model
             $model->status = self::STATUS_NEW;
             $model->type = $data['type'];
             $model->to_user  = $data['to_user'];
-            $model->created_by = auth()->user()->id;
+            $model->from_user = auth()->user()->id;
             $model->save();
             if ($sendPushNotification) {
                 $model->sendPushNotificationToDevice();
@@ -39,6 +41,7 @@ class Notification extends Model
             }
             return true;
         } catch (\Throwable $e) {
+            Log::emergency($e); 
             return false;
         }
     }
@@ -91,10 +94,10 @@ class Notification extends Model
     }
     public static function sendTwillioSms($message)
     {
-       
+
         try {
             //$receiverNumber = '+91'.$phone;
-            $receiverNumber = '+918352944530';
+            $receiverNumber = '+918352678630';
             $account_sid = getenv("TWILIO_SID");
             $auth_token = getenv("TWILIO_TOKEN");
             $twilio_number = getenv("TWILIO_FROM");
@@ -110,14 +113,14 @@ class Notification extends Model
     }
 
 
-  public function jsonData()
-  {
-      $json = [];
-      $json['id'] = $this->id;
-      $json['title'] = $this->title;
-      $json['description'] = $this->description;
-      $json['created_at'] = $this->created_at;
-      $json['updated_at'] = $this->updated_at;
-      return $json;
-  }
+    public function jsonData()
+    {
+        $json = [];
+        $json['id'] = $this->id;
+        $json['title'] = $this->title;
+        $json['description'] = $this->description;
+        $json['created_at'] = $this->created_at;
+        $json['updated_at'] = $this->updated_at;
+        return $json;
+    }
 }

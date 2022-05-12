@@ -33,6 +33,7 @@ use App\Models\ServiceCategory;
 use App\Models\UserRating;
 use App\Models\WorkExperience;
 use App\Models\Services;
+use App\Models\Notification;
 
 
 use Exception;
@@ -376,9 +377,6 @@ class UserController extends Controller
                 //     $profilevideo = $this->uploadImage($r->video, 'profile_video');
                 //     $user->profile_video = $profilevideo;
                 // }
-
-               
-                
                 // if(isset($r->video)){
                 //     $profilevideo = $this->uploadFiles('profile_video',$user->id,FILES::TYPE_VIDEO,$r->file('video'));
                 //   //dd($profilevideo);
@@ -433,7 +431,7 @@ class UserController extends Controller
               
                 DB::commit();
              
-                return $this->successWithData($user->serviceProviderProfile(), " User Profile updated successfully");
+                return $this->successWithData($user->serviceProviderProfile(), " User Profile created successfully");
              
             }
         } catch (\Throwable $e) {
@@ -451,7 +449,10 @@ class UserController extends Controller
     {
         try {
             $user = auth()->user();
-
+            // $token = LoginHistory::select('personal_access_token')->where('created_by','=',$user->id)->first();
+            
+            // $data = [];
+            // $data['token'] =  $token; 
             $v = Validator::make(
                 $r->input(),
                 [
@@ -482,13 +483,13 @@ class UserController extends Controller
             if (empty($service)) {
                 $service = new Users();
             }
-            $service->cat_id = $category->id ?? $service->cat_id;
-            $service->sub_cat_id = $subCategory->id ?? $service->sub_cat_id;
-            $service->price_per_hour = $r->price_per_hour ?? $service->price_per_hour;
-            $service->price_per_day = $r->price_per_day ?? $service->price_per_day;
-            $service->price_per_month = $r->price_per_month ?? $service->price_per_month;
+            $service->cat_id = $category->id ;
+            $service->sub_cat_id = $subCategory->id ;
+            $service->price_per_hour = $r->price_per_hour ;
+            $service->price_per_day = $r->price_per_day ;
+            $service->price_per_month = $r->price_per_month ;
             $service->id = $user->id;
-    
+            $service->form_step = User::FORM_COMPLETED;
             $service->save();
             return $this->successWithData($service->serviceProviderProfile(), "Service Added");
         } catch (\Throwable $e) {
@@ -579,10 +580,9 @@ class UserController extends Controller
             $v = Validator::make(
                 $r->input(),
                 [
-                    'reporting_issue' => 'required|string',
-                    //'service_category' => 'required',
-                    'service_sub_category' => 'required',
-                    'user_id' => 'required',
+                    'service_category' => 'string',
+                    // 'service_sub_category' => 'integer',
+                    'provider_id' => 'required',
                     'subject' => 'required|string',
                     'message' => 'required|string',
                 ]
@@ -590,19 +590,18 @@ class UserController extends Controller
             if ($v->fails()) {
                 return $this->validation($v);
             }
-            $serviceCategory = ServiceCategory::where('id', $r->service_category)->first();
-            if (empty($serviceCategory)) {
-                throw new Exception("No Service Category Found");
-            }
-            $userId = User::where('id', $r->user_id)->first();
+            // $serviceCategory = Services::where('id', $r->service_category)->first();
+            // if (empty($serviceCategory)) {
+            //     throw new Exception("No Service Category Found");
+            // }
+            $userId = User::where('id', $r->provider_id)->first();
             if (empty($userId)) {
                 throw new Exception("No Provider Found");
             }
             $report = new Report();
-            $report->reporting_issue = $r->reporting_issue;
-            $report->service_category_id = $serviceCategory->id;
-            $report->subcategory_id = $r->service_sub_category;
-            $report->service_provider_id  = $r->user_id;     //service provider id
+            $report->service_category_id = $userId->cat_id;
+            $report->subcategory_id = $userId->sub_cat_id;
+            $report->service_provider_id  = $r->provider_id;     //service provider id
             $report->user_id  = $user->id;
             $report->subject = $r->subject;
             $report->message = $r->message;
@@ -665,6 +664,7 @@ class UserController extends Controller
      */
     public function addRemoveFavourite(request $r)
     {
+       
         $user = auth()->user();
         try {
             $v = Validator::make(
@@ -683,8 +683,16 @@ class UserController extends Controller
                 $favourite->service_id = $r->provider_id;
                 $favourite->user_id = $user->id;
                 $favourite->save();
+                 //send push notification
+                 $notification = (new Notification())->sendPushNotification([
+                    "title" => "Add to favourite list.",
+                    "message" => " You have added a new favourite.",
+                    "model_id" => $favourite->id,
+                    "type" => Notification::STATUS_NEW,
+                    "to_user" => $r->provider_id
+                ]);
+                 return $this->success('Added to favourite');
             
-                return $this->success('Added to favourite');
             } else {
                 $favourite = FavouriteServices::where(['service_id' => $r->provider_id, 'user_id' => $user->id])->delete();
                 return $this->success('Remove from favourite.');
@@ -694,7 +702,13 @@ class UserController extends Controller
             return $this->error($e->getMessage());
         }
     }
-
+    /**
+     * Update Service provider detail 
+     *
+     * @param  contains id 
+     * @return response 
+     */
+    //
     public function updateSpProfile(request $r)
     {
         try {
@@ -716,22 +730,33 @@ class UserController extends Controller
             }
             $user = auth()->user();
             $serviceprovider = User::where('id', $user->id)->first();
-            if(isset($r->video)){
-            $profilevideo = $this->uploadFiles($r->file('video'),$user->id,'profile_video');
-            $serviceprovider->profile_video = $profilevideo;    
-            }
+            // if(isset($r->video)){
+                if ($r->hasFile('video')) {
+                    $file = new Files();
+                    $file->file_name = $this->uploadImage($r->video, 'profile_video');
+                    $extension = ($r->file('video'))->getClientOriginalExtension();
+                    $file->extension = $extension;
+                    $file->model_id = $user->id;
+                    $file->model_type = 'App/Models/User';
+                    $file->file_size = 112;
+                    $file->created_by = $user->id;
+                    $file->type = 1;
+                    $file->save();
+                }
+                
+            // $profilevideo = $this->uploadImage($r->video, 'profile_video');
+            // $serviceprovider->profile_video = $profilevideo;    
+           // }
             $serviceprovider->snapchat_link = $r->snapchat_link ?? $serviceprovider->snapchat_link;
             $serviceprovider->instagram_link = $r->instagram_link ?? $serviceprovider->instagram_link;
             $serviceprovider->twitter_link = $r->twitter_link ?? $serviceprovider->twitter_link;
+            $serviceprovider->price_per_hour=$r->price_per_hour?? $serviceprovider->price_per_hour;
+            $serviceprovider->price_per_day=$r->price_per_day?? $serviceprovider->price_per_day;
+            $serviceprovider->price_per_month=$r->price_per_month?? $serviceprovider->price_per_month;
             $serviceprovider->save();
             $workExperience = WorkExperience::where('user_id', $user->id)->first();
             $workExperience->no_of_years = $r->no_of_years ?? $workExperience->no_of_years;
             $workExperience->save();
-            $services=Services::where('user_id', $user->id)->first();
-            $services->price_per_hour=$r->price_per_hour?? $services->price_per_hour;
-            $services->price_per_day=$r->price_per_day?? $services->price_per_day;
-            $services->price_per_month=$r->price_per_month?? $services->price_per_month;
-            $services->save();
             return $this->successWithData($user->serviceProviderProfile(), "User Profile updated successfully");
         }   catch (\Throwable $e) {
             DB::rollback();
@@ -801,4 +826,46 @@ class UserController extends Controller
         $message = "provider detail";
         return $this->successWithData(auth()->user()->serviceProviderProfile(), $message);
     }
+    /**
+     * Update Service provider image and description
+     *
+     * @param  contains id 
+     * @return response 
+     */
+    //
+    public function updatespImage(request $r)
+    {  
+       
+        try {
+            $v = Validator::make(
+                $r->input(),
+                [
+                    'profile_image' => 'file',
+                    'description' => 'text',
+                   
+                ]    
+            );
+            // if ($v->fails()) {
+            //     return $this->validation($v);
+            // }
+            $user = auth()->user();
+            $serviceprovider = User::where('id', $user->id)->first();
+            if(isset($r->profile_image)){
+            $profile_image = $this->uploadImage($r->profile_image, 'profile_image');
+            $serviceprovider->profile_image = $profile_image;    
+            }
+            else{
+                $serviceprovider->profile_image =$serviceprovider->profile_image ;
+            }
+            if(isset($r->description)){
+                $serviceprovider->description= $r->description??$serviceprovider->description;
+            }
+            $serviceprovider->save();
+            return $this->successWithData($user->serviceProviderProfile(), "Service Provider updated successfully");
+        }   catch (\Throwable $e) {
+            DB::rollback();
+            return $this->error($e->getMessage());
+        }
+    }
+
 }
