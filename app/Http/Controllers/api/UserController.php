@@ -159,7 +159,6 @@ class UserController extends Controller
                 $data['is_new_profile'] =  true;
                 return $this->successWithData([], "OTP verified successfully", $data);
             }
-
             if ($user->roles->first()->id != $r->user_type) {
                 throw new Exception("wrong app login");
             }
@@ -209,7 +208,8 @@ class UserController extends Controller
                 'address' => 'required|string',
                 'nationality' => 'required',
                 'dob' => 'required',
-                'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15|unique:users',
+                //'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15|unique:users',
+                'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15',
                 'device_name' => 'required',
                 'device_token' => 'required',
                 'device_type' => 'required',
@@ -356,7 +356,7 @@ class UserController extends Controller
                     'institute_name' => 'string|required',
                     'degree' => 'string',
                     'start_date' => 'date',
-                    'end_date' => 'date',
+                    'end_date' => 'date|after:startdate',
                     'no_of_years' => 'numeric',
                     'brief_of_experience' => 'string',
                 ]

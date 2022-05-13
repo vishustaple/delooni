@@ -139,7 +139,7 @@ class ListController extends Controller
         });
 
         if (!empty($search)) {
-            $catId = Services::where('name', 'like', "%$search%")->pluck('id')->toArray();
+            $catId = Services::where('name','like' ,"%$search%")->pluck('id')->toArray();
             if(!empty($catId)){
                 $paginate->orwhereIn('sub_cat_id', $catId);
             }
@@ -161,46 +161,16 @@ class ListController extends Controller
     //get Notification list
     public function getNotification(request $r)
     {
-        $v = Validator::make(
-            $r->input(),
-            [
-                'device_token' => 'required',
-              
-            ]
-        );
-        if ($v->fails()) {
-            return $this->validation($v);
-        }
         $loginUser = auth()->user();
-        
-
-
-        $currentData = date('Y-m-d');
-        $query = Notification::where('to_user', $loginUser->id)->whereDate('created_at', '>', date('Y-m-d', strtotime($currentData . ' - 3 days')));
+        $query = Notification::where('to_user', $loginUser->id);
 
         //make read notification
         $notifications = $query;
         $notifications->update(['is_read' => Notification::STATUS_CLEAR]);
 
-        $data = [];
-        $data['today_timestemp'] = Carbon::now()->toDateTimeString();
+        // $data = [];
+        // $data['today_timestemp'] = Carbon::now()->toDateTimeString();
 
-        if ($loginUser->role_id == User::ROLE_ADMIN) {
-            //admin params
-            $data['check_today_unscheduled_event'] = $loginUser->haveEventsUnAssigned("today");
-            $data['check_today_is_multi_driver'] = $loginUser->haveEventsMultiDriver("today");
-
-            $data['check_yesterday_unscheduled_event'] = $loginUser->haveEventsUnAssigned();
-            $data['check_yesterday_is_multi_driver'] = $loginUser->haveEventsMultiDriver();
-        } else {
-            //driver app params
-            $data['check_today_confirm_assignment_pending'] = $loginUser->haveEventsConfirmPending();
-            $data['check_today_unassignment_pending'] = $loginUser->haveEventsUnassignmentPending();
-
-            $data['check_yesterday_confirm_assignment_pending'] = $loginUser->haveEventsConfirmPending();
-            $data['check_yesterday_unassignment_pending'] = $loginUser->haveEventsUnassignmentPending();
-        }
-
-        return $this->customPaginator($query->paginate(20), "listJsonData", $data);
+         return $this->customPaginator($query->paginate(20), "JsonData");
     }
 }
