@@ -9,6 +9,7 @@ use App\Models\Notification;
 use App\Models\Services;
 use App\Models\User;
 use App\Models\UserRating;
+use App\Models\Subscription;
 
 //facades
 use Illuminate\Http\Request;
@@ -138,13 +139,24 @@ class ListController extends Controller
                 ->orWhere('last_name', 'like', "%$search%");
         });
 
-        if (!empty($search)) {
-            $catId = Services::where('name','like' ,"%$search%")->pluck('id')->toArray();
-            if(!empty($catId)){
-                $paginate->orwhereIn('sub_cat_id', $catId);
-            }
-        }
-
+        // if (!empty($search)) {
+        //     $catId = Services::where('name','like' ,"%$search%")->pluck('id')->toArray();
+        //     if(!empty($catId)){
+        //         $paginate->orwhereIn('sub_cat_id', $catId);
+        //     }
+        // }
+        if(!empty($search)){
+            $user=User::leftJoin('payments','payments.created_by','=','users.id')->orderBy('payments.id', 'DESC')->get();
+            dd($user);
+        //     // $catId = Services::where('name','like' ,"%$search%")->pluck('id')->toArray();
+          
+        //     // $user=User::where('sub_cat_id', $catId)->pluck('id')->toArray();
+        
+        // //     $subscribeduser=
+        // //     return $user
+        // //  $paginate->orwhereIn('');
+        } 
+        
         if (!empty($pricePerHour)) {
             $userId = $paginate->whereBetween('price_per_hour', [User::MIN_PRICE, $pricePerHour]);
         }
@@ -173,4 +185,22 @@ class ListController extends Controller
 
          return $this->customPaginator($query->paginate(20), "JsonData");
     }
+    
+     /**
+     * get plans list 
+     *
+     * @param  send auth id 
+     * @return response success or fail
+     */
+    public function Planlist(request $r)
+    {
+        // $user = auth()->user();
+        $Plans = Subscription::select('*')->paginate();
+        return $this->customPaginator($Plans, 'jsonData');
+    }
+    
+
+      
+
+
 }

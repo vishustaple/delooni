@@ -10,7 +10,7 @@ class Payment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'plan_id','amount','transaction_id','payment_status','created_by'
+        'plan_id','amount','transaction_id','payment_status','created_by','duration_date','expire_date'
     ];
 
     public function jsonData()

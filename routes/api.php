@@ -60,7 +60,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('get-categories', [ListController::class, 'getcategories']);
     Route::post('get-sub-categories', [ListController::class, 'getSubcategories']);
 });
-
+Route::get('plan-list', [ListController::class, 'Planlist']);
 Route::post('send-otp', [UserController::class, 'sendOtp']);
 Route::get('active-countries-list', [ListController::class, 'activeCountryList']);
 Route::post('verify-otp', [UserController::class, 'verifyOtp']);
