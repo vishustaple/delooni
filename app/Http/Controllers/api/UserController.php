@@ -13,7 +13,9 @@ use App\Models\LoginHistory;
 use App\Models\User;
 use App\Models\Report;
 use App\Models\Files;
-
+use App\Models\Subscription;
+use App\Models\Payment;
+use Carbon\Carbon;
 //additional
 use DB;
 
@@ -869,4 +871,66 @@ class UserController extends Controller
         }
     }
 
+     /**
+     * store payment information 
+     *
+     * @param  contains id 
+     * @return response 
+     */
+    //
+    public function storepayment(request $r)
+    {
+       
+     try{
+        $v = Validator::make(
+            $r->input(),
+            [
+                'transaction_id' => 'required',
+                'user_id' => 'required',
+                'plan_id' => 'required',
+               
+            ]    
+        );
+        if ($v->fails()) {
+            return $this->validation($v);
+        }
+        $getamount=Subscription::where('id',$r->plan_id)->first();
+        if($r->plan_id=1){
+          $startdate=carbon::today();
+          $enddate=$startdate->addWeek();
+        }
+        elseif($r->plan_id=2){
+        $startdate=carbon::today();
+        $enddate=$startdate->addMonth();
+        }
+        elseif($r->plan_id=3){
+        $startdate=carbon::today();
+        $enddate=$startdate->addMonth(3);
+        }
+        elseif($r->plan_id=4){
+        $startdate=carbon::today();
+        $enddate=$startdate->addMonth(6);
+
+        }
+        elseif($r->plan_id=5){
+        $startdate=carbon::today();
+        $enddate=$startdate->addYear();
+        }
+        // dd($getamount);
+        $payment =  new payment();
+        $payment->plan_id = $r->plan_id;
+        $payment->transaction_id = $r->transaction_id;
+        $payment->created_by = $r->user_id;
+        $payment->amount = $getamount->price_per_plan;
+        $payment->duration_date=$startdate;
+        $payment->expire_date= $enddate;
+        $payment->save();
+  
+        return $this->successWithData($payment->jsonData(), "Transaction add Successfully");
+    }   catch (\Throwable $e) {
+        DB::rollback();
+        return $this->error($e->getMessage());
+    }
+
+    }
 }

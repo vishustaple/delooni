@@ -59,8 +59,10 @@ Route::middleware('auth:sanctum')->group(function () {
     /******************************* Common Api **********************************************/
     Route::get('get-categories', [ListController::class, 'getcategories']);
     Route::post('get-sub-categories', [ListController::class, 'getSubcategories']);
+    Route::get('transaction-history', [ListController::class, 'getTransactionHistory']);
 });
 Route::get('plan-list', [ListController::class, 'Planlist']);
+
 Route::post('send-otp', [UserController::class, 'sendOtp']);
 Route::get('active-countries-list', [ListController::class, 'activeCountryList']);
 Route::post('verify-otp', [UserController::class, 'verifyOtp']);
@@ -70,3 +72,8 @@ Route::post('verify-otp', [UserController::class, 'verifyOtp']);
     /******************************* Razorpay Payment Gateway Api **********************************************/
     Route::post('razorpayPayment', [paymentController::class, 'razorpayPayment']);
     Route::get('/show/{id}', [paymentController::class, 'show']);
+
+
+
+    Route::post('storepayment', [UserController::class, 'storepayment']);
+    
