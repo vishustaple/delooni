@@ -83,7 +83,7 @@ function fetch_data(page)
         url:make_url,
         data:data,
         success:function(data)
-        { alert("success");
+        { 
         $('#test').empty().html(data);
         $('#page-loader').hide();
         },

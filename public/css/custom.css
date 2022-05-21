@@ -270,4 +270,7 @@ table {
 .profile-drop .dropdown-menu a {
    border-bottom: 1px solid #eee;
 }
+.sidebar-search-results {
+   display: none !important;
+}
 /* css end */
