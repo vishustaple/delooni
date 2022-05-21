@@ -69,4 +69,4 @@ Route::post('verify-otp', [UserController::class, 'verifyOtp']);
 
     /******************************* Razorpay Payment Gateway Api **********************************************/
     Route::post('razorpayPayment', [paymentController::class, 'razorpayPayment']);
-    Route::get('/show/{id}', [paymentController::class, 'show']);
+    Route::post('storePaymentDetail', [paymentController::class, 'storePaymentDetail']);

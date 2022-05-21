@@ -30,7 +30,7 @@ public function storesubscription(Request $request){
     $validatedData = $request->validate([
         'plan_name' => 'required',
         'description' => 'required',
-        'validity' => 'required',
+        'validity' => 'required|max:2',
         'price_per_plan' => 'required|max:6',
         'service_provider_type' => 'required',
     ]);
@@ -107,8 +107,8 @@ public function searchsubscription(Request $request){
        $validatedData = $request->validate([
         'plan_name' => 'required',
         'description' => 'required',
-        'validity' => 'required',
-        'price_per_plan' => 'required',
+        'validity' => 'required|max:2',
+        'price_per_plan' => 'required|max:6',
       ]);
     $insert = Subscription::where('id', $request->id)->update([
       "plan_name" => $request->plan_name,
