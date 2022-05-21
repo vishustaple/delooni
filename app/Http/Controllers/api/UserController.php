@@ -880,7 +880,7 @@ class UserController extends Controller
     //
     public function storepayment(request $r)
     {
-       
+      
      try{
         $v = Validator::make(
             $r->input(),
@@ -895,34 +895,42 @@ class UserController extends Controller
             return $this->validation($v);
         }
         $getamount=Subscription::where('id',$r->plan_id)->first();
-        if($r->plan_id=1){
+       
+        if($r->plan_id==1){
+            // dd("here");
           $startdate=carbon::today();
           $enddate=$startdate->addWeek();
         }
-        elseif($r->plan_id=2){
+        elseif($r->plan_id==2){
+            //  dd("here");
         $startdate=carbon::today();
         $enddate=$startdate->addMonth();
         }
-        elseif($r->plan_id=3){
+        elseif($r->plan_id==3){
         $startdate=carbon::today();
-        $enddate=$startdate->addMonth(3);
+        dd($startdate->toDateTimeString());
+        $enddate=$startdate->addMonths(3);
+        
         }
-        elseif($r->plan_id=4){
+        elseif($r->plan_id==4){
         $startdate=carbon::today();
-        $enddate=$startdate->addMonth(6);
-
+        $enddate=$startdate->addMonths(6);
+      
         }
-        elseif($r->plan_id=5){
+        elseif($r->plan_id==5){
         $startdate=carbon::today();
         $enddate=$startdate->addYear();
         }
-        // dd($getamount);
+        else{
+            return "There is no plan related to this plan id. ";
+        }
+ 
         $payment =  new payment();
         $payment->plan_id = $r->plan_id;
         $payment->transaction_id = $r->transaction_id;
         $payment->created_by = $r->user_id;
         $payment->amount = $getamount->price_per_plan;
-        $payment->duration_date=$startdate;
+        $payment->duration_date=$startdate->toDateTimeString();
         $payment->expire_date= $enddate;
         $payment->save();
   
