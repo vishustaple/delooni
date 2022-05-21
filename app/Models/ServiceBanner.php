@@ -16,7 +16,7 @@ class ServiceBanner extends Model
     {
         $json = [];
         $json['id'] = $this->id;
-        $json['service_banner_image'] ='http://192.168.1.210/delooni/public/img/'.$this->service_banner_image;
+        $json['service_banner_image'] =env('APP_URL') . 'public/img/'.$this->service_banner_image;
           
         return $json;
     }

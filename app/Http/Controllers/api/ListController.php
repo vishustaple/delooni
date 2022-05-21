@@ -9,6 +9,8 @@ use App\Models\Notification;
 use App\Models\Services;
 use App\Models\User;
 use App\Models\UserRating;
+use App\Models\Subscription;
+use App\Models\Payment;
 
 //facades
 use Illuminate\Http\Request;
@@ -134,17 +136,46 @@ class ListController extends Controller
         
         $paginate = $paginate->where(function ($query) use ($search) {
             $query->where('first_name', 'like', "%$search%")
-                ->orWhere('business_name', 'like', "%$search%")
+                // ->orWhere('business_name', 'like', "%$search%")
                 ->orWhere('last_name', 'like', "%$search%");
         });
 
         if (!empty($search)) {
             $catId = Services::where('name','like' ,"%$search%")->pluck('id')->toArray();
             if(!empty($catId)){
+              
                 $paginate->orwhereIn('sub_cat_id', $catId);
+            //     $user=$paginate->pluck('id')->toArray();
+            //   //  dd($user);
+            //     $userr=Payment::whereIn('created_by',$user)->pluck('created_by')->toArray();
+            //    // dd($userr);
+            //     $array = array_unique(array_merge($user, $userr));
+            //     dd($array);
+
+                // $userss = $paginate->leftJoin('payments','users.id','=','payments.created_by')->orderBy('payments.created_by', 'DESC')->pluck('id')->toArray();
+
+
+
+
+                // dd($userss);
+               //  dd($userss->pluck('id')->toArray());
+                //$paginate->whereIn('id',$userss);
+
+                // $paginate->orwhereIn('id',$userss)->whereIn('id', $user);
+                // $rawOrder = DB::raw(sprintf('FIELD(id, %s)', implode(',', array_reverse($userss))));
+                // dd($rawOrder);
+                
+                // $getUsers = User::where('id','!=',$user->id)->orderByRaw('FIELD (id, ' . implode(',', array_reverse($userss)) . ') DESC')->paginate(10);
+                // $getUsers = Payment::whereIn('created_by',$userss)->orderByRaw('FIELD (id, ' . implode(',', array_reverse($userss)) . ') DESC')->paginate(10);
+                //  dd($getUsers);
+           
             }
         }
 
+            // $user=User::rightJoin('payments','payments.created_by','=','users.id')->orderBy('payments.id', 'DESC')->first();
+            // dd($user);
+            // $paginate->whereIn('id', $user);
+       
         if (!empty($pricePerHour)) {
             $userId = $paginate->whereBetween('price_per_hour', [User::MIN_PRICE, $pricePerHour]);
         }
@@ -173,4 +204,34 @@ class ListController extends Controller
 
          return $this->customPaginator($query->paginate(20), "JsonData");
     }
+    
+     /**
+     * get plans list 
+     *
+     * @param  send auth id 
+     * @return response success or fail
+     */
+    public function Planlist(request $r)
+    {
+        // $user = auth()->user();
+        $Plans = Subscription::select('*')->paginate();
+        return $this->customPaginator($Plans, 'jsonData');
+    }
+  
+    /**
+     * get transaction history list 
+     *
+     * @param  send auth id 
+     * @return response success or fail
+     */
+    public function getTransactionHistory(request $r)
+    {
+        $user = auth()->user();
+        $gethistory = Payment::where('created_by',$user->id)->paginate();
+        return $this->customPaginator($gethistory, 'jsonData');
+    }
+
+      
+
+
 }

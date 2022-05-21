@@ -36,8 +36,8 @@ class CreateUsersTable extends Migration
             $table->string('other_spoken_language')->nullable()->comment("input");
             $table->string('primary_mode_of_transport')->nullable()->comment("select box");
             $table->enum('service_provider_type', ['default', 'individual','company'])->default('default')->comment("default => it might be customer, guest but not service provider.");
-            $table->integer("cat_id");
-            $table->integer("sub_cat_id");
+            $table->integer("cat_id")->nullable();
+            $table->integer("sub_cat_id")->nullable();
             $table->double('price_per_hour')->default(0.00);
             $table->double('price_per_day')->default(0.00);
             $table->double('price_per_month')->default(0.00);
@@ -55,7 +55,7 @@ class CreateUsersTable extends Migration
             $table->integer('form_step')->default(1)->comment("0=>all form step completed, the value (1, 2 etc) stands for from no has to be submitted.");
         
             # socials
-            $table->integer('whatsapp_no')->nullable();
+            $table->string('whatsapp_no')->nullable();
             $table->string('snapchat_link')->nullable();
             $table->string('instagram_link')->nullable();
             $table->string('twitter_link')->nullable();

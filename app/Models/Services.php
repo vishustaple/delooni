@@ -47,7 +47,7 @@ class Services extends Model
             if( count($this->subcategories) > 0 ){
                 $subcategoriesData = [];
                 foreach ($this->subcategories as $key => $value) {
-                        array_push($subcategoriesData, ['name'=>$value->name,'id'=>$value->id, 'icon'=>'http://192.168.1.210/delooni/public/profile_image/'.$value->service_category_image]);
+                        array_push($subcategoriesData, ['name'=>$value->name,'id'=>$value->id, 'icon'=>env('APP_URL') . 'public/profile_image/'.$value->service_category_image]);
                    
                 }
     

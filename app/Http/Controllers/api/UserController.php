@@ -13,7 +13,9 @@ use App\Models\LoginHistory;
 use App\Models\User;
 use App\Models\Report;
 use App\Models\Files;
-
+use App\Models\Subscription;
+use App\Models\Payment;
+use Carbon\Carbon;
 //additional
 use DB;
 
@@ -226,7 +228,8 @@ class UserController extends Controller
                 'last_name' => 'required',
                 'email' => 'required|email|unique:users|max:255',
                 'dob' => 'required',
-                'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15|unique:users',
+                'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15',
+                // 'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15|unique:users',
                 'device_name' => 'required',
                 'device_token' => 'required',
                 'device_type' => 'required',
@@ -346,7 +349,7 @@ class UserController extends Controller
                     'address' => 'string|required',
                     'country_code' => 'required|string',
                     //'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15|unique:users',
-                    'whatsapp_no' => 'string|required',
+                    'whatsapp_no' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:8|max:12',
                     'snapchat_link' => 'url',
                     'instagram_link' => 'url',
                     'twitter_link' => 'url',
@@ -868,4 +871,74 @@ class UserController extends Controller
         }
     }
 
+     /**
+     * store payment information 
+     *
+     * @param  contains id 
+     * @return response 
+     */
+    //
+    public function storepayment(request $r)
+    {
+      
+     try{
+        $v = Validator::make(
+            $r->input(),
+            [
+                'transaction_id' => 'required',
+                'user_id' => 'required',
+                'plan_id' => 'required',
+               
+            ]    
+        );
+        if ($v->fails()) {
+            return $this->validation($v);
+        }
+        $getamount=Subscription::where('id',$r->plan_id)->first();
+       
+        if($r->plan_id==1){
+            // dd("here");
+          $startdate=carbon::today();
+          $enddate=$startdate->addWeek();
+        }
+        elseif($r->plan_id==2){
+            //  dd("here");
+        $startdate=carbon::today();
+        $enddate=$startdate->addMonth();
+        }
+        elseif($r->plan_id==3){
+        $startdate=carbon::today();
+        dd($startdate->toDateTimeString());
+        $enddate=$startdate->addMonths(3);
+        
+        }
+        elseif($r->plan_id==4){
+        $startdate=carbon::today();
+        $enddate=$startdate->addMonths(6);
+      
+        }
+        elseif($r->plan_id==5){
+        $startdate=carbon::today();
+        $enddate=$startdate->addYear();
+        }
+        else{
+            return "There is no plan related to this plan id. ";
+        }
+ 
+        $payment =  new payment();
+        $payment->plan_id = $r->plan_id;
+        $payment->transaction_id = $r->transaction_id;
+        $payment->created_by = $r->user_id;
+        $payment->amount = $getamount->price_per_plan;
+        $payment->duration_date=$startdate->toDateTimeString();
+        $payment->expire_date= $enddate;
+        $payment->save();
+  
+        return $this->successWithData($payment->jsonData(), "Transaction add Successfully");
+    }   catch (\Throwable $e) {
+        DB::rollback();
+        return $this->error($e->getMessage());
+    }
+
+    }
 }
