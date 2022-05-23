@@ -32,9 +32,15 @@
                         </div>
                       </div> 
                       <div class="form-group row">
-                        <label for="service_provider_type" class="col-sm-12 col-form-label">User Type</label>
+                        <label for="user_type" class="col-sm-12 col-form-label">User Type</label>
                         <div class="col-sm-12">
-                          <input type="text" class="form-control" id="service_provider_type" name="service_provider_type" value="{{$content->service_provider_type}}" readonly>
+                          <input type="text" class="form-control" id="user_type" name="user_type" value="{{$content->user_type}}" readonly>
+                        </div>
+                      </div> 
+                      <div class="form-group row">
+                        <label for="plan_type" class="col-sm-12 col-form-label">Plan Type</label>
+                        <div class="col-sm-12">
+                          <input type="text" class="form-control" id="plan_type" name="plan_type" value="{{$content->plan_type}}" readonly>
                         </div>
                       </div> 
                    </form>

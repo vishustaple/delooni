@@ -22,10 +22,9 @@ class CreatePaymentsTable extends Migration
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('amount');
             $table->foreign('amount')->references('price_per_plan')->on('subscriptions')->onDelete('cascade');
-            // $table->string('amount')->nullable();
             $table->integer('payment_status')->default(0);
-            $table->date('duration_date')->default(0);
-            $table->date('expire_date')->default(0);
+            $table->dateTime('start_date')->nullable();
+            $table->dateTime('expire_date')->nullable();
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
