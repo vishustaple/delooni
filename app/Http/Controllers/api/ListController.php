@@ -213,11 +213,24 @@ class ListController extends Controller
      */
     public function Planlist(request $r)
     {
-        // $user = auth()->user();
-        $Plans = Subscription::select('*')->paginate();
+        //  $user = auth()->user();
+        $Plans = Subscription::where('user_type',Subscription::SP_INDIVIDUAL )->where('plan_type',Subscription::BOOST_PLAN)->paginate();
+       
         return $this->customPaginator($Plans, 'jsonData');
     }
-  
+       /**
+     * get subscriptions list 
+     *
+     * @param  send auth id 
+     * @return response success or fail
+     */
+    public function SubscriptionList(request $r)
+    {
+        // $user = auth()->user();
+        $subscription = Subscription::where('user_type',Subscription::SP_INDIVIDUAL )->where('plan_type',Subscription::APP_ACCESS)->paginate();
+        return $this->customPaginator($subscription, 'jsonData');
+    }
+    
     /**
      * get transaction history list 
      *

@@ -349,7 +349,7 @@ class UserController extends Controller
                     'address' => 'string|required',
                     'country_code' => 'required|string',
                     //'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15|unique:users',
-                    'whatsapp_no' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:8|max:12',
+                    'whatsapp_no' => 'string|required|regex:/^([0-9\s\-\+\(\)]*)$/|min:8|max:12',
                     'snapchat_link' => 'url',
                     'instagram_link' => 'url',
                     'twitter_link' => 'url',
@@ -895,43 +895,25 @@ class UserController extends Controller
             return $this->validation($v);
         }
         $getamount=Subscription::where('id',$r->plan_id)->first();
-       
-        if($r->plan_id==1){
-            // dd("here");
-          $startdate=carbon::today();
-          $enddate=$startdate->addWeek();
-        }
-        elseif($r->plan_id==2){
-            //  dd("here");
-        $startdate=carbon::today();
-        $enddate=$startdate->addMonth();
-        }
-        elseif($r->plan_id==3){
-        $startdate=carbon::today();
-        dd($startdate->toDateTimeString());
-        $enddate=$startdate->addMonths(3);
-        
-        }
-        elseif($r->plan_id==4){
-        $startdate=carbon::today();
-        $enddate=$startdate->addMonths(6);
-      
-        }
-        elseif($r->plan_id==5){
-        $startdate=carbon::today();
-        $enddate=$startdate->addYear();
+        $validity=$getamount->validity;
+
+        if($validity){
+            $startdate=date('y-m-d h:i:s');
+            $enddate=date('y-m-d h:i:s', strtotime($validity));
+ 
         }
         else{
             return "There is no plan related to this plan id. ";
         }
- 
-        $payment =  new payment();
+        
+        $payment = new payment();
         $payment->plan_id = $r->plan_id;
         $payment->transaction_id = $r->transaction_id;
         $payment->created_by = $r->user_id;
         $payment->amount = $getamount->price_per_plan;
-        $payment->duration_date=$startdate->toDateTimeString();
+        $payment->start_date=$startdate;
         $payment->expire_date= $enddate;
+        $payment->payment_status= payment::STATUS_ACTIVE;
         $payment->save();
   
         return $this->successWithData($payment->jsonData(), "Transaction add Successfully");

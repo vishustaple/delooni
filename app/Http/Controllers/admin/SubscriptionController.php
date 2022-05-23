@@ -30,16 +30,20 @@ public function storesubscription(Request $request){
     $validatedData = $request->validate([
         'plan_name' => 'required',
         'description' => 'required',
-        'validity' => 'required|max:2',
+        'plan' => 'required',
+        'planno' => 'required',
         'price_per_plan' => 'required|max:6',
-        'service_provider_type' => 'required',
+        'user_type' => 'required',
+        'plan_type' => 'required',
+
     ]);
      $insert = new Subscription;
      $insert->plan_name = $request->plan_name;
      $insert->description = $request->description;
-     $insert->validity  = $request->validity;
+     $insert->validity  =$request->planno." ". $request->plan;
      $insert->price_per_plan = $request->price_per_plan;
-     $insert->service_provider_type  = $request->service_provider_type;
+     $insert->user_type  = $request->user_type;
+     $insert->plan_type  = $request->plan_type;
      $insert->save();
      return response()->json(redirect()->back()->with('success','Subscription Add Successfully'));
     }
@@ -107,13 +111,13 @@ public function searchsubscription(Request $request){
        $validatedData = $request->validate([
         'plan_name' => 'required',
         'description' => 'required',
-        'validity' => 'required|max:2',
+        'plan' => 'required',
         'price_per_plan' => 'required|max:6',
       ]);
     $insert = Subscription::where('id', $request->id)->update([
       "plan_name" => $request->plan_name,
       "description" => $request->description,
-      "validity" => $request->validity,
+      "validity" => $request->plan,
       "price_per_plan" => $request->price_per_plan,
    ]);
     if($insert){
