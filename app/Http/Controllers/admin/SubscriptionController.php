@@ -32,7 +32,7 @@ public function storesubscription(Request $request){
         'description' => 'required',
         'plan' => 'required',
         'planno' => 'required',
-        'price_per_plan' => 'required|max:6',
+        'price_per_plan' => 'required|numeric',
         'user_type' => 'required',
         'plan_type' => 'required',
 
@@ -115,7 +115,7 @@ public function searchsubscription(Request $request){
         'description' => 'required',
         'plan' => 'required',
         'planno' => 'required',
-        'price_per_plan' => 'required|max:6',
+        'price_per_plan' => 'required|numeric',
         'user_type' => 'required',
         'plan_type' => 'required',
       ]);
