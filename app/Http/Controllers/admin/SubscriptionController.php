@@ -28,7 +28,7 @@ class SubscriptionController extends Controller
 */
 public function storesubscription(Request $request){
     $validatedData = $request->validate([
-        'plan_name' => 'required',
+        'plan_name' => 'required|alpha',
         'description' => 'required',
         'plan' => 'required',
         'planno' => 'required',
@@ -97,7 +97,9 @@ public function searchsubscription(Request $request){
      */
         public function view_update(Request $request){
         $content = Subscription::find($request->id);
-        $res =  view('admin.subscription.update', compact('content'))->render();
+        $validity_no = preg_replace('/[^0-9]/', '', $content->validity);
+        $validity_duration=preg_replace('/[^a-zA-Z]+/', '', $content->validity);
+        $res =  view('admin.subscription.update', compact('content','validity_no','validity_duration'))->render();
         return response()->json($res);
         }
 
@@ -109,16 +111,21 @@ public function searchsubscription(Request $request){
      */
        public function update_subscription(Request $request){
        $validatedData = $request->validate([
-        'plan_name' => 'required',
+        'plan_name' => 'required|alpha',
         'description' => 'required',
         'plan' => 'required',
+        'planno' => 'required',
         'price_per_plan' => 'required|max:6',
+        'user_type' => 'required',
+        'plan_type' => 'required',
       ]);
     $insert = Subscription::where('id', $request->id)->update([
       "plan_name" => $request->plan_name,
       "description" => $request->description,
-      "validity" => $request->plan,
+      "validity" => $request->planno." ". $request->plan,
       "price_per_plan" => $request->price_per_plan,
+      "user_type"=>$request->user_type,
+      "plan_type"=>$request->plan_type
    ]);
     if($insert){
       return response()->json(redirect()->back()->with('success', 'Updated Successfully.'));

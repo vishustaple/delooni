@@ -28,6 +28,22 @@ class Subscription extends Model
     protected $fillable = [
         'plan_name','description','validity','price_per_plan','status','user_type','plan_type'
     ];
+    public static function getusertype()
+    {
+        return [
+            "1" => "customer",
+            "2" => "Individual Service Provider",
+            "3" => "Company Service Provider",
+        ];
+    }
+    public static function getplantype()
+    {
+        return [
+            "1" => "Ads Plan",
+            "2" => "TopList Plan",
+            "3" => "App Access Plan",
+        ];
+    }
     public function getexpiredate()
     {
         return $this->hasOne(Payment::class, 'plan_id', 'id');
