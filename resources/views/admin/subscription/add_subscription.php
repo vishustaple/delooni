@@ -15,24 +15,29 @@
           </div>
         </div>
       </div>
-  <div class="form-group row">
+      <div class="form-group row">
         <label for="validity" class="col-sm-12 col-form-label">Plan validity </label>
-        <div class="col-sm-12 form-control">
-        <select class="planno select2" id="planno" name="planno">
-        <option value="N/A" disabled selected="true">--Select--</option>
+        <div class="col-sm-12">
+          <div class="row w-100 mx-0">
+          <div class="col-sm-6 pl-0">
+            <div class="form-control">
+            <select class="planno select2" id="planno" name="planno">
+        <option value="N/A" disabled selected="true">--Select No--</option>
         <?php
         for ($i=1; $i<=60; $i++)
         {
         ?>
-            
-            <option value="<?php echo $i;?>" name="planno"><?php echo $i;?></option>
+        <option value="<?php echo $i;?>" name="planno"><?php echo $i;?></option>
         <?php
         }
         ?>
         </select>
-      
-        <select class="plan select2" id="plan" name="plan" >
-                        <option value="N/A" disabled selected="true">--Select Plan--</option>
+        </div>
+      </div>
+      <div class="col-sm-6 pr-0">
+      <div class="form-control">
+      <select class="plan select2" id="plan" name="plan" >
+                        <option value="N/A" disabled selected="true">--Select duration--</option>
                         <option value="week" name="plan">week</option>
                         <option value="weeks" name="plan">weeks</option>
                         <option value="month" name="plan">month</option>
@@ -40,7 +45,9 @@
                         <option value="year" name="plan">year</option>
                         <option value="years" name="plan">years</option>
                   </select>
-          <!-- <input type="text" class="form-control" id="validity" name="validity" placeholder="Enter Plan Validity"> -->
+      </div>
+      </div>
+          </div>
           <div class="error" id="error_plan">
           <div class="error" id="error_planno">
           </div>
@@ -58,7 +65,8 @@
 
       <div class="form-group row">
       <label for="user_type" class="col-sm-12 col-form-label">User Type</label>
-      <div class="col-sm-12 form-control">
+      <div class="col-sm-12">
+        <div class="form-control">
                  <select class="subscription select2" id="user_type" name="user_type" >
                         <option value="N/A" disabled selected="true">--User Type--</option>
                         <option value="1" name="user_type">Customer</option>
@@ -67,20 +75,23 @@
                   </select>
                 <div class="error" id="error_user_type">
                 </div>
-            </div>
-        </div>
+      </div>
+      </div>
+      </div>
 
         <div class="form-group row">
       <label for="plan_type" class="col-sm-12 col-form-label">Plan Type</label>
-      <div class="col-sm-12 form-control">
+      <div class="col-sm-12 ">
+        <div class="form-control">
                  <select class="subscription select2" id="plan_type" name="plan_type" >
                         <option value="N/A" disabled selected="true">--Plan Type--</option>
-                        <option value="1" name="user_type">Ads Plan</option>
-                        <option value="2" name="user_type">TopList Plan</option>
-                        <option value="3" name="user_type">App Access Plan</option>
+                        <option value="1" name="plan_type">Ads Plan</option>
+                        <option value="2" name="plan_type">TopList Plan</option>
+                        <option value="3" name="plan_type">App Access Plan</option>
                   </select>
                 <div class="error" id="error_plan_type">
                 </div>
+      </div>
             </div>
         </div>
 

@@ -3,7 +3,7 @@
 <div class="card" id="data">
               <div class="card-header p-2 yellow-bg">
                 <ul class="nav nav-pills">
-                <li class="nav-item"><a class="nav-link active" style="cursor:pointer" 
+                <li class="nav-item"><a class="nav-link active sub" style="cursor:pointer" 
                         data-toggle="modal" 
                         data-target="#myModal">Add Subscription</a></li>
                    <!-- The Modal -->
@@ -166,8 +166,8 @@ $(document).on('click', '.pagination a', function(event){
     });
 
     $(document).on('click', '.update', function(event){
-  $('#page-loader').show();
-   $.ajaxSetup({
+    $('#page-loader').show();
+    $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
@@ -219,6 +219,8 @@ $(document).on('submit','#update_subscription', function(e){
             }
         });
       });
-
+      $(document).on('click', '.sub', function(event){
+        $('#add_subscription').trigger("reset");
+      });
 </script>
 @endsection

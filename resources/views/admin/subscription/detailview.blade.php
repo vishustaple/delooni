@@ -3,11 +3,12 @@
 <div class="card" id ="test">
     <div class="card-header yellow-bg">
     <h3 class="card-title">Subscription</h3>
+    @include('admin.subscription.back')
 </div>
 <div class="card-body">
 <form class="form-horizontal">
                       @csrf
-                    <div class="form-group row">
+                     <div class="form-group row">
                         <label for="plan_name" class="col-sm-12 col-form-label">Plan name</label>
                         <div class="col-sm-12">
                           <input type="text" class="form-control" id="plan_name" name="plan_name" value="{{$content->plan_name}}" readonly>
@@ -18,8 +19,8 @@
                         <div class="col-sm-12">
                           <textarea class="form-control" id="description" name="description" placeholder="Description" readonly>{{$content->description}}</textarea>
                         </div>
-                      </div>
-                 <div class="form-group row">
+                        </div>
+                      <div class="form-group row">
                         <label for="validity" class="col-sm-12 col-form-label">Plan validity</label>
                         <div class="col-sm-12">
                           <input type="text" class="form-control" id="validity" name="validity" value="{{$content->validity}}" readonly>
@@ -34,13 +35,21 @@
                       <div class="form-group row">
                         <label for="user_type" class="col-sm-12 col-form-label">User Type</label>
                         <div class="col-sm-12">
-                          <input type="text" class="form-control" id="user_type" name="user_type" value="{{$content->user_type}}" readonly>
+                        @foreach(App\Models\Subscription::getusertype() as $key => $val)
+                        @if($key == $content->user_type)
+                        <input type="text" class="form-control" id="user_type" name="user_type" value="{{$val}}" readonly>
+                        @endif
+                        @endforeach
                         </div>
                       </div> 
                       <div class="form-group row">
                         <label for="plan_type" class="col-sm-12 col-form-label">Plan Type</label>
                         <div class="col-sm-12">
-                          <input type="text" class="form-control" id="plan_type" name="plan_type" value="{{$content->plan_type}}" readonly>
+                        @foreach(App\Models\Subscription::getplantype() as $key => $val)
+                        @if($key == $content->plan_type)
+                        <input type="text" class="form-control" id="plan_type" name="plan_type" value="{{$val}}" readonly>
+                        @endif
+                        @endforeach
                         </div>
                       </div> 
                    </form>
