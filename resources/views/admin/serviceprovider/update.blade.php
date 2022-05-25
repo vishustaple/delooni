@@ -151,7 +151,6 @@
                         <select name="service_provider_type" id="service_provider_type" class="form-control select2">
                           <option {{  ($data->service_provider_type) == 'individual' ? 'selected' : '' }} value="Individual" name="service_provider_type">Individual</option>
                           <option {{  ($data->service_provider_type) == 'company' ? 'selected' : '' }} value="Company" name="service_provider_type">Company</option>
-                       
                       </select>
                       </div>
                       </div> 
