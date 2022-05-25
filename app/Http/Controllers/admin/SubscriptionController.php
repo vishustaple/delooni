@@ -28,11 +28,11 @@ class SubscriptionController extends Controller
 */
 public function storesubscription(Request $request){
     $validatedData = $request->validate([
-        'plan_name' => 'required|alpha',
+        'plan_name' => 'required',
         'description' => 'required',
         'plan' => 'required',
         'planno' => 'required',
-        'price_per_plan' => 'required|max:6',
+        'price_per_plan' => 'required|numeric',
         'user_type' => 'required',
         'plan_type' => 'required',
 
@@ -111,11 +111,11 @@ public function searchsubscription(Request $request){
      */
        public function update_subscription(Request $request){
        $validatedData = $request->validate([
-        'plan_name' => 'required|alpha',
+        'plan_name' => 'required',
         'description' => 'required',
         'plan' => 'required',
         'planno' => 'required',
-        'price_per_plan' => 'required|max:6',
+        'price_per_plan' => 'required|numeric',
         'user_type' => 'required',
         'plan_type' => 'required',
       ]);

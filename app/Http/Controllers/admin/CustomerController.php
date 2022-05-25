@@ -35,8 +35,6 @@ class CustomerController extends Controller
       'first_name' => 'required',
       'last_name' => 'required',
       'email' => 'required|email|unique:users,email',
-      'password' => 'required|min:4|max:20',
-      'confirm_password' => 'required|required_with:password|same:password|max:20' ,
       'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:8|max:12|unique:users',
       'address' => 'required',
       'nationality' => 'required',

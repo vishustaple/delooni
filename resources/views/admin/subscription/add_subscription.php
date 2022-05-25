@@ -33,6 +33,7 @@
         ?>
         </select>
         </div>
+        <div class="error" id="error_planno"></div>
       </div>
       <div class="col-sm-6 pr-0">
       <div class="form-control">
@@ -44,13 +45,11 @@
                         <option value="months" name="plan">months</option>
                         <option value="year" name="plan">year</option>
                         <option value="years" name="plan">years</option>
-                  </select>
+      </select>
+
       </div>
+      <div class="error" id="error_plan"></div>
       </div>
-          </div>
-          <div class="error" id="error_plan">
-          <div class="error" id="error_planno">
-          </div>
           </div>
         </div>
       </div>  

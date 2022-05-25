@@ -20,8 +20,7 @@ class CreatePaymentsTable extends Migration
             $table->integer('transaction_id')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('amount');
-            $table->foreign('amount')->references('price_per_plan')->on('subscriptions')->onDelete('cascade');
+            $table->integer('amount')->default(0);
             $table->integer('payment_status')->default(0);
             $table->dateTime('start_date')->nullable();
             $table->dateTime('expire_date')->nullable();

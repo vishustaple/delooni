@@ -52,25 +52,6 @@
 
             </div>
         </div>
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="Password" class="col-sm-6 col-form-label">Password</label>
-                <input type="Password" class="form-control" id="Password" name="password"
-                    placeholder="Enter Your Password">
-                <div class="error" id="error_password">
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="Password" class="col-sm-6 col-form-label">Confirm Password</label>
-                <input type="Password" class="form-control" id="confirm_Password" name="confirm_password"
-                    placeholder="Enter Your Password">
-                <div class="error" id="error_confirm_password">
-                </div>
-            </div>
-        </div>
     
         <div class="col-md-6">
             <div class="form-group">
@@ -237,9 +218,9 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="subcategory" class="col-md-6 col-form-label">Select Sub category </label>
+                        <label for="subcategory" class="col-md-6 col-form-label">Select Service</label>
                         <select class="form-control select2" id="subcategory" name="subcategory">
-                        <option value="N/A" disabled selected="true">--Select sub category--</option>
+                        <option value="N/A" disabled selected="true">--Select Service--</option>
                         </select>
                         <div class="error" id="error_subcategory">
                         </div>
@@ -324,15 +305,6 @@
                 <input type="text" class="form-control" id="experience" name="experience"
                     placeholder="Enter Your Work Experience ">
                 <div class="error" id="error_experience">
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="brief_of_experience">Brief Of Experience</label>
-               
-                <textarea class="form-control" id="brief_of_experience" name="brief_of_experience" placeholder="Enter Your brief of Experience"></textarea>
-                <div class="error" id="error_brief_of_experience">
                 </div>
             </div>
         </div>
