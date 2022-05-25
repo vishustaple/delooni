@@ -34,7 +34,7 @@ class ServiceProviderController extends Controller
                ->role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))
                         ->orderBy('id', 'DESC')
                         ->paginate();
-
+        
            
         return view('admin.serviceprovider.create', compact('data'));
 }
@@ -86,6 +86,11 @@ catch (\Throwable $th) {
         "description" => $request->description,
         "profile_image" => $this->uploadImage($request->img, 'profile_image'),
         "profile_video"=>$this->UploadImage($request->video,'profile_video'),
+        "cat_id" =>$request->service_category_id,
+        "sub_cat_id" =>$request->subcategory,
+        "price_per_hour"=>$request->price_per_hour, 
+        "price_per_day"=>$request->price_per_day,
+        "price_per_month"=>$request->price_per_month,
     ]);
    
     if($serviceprovideruser){
@@ -103,18 +108,8 @@ catch (\Throwable $th) {
         ]);
         $workexperiences = WorkExperience::create([
             "no_of_years"=>$request->experience,
-            "brief_of_experience"=>$request->brief_of_experience,
             "user_id" => $user,
         ]);
-        $insert = new Services;
-        $insert->cat_id =$request->service_category_id;
-        $insert->sub_cat_id =$request->subcategory;
-        $insert->price_per_hour=$request->price_per_hour; 
-        $insert->price_per_day=$request->price_per_day;
-        $insert->price_per_month=$request->price_per_month;
-        $insert->user_id=$user;
-        $insert->created_by=Auth::user()->id;
-        $insert->save();
 
         return response()->json(redirect()->back()->with('success', 'New service provider is added Successfully'));
     }
@@ -155,13 +150,10 @@ catch (\Throwable $th) {
         $data=User::select('*')->where('id', '=', $id)->first();
         $getwork=WorkExperience::where('user_id', '=', $id)->first();
         $geteducation=EducationDetail::where('user_id', '=', $id)->first();
-        $getservicedetail=Services::where('user_id', '=', $id)->first();
-        $servicecatid=$getservicedetail->cat_id;
-        $getcatdata=ServiceCategory::where('id', '=', $servicecatid)->first();
-        $subcatid=$getservicedetail->sub_cat_id;
-        $subcategory=ServiceCategory::where('id', '=', $subcatid)->first();
+        $getcatgory=ServiceCategory::where('id', '=', $data->cat_id)->first();
+        $servicename=ServiceCategory::where('id', '=',$data->sub_cat_id)->first();
      
-        return view('admin.serviceprovider.detailview',compact('data','getwork','geteducation','getservicedetail','getcatdata','subcategory'));
+        return view('admin.serviceprovider.detailview',compact('data','getwork','geteducation','getcatgory','servicename'));
       
      }
      /**
@@ -217,11 +209,9 @@ catch (\Throwable $th) {
        $data=User::where('id', '=', $id)->first();
        $geteducation=EducationDetail::where('user_id', '=', $id)->first();
        $getwork=WorkExperience::where('user_id', '=', $id)->first();
-       $categoryData = Services::find($id);
-       $categorynames=ServiceCategory::select('*')->get();
-       $servicename = Services::where('user_id', '=', $id)->first();
-       
-       return view('admin.serviceprovider.update',compact('data','getwork','geteducation','categorynames','servicename','categoryData'));
+       $categorynames=ServiceCategory::select('*')->get(); 
+       $servicename=ServiceCategory::where('id', '=',$data->sub_cat_id)->first();
+       return view('admin.serviceprovider.update',compact('data','getwork','geteducation','categorynames','servicename'));
        }
 
         /**
@@ -232,24 +222,24 @@ catch (\Throwable $th) {
          */
          public function UpdateProviderData(UpdateServiceProviderRequest $request)
         {
-        
+            
         $user = User::find($request->id);
-
+        
         if($request->licensephoto)
         $licensephoto = $this->uploadImage($request->licensephoto, 'profile_image');
         else
         $licensephoto = $user->license_cr_photo;
-
+         
         if($request->img)
         $profileimg = $this->uploadImage($request->img, 'profile_image');
         else
         $profileimg = $user->profile_image;
-
+       
         if($request->video)
         $profilevideo = $this->UploadImage($request->video,'profile_video');
         else
         $profilevideo = $user->profile_video;
-
+        
         $user->business_name = $request->business_name ?? $user->business_name;
         $user->first_name = $request->firstname ?? $user->first_name;
         $user->last_name = $request->lastname ?? $user->last_name;
@@ -268,18 +258,28 @@ catch (\Throwable $th) {
         $user->profile_video = $profilevideo;
         $user->profile_image = $profileimg;
         $user->license_cr_photo = $licensephoto;
+        $user->cat_id =$request->service_category_id;
+        $user->sub_cat_id =$request->subcategory;
+        $user->price_per_hour=$request->price_per_hour;
+        $user->price_per_day=$request->price_per_day;
+        $user->price_per_month=$request->price_per_month;
         $user->save();
-     
-        $educationupdate =  EducationDetail::where('user_id', $request->id)->update([
-            "institute_name" => $request->education,
-            "degree" => $request->degree,
-            "start_date" => $request->startdate,
-            "end_date" => $request->enddate,
-            
-        ]);
-        $workexperienceupdate = WorkExperience::where('user_id', $request->id)->update([
-            "no_of_years"=>$request->experience,
-        ]);
+        if($user){
+            $user->assignRole(User::ROLE_SERVICE_PROVIDER);
+           
+        }
+       
+        $educationupdate = EducationDetail::where('user_id',$request->id)->first();
+        $educationupdate->institute_name = $request->education??$educationupdate->institute_name;
+        $educationupdate->degree = $request->degree??$educationupdate->degree;
+        $educationupdate->start_date = $request->startdate??$educationupdate->start_date;
+        $educationupdate->end_date = $request->enddate??$educationupdate->end_date;
+        $educationupdate->save();
+
+        $workexperienceupdate = WorkExperience::where('user_id',$request->id)->first();
+        $workexperienceupdate->no_of_years=$request->experience??$workexperienceupdate->no_of_years;
+        $workexperienceupdate->save();
+
         if($user){
             return response()->json(redirect()->back()->with('success', 'ServiceProvider updated successfully'));
         }

@@ -28,7 +28,7 @@ class SubscriptionController extends Controller
 */
 public function storesubscription(Request $request){
     $validatedData = $request->validate([
-        'plan_name' => 'required|alpha',
+        'plan_name' => 'required',
         'description' => 'required',
         'plan' => 'required',
         'planno' => 'required',
@@ -111,7 +111,7 @@ public function searchsubscription(Request $request){
      */
        public function update_subscription(Request $request){
        $validatedData = $request->validate([
-        'plan_name' => 'required|alpha',
+        'plan_name' => 'required',
         'description' => 'required',
         'plan' => 'required',
         'planno' => 'required',

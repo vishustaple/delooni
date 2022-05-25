@@ -29,19 +29,17 @@ class ServiceProviderRequest extends FormRequest
             'firstname' => 'required|alpha|max:100',
             'lastname' => 'required|alpha|max:100',
             'email' => 'required|unique:users',
-            'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:8|max:12|unique:users',
-            'password'=>'required|min:6',
-            'confirm_password'=>'required|required_with:password|same:password|min:6',
+            'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:12|unique:users',
             'nationality'=>'required',
             'img' => 'required|mimes:jpeg,bmp,png,jpg',
             'video'=>'required|mimes:mp4',
             'nationality' => 'required',
             'address' => 'required',
             'service_provider_type' => 'required',
-            'whatsappNumber' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:8|max:12',
-            'snapchat' => 'required',
-            'instagram' => 'required',
-            'twitter' => 'required',
+            'whatsappNumber' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:12',
+            // 'snapchat' => 'required',
+            // 'instagram' => 'required',
+            // 'twitter' => 'required',
             'licensenumber' => 'required|numeric',
             'licensephoto' => 'required|mimes:jpeg,bmp,png,jpg',
             'dateofbirth' => 'required',
@@ -51,12 +49,11 @@ class ServiceProviderRequest extends FormRequest
             'startdate' => 'required',
             'enddate' => 'required|after:startdate',
             'experience' => 'required|numeric',
-            'brief_of_experience'=>"required",
             'service_category_id'=>"required",
             'price_per_hour'=>"required",
             'price_per_day'=>"required",
-            'price_per_month'=>"required"
-           
+            'price_per_month'=>"required",
+            'subcategory'=>"required"
             
         ];
     }

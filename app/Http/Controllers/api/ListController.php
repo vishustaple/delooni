@@ -243,7 +243,20 @@ class ListController extends Controller
         $gethistory = Payment::where('created_by',$user->id)->paginate();
         return $this->customPaginator($gethistory, 'jsonData');
     }
+    
 
+    /**
+     * get reviews 
+     *
+     * @param  send auth id 
+     * @return response get reviews by customer 
+     */
+    public function getReviews(request $r)
+    {
+           $user = auth()->user();
+           $userreviews = UserRating::where('user_id', $user->id)->paginate();
+           return $this->customPaginator($userreviews, 'jsonData');
+    }
       
 
 
