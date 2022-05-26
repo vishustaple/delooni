@@ -51,6 +51,7 @@ class UpdateServiceProviderRequest extends FormRequest
             'startdate' => 'required',
             'enddate' => 'required',
             'experience' => 'required|numeric',
+            'brief_of_experience' => 'string',
             'subcategory'=>"required",
             'service_category_id'=>"required",
             

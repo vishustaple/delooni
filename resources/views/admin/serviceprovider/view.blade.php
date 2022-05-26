@@ -24,7 +24,7 @@
         <tr>
           <td>{{$key+1}}</td>
           <!-- <td>{{$value->id}}</td> -->
-          <td>{{$value->first_name}}</td>
+          <td>{{$value->first_name}} {{$value->last_name}}</td>
           <td>{{$value->email}}</td>
           <td>@if($value->status==1)
             <button data-id="{{$value->id}}" class="disable_enable btn btn-success btn-xs" onclick="toggleDisableEnable(this)">Enable</button>

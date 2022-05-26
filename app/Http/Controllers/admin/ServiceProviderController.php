@@ -108,6 +108,7 @@ catch (\Throwable $th) {
         ]);
         $workexperiences = WorkExperience::create([
             "no_of_years"=>$request->experience,
+            "brief_of_experience" => $request->brief_of_experience,
             "user_id" => $user,
         ]);
 
@@ -211,7 +212,8 @@ catch (\Throwable $th) {
        $getwork=WorkExperience::where('user_id', '=', $id)->first();
        $categorynames=ServiceCategory::select('*')->get(); 
        $servicename=ServiceCategory::where('id', '=',$data->sub_cat_id)->first();
-       return view('admin.serviceprovider.update',compact('data','getwork','geteducation','categorynames','servicename'));
+       $getcountry=Country::get();
+       return view('admin.serviceprovider.update',compact('data','getwork','geteducation','categorynames','servicename','getcountry'));
        }
 
         /**
@@ -278,6 +280,7 @@ catch (\Throwable $th) {
 
         $workexperienceupdate = WorkExperience::where('user_id',$request->id)->first();
         $workexperienceupdate->no_of_years=$request->experience??$workexperienceupdate->no_of_years;
+        $workexperienceupdate->brief_of_experience=$request->brief_of_experience??$workexperienceupdate->brief_of_experience;
         $workexperienceupdate->save();
 
         if($user){

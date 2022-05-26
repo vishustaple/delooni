@@ -63,12 +63,18 @@
 
                        <div class="error" id="error_video"></div>
                       </div>
-                      </div>                      
+                      </div>
                       <div class="form-group row">
-                        <label for="nationality" class="col-sm-12 col-form-label">Nationality</label>
-                        <div class="col-sm-12">
-                        <input type="text" class="form-control" id="nationality" name="nationality" value="{{$data->nationality}}" >
-                        <div class="error" id="error_nationality"></div>
+                      <label for="Nationality" class="col-sm-12 col-form-label">Nationality</label>
+                      <div class="col-sm-12">
+                      <select class="form-control select2" id="nationality" name="nationality">
+                      <option value="N/A" disabled selected="true">--Select Nationality--</option>
+                      @foreach($getcountry as $getcountries)
+                      <option class="form-drop-items" {{  ($data->nationality) == $getcountries->country_name ? 'selected' : '' }}  value="{{$getcountries->country_name}}" data-iconurl="{{URL::to('/')}}/flag/{{$getcountries->flag}}">{{$getcountries->country_name}}</option>
+                      @endforeach
+                      </select>
+                      </div>
+                      <div class="error" id="error_nationality">
                       </div>
                       </div>
                       <div class="form-group row">
@@ -140,7 +146,7 @@
                       <div class="form-group row">
                         <label for="dob" class="col-sm-12 col-form-label">Date of Birth</label>
                         <div class="col-sm-12">
-                        <input type="text" class="form-control" id="dob" name="dateofbirth" value="{{$data->dob}}" >
+                        <input type="date" class="form-control" id="dob" name="dateofbirth" value="{{$data->dob}}" >
                         <div class="error" id="error_dateofbirth"></div>
                       </div>
                       </div>
@@ -169,7 +175,7 @@
                         <select class="form-control select2" id="service_category_id" name="service_category_id">
                         <option value="N/A" disabled selected="true">--Select category--</option>
                        @foreach($categorynames as $categoryname)
-                      <option class="form-drop-items" value="{{$categoryname->id}}">{{$categoryname->name}}</option>
+                      <option class="form-drop-items" {{  ($data->cat_id) == $categoryname->id ? 'selected' : '' }}  value="{{$categoryname->id}}">{{$categoryname->name}}</option>
                         @endforeach
                        </select>
                         <div class="error" id="error_service_category_id"></div> 
@@ -180,7 +186,8 @@
                         <label for="subcategory" class="col-sm-12 col-form-label">Select Service</label>
                         <div class="col-sm-12">
                         <select class="form-control select2" id="subcategory" name="subcategory">
-                        <option value="N/A" disabled selected="true">--Select Service--</option>
+                        <!-- <option value="N/A" disabled selected="true">--Select Service--</option> -->
+                        <option class="form-drop-items"  {{  ($data->sub_cat_id) == $servicename->id ? 'selected' : '' }} value="$servicename->id">{{$servicename->name}}</option>
                         </select>
                         <div class="error" id="error_subcategory"></div>
                       </div>
@@ -225,14 +232,14 @@
                       <div class="form-group row">
                         <label for="startdate" class="col-sm-12 col-form-label">Start Date</label>
                         <div class="col-sm-12">
-                        <input type="text" class="form-control" id="startdate" name="startdate" value="{{$geteducation->start_date}}" >
+                        <input type="date" class="form-control" id="startdate" name="startdate" value="{{$geteducation->start_date}}" >
                         <div class="error" id="error_startdate"></div>
                       </div>
                       </div>
                       <div class="form-group row">
                         <label for="enddate" class="col-sm-12 col-form-label">End Date</label>
                         <div class="col-sm-12">
-                        <input type="text" class="form-control" id="enddate" name="enddate" value="{{$geteducation->end_date}}" >
+                        <input type="date" class="form-control" id="enddate" name="enddate" value="{{$geteducation->end_date}}" >
                         <div class="error" id="error_enddate"></div>
                       </div>
                       </div>
@@ -241,6 +248,13 @@
                         <div class="col-sm-12">
                         <input type="text" class="form-control" id="workexperience" name="experience" value="{{$getwork->no_of_years}}" >
                         <div class="error" id="error_experience"></div>  
+                      </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="brief of experience" class="col-sm-12 col-form-label">Brief of Experience</label>
+                        <div class="col-sm-12">
+                        <input type="text" class="form-control" id="brief_of_experience" name="brief_of_experience" value="{{$getwork->brief_of_experience}}" >
+                        <div class="error" id="error_brief_of_experience"></div>  
                       </div>
                       </div>
                       <div class="form-group row">

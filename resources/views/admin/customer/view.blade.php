@@ -14,7 +14,6 @@
     <th>Last Name</th>
     <th>Email</th>
     <th>Phone</th>
-    <th>Address</th>
     <th>Nationality</th>
     <th>Status</th>
     <th>Action</th>
@@ -29,7 +28,6 @@
     <td>{{$value->last_name}}</td>
     <td>{{$value->email}}</td>
     <td>{{$value->phone}}</td>
-    <td>{{$value->address}}</td>
     <td>{{$value->nationality}}</td>
     <td>@if($value->status==1)
     <button data-id="{{$value->id}}" class="disable_enable btn btn-success btn-xs" onclick="toggleDisableEnable(this)">Enable</button>

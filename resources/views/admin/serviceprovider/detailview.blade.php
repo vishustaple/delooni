@@ -211,6 +211,14 @@
                         <input type="text" class="form-control" id="workexperience" value="{{$getwork->no_of_years}}" readonly>
                         </div>
                       </div>
+                     
+                      <div class="form-group row">
+                        <label for="brief_of_experience" class="col-sm-12 col-form-label">Brief of Experience</label>
+                        <div class="col-sm-12">
+                        <input type="text" class="form-control" id="brief_of_experience" value="{{$getwork->brief_of_experience}}" readonly>
+                        </div>
+                      </div>
+                      </div>
                       </div>
                 </div>
 </div>

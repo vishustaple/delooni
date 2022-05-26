@@ -308,6 +308,15 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="brief of experience">Brief of Experience</label>
+                <input type="text" class="form-control" id="brief_of_experience" name="brief_of_experience"
+                    placeholder="Enter Your Work Experience ">
+                <div class="error" id="error_experience">
+                </div>
+            </div>
+        </div>
 </div>
 
 

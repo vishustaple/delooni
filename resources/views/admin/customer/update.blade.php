@@ -52,13 +52,19 @@
       </div>
     </div>    
     <div class="form-group row">
-      <label for="nationality" class="col-sm-12 col-form-label">Nationality</label>
-      <div class="col-sm-12">
-        <input type="text" class="form-control" id="nationality" name="nationality" value="{{$categoryData->nationality}}">
-        <div class="error" id="_error_nationality">
+          <label class="col-sm-12 col-form-label">Nationality</label>
+          <div class="col-sm-12">
+            <div class="form-control">
+          <select class="select2" id="nationality" name="nationality">
+            <option value="N/A" disabled selected="true">--Select country--</option>
+            @foreach($getcountry as $countrie)
+                <option class="form-drop-items" {{  ($categoryData->nationality) == $countrie->country_name ? 'selected' : '' }} value="{{$countrie->country_name}}">{{$countrie->country_name}}</option>
+            @endforeach
+            </select>
+            <div class="error" id="error_nationality"></div>
+            </div>
         </div>
-      </div>
-    </div>           
+      </div>                  
     <div class="form-group row">
       <div class="col-sm-12 text-center">
         <button type="submit" class="btn app-button">Submit</button>
