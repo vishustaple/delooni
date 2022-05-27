@@ -16,6 +16,9 @@ use App\Http\Controllers\admin\MainScreenController;
 use App\Http\Controllers\admin\ReportController;
 use App\Http\Controllers\admin\StaticContentController;
 use App\Http\Controllers\admin\PaymentController;
+use App\Http\Controllers\admin\CountryCityController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -94,8 +97,6 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/subcategory/view/{id}', [CategoryController::class, 'detailView_subcategory'])->name('subcategory.view');
         Route::get('/subcategory/search', [CategoryController::class, 'searchsubcategory'])->name('subcategory.search');
         Route::get('/subcategory/back',[CategoryController::class,'subcategoryBack']);
-
-
       //******************************************Admin Manage Services*********************************************//
       Route::get('/services', [ServiceController::class, 'serviceView'])->name('services');
       Route::post('/service/add', [ServiceController::class, 'storeservice'])->name('service.add');
@@ -161,6 +162,16 @@ Route::group(['prefix' => 'admin'], function () {
        //******************************************Admin Profile*********************************************//
         Route::post('/profile/changePassword', [UserRegisterController::class, 'changePassword'])->name('users-change-password');
         Route::post('/profile/changeProfileImage', [UserRegisterController::class, 'changeProfileImage'])->name('users-change-image');
+          //****************************************** Manage Cities *********************************************//
+        Route::get('/cities', [CountryCityController::class, 'CitiesView'])->name('view-cities');
+        Route::post('/city/addcity', [CountryCityController::class, 'addCity'])->name('city.add');
+        Route::post('/city/togglestatus', [CountryCityController::class, 'ToggleCityStatus'])->name('city.update.status');
+        Route::get('/city/viewcity/{id}', [CountryCityController::class, 'viewCity'])->name('city.viewData');
+        Route::get('/city/back', [CountryCityController::class, 'CityBack']);
+        Route::get('/city/updatecity', [CountryCityController::class, 'UpdateCity'])->name('city.updatecity');
+        Route::post('/city/updatecitydata', [CountryCityController::class, 'UpdateCityData'])->name('city.updatecitydata');
+        Route::get('/city/search', [CountryCityController::class, 'filter'])->name('city.search');
+        Route::get('/city/remove', [CountryCityController::class, 'CityRemove'])->name('city.remove');
        });
        Route::get('/user/includes/addform', function () {
         return view('admin.user.includes.addform');
@@ -191,4 +202,4 @@ Route::get('/provider/company/search', [ServiceProviderController::class, 'searc
     Route::get('/payment/search', [PaymentController::class, 'searchpayment'])->name('payment.search');
     Route::get('/payment/view/{id}', [PaymentController::class, 'detailView_payment'])->name('payment.view');
     Route::get('/payment/back', [PaymentController::class, 'paymentBack'])->name('payment.back');
-   
+  

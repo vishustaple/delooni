@@ -72,7 +72,15 @@
           </p>
         </a>
       </li>
-
+    
+      <li class="nav-item">
+        <a href="{{route('view-cities')}}" class="nav-link">
+        <i class="fa fa-city nav-icon"></i>
+          <p>
+            Manage Cities
+          </p>
+        </a>
+      </li>
      
 
       <li class="nav-item">
@@ -107,7 +115,7 @@
         </ul>
       </li>
       <li class="nav-item">
-        <a href="{{route('splashscreen')}}" class="nav-link">
+        <a href="{{url('/admin/splashscreen')}}" class="nav-link">
         <i class="fa fa-desktop nav-icon"></i>
        <p>
             Splash screen
