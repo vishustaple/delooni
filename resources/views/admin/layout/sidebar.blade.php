@@ -117,11 +117,12 @@
       <li class="nav-item">
         <a href="{{url('/admin/splashscreen')}}" class="nav-link">
         <i class="fa fa-desktop nav-icon"></i>
-       <p>
+          <p>
             Splash screen
           </p>
         </a>
       </li>
+   
       
         <li class="nav-item">
         <a href="{{url('/admin/report')}}" class="nav-link">
