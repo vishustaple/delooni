@@ -213,9 +213,15 @@ class ListController extends Controller
      */
     public function Planlist(request $r)
     {
-        //  $user = auth()->user();
-        $Plans = Subscription::where('user_type',Subscription::SP_INDIVIDUAL )->where('plan_type',Subscription::BOOST_PLAN)->paginate();
-       
+         $user = auth()->user(); 
+         $usertype=$user->service_provider_type;
+         if($usertype == 'individual'){
+           $value=2;
+         }
+         else{
+         $value=3;
+         }
+        $Plans = Subscription::where('user_type',$value )->where('plan_type',Subscription::BOOST_PLAN)->paginate();
         return $this->customPaginator($Plans, 'jsonData');
     }
        /**
@@ -226,8 +232,15 @@ class ListController extends Controller
      */
     public function SubscriptionList(request $r)
     {
-        // $user = auth()->user();
-        $subscription = Subscription::where('user_type',Subscription::SP_INDIVIDUAL )->where('plan_type',Subscription::APP_ACCESS)->paginate();
+        $user = auth()->user(); 
+        $usertype=$user->service_provider_type;
+        if($usertype == 'individual'){
+          $value=2;
+        }
+        else{
+        $value=3;
+        }
+        $subscription = Subscription::where('user_type',$value )->where('plan_type',Subscription::APP_ACCESS)->where('status',Subscription::STATUS_ACTIVE)->paginate();
         return $this->customPaginator($subscription, 'jsonData');
     }
     

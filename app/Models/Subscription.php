@@ -48,6 +48,10 @@ class Subscription extends Model
     {
         return $this->hasOne(Payment::class, 'plan_id', 'id');
     }
+    public function getPayment()
+    {
+        return $this->hasOne(Payment::class, 'plan_id', 'id')->where('created_by',auth()->user()->id);
+    }
     function dateDiffInDays($date1, $date2) 
     {
     $diff = strtotime($date2) - strtotime($date1);
@@ -55,18 +59,17 @@ class Subscription extends Model
     }
     public function jsonData()
     {
-     
         $json = [];
         $json['plan_id'] = $this->id;
         $json['plan_name'] = $this->plan_name;
         $json['description'] = $this->description;
         $json['validity'] = $this->validity;
         $json['price_per_plan'] = $this->price_per_plan;
-        $json['expire_date'] = $this->getexpiredate->expire_date??"";
+        $json['expire_date'] = $this->getPayment->expire_date??"";
         $json['user_type'] = $this->user_type;
         $json['plan_type'] = $this->plan_type;
         $json['days_left'] = $this->dateDiffInDays($this->getexpiredate->start_date??"", $this->getexpiredate->expire_date??"");
-        $json['is_active'] = $this->getexpiredate->payment_status??0;
+        $json['is_active'] = $this->getPayment->payment_status??0;
         return $json;
     }
 }

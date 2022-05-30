@@ -94,7 +94,8 @@ class CustomerController extends Controller
     */
     public function view_update(Request $request){
     $categoryData = User::find($request->id);
-    $res =  view('admin.customer.update', compact('categoryData'))->render();
+    $getcountry=Country::get();
+    $res =  view('admin.customer.update', compact('categoryData','getcountry'))->render();
     return response()->json($res);
     }
     /**

@@ -1,26 +1,14 @@
   <!-- Sidebar Menu -->
   <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-      <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-     <li class="nav-item menu-open">
-        <ul class="nav nav-treeview">
+     
           <li class="nav-item">
-          <li class="nav-item">
-          <a href="{{url('/admin/dashboard')}}" class="nav-link">
+            <a href="{{url('/admin/dashboard')}}" class="nav-link">
               <i class="fa fa-home nav-icon"></i>
               <p>Dashboard</p>
             </a>
           </li>
-        <!-- <li class="nav-item">
-            <a href="{{url('/admin/profile')}}" class="nav-link">
-              <i class="fa fa-id-badge nav-icon"></i>
-              <p>Account</p>
-            </a>
-          </li>
-        </ul>
-      </li> -->
-        <!--Users Start Here-->
+       
         <li class="nav-item">
         <a href="{{url('/admin/customer')}}" class="nav-link">
         <i class="fa fa-user nav-icon"></i>
@@ -30,13 +18,13 @@
         </a>
       </li>
 
-        <li class="nav-item">
+        <li class="nav-item {{ Request::routeIs('company')|| Request::routeIs('viewserviceprovider') ? ' menu-open' : '' }}">
         <a href="" class="nav-link d-flex">
            <span><i class="nav-icon fa fa-server"></i></span>
           <p>Service Provider</p>
           <i class="right fa fa-angle-right"></i>
         </a>
-        <ul class="nav nav-treeview" style="display: {{ Request::routeIs('company')|| Request::routeIs('viewserviceprovider') ? 'block' : 'none' }}">
+        <ul class="nav nav-treeview">
           <li class="nav-item">
             <a href="{{route('company')}}" class="nav-link  {{ Request::routeIs('company') ? 'active' : '' }}">
               <i class="fa fa-users nav-icon"></i>
@@ -66,8 +54,7 @@
               <p>Services</p>
             </a>
           </li>
-        </ul>
-      </li>
+        
         <!-- <li class="nav-item">
         <a href="{{url('/admin/services')}}" class="nav-link">
         <i class="fa fa-wrench nav-icon"></i>
@@ -85,7 +72,15 @@
           </p>
         </a>
       </li>
-
+    
+      <li class="nav-item">
+        <a href="{{route('view-cities')}}" class="nav-link">
+        <i class="fa fa-city nav-icon"></i>
+          <p>
+            Manage Cities
+          </p>
+        </a>
+      </li>
      
 
       <li class="nav-item">
@@ -97,13 +92,13 @@
         </a>
       </li>
        <!--Static content Start Here-->
-     <li class="nav-item">
-        <a href="javascript:void(0)" class="nav-link d-flex">
+     <li class="nav-item {{ Request::routeIs('staticcontent')|| Request::routeIs('condition') ? ' menu-open' : '' }}">
+        <a href="" class="nav-link d-flex">
            <span><i class="fa fa-twitter nav-icon"></i></span>
           <p>Static content</p>
           <i class="right fa fa-angle-right"></i>
         </a>
-        <ul class="nav nav-treeview" style="display: {{ Request::routeIs('staticcontent')|| Request::routeIs('condition') ? 'block' : 'none' }}">
+        <ul class="nav nav-treeview" >
           <li class="nav-item">
             <a href="{{url('/admin/staticcontent')}}" class="nav-link  {{ Request::routeIs('staticcontent') ? 'active' : '' }}">
               <i class="fa fa-picture-o nav-icon"></i>
@@ -138,7 +133,7 @@
       </li>
       <!-- Users End-->
       <li class="nav-item">
-        <a href="{{route('payment')}}" class="nav-link">
+        <a href="{{route('payment')}}" class="nav-link {{ Request::routeIs('payment') ? 'active' : '' }}">
           <i class="fa fa-paypal nav-icon"></i>
           <p>
             Payment History
@@ -176,8 +171,8 @@
     });  
 });  
 
-$(document).ready(function(){
-    var parent = $("a.active").parent().parent().parent();
-    parent.addClass("menu-is-opening menu-open");
-});
+// $(document).ready(function(){
+//     var parent = $("a.active").parent().parent().parent();
+//     parent.addClass("menu-is-opening menu-open");
+// });
 </script>

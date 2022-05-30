@@ -718,6 +718,8 @@ class UserController extends Controller
             $v = Validator::make(
                 $r->input(),
                 [
+                    'whatsapp_no' => 'required',
+                    'email' => 'required|email',
                     'video' => 'file',
                     'snapchat_link' => 'url',
                     'instagram_link' => 'url',
@@ -750,6 +752,8 @@ class UserController extends Controller
             // $profilevideo = $this->uploadImage($r->video, 'profile_video');
             // $serviceprovider->profile_video = $profilevideo;    
            // }
+            $serviceprovider->email = $r->email ?? $serviceprovider->email;
+            $serviceprovider->whatsapp_no = $r->whatsapp_no ?? $serviceprovider->whatsapp_no;
             $serviceprovider->snapchat_link = $r->snapchat_link ?? $serviceprovider->snapchat_link;
             $serviceprovider->instagram_link = $r->instagram_link ?? $serviceprovider->instagram_link;
             $serviceprovider->twitter_link = $r->twitter_link ?? $serviceprovider->twitter_link;
