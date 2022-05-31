@@ -15,10 +15,10 @@ class CreateEducationDetailsTable extends Migration
     {
         Schema::create('education_details', function (Blueprint $table) {
             $table->id();
-            $table->string('institute_name');
-            $table->string('degree');
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->string('institute_name')->nullable();
+            $table->string('degree')->nullable();
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->boolean('status')->default(1)->comment("0=> inactive, 1=> active");
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

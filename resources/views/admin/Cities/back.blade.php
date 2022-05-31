@@ -1,5 +1,5 @@
 <div class="col-sm-12">
- <button class="btn btn-outline-success float-right" id="user"><i class="fas fa-arrow-alt-circle-left">Back</i></button>
+ <button class="btn btn-dark float-right" id="user"><i class="fa fa-arrow-circle-left pr-2"></i>Back</button>
 </div> 
 <script>
  jQuery("#user").on("click",(e)=>{

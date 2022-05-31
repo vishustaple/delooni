@@ -350,16 +350,16 @@ class UserController extends Controller
                     'country_code' => 'required|string',
                     //'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15|unique:users',
                     'whatsapp_no' => 'string|required|regex:/^([0-9\s\-\+\(\)]*)$/|min:8|max:12',
-                    'snapchat_link' => 'url',
-                    'instagram_link' => 'url',
-                    'twitter_link' => 'url',
+                    'snapchat_link' => 'url|nullable',
+                    'instagram_link' => 'url|nullable',
+                    'twitter_link' => 'url|nullable',
                     'license_cr_no' => 'string',
                     'license_cr_photo' => 'file',
                     'description' => 'string',
-                    'institute_name' => 'string|required',
-                    'degree' => 'string',
-                    'start_date' => 'date',
-                    'end_date' => 'date|after:startdate',
+                    'institute_name' => 'string|nullable',
+                    'degree' => 'string|nullable',
+                    'start_date' => 'date|nullable',
+                    'end_date' => 'date|after:start_date|nullable',
                     'no_of_years' => 'numeric',
                     'brief_of_experience' => 'string',
                 ]
@@ -713,17 +713,18 @@ class UserController extends Controller
      */
     //
     public function updateSpProfile(request $r)
-    {
+    { 
+       
         try {
             $v = Validator::make(
                 $r->input(),
                 [
-                    'whatsapp_no' => 'required',
-                    'email' => 'required|email',
+                    'whatsapp_no' => 'required|unique:users',
+                    'email' => 'required|email|unique:users',
                     'video' => 'file',
-                    'snapchat_link' => 'url',
-                    'instagram_link' => 'url',
-                    'twitter_link' => 'url',
+                    'snapchat_link' => 'url|nullable',
+                    'instagram_link' => 'url|nullable',
+                    'twitter_link' => 'url|nullable',
                     'no_of_years' => 'numeric',
                     'price_per_hour ' => 'numeric',
                     'price_per_day' => 'numeric',

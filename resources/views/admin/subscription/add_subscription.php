@@ -94,7 +94,7 @@
             </div>
         </div>
 
-    <div class="form-group row">
+    <div class="form-group row mt-5">
         <div class="col-sm-12 text-center">
           <button type="submit" class="btn app-button">Submit</button>
           <button type="reset" class="btn btn-danger">Reset</button>

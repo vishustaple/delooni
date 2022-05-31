@@ -20,7 +20,7 @@ class CreateNotificationsTable extends Migration
             $table->string('title');
             $table->string('description')->nullable();
             $table->integer('model_id');
-            $table->string('model_type');
+            $table->string('model_type')->dafault(0);
             $table->tinyInteger('status')->default(1)->comment('0-new,1-clear');
             $table->tinyInteger('type')->default(0);
             $table->tinyInteger('is_read')->default(0);
