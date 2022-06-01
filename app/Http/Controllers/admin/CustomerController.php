@@ -35,7 +35,8 @@ class CustomerController extends Controller
       'first_name' => 'required',
       'last_name' => 'required',
       'email' => 'required|email|unique:users,email',
-      'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:8|max:12|unique:users',
+      // 'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:8|max:12|unique:users',
+      'phone' => 'required|digits:10|unique:users',
       'address' => 'required',
       'nationality' => 'required',
     ]);

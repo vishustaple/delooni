@@ -60,9 +60,9 @@
                       </div>                    
                      
                       <div class="form-group row">
-                        <div class="offset-sm-2 col-sm-10">
-                          <button type="submit" class="btn btn-success">Update</button>
-                          <button type="reset" class="btn btn-danger">Reset</button>
+                        <div class="mx-auto col-sm-10 text-center">
+                          <button type="submit" class="btn btn-success app-button">Update</button>
+                       
                         </div>
                       </div>
                 </form>

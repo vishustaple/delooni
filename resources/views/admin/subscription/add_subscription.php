@@ -68,7 +68,7 @@
         <div class="form-control">
                  <select class="subscription select2" id="user_type" name="user_type" >
                         <option value="N/A" disabled selected="true">--User Type--</option>
-                        <option value="1" name="user_type">Customer</option>
+                        <!-- <option value="1" name="user_type">Customer</option> -->
                         <option value="2" name="user_type">Individual Service Provider</option>
                         <option value="3" name="user_type">Company Service Provider</option>
                   </select>
