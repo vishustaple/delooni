@@ -263,10 +263,10 @@ class User extends Authenticatable
         }
 
         if (!empty($this->education)) {
-            $json['institute_name'] = $this->education->institute_name;
-            $json['degree'] = $this->education->degree;
-            $json['start_date'] = $this->education->start_date;
-            $json['end_date'] = $this->education->end_date;
+            $json['institute_name'] = $this->education->institute_name?? "";
+            $json['degree'] = $this->education->degree?? "";
+            $json['start_date'] = $this->education->start_date?? "";
+            $json['end_date'] = $this->education->end_date?? "";
         } else {
             $json['institute_name'] = "";
             $json['degree'] = "";

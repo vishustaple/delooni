@@ -3,11 +3,20 @@
 @section('contents')
 <div id="users_data">
 <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">City</h3>
-                @include('admin.Cities.back')
-              </div>
+             
               <!-- /.card-header -->
+
+              <div class="card-header yellow-bg">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+        <h3 class="card-title mb-0">City</h3>
+       </div>
+    <div class="col-md-6 justify-content-end">
+    @include('admin.Cities.back')
+   </div> 
+
+   </div>
+</div>
              <div class="card-body">
                      
              <div class="form-group row">

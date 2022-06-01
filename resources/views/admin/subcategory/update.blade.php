@@ -18,7 +18,7 @@
                         </div>
                       </div>
                     <label  class="col-sm-12 col-form-label">Uploaded image</label>
-                        <div class="col-sm-12">
+                        <div class="col-sm-12 px-0">
                           <img class="lazyload mb-3" src="{{URL::to('/')}}/profile_image/{{$categoryDatas->service_category_image}}">
                           <input type="file" class="form-control" id="service_category_image" name="service_category_image" accept="image/*">
                          <div class="error" id="_error_service_category_image"></div>

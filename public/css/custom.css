@@ -280,4 +280,16 @@ table {
    margin-left: -0.75rem;
    margin-bottom: 6px;
 }
+
+.dashboard-link{
+   text-decoration: none;
+}
+
+.dashboard-link .card-header{
+   font-weight: bold;
+}
+
+.dashboard-link .info-box-number{
+   text-align: right;
+}
 /* css end */
