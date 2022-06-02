@@ -159,6 +159,7 @@ $(document).on('submit','#content_update', function(e){
             }, 2000);
             },
             error:function(data){
+              $('.error').html(''); 
             $.each(data.responseJSON.errors, function(id,msg){
             $('#error_'+id).html(msg);
             })

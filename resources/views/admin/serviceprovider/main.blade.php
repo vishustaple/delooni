@@ -33,6 +33,12 @@
               </div><!-- /.card-body -->
       </div>
       <script>
+//remove header from update 
+
+$("button.btn.btn-outline-dark.btn-xs.updateserviceprovider").on('click',function(e){
+  $('#Provider_data .card-header.p-2.yellow-bg').hide();
+  
+});
 //serviceform on add button click 
 $('#serviceform').on('click',function(e){
  e.preventDefault();
@@ -61,7 +67,7 @@ $('#serviceform').on('click',function(e){
 //add data of service provider 
 $(document).on("submit", "#createprovider", function(e){
 
-    e.preventDefault();
+  e.preventDefault();
     let myForm = document.getElementById('createprovider');
     let formData = new FormData(myForm);
     console.log(formData);
@@ -81,9 +87,9 @@ $(document).on("submit", "#createprovider", function(e){
       location.reload();
      },
     error:function(data){ 
-    $('.error').html(' ');     
+    $('.error').html('');     
     $.each(data.responseJSON.errors, function(id,msg){
-   $('#error_'+id).html(msg);
+    $('#createprovider #error_'+id).html(msg);
  })
 }
 });

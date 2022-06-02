@@ -399,8 +399,8 @@ class UserController extends Controller
                 // $user->service_provider_type = $r->type;
 
                 if (!empty($_FILES['license_cr_photo'])) {
-                    $licenseImage = $this->uploadImage($r->license_cr_photo, 'license_image');
-                    $user->license_cr_photo = $licenseImage ?? $user->license_cr_photo;
+                    $licenseImage = $this->uploadImage($r->license_cr_photo, 'profile_image');
+                    $user->license_cr_photo = $licenseImage;
                 }
                
                 $user->save();

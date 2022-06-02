@@ -219,6 +219,7 @@
         }, 2000);
       },
       error: function(data) {
+        $('.error').html(''); 
         $.each(data.responseJSON.errors, function(id, msg) {
           $('#_error_' + id).html(msg);
         })

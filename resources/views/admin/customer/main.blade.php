@@ -3,7 +3,7 @@
 <div class="card" id="data">
               <div class="card-header p-2 yellow-bg">
                 <ul class="nav nav-pills">
-                <li class="nav-item"><a class="nav-link active" style="cursor:pointer" 
+                <li class="nav-item"><a class="nav-link active customer" style="cursor:pointer" 
                         data-toggle="modal" 
                         data-target="#myModal">Add Customer</a></li>
                    <!-- The Modal -->
@@ -49,6 +49,15 @@
       </div>
 
       <script>
+
+//hide error
+$(document).on("click", "a.nav-link.active.customer", function(){
+  
+  $(".error").html("");
+  $("#add_customers").trigger("reset");
+  
+});
+
 $("#add_customers").on('submit', function (e){
      e.preventDefault();
      var data = new FormData(this);
@@ -188,6 +197,7 @@ $(document).on('submit','#update_customer', function(e){
             }, 2000);
             },
             error:function(data){
+              $('.error').html(''); 
             $.each(data.responseJSON.errors, function(id,msg){
             $('#_error_'+id).html(msg);
             })

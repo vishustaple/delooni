@@ -1,5 +1,5 @@
 <div class="card" id="data">
-  <div class="card-header p-2">
+  <div class="card-header p-2 yellow-bg">
     <ul class="nav nav-pills">
       <li class="nav-item"><a class="nav-link active" style="cursor:pointer" data-toggle="modal" data-target="#myModal">Add</a></li>
       <!-- The Modal -->
@@ -179,6 +179,9 @@
       contentType: false,
       processData: false,
       data: formData,
+      headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              },
       success: function(data) {
         fetch_data(1);
         $('.updatemodalcity').html(data);
@@ -186,9 +189,10 @@
         $(".modal-backdrop").removeClass('modal-backdrop show');
       },
       error:function(data){
+        $('.error').html('');
             $.each(data.responseJSON.errors, function(id,msg){
             console.log(msg);
-            $('#error_'+id).html(msg[0]);
+            $('#update_city #error_'+id).html(msg);
             })
             }
     });

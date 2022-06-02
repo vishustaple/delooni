@@ -64,7 +64,7 @@
 
       <div class="form-group row">
       <label for="user_type" class="col-sm-12 col-form-label">User Type</label>
-      <div class="col-sm-12">
+      <div class="col-sm-12 ">
         <div class="form-control select-wrapper">
                  <select class="subscription select2" id="user_type" name="user_type" >
                         <option value="N/A" disabled selected="true">--User Type--</option>
@@ -80,7 +80,7 @@
 
         <div class="form-group row">
       <label for="plan_type" class="col-sm-12 col-form-label">Plan Type</label>
-      <div class="col-sm-12 ">
+      <div class="col-sm-12 mb-3">
         <div class="form-control select-wrapper">
                  <select class="subscription select2" id="plan_type" name="plan_type" >
                         <option value="N/A" disabled selected="true">--Plan Type--</option>
@@ -94,7 +94,7 @@
             </div>
         </div>
 
-    <div class="form-group row mt-5">
+    <div class="form-group row ">
         <div class="col-sm-12 text-center">
           <button type="submit" class="btn app-button">Submit</button>
           <button type="reset" class="btn btn-danger">Reset</button>
