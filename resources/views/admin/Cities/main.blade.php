@@ -101,6 +101,7 @@
         $("body").removeClass("modal-open");
       },
       error: function(data) {
+        $('.error').html('');   
         $.each(data.responseJSON.errors, function(id, msg) {
           $('#error_' + id).html(msg);
         })
@@ -151,7 +152,6 @@
         $('.updatemodalcity').empty().html(data);
         $("#myModal1").modal('show');
         $('#page-loader').hide();
-
       },
       error: function(error) {
         console.log(error.responseText);
@@ -162,6 +162,7 @@
   });
   //to update user 
   $(document).on('submit', '#update_city', function(e) {
+  
     e.preventDefault();
     $('#page-loader').show();
 
@@ -184,16 +185,12 @@
         $('#page-loader').hide();
         $(".modal-backdrop").removeClass('modal-backdrop show');
       },
-      error: function(data) {
-
-        console.log(data.responseJSON.errors);
-        $.each(data.responseJSON.errors, function(id, msg) {
-          // console.log('ss'+id);
-
-          $('#error_' + id).html(msg);
-        });
-        $('#page-loader').hide();
-      }
+      error:function(data){
+            $.each(data.responseJSON.errors, function(id,msg){
+            console.log(msg);
+            $('#error_'+id).html(msg[0]);
+            })
+            }
     });
   });
 

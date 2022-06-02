@@ -51,7 +51,8 @@ $('#serviceform').on('click',function(e){
     $(".card-body").html(response);
       },
 
-    error:function(error){                                     
+    error:function(error){  
+                                          
       console.log(error);
  }
 
@@ -59,10 +60,11 @@ $('#serviceform').on('click',function(e){
 });
 //add data of service provider 
 $(document).on("submit", "#createprovider", function(e){
-     e.preventDefault();
+
+    e.preventDefault();
     let myForm = document.getElementById('createprovider');
     let formData = new FormData(myForm);
-     console.log(data);
+    console.log(formData);
      $.ajax({
      type:'post',
      url:"{{route('provider.add')}}",
@@ -78,9 +80,10 @@ $(document).on("submit", "#createprovider", function(e){
       console.log(response);
       location.reload();
      },
-    error:function(data){                                     
+    error:function(data){ 
+    $('.error').html(' ');     
     $.each(data.responseJSON.errors, function(id,msg){
-    $('#error_'+id).html(msg);
+   $('#error_'+id).html(msg);
  })
 }
 });
