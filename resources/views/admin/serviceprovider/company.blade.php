@@ -1,7 +1,28 @@
 @extends('admin.layout.template')
 @section('contents')
+<div id="Provider_data">
 <div class="card" id="data">
-              <div class="card-header p-2 yellow-bg">
+              <div class="card-header p-2 yellow-bg provider">
+           
+
+
+              <div class="row align-items-center" style="display:none;">
+                  <div class="col-md-6">
+                    <h3 class="card-title font-weight-bold">Update User</h3> 
+                    </div>
+                <div class="col-md-6">
+ <a href="http://localhost/delooni/public/serviceprovider" class="btn btn-dark float-right"><i class="fa fa-arrow-circle-left"></i>
+ Back
+ </a>
+</div> 
+               </div> 
+
+
+
+
+
+
+
                 <ul class="nav nav-pills">
                   <li class="nav-item"><a class="nav-link active" style="cursor:pointer;" id="serviceform" >Add</a></li>
                   
@@ -34,7 +55,12 @@
                 <!-- /.tab-content -->
               </div><!-- /.card-body -->
       </div>
+</div>
 <script>
+  $("button.btn.btn-outline-dark.btn-xs.updateserviceprovider").on('click',function(e){
+    $('#Provider_data ul.nav.nav-pills').hide();
+  $('.row.align-items-center').show();
+});
 //for pagination 
 $(document).on('click', '.pagination a', function(event){
  event.preventDefault(); 
@@ -112,7 +138,8 @@ $(document).on("submit", "#createprovider", function(e){
       console.log(response);
       location.reload();
      },
-    error:function(data){                                     
+    error:function(data){  
+      $('.error').html('');                                   
     $.each(data.responseJSON.errors, function(id,msg){
     $('#error_'+id).html(msg);
  })
@@ -173,6 +200,7 @@ $(document).on('submit', '#update_provider', function(e){
     error:function(data){
 
       console.log(data.responseJSON.errors);
+      $('.error').html('');  
       $.each(data.responseJSON.errors, function(id,msg){
         // console.log('ss'+id);
 

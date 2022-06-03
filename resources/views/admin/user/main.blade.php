@@ -175,11 +175,8 @@ $(document).on('submit', '#update_user', function(e){
 
     },
     error:function(data){
-
       console.log(data.responseJSON.errors);
       $.each(data.responseJSON.errors, function(id,msg){
-        // console.log('ss'+id);
-
         $('#error_'+id).html(msg);
       });
       $('#page-loader').hide();

@@ -142,7 +142,7 @@ Route::group(['prefix' => 'admin'], function () {
       Route::get('/content/view/update', [StaticContentController::class, 'view_update'])->name('content.view.update');
       Route::post('/content/update', [StaticContentController::class, 'update_content'])->name('content.update');
       Route::get('/content/view/{id}', [StaticContentController::class, 'detailView_content'])->name('content.view');
-
+      Route::get('/content/back', [StaticContentController::class, 'ContentBack']);
       //****************************************** Screen Baner Image *********************************************//
       Route::get('/condition', [StaticContentController::class, 'condition_View'])->name('condition');
       Route::get('/condition/view/update', [StaticContentController::class, 'condition_update'])->name('condition.view.update');
@@ -158,7 +158,7 @@ Route::group(['prefix' => 'admin'], function () {
       Route::get('/subscription/view/update', [SubscriptionController::class, 'view_update'])->name('subscription.view.update');
       Route::post('/subscription/update', [SubscriptionController::class, 'update_subscription'])->name('subscription.update');
       Route::get('/subscription/view/{id}', [SubscriptionController::class, 'detailView_subscription'])->name('subscription.view');
-
+      Route::get('/subscription/back', [SubscriptionController::class, 'SubscriptionBack']);
        //******************************************Admin Profile*********************************************//
         Route::post('/profile/changePassword', [UserRegisterController::class, 'changePassword'])->name('users-change-password');
         Route::post('/profile/changeProfileImage', [UserRegisterController::class, 'changeProfileImage'])->name('users-change-image');

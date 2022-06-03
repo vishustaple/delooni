@@ -226,13 +226,13 @@ class User extends Authenticatable
             $json['profile_image'] = url('') . '/profile_image/' . $this->profile_image;
         else
             $json['profile_image'] = "";
-        if (!empty($this->files->file_name))
-            $json['video'] = url('') . '/profile_video/' . $this->files->file_name;
+        if (!empty($this->profile_video))
+            $json['video'] = url('') . '/profile_video/' . $this->profile_video;
         else
             $json['video'] = "";
 
         if (!empty($this->license_cr_photo))
-            $json['license_cr_photo'] = url('') . '/license_image/' . $this->license_cr_photo;
+            $json['license_cr_photo'] = url('') . '/profile_image/' . $this->license_cr_photo;
         else
             $json['license_cr_photo'] = "";
 
@@ -263,10 +263,10 @@ class User extends Authenticatable
         }
 
         if (!empty($this->education)) {
-            $json['institute_name'] = $this->education->institute_name;
-            $json['degree'] = $this->education->degree;
-            $json['start_date'] = $this->education->start_date;
-            $json['end_date'] = $this->education->end_date;
+            $json['institute_name'] = $this->education->institute_name?? "";
+            $json['degree'] = $this->education->degree?? "";
+            $json['start_date'] = $this->education->start_date?? "";
+            $json['end_date'] = $this->education->end_date?? "";
         } else {
             $json['institute_name'] = "";
             $json['degree'] = "";

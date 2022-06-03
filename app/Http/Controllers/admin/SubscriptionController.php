@@ -143,4 +143,18 @@ public function searchsubscription(Request $request){
         $content = Subscription::find($request->id);
         return view('admin.subscription.detailview', compact('content'));
         }
+    
+   /**
+     *  back to subscriptionlist
+     *
+     * @param 
+     * @return  
+     */
+    public function SubscriptionBack()
+    {
+    $url = route('subscription');
+    return $url;
+    }
+
+
 }

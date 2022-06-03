@@ -39,10 +39,11 @@
 
       <!-- Sidebar user panel (optional) -->
       <!-- @include('admin.layout.user_panel') -->
+
       <!-- /.Sidebar user panel -->
-      <!-- @include('templates.sidebar_search')  -->
+      @include('templates.sidebar_search') 
       <!-- SidebarSearch Form (optional) -->
-      @include('templates.sidebar_search')
+      
       <!-- /.SidebarSearch Form  -->
        @include('admin.layout.sidebar')
     </div>

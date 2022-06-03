@@ -31,7 +31,7 @@
                    <div class="form-group row mb-0 mt-4">
                         <div class="col-sm-12 text-center">
                           <button type="submit" class="btn app-button">Submit</button>
-                          <button type="reset" class="btn btn-danger">Reset</button>
+                        
                         </div>
                       </div>
                     </form>

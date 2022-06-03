@@ -71,7 +71,7 @@ $("#add_category").on('submit', function (e){
     $("body").removeClass("modal-open");
      },
   error:function(data){
-                                         
+    $('.error').html('');                               
     $.each(data.responseJSON.errors, function(id,msg){
     $('#error_'+id).html(msg);
  })
@@ -198,6 +198,7 @@ $(document).on('submit','#update_category', function(e){
             }, 2000);
             },
             error:function(data){
+              $('.error').html(''); 
             $.each(data.responseJSON.errors, function(id,msg){
             $('#_error_'+id).html(msg);
            })

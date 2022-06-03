@@ -1,4 +1,5 @@
-<div class="card shadow-none border-0">
+
+<!-- <div class="card shadow-none border-0">
               <div class="card-header border-0 yellow-bg">
                 <div class="row align-items-center">
                   <div class="col-md-6">
@@ -6,7 +7,7 @@
                     </div>
                 @include('admin.serviceprovider.back')
                </div>
-              </div>
+              </div> -->
               <!-- /.card-header -->
              
              <div class="card-body border-0" id="updateUser">
@@ -28,6 +29,8 @@
                           <label for="first_name" class="col-sm-12 col-form-label">First Name</label>
                           <div class="col-sm-12">
                             <input type="text" class="form-control" id="firstname" name="firstname" value="{{$data->first_name}}">
+                            <div class="error" id="error_firstname">
+                </div>
                           </div>
                         </div>
 
@@ -35,6 +38,8 @@
                           <label for="lastname" class="col-sm-12 col-form-label">Last Name</label>
                           <div class="col-sm-12">
                             <input type="text" class="form-control" id="lastname" name="lastname" value="{{$data->last_name}}">
+                            <div class="error" id="error_firstname">
+                </div>
                           </div>
                         </div>
                        
@@ -91,6 +96,8 @@
                           <label for="phone" class="col-sm-12 col-form-label">Phone Number</label>
                             <div class="col-sm-12">
                               <input type="text" class="form-control" id="phone" name="phone" value="{{$data->phone}}" >
+                               <div class="error" id="error_phone">
+                </div>
                             </div>
                         </div>
 
@@ -98,6 +105,8 @@
                             <label for="whatsapp" class="col-sm-12 col-form-label">Whatsapp Number</label>
                             <div class="col-sm-12">
                             <input type="text" class="form-control" id="whatsapp" name="whatsappNumber" value="{{$data->whatsapp_no}}" >
+                            <div class="error" id="error_whatsappNumber">
+                </div>
                           </div>
                         </div>
                         
@@ -107,6 +116,8 @@
                           <label for="snapchat" class="col-sm-12 col-form-label">SnapChat Link</label>
                             <div class="col-sm-12">
                              <input type="text" class="form-control" id="snapchat" name="snapchat" value="{{$data->snapchat_link}}">
+                             <div class="error" id="error_snapchat">
+                </div>
                             </div>
                         </div>
 
@@ -114,6 +125,8 @@
                           <label for="instagram" class="col-sm-12 col-form-label">Instagram Link</label>
                             <div class="col-sm-12">
                              <input type="text" class="form-control" id="instagram" name="instagram" value="{{$data->instagram_link}}">
+                             <div class="error" id="error_instagram">
+                </div>
                             </div>
                         </div>
 
@@ -121,6 +134,8 @@
                         <label for="twitter" class="col-sm-12 col-form-label">Twitter Link</label>
                         <div class="col-sm-12">
                         <input type="text" class="form-control" id="twitter" name="twitter" value="{{$data->twitter_link}}">
+                        <div class="error" id="error_twitter">
+                </div>
                           </div>
                         </div>
                         
@@ -158,6 +173,8 @@
                           <option {{  ($data->service_provider_type) == 'individual' ? 'selected' : '' }} value="Individual" name="service_provider_type">Individual</option>
                           <option {{  ($data->service_provider_type) == 'company' ? 'selected' : '' }} value="Company" name="service_provider_type">Company</option>
                       </select>
+                      <div class="error" id="error_service_provider_type">
+                </div>
                       </div>
                       </div> 
 
@@ -197,18 +214,24 @@
                             <label for="price_per_hour" class="col-sm-12 col-form-label">Service Price(/hours)</label>
                             <div class="col-sm-12">
                                <input type="text" class="form-control" id="price_per_hour" name="price_per_hour"  value="{{$data->price_per_hour}}">
+                               <div class="error" id="error_price_per_hour">
+                        </div>
                             </div>
                          </div>
                        <div class="col-md-4">
                          <label for="price_per_day" class="col-sm-12 col-form-label">Service Price(/days)</label>
                             <div class="col-sm-12">
                             <input type="text" class="form-control" id="price_per_day"  name="price_per_day"  value="{{$data->price_per_day}}">
+                            <div class="error" id="error_price_per_day">
+                        </div>
                               </div>
                           </div>
                           <div class="col-md-4">
                            <label for="price_per_month" class="col-sm-12 col-form-label">Service Price(/month)</label>
                             <div class="col-sm-12">
                             <input type="text" class="form-control" id="price_per_month" name="price_per_month"  value="{{$data->price_per_month}}">
+                            <div class="error" id="error_price_per_month">
+                        </div>
                               </div>
                            </div>
                       
@@ -260,7 +283,6 @@
                       <div class="form-group row">
                         <div class="col-sm-12 text-center">
                           <button type="submit" class="btn app-button">Update</button>
-                          <button type="reset" class="btn btn-danger">Reset</button>
                         </div>
                       </div>
                 </form>

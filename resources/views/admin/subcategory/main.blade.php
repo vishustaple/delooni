@@ -3,7 +3,7 @@
 <div class="card" id="data">
               <div class="card-header p-2 yellow-bg">
                 <ul class="nav nav-pills">
-                <li class="nav-item"><a class="nav-link active" style="cursor:pointer" 
+                <li class="nav-item"><a class="nav-link active subcategory" style="cursor:pointer" 
                         data-toggle="modal" 
                         data-target="#myModal">Add</a></li>
                    <!-- The Modal -->
@@ -49,6 +49,13 @@
               </div><!-- /.card-body -->
       </div>
       <script>
+        //hide error
+$(document).on("click", "a.nav-link.active.subcategory", function(){
+  
+  $(".error").html("");
+  $("#add_subcategory").trigger("reset");
+  
+});
     $("#add_subcategory").on('submit', function (e){
      e.preventDefault();
      var data = new FormData(this);
@@ -70,7 +77,7 @@
     $("body").removeClass("modal-open");
      },
   error:function(data){
-                                         
+    $('.error').html('');                                   
     $.each(data.responseJSON.errors, function(id,msg){
     $('#error_'+id).html(msg);
  })
@@ -196,6 +203,7 @@ $(document).on('click', '.update', function(event){
             }, 2000);
             },
             error:function(data){
+              $('.error').html(''); 
             $.each(data.responseJSON.errors, function(id,msg){
             $('#_error_'+id).html(msg);
             })

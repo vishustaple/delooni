@@ -37,7 +37,7 @@ section.form__section.base__bg{
 }
 .sidebar .form-control,
 .sidebar .form-control::placeholder{
-   color: #f7f7f7 !important;
+   /* color: #f7f7f7 !important; */
 }
 
 .base__form__wrapper .form-control::placeholder{
@@ -161,9 +161,7 @@ table th{
    background-color: var(--body-clr)!important;
    color: #fff;
 }
-.sidebar-search-results .list-group {
-   top: -17px;
-}
+
 .brand-link .brand-image {
    max-height: 55px !important;
    width: 100%;
@@ -270,7 +268,35 @@ table {
 .profile-drop .dropdown-menu a {
    border-bottom: 1px solid #eee;
 }
+
+/* sidebar search css*/
+/* .sidebar-search-results .list-group {
+   top: -17px;
+} 
 .sidebar-search-results {
    display: none !important;
+}*/
+.select-wrapper .error{
+   margin-left: -0.75rem;
+   margin-bottom: 6px;
+}
+
+.dashboard-link{
+   text-decoration: none;
+}
+
+.dashboard-link .card-header{
+   font-weight: bold;
+}
+
+.dashboard-link .info-box-number{
+   text-align: right;
 }
 /* css end */
+
+.error {
+   margin-top: 5px;
+}
+/* #Provider_data .row.align-items-center {
+   display: none;
+} */

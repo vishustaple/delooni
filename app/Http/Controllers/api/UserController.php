@@ -350,16 +350,16 @@ class UserController extends Controller
                     'country_code' => 'required|string',
                     //'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15|unique:users',
                     'whatsapp_no' => 'string|required|regex:/^([0-9\s\-\+\(\)]*)$/|min:8|max:12',
-                    'snapchat_link' => 'url',
-                    'instagram_link' => 'url',
-                    'twitter_link' => 'url',
+                    'snapchat_link' => 'url|nullable',
+                    'instagram_link' => 'url|nullable',
+                    'twitter_link' => 'url|nullable',
                     'license_cr_no' => 'string',
                     'license_cr_photo' => 'file',
                     'description' => 'string',
-                    'institute_name' => 'string|required',
-                    'degree' => 'string',
-                    'start_date' => 'date',
-                    'end_date' => 'date|after:startdate',
+                    'institute_name' => 'string|nullable',
+                    'degree' => 'string|nullable',
+                    'start_date' => 'date|nullable',
+                    'end_date' => 'date|after:start_date|nullable',
                     'no_of_years' => 'numeric',
                     'brief_of_experience' => 'string',
                 ]
@@ -375,11 +375,12 @@ class UserController extends Controller
                     $profile_image = $this->uploadImage($r->profile_image, 'profile_image');
                     $user->profile_image = $profile_image;
                 }
+                
 
-                // if (!empty($_FILES['video'])) {
-                //     $profilevideo = $this->uploadImage($r->video, 'profile_video');
-                //     $user->profile_video = $profilevideo;
-                // }
+                if (!empty($_FILES['video'])) {
+                    $profilevideo = $this->uploadImage($r->video, 'profile_video');
+                    $user->profile_video = $profilevideo;
+                }
                 // if(isset($r->video)){
                 //     $profilevideo = $this->uploadFiles('profile_video',$user->id,FILES::TYPE_VIDEO,$r->file('video'));
                 //   //dd($profilevideo);
@@ -399,8 +400,8 @@ class UserController extends Controller
                 // $user->service_provider_type = $r->type;
 
                 if (!empty($_FILES['license_cr_photo'])) {
-                    $licenseImage = $this->uploadImage($r->license_cr_photo, 'license_image');
-                    $user->license_cr_photo = $licenseImage ?? $user->license_cr_photo;
+                    $licenseImage = $this->uploadImage($r->license_cr_photo, 'profile_image');
+                    $user->license_cr_photo = $licenseImage;
                 }
                
                 $user->save();
@@ -419,18 +420,18 @@ class UserController extends Controller
                 $workExperience->user_id = $user->id;
                 $workExperience->save();
               
-                if ($r->hasFile('video')) {
-                    $file = new Files();
-                    $file->file_name = $this->uploadImage($r->video, 'profile_video');
-                    $extension = ($r->file('video'))->getClientOriginalExtension();
-                    $file->extension = $extension;
-                    $file->model_id = $user->id;
-                    $file->model_type = 'App/Models/User';
-                    $file->file_size = 112;
-                    $file->created_by = $user->id;
-                    $file->type = 1;
-                    $file->save();
-                }
+                // if ($r->hasFile('video')) {
+                //     $file = new Files();
+                //     $file->file_name = $this->uploadImage($r->video, 'profile_video');
+                //     $extension = ($r->file('video'))->getClientOriginalExtension();
+                //     $file->extension = $extension;
+                //     $file->model_id = $user->id;
+                //     $file->model_type = 'App/Models/User';
+                //     $file->file_size = 112;
+                //     $file->created_by = $user->id;
+                //     $file->type = 1;
+                //     $file->save();
+                // }
               
                 DB::commit();
              
@@ -713,17 +714,18 @@ class UserController extends Controller
      */
     //
     public function updateSpProfile(request $r)
-    {
+    { 
+       
         try {
             $v = Validator::make(
                 $r->input(),
                 [
-                    'whatsapp_no' => 'required',
-                    'email' => 'required|email',
+                    'whatsapp_no' => 'required|unique:users',
+                    'email' => 'required|email|unique:users',
                     'video' => 'file',
-                    'snapchat_link' => 'url',
-                    'instagram_link' => 'url',
-                    'twitter_link' => 'url',
+                    'snapchat_link' => 'url|nullable',
+                    'instagram_link' => 'url|nullable',
+                    'twitter_link' => 'url|nullable',
                     'no_of_years' => 'numeric',
                     'price_per_hour ' => 'numeric',
                     'price_per_day' => 'numeric',

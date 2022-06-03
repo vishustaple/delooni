@@ -1,7 +1,7 @@
 <div class="card" id="data">
-  <div class="card-header p-2">
+  <div class="card-header p-2 yellow-bg">
     <ul class="nav nav-pills">
-      <li class="nav-item"><a class="nav-link active" style="cursor:pointer" data-toggle="modal" data-target="#myModal">Add</a></li>
+      <li class="nav-item"><a class="nav-link active city" style="cursor:pointer" data-toggle="modal" data-target="#myModal">Add</a></li>
       <!-- The Modal -->
       <div class="modal" id="myModal">
         <div class="modal-dialog modal-lg">
@@ -41,6 +41,13 @@
   </div><!-- /.card-body -->
 </div>
 <script>
+            //hide error
+$(document).on("click", "a.nav-link.active.city", function(){
+  
+  $(".error").html("");
+  $("#createCity").trigger("reset");
+  
+});
   //for pagination 
   $(document).on('click', '.pagination a', function(event) {
     event.preventDefault();
@@ -101,6 +108,7 @@
         $("body").removeClass("modal-open");
       },
       error: function(data) {
+        $('.error').html('');   
         $.each(data.responseJSON.errors, function(id, msg) {
           $('#error_' + id).html(msg);
         })
@@ -151,7 +159,6 @@
         $('.updatemodalcity').empty().html(data);
         $("#myModal1").modal('show');
         $('#page-loader').hide();
-
       },
       error: function(error) {
         console.log(error.responseText);
@@ -162,6 +169,7 @@
   });
   //to update user 
   $(document).on('submit', '#update_city', function(e) {
+  
     e.preventDefault();
     $('#page-loader').show();
 
@@ -178,22 +186,22 @@
       contentType: false,
       processData: false,
       data: formData,
+      headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              },
       success: function(data) {
         fetch_data(1);
         $('.updatemodalcity').html(data);
         $('#page-loader').hide();
         $(".modal-backdrop").removeClass('modal-backdrop show');
       },
-      error: function(data) {
-
-        console.log(data.responseJSON.errors);
-        $.each(data.responseJSON.errors, function(id, msg) {
-          // console.log('ss'+id);
-
-          $('#error_' + id).html(msg);
-        });
-        $('#page-loader').hide();
-      }
+      error:function(data){
+        $('.error').html('');
+            $.each(data.responseJSON.errors, function(id,msg){
+            console.log(msg);
+            $('#update_city #error_'+id).html(msg);
+            })
+            }
     });
   });
 

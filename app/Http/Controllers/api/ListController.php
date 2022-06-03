@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\UserRating;
 use App\Models\Subscription;
 use App\Models\Payment;
+use App\Models\ServiceCategory;
 
 //facades
 use Illuminate\Http\Request;
@@ -37,7 +38,7 @@ class ListController extends Controller
      */
     public function getcategories()
     {
-        $categories = Services::where('is_parent', Services::IS_PARENT)->with('subcategories')->paginate();
+        $categories = ServiceCategory::where('is_parent', ServiceCategory::IS_PARENT)->with('subcategories')->paginate();
         $getbanners = \App\Models\ServiceBanner::get()->toArray();
         return $this->customPaginator($categories, 'jsonData', ['service_banners' => $getbanners]);
     }
@@ -48,21 +49,21 @@ class ListController extends Controller
      * @param  $r request contains data to show list of sub categories
      * @return response success or fail
      */
-    public function getSubcategories(request $r)
-    {
-        $v = Validator::make(
-            $r->input(),
-            [
-                'category' => 'required',
-            ]
-        );
-        if ($v->fails()) {
-            return $this->validation($v);
-        }
-        $categories = ServiceCategory::where('name', $r->category)->first();
-        $subcategories = ServiceCategory::where('is_parent', $categories->id)->paginate();
-        return $this->customPaginator($subcategories, 'jsonData');
-    }
+    // public function getSubcategories(request $r)
+    // {
+    //     $v = Validator::make(
+    //         $r->input(),
+    //         [
+    //             'category' => 'required',
+    //         ]
+    //     );
+    //     if ($v->fails()) {
+    //         return $this->validation($v);
+    //     }
+    //     $categories = ServiceCategory::where('name', $r->category)->first();
+    //     $subcategories = ServiceCategory::where('is_parent', $categories->id)->paginate();
+    //     return $this->customPaginator($subcategories, 'jsonData');
+    // }
 
     /**
      * get favorite 

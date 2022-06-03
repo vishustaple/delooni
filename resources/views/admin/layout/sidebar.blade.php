@@ -75,9 +75,9 @@
     
       <li class="nav-item">
         <a href="{{route('view-cities')}}" class="nav-link">
-        <i class="fa fa-city nav-icon"></i>
+        <i class="fa fa-building nav-icon"></i>
           <p>
-            Manage Cities
+            Manage City
           </p>
         </a>
       </li>

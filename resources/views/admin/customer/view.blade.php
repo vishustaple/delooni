@@ -66,7 +66,7 @@
 </table>
 </div>
 </div>
-{{-- {{$data->links()}} --}}
+{{$data->links()}}
 <!-- /.card-body -->
 </div>
 <!-- /.card -->

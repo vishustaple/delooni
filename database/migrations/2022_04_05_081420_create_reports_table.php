@@ -18,10 +18,10 @@ class CreateReportsTable extends Migration
             $table->enum('reporting_issue',['inquiries', 'support request']);
             
             $table->unsignedBigInteger('service_category_id');
-            $table->foreign('service_category_id')->references('id')->on('services')->onDelete('cascade');
+            $table->foreign('service_category_id')->references('id')->on('service_categories')->onDelete('cascade');
 
             $table->unsignedBigInteger('subcategory_id');
-            $table->foreign('subcategory_id')->references('id')->on('services')->onDelete('cascade');
+            $table->foreign('subcategory_id')->references('id')->on('service_categories')->onDelete('cascade');
             
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
@@ -50,3 +50,4 @@ class CreateReportsTable extends Migration
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }
+

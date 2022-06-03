@@ -43,17 +43,20 @@
       </div>
           
       <div class="form-group row">
+        <div class="col-sm-12">
         <label for="address" class="col-sm-12 col-form-label">Address</label>
         <div class="col-sm-12">
           <textarea class="form-control" id="address" name="address" placeholder="Enter Address"></textarea>
           <div class="error" id="error_address">
           </div>
         </div>
+        </div>
      </div>
       
          
         <div class="form-group row">
-          <label class="col-sm-12 col-form-label">Nationality</label>
+         <div class="col-sm-12">
+         <label class="col-sm-12 col-form-label">Nationality</label>
           <div class="col-sm-12">
             <div class="form-control">
           <select class="select2" id="nationality" name="nationality">
@@ -65,6 +68,7 @@
             <div class="error" id="error_country_name"></div>
             </div>
         </div>
+         </div>
       </div>         
       <div class="form-group row">
         <div class="col-sm-12 text-center">

@@ -1,5 +1,17 @@
 <div class="card" id="data">
-              <div class="card-header p-2 yellow-bg">
+              <div class="card-header p-2 yellow-bg provider">
+
+              <div class="row align-items-center" style="display:none;">
+                  <div class="col-md-6">
+                    <h3 class="card-title font-weight-bold">Update User</h3> 
+                    </div>
+                <div class="col-md-6">
+ <a href="http://localhost/delooni/public/serviceprovider" class="btn btn-dark float-right"><i class="fa fa-arrow-circle-left"></i>
+ Back
+ </a>
+</div> 
+               </div> 
+
                 <ul class="nav nav-pills">
                   <li class="nav-item"><a class="nav-link active" style="cursor:pointer;" id="serviceform" >Add</a></li>
                   
@@ -33,8 +45,18 @@
               </div><!-- /.card-body -->
       </div>
       <script>
+//remove header from update 
+
+$("button.btn.btn-outline-dark.btn-xs.updateserviceprovider").on('click',function(e){
+  
+  //$('.card-header.p-2.yellow-bg.provider').hide();
+  $('.row.align-items-center').show();
+  $('#Provider_data ul.nav.nav-pills').hide();
+});
+
 //serviceform on add button click 
 $('#serviceform').on('click',function(e){
+ 
  e.preventDefault();
  $.ajax({
      type:'get',
@@ -51,7 +73,8 @@ $('#serviceform').on('click',function(e){
     $(".card-body").html(response);
       },
 
-    error:function(error){                                     
+    error:function(error){  
+                                          
       console.log(error);
  }
 
@@ -59,10 +82,11 @@ $('#serviceform').on('click',function(e){
 });
 //add data of service provider 
 $(document).on("submit", "#createprovider", function(e){
-     e.preventDefault();
+
+  e.preventDefault();
     let myForm = document.getElementById('createprovider');
     let formData = new FormData(myForm);
-     console.log(data);
+    console.log(formData);
      $.ajax({
      type:'post',
      url:"{{route('provider.add')}}",
@@ -78,9 +102,10 @@ $(document).on("submit", "#createprovider", function(e){
       console.log(response);
       location.reload();
      },
-    error:function(data){                                     
+    error:function(data){ 
+    $('.error').html('');     
     $.each(data.responseJSON.errors, function(id,msg){
-    $('#error_'+id).html(msg);
+    $('#createprovider #error_'+id).html(msg);
  })
 }
 });
@@ -174,6 +199,7 @@ $(document).on('submit', '#update_provider', function(e){
     error:function(data){
 
       console.log(data.responseJSON.errors);
+      $('.error').html('');
       $.each(data.responseJSON.errors, function(id,msg){
         // console.log('ss'+id);
 
@@ -190,7 +216,7 @@ $(document).on('click','.remove',function(){
   var id = $(this).attr('data-id');
   swal({
          title: "Oops....",
-         text: "Are You Sure You want to delete Staff!",
+         text: "Are You Sure You want to delete customer!",
          icon: "error",
          buttons: [
            'NO',

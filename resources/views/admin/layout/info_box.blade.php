@@ -10,12 +10,12 @@
 
 <!-- <h3 class="mb-4">Graphic Chart Of Users</h3> -->
 <div class="row g-4">
-<a href="{{route('customer')}}">
+<a href="{{route('customer')}}" class="dashboard-link">
     <div class="col-md-6">
       <div class="card bg-white">
-          <div class="card-header yellow-bg">
-          <span class="info-box-text">Total Customer</span>
-                <span class="info-box-number"> 
+          <div class="card-header yellow-bg row mx-0">
+          <span class="info-box-text col-8 p-0">Total Customer</span>
+                <span class="info-box-number col-4 p-0"> 
                 {{ $total_customer }}</span> 
            </div>
         <div class="card-body bg-white">
@@ -28,11 +28,11 @@
      
    
       <div class="col-md-6">
-      <a href="{{route('viewserviceprovider')}}">
+      <a href="{{route('viewserviceprovider')}}" class="dashboard-link">
       <div class="card bg-white">
-      <div class="card-header yellow-bg">
-      <span class="info-box-text">Total Individual Service Provider</span>
-                <span class="info-box-number"> 
+      <div class="card-header yellow-bg row mx-0">
+      <span class="info-box-text col-8 p-0">Total Individual Service Provider</span>
+                <span class="info-box-number col-4 p-0"> 
                 {{ $total_individual }}</span> 
       </div>
       <div class="card-body bg-white">
@@ -44,11 +44,11 @@
 
 
       <div class="col-md-6">
-      <a href="{{url('/company')}}">
+      <a href="{{url('/company')}}" class="dashboard-link">
       <div class="card bg-white">
-      <div class="card-header yellow-bg">
-      <span class="info-box-text">Total Company Service Provider</span>
-                <span class="info-box-number"> 
+      <div class="card-header yellow-bg row mx-0">
+      <span class="info-box-text col-8 p-0">Total Company Service Provider</span>
+                <span class="info-box-number col-4 p-0"> 
                 {{ $total_company }}</span> 
       </div>
       <div class="card-body bg-white">
@@ -59,11 +59,11 @@
       </div>
 
       <div class="col-md-6">
-      <a href="{{url('/admin/query')}}">
+      <a href="{{url('/admin/query')}}" class="dashboard-link">
       <div class="card bg-white">
-      <div class="card-header yellow-bg">
-      <span class="info-box-text">Total Query</span>
-                <span class="info-box-number"> 
+      <div class="card-header yellow-bg row mx-0">
+      <span class="info-box-text col-8 p-0">Total Query</span>
+                <span class="info-box-number col-4 p-0"> 
                 {{ $total_query }}</span> 
       </div>
       <div class="card-body bg-white">

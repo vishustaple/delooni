@@ -26,17 +26,21 @@
                       </div>
                        <div class="form-group row">
                       <label for="is_parent" class="col-sm-12 col-form-label">Select category </label>
-                      <div class="col-sm-12 form-control">
+                      <div class="col-sm-12 ">
+                        <div class="form-control">
                       <select class="category select2" id="is_parent"   name="is_parent">
                       <option value="N/A" disabled selected="true">--Select category--</option>
                       @foreach($categories as $categorie)
                       <option class="form-drop-items" value="{{$categorie->id}}">{{$categorie->name}}</option>
                        @endforeach
                        </select>
-                      <div class="error" id="error_is_parent">
+                     
                        </div>
+                       <div class="error" id="error_is_parent">
                        </div>
                         </div> 
+                        
+                        </div>
                        <div class="form-group row">
                         <div class="col-sm-12 text-center">
                           <button type="submit" class="btn app-button">Submit</button>

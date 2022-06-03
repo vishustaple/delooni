@@ -21,6 +21,7 @@ class CustomerController extends Controller
   */
       public function customerView(){
         $data = User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->orderBy('id', 'DESC')->paginate();
+       
         $countries = Country::get();
         return view('admin.customer.main', compact('data','countries'));
       }
@@ -35,7 +36,8 @@ class CustomerController extends Controller
       'first_name' => 'required',
       'last_name' => 'required',
       'email' => 'required|email|unique:users,email',
-      'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:8|max:12|unique:users',
+      // 'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:8|max:12|unique:users',
+      'phone' => 'required|digits:10|unique:users',
       'address' => 'required',
       'nationality' => 'required',
     ]);
@@ -109,7 +111,8 @@ class CustomerController extends Controller
         'first_name' => 'required',
         'last_name' => 'required',
         'email' => 'required|email',
-        'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:8|max:12',
+        // 'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:8|max:12',
+        'phone' => 'required|digits:10|unique:users',
         'address' => 'required',
         'nationality' => 'required',
       ]);
