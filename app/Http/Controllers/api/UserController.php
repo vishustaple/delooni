@@ -375,11 +375,12 @@ class UserController extends Controller
                     $profile_image = $this->uploadImage($r->profile_image, 'profile_image');
                     $user->profile_image = $profile_image;
                 }
+                
 
-                // if (!empty($_FILES['video'])) {
-                //     $profilevideo = $this->uploadImage($r->video, 'profile_video');
-                //     $user->profile_video = $profilevideo;
-                // }
+                if (!empty($_FILES['video'])) {
+                    $profilevideo = $this->uploadImage($r->video, 'profile_video');
+                    $user->profile_video = $profilevideo;
+                }
                 // if(isset($r->video)){
                 //     $profilevideo = $this->uploadFiles('profile_video',$user->id,FILES::TYPE_VIDEO,$r->file('video'));
                 //   //dd($profilevideo);
@@ -419,18 +420,18 @@ class UserController extends Controller
                 $workExperience->user_id = $user->id;
                 $workExperience->save();
               
-                if ($r->hasFile('video')) {
-                    $file = new Files();
-                    $file->file_name = $this->uploadImage($r->video, 'profile_video');
-                    $extension = ($r->file('video'))->getClientOriginalExtension();
-                    $file->extension = $extension;
-                    $file->model_id = $user->id;
-                    $file->model_type = 'App/Models/User';
-                    $file->file_size = 112;
-                    $file->created_by = $user->id;
-                    $file->type = 1;
-                    $file->save();
-                }
+                // if ($r->hasFile('video')) {
+                //     $file = new Files();
+                //     $file->file_name = $this->uploadImage($r->video, 'profile_video');
+                //     $extension = ($r->file('video'))->getClientOriginalExtension();
+                //     $file->extension = $extension;
+                //     $file->model_id = $user->id;
+                //     $file->model_type = 'App/Models/User';
+                //     $file->file_size = 112;
+                //     $file->created_by = $user->id;
+                //     $file->type = 1;
+                //     $file->save();
+                // }
               
                 DB::commit();
              

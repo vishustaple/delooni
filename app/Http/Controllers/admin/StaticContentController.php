@@ -144,4 +144,16 @@ class StaticContentController extends Controller
       $condition = StaticContent::find($request->id);
       return view('admin.terms_condition.detailview', compact('condition'));
       }
+
+    /**
+     *  back to content
+     *
+     * @param 
+     * @return  
+     */
+    public function ContentBack()
+    {
+    $url = route('staticcontent');
+    return $url;
+    }
 }

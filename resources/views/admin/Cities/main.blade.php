@@ -1,7 +1,7 @@
 <div class="card" id="data">
   <div class="card-header p-2 yellow-bg">
     <ul class="nav nav-pills">
-      <li class="nav-item"><a class="nav-link active" style="cursor:pointer" data-toggle="modal" data-target="#myModal">Add</a></li>
+      <li class="nav-item"><a class="nav-link active city" style="cursor:pointer" data-toggle="modal" data-target="#myModal">Add</a></li>
       <!-- The Modal -->
       <div class="modal" id="myModal">
         <div class="modal-dialog modal-lg">
@@ -41,6 +41,13 @@
   </div><!-- /.card-body -->
 </div>
 <script>
+            //hide error
+$(document).on("click", "a.nav-link.active.city", function(){
+  
+  $(".error").html("");
+  $("#createCity").trigger("reset");
+  
+});
   //for pagination 
   $(document).on('click', '.pagination a', function(event) {
     event.preventDefault();

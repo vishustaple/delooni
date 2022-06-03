@@ -28,6 +28,13 @@
      
 </div>
 <script>
+  //hide error
+$(document).on("click", "a.nav-link.active.screen", function(){
+  
+  $(".error").html("");
+  $("#add_image").trigger("reset");
+  
+});
 $("#add_image").on('submit', function (e){
 
      e.preventDefault();

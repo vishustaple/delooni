@@ -72,15 +72,16 @@
                         <option value="2" name="user_type">Individual Service Provider</option>
                         <option value="3" name="user_type">Company Service Provider</option>
                   </select>
-                <div class="error" id="error_user_type">
-                </div>
+                
       </div>
+      <div class="error" id="error_user_type">
+                </div>
       </div>
       </div>
 
         <div class="form-group row">
       <label for="plan_type" class="col-sm-12 col-form-label">Plan Type</label>
-      <div class="col-sm-12 mb-3">
+      <div class="col-sm-12">
         <div class="form-control select-wrapper">
                  <select class="subscription select2" id="plan_type" name="plan_type" >
                         <option value="N/A" disabled selected="true">--Plan Type--</option>
@@ -88,9 +89,10 @@
                         <option value="2" name="plan_type">TopList Plan</option>
                         <option value="3" name="plan_type">App Access Plan</option>
                   </select>
-                <div class="error" id="error_plan_type">
-                </div>
+                
       </div>
+      <div class="error" id="error_plan_type">
+                </div>
             </div>
         </div>
 

@@ -293,3 +293,10 @@ table {
    text-align: right;
 }
 /* css end */
+
+.error {
+   margin-top: 5px;
+}
+/* #Provider_data .row.align-items-center {
+   display: none;
+} */

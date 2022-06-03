@@ -47,6 +47,13 @@
   </div><!-- /.card-body -->
 </div>
 <script>
+          //hide error
+$(document).on("click", "a.nav-link.active.sub", function(){
+  
+  $(".error").html("");
+  $("#add_subscription").trigger("reset");
+  
+});
   $("#add_subscription").on('submit', function(e) {
     e.preventDefault();
     var data = new FormData(this);

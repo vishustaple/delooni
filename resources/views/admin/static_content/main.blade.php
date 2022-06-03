@@ -3,7 +3,7 @@
 <div class="card" id="data">
               <div class="card-header p-2 yellow-bg">
                 <ul class="nav nav-pills">
-                <li class="nav-item"><a class="nav-link active" style="cursor:pointer" 
+                <li class="nav-item"><a class="nav-link active screen" style="cursor:pointer" 
                         data-toggle="modal" 
                         data-target="#myModal">Add Screen Banner</a></li>
                    <!-- The Modal -->
@@ -44,6 +44,14 @@
               </div><!-- /.card-body -->
       </div>
       <script>
+  //hide error
+  $(document).on("click", "a.nav-link.active.screen", function(){
+  
+  $(".error").html("");
+  $("#add_static_content").trigger("reset");
+  
+});
+
 $("#add_static_content").on('submit', function (e){ 
      e.preventDefault();
      var data = new FormData(this);
