@@ -21,7 +21,7 @@
     <tbody>
     @forelse($data as $key=>$value)
     <tr>
-    <td>{{$key+1}}</td>
+    <td>{{$key+$data->firstItem()}}</td>
    <td>{{$value->name}}</td>
     <td>{{$value->description}}</td>
     <td>
@@ -63,8 +63,10 @@
 </table>
 </div>
 </div>
-<div id="num"  data-page="{{$data->currentPage()}}">    
- {{$data->links()}} 
+<div id="num"  data-page="{{$data->currentPage()}}">   
+<div class="mt-3"> 
+ {{$data->links()}}
+</div> 
 </div>
 <!-- /.card-body -->
 </div>

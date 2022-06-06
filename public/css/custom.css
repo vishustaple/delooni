@@ -300,3 +300,12 @@ table {
 /* #Provider_data .row.align-items-center {
    display: none;
 } */
+.page-item.active .page-link {
+   color: #231f20;
+   background-color: #edc35d;
+   border-color: #edc35d;
+}
+.page-link,.page-link:hover {
+   
+   color: #231f20;
+}

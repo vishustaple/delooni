@@ -25,7 +25,7 @@
     <tbody>
     @forelse($data as $key=>$value)
     <tr>
-    <td>{{$key+1}}</td>
+    <td>{{$key+$data->firstItem()}}</td>
     <td>{{$value->title}}</td>
     <td>
    <img class="lazyload" src="{{URL::to('/')}}/profile_image/{{$value->service_image}}" width="100px" height="100px">
@@ -72,7 +72,9 @@
 </div>
 </div>
 <div id="num"  data-page="{{$data->currentPage()}}">    
+<div class="mt-3">
  {{$data->links()}} 
+</div>
 </div>
 <!-- /.card-body -->
 </div>

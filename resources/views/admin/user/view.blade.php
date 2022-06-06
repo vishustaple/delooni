@@ -21,7 +21,7 @@
         @forelse($data as $key=>$value)
 
         <tr>
-          <td>{{$key+1}}</td>
+          <td>{{$key+$data->firstItem()}}</td>
           <td>{{$value->id}}</td>
           <td>{{$value->name}}</td>
           <td>{{$value->email}}</td>
@@ -64,8 +64,9 @@
       </tbody>
     </table>
   </div>
+  <div class="mt-3">
   {{$data->links()}}
-
+  </div>
   <!-- /.card-body -->
 </div>
 <!-- /.card -->
