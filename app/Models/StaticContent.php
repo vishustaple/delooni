@@ -10,7 +10,8 @@ class StaticContent extends Model
     const STATUS_ACTIVE = 1;
     const STATUS_NEW = 2;
 
-
+    
+     
     use HasFactory;
 
     protected $fillable = [

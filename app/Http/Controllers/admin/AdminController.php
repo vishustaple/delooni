@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\ServiceCategory;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Admin;
-use App\Models\Subscription;
+use App\Models\StaticContent;
 use App\Models\Report;
 use App\Traits\ImageUpload;
 use App\Traits\Statuscheck;
@@ -227,7 +227,9 @@ class AdminController extends Controller
      * 
      */
     public function termsAndCondition(){
-        return view('termsandconditions');
+        $data= StaticContent::where('status',StaticContent::STATUS_NEW)->first();
+        return view('termsandconditions',compact('data'));
+       
     }
 
 

@@ -130,7 +130,7 @@ class User extends Authenticatable
     }
     public function servicesubcatgoryDetail()
     {
-        return $this->hasOne(Services::class, 'id', 'sub_cat_id');
+        return $this->hasOne(ServiceCategory::class, 'id', 'sub_cat_id');
     }
     //get loginhistory
     public function loginHistory()

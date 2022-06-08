@@ -56,7 +56,7 @@
         <select class="category select2" id="service_category_id"   name="cat_id">
         <option value="N/A" disabled selected="true">--Select category--</option>
         @foreach($categorynames as $categoryname)
-      <option class="form-drop-items" value="{{$categoryname->id}}">{{$categoryname->name}}</option>
+        <option class="form-drop-items" value="{{$categoryname->id}}">{{$categoryname->name}}</option>
         @endforeach
         </select>
         <div class="error" id="error_cat_id">

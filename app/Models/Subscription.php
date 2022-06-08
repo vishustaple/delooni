@@ -68,7 +68,7 @@ class Subscription extends Model
         $json['expire_date'] = $this->getPayment->expire_date??"";
         $json['user_type'] = $this->user_type;
         $json['plan_type'] = $this->plan_type;
-        $json['days_left'] = $this->dateDiffInDays($this->getexpiredate->start_date??"", $this->getexpiredate->expire_date??"");
+        $json['days_left'] = $this->dateDiffInDays($this->getPayment->start_date??"", $this->getPayment->expire_date??"");
         $json['is_active'] = $this->getPayment->payment_status??0;
         return $json;
     }
