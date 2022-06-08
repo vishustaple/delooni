@@ -3,7 +3,7 @@
                       <div class="form-group row">
                         <label for="name" class="col-sm-12 col-form-label">Name</label>
                         <div class="col-sm-12">
-                          <input type="text" class="form-control" id="name" name="name" placeholder="Enter Category Name">
+                          <input type="text" class="form-control" id="name" name="name" placeholder="Enter Service Name">
                           <div class="error" id="error_name">
                          </div>
                         </div>

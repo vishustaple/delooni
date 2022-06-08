@@ -1,5 +1,5 @@
 <div class="card shadow-none" id ="test">
-    <div class="card-header px-0 border-0">
+    <div class="card-header px-0 pt-0 border-0">
     <h3 class="card-title font-weight-bold">Plan List</h3>
 </div>
 <!-- /.card-header -->
@@ -22,7 +22,7 @@
     <tbody>
     @forelse($data as $key=>$value)
     <tr>
-    <td>{{$key+1}}</td>
+    <td>{{$key+$data->firstItem()}}</td>
     <td>{{$value->plan_name}}</td>
     <td>{{$value->description}}</td>
     <td>{{$value->validity}}</td>
@@ -61,8 +61,10 @@
 </table>
 </div>
 </div>
-<div id="num"  data-page="{{$data->currentPage()}}">    
+<div id="num"  data-page="{{$data->currentPage()}}">  
+<div class="mt-3">   
  {{$data->links()}} 
+</div>
 </div>
 <!-- /card-body -->
 </div>

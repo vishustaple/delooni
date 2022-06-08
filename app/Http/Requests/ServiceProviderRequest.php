@@ -52,9 +52,9 @@ class ServiceProviderRequest extends FormRequest
             'experience' => 'required|numeric',
             'brief_of_experience' => 'string',
             'service_category_id'=>"required",
-            'price_per_hour'=>"required",
-            'price_per_day'=>"required",
-            'price_per_month'=>"required",
+            'price_per_hour'=>"required|numeric",
+            'price_per_day'=>"required|numeric",
+            'price_per_month'=>"required|numeric",
             'subcategory'=>"required"
             
         ];

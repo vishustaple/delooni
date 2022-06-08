@@ -103,7 +103,6 @@ class UserController extends Controller
      */
     public function sendOtp(OtpRequest $r)
     {
-
         try {
             $otp = Otp::create([
                 'phone' => $r->phone,
@@ -146,14 +145,14 @@ class UserController extends Controller
             return $this->validation($v);
         }
         try {
-
+            //if otp not exist
             $otp = Otp::where(['phone' => $r->phone, 'otp' => $r->otp, 'country_code' => $r->country_code])
                 ->first();
             if (empty($otp)) {
                 throw new Exception("wrong OTP");
             }
             $otp->delete();
-
+            //if new user 
             $user = User::where('phone', $r->phone)->where('country_code', $r->country_code)->first();
 
             if (empty($user)) {
@@ -161,6 +160,7 @@ class UserController extends Controller
                 $data['is_new_profile'] =  true;
                 return $this->successWithData([], "OTP verified successfully", $data);
             }
+            //if user_type doesn't match 
             if ($user->roles->first()->id != $r->user_type) {
                 throw new Exception("wrong app login");
             }
@@ -210,8 +210,8 @@ class UserController extends Controller
                 'address' => 'required|string',
                 'nationality' => 'required',
                 'dob' => 'required',
-                //'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15|unique:users',
-                'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15',
+                'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15|unique:users',
+                // 'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15',
                 'device_name' => 'required',
                 'device_token' => 'required',
                 'device_type' => 'required',
@@ -228,8 +228,8 @@ class UserController extends Controller
                 'last_name' => 'required',
                 'email' => 'required|email|unique:users|max:255',
                 'dob' => 'required',
-                'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15',
-                // 'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15|unique:users',
+                // 'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15',
+                'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|max:15|unique:users',
                 'device_name' => 'required',
                 'device_token' => 'required',
                 'device_type' => 'required',
@@ -473,11 +473,11 @@ class UserController extends Controller
             if ($v->fails()) {
                 return $this->validation($v);
             }
-            $category = Services::where('id', $r->category_id)->where('is_parent', Services::IS_PARENT)->first();
+            $category = ServiceCategory::where('id', $r->category_id)->where('is_parent', Services::IS_PARENT)->first();
             if (empty($category)) {
                 return $this->error("No Category Found");
             }
-            $subCategory = Services::where('id', $r->sub_category_id)->where('is_parent', $category->id)->first();
+            $subCategory = ServiceCategory::where('id', $r->sub_category_id)->where('is_parent', $category->id)->first();
             if (empty($subCategory)) {
                 return $this->error("No Sub Category Found");
             }

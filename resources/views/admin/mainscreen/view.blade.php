@@ -52,8 +52,10 @@
 </table>
 </div>
 </div>
-<div id="num"  data-page="{{$datas->currentPage()}}">    
- {{$datas->links()}} 
+<div id="num"  data-page="{{$datas->currentPage()}}">   
+<div class="mt-3">  
+ {{$datas->links()}}
+</div> 
 </div>
 <!-- /.card-body -->
 </div>

@@ -67,7 +67,6 @@ class Notification extends Model
             $URL = 'https://fcm.googleapis.com/fcm/send';
             
             $fields = array(
-                
                 "to" => $deviceToken->device_token,
                 "data" => array("title" => $this->title, 'body' => $this->description),
                 "priority" => "high",

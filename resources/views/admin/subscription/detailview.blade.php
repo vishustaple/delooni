@@ -2,8 +2,18 @@
 @section('contents')
 <div class="card" id ="test">
     <div class="card-header yellow-bg">
-    <h3 class="card-title">Subscription</h3>
-    @include('admin.subscription.back')
+
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <h3 class="card-title mb-0">Subscription</h3>
+
+      </div>
+
+      <div class="col-md-6">
+          @include('admin.subscription.back')
+      </div>
+    </div>
+    
 </div>
 <div class="card-body">
 <form class="form-horizontal">

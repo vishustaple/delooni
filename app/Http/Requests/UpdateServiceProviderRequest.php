@@ -41,7 +41,7 @@ class UpdateServiceProviderRequest extends FormRequest
             'twitter' => 'required',
             'licensenumber' => 'required|numeric',
             'licensephoto' => $this->id== null?'required':'',
-            'dateofbirth' => 'required',
+            'dateofbirth' => 'required|before:today',
             'service_provider_type' => 'required',
             'description' => 'required',
             'price_per_hour'=>"required",

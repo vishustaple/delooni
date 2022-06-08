@@ -106,6 +106,7 @@ class ListController extends Controller
     public function activeCountryList(Request $request)
     {
         $query = Country::where('status', Country::STATUS_ACTIVE)->paginate(500);
+        
         return $this->customPaginator($query, 'jsonData');
     }
 
@@ -142,7 +143,7 @@ class ListController extends Controller
         });
 
         if (!empty($search)) {
-            $catId = Services::where('name','like' ,"%$search%")->pluck('id')->toArray();
+            $catId = ServiceCategory::where('name','like' ,"%$search%")->pluck('id')->toArray();
             if(!empty($catId)){
               
                 $paginate->orwhereIn('sub_cat_id', $catId);
@@ -267,8 +268,19 @@ class ListController extends Controller
      */
     public function getReviews(request $r)
     {
+       
            $user = auth()->user();
-           $userreviews = UserRating::where('user_id', $user->id)->paginate();
+           $v = Validator::make(
+            $r->input(),
+            [
+                'provider_id' => 'required',
+            ]
+        );
+        if ($v->fails()) {
+            return $this->validation($v);
+        }
+           $userreviews = UserRating::where('user_id', $r->provider_id)->paginate();
+         
            return $this->customPaginator($userreviews, 'jsonData');
     }
       
