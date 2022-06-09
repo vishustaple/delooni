@@ -145,8 +145,17 @@ class ListController extends Controller
         if (!empty($search)) {
             $catId = ServiceCategory::where('name','like' ,"%$search%")->pluck('id')->toArray();
             if(!empty($catId)){
+
+              $catuser= User::orwhereIn('sub_cat_id', $catId)->pluck('id')->toArray();
+         
+              $planuser=Payment::orwhereIn('created_by', $catuser)->pluck('created_by')->toArray();
               
-                $paginate->orwhereIn('sub_cat_id', $catId);
+            //  $shuffle=$planuser->shuffle();
+             
+             $paginate->orwhereIn('id', $planuser)->orwhereIn('sub_cat_id', $catId);
+         
+            //  $paginate->orwhereIn('sub_cat_id', $catId);
+
             //     $user=$paginate->pluck('id')->toArray();
             //   //  dd($user);
             //     $userr=Payment::whereIn('created_by',$user)->pluck('created_by')->toArray();

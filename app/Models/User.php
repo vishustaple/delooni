@@ -310,4 +310,8 @@ class User extends Authenticatable
             return $json;
         }
     }
+    static function transactions(){
+        // dd($_REQUEST);
+        return true;
+    }
 }
