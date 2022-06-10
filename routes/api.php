@@ -76,4 +76,8 @@ Route::post('verify-otp', [UserController::class, 'verifyOtp']);
     Route::get('/show/{id}', [paymentController::class, 'show']);
     Route::post('storepayment', [UserController::class, 'storepayment']);
       /******************************* Hyperpayment Payment Gateway Api **********************************************/
-      Route::post('hyperpaycheckout', [paymentController::class, 'prepareCheckout']);
+    Route::post('checkout', [paymentController::class, 'checkout']);
+    Route::get('paymentform', [paymentController::class, 'paymentform']);
+    
+    Route::get('hyperpay/finalize', [paymentController::class,'finalize']);
+    Route::get('paymentStatus', [paymentController::class, 'paymentStatus']);

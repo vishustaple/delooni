@@ -202,4 +202,7 @@ Route::get('/provider/company/search', [ServiceProviderController::class, 'searc
     Route::get('/payment/search', [PaymentController::class, 'searchpayment'])->name('payment.search');
     Route::get('/payment/view/{id}', [PaymentController::class, 'detailView_payment'])->name('payment.view');
     Route::get('/payment/back', [PaymentController::class, 'paymentBack'])->name('payment.back');
+
+
+    Route::get('hyperpay/finalize', [paymentcontroller::class,'finalize']);
   

@@ -1,7 +1,7 @@
 <?php
 namespace Devinweb\LaravelHyperpay\Traits;
 
-trait ManageUserTransactions
+trait ManageUserTransaction
 {
     /**
      * Get all of the subscriptions for the Stripe model.

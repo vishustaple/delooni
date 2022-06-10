@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Transaction extends Model
 {
     use HasFactory;
+    /**
+   * The attributes that are mass assignable.
+   *
+   * @var array
+   */
+  protected $fillable = [
+        'user_id', 'checkout_id', 'status', 'amount', 'currency', 'data', 'trackable_data', 'brand'
+    ];
 }
