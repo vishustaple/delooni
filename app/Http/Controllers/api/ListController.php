@@ -264,7 +264,7 @@ class ListController extends Controller
     public function getTransactionHistory(request $r)
     {
         $user = auth()->user();
-        $gethistory = Payment::where('created_by',$user->id)->paginate();
+        $gethistory = Payment::where('created_by',$user->id)->orderBy('created_at','DESC')->paginate();
         return $this->customPaginator($gethistory, 'jsonData');
     }
     
@@ -292,7 +292,7 @@ class ListController extends Controller
          
            return $this->customPaginator($userreviews, 'jsonData');
     }
-      
-
+    
+    
 
 }

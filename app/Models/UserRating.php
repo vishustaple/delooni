@@ -35,7 +35,7 @@ class UserRating extends Model
         $json['from_user_name'] = $this->fromuser->first_name." ".$this->fromuser->last_name;
         $json['message'] = $this->message;
         $json['status'] = $this->status;
-        $json['created_at']= $this->created_at;
+        $json['created_at']= $this->created_at->format('Y-m-d h:i:s');
         return $json;
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\api\ListController;
 use App\Http\Controllers\api\paymentController;
 use App\Http\Controllers\admin\RolesPermissionsController;
 use App\Http\Controllers\api\UserController;
+//use App\Http\Localization
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,7 @@ use App\Http\Controllers\api\UserController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::middleware("localization")->group(function () {
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -71,6 +73,7 @@ Route::post('verify-otp', [UserController::class, 'verifyOtp']);
 
 
 
+
     /******************************* Razorpay Payment Gateway Api **********************************************/
     Route::post('razorpayPayment', [paymentController::class, 'razorpayPayment']);
     Route::get('/show/{id}', [paymentController::class, 'show']);
@@ -81,3 +84,4 @@ Route::post('verify-otp', [UserController::class, 'verifyOtp']);
     
     Route::get('hyperpay/finalize', [paymentController::class,'finalize']);
     Route::get('paymentStatus', [paymentController::class, 'paymentStatus']);
+});

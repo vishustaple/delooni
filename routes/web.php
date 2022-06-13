@@ -17,8 +17,7 @@ use App\Http\Controllers\admin\ReportController;
 use App\Http\Controllers\admin\StaticContentController;
 use App\Http\Controllers\admin\PaymentController;
 use App\Http\Controllers\admin\CountryCityController;
-
-
+use App\Http\Controllers\admin\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -134,6 +133,9 @@ Route::group(['prefix' => 'admin'], function () {
       Route::get('/query/search', [ReportController::class, 'search_query'])->name('query.search');
       Route::get('/query/view/{id}', [ReportController::class, 'detailView_query'])->name('query.view');
       Route::get('/query/back',[ReportController::class,'queryBack']);
+      //******************************************Admin contact Query*********************************************//
+      Route::get('/contactquery', [ContactController::class, 'ContactQueryView'])->name('contactquery');
+      Route::get('/contactquery/view/{id}', [ContactController::class, 'detailContactView_query'])->name('contactquery.view');
 
       //******************************************Terms and condition*********************************************//
       Route::get('/staticcontent', [StaticContentController::class, 'static_content_View'])->name('staticcontent');

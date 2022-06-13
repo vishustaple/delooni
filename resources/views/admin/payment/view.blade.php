@@ -29,7 +29,7 @@
      <td>{{$value->first_name}}</td>
      <td>
      <a href='{{route("payment.view", $value->id)}}'   target="_blank" class="btn btn-outline-dark btn-xs view">View</a>
-     <button data-id="{{$value->id}}" class="btn btn-danger btn-xs remove">Remove</button>
+     <!-- <button data-id="{{$value->id}}" class="btn btn-danger btn-xs remove">Remove</button> -->
      </td>
      </tr>
      @empty

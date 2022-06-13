@@ -34,8 +34,8 @@ class Payment extends Model
         $json['created_by'] = $this->created_by;
         $json['start_date'] = $this->start_date;
         $json['expire_date'] = $this->expire_date;
-        $json['created_at'] = $this->created_at->format('Y-m-d g:i:sa');
-        $json['updated_at'] = $this->updated_at->format('Y-m-d g:i:sa');
+        $json['created_at'] = $this->created_at->format('Y-m-d h:i:s');
+        $json['updated_at'] = $this->updated_at->format('Y-m-d h:i:s');
         return $json;
     }
 }

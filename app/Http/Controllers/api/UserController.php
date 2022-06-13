@@ -59,7 +59,7 @@ class UserController extends Controller
     public function loginCheck(request $r)
     {
         try {
-            return $this->success('Please login to access this page', 403);
+            return $this->success(__("message.logincheck"), 403);
         } catch (\Exception $e) {
             return $this->error($e->getMessage());
         }
@@ -74,9 +74,9 @@ class UserController extends Controller
     {
         try {
             auth()->user()->tokens()->delete();
-            return $this->success('Successfully loggged out');
+            return $this->success(__("message.logoutsuccess"));
         } catch (\Exception $e) {
-            return $this->error('Please check your fields');
+            return $this->error(__("message.logouterror"));
         }
     }
     /**
@@ -89,9 +89,9 @@ class UserController extends Controller
     {
         try {
             auth()->user()->tokens()->delete();
-            return $this->success('Successfully loggged out from all devices');
+            return $this->success(__("message.logoutallsuccess"));
         } catch (\Exception $e) {
-            return $this->error('Please check your fields');
+            return $this->error(__("message.logoutallerror"));
         }
     }
 
@@ -112,12 +112,12 @@ class UserController extends Controller
             ]);
 
             if ($otp) {
-                return $this->success('OTP has been sent to your phone number.Please check.');
+                return $this->success(__("message.sendotp"));
             }
-            return $this->error("unable to processs your request. Please try again later.");
+            return $this->error(__("message.otperror"));
         } catch (\Throwable $e) {
             Log::error($e->getMessage());
-            return $this->error("Gettig error while sending OTP. Please try again later.");
+            return $this->error(__("message.otpcatcherror"));
         }
     }
 
@@ -149,7 +149,7 @@ class UserController extends Controller
             $otp = Otp::where(['phone' => $r->phone, 'otp' => $r->otp, 'country_code' => $r->country_code])
                 ->first();
             if (empty($otp)) {
-                throw new Exception("wrong OTP");
+                throw new Exception(__("message.wrongotp"));
             }
             $otp->delete();
             //if new user 
@@ -158,11 +158,11 @@ class UserController extends Controller
             if (empty($user)) {
                 $data = [];
                 $data['is_new_profile'] =  true;
-                return $this->successWithData([], "OTP verified successfully", $data);
+                return $this->successWithData([], __("message.otpverified"), $data);
             }
             //if user_type doesn't match 
             if ($user->roles->first()->id != $r->user_type) {
-                throw new Exception("wrong app login");
+                throw new Exception(__("message.wrongapp"));
             }
 
             if ($user->roles->first()->id == User::ROLE_SERVICE_PROVIDER) {
@@ -185,7 +185,7 @@ class UserController extends Controller
             $data['token'] =  $token;
             $data['is_new_profile'] =  false;
 
-            return $this->successWithData($user->$json(), "OTP verified successfully", $data);
+            return $this->successWithData($user->$json(), __("message.otpverified"), $data);
         } catch (\Throwable $e) {
             return $this->error($e->getMessage());
         }
@@ -297,7 +297,7 @@ class UserController extends Controller
         $loginHistory->save();
         $data = [];
         $data['token'] =  $token;
-        return $this->successWithData($register->$json(), 'Registeration Successfull.',  $data);
+        return $this->successWithData($register->$json(), __("message.register_success"),  $data);
     }
 
 
@@ -321,7 +321,7 @@ class UserController extends Controller
         }
         try {
             auth()->user()->update(['password' => Hash::make($r->confirm_password)]);
-            return $this->success('Password changed successfull');
+            return $this->success(__("message.change_Pass"));
         } catch (\Throwable $e) {
             return $this->error($e->getMessage());
         }
@@ -435,7 +435,7 @@ class UserController extends Controller
               
                 DB::commit();
              
-                return $this->successWithData($user->serviceProviderProfile(), " User Profile created successfully");
+                return $this->successWithData($user->serviceProviderProfile(), __("message.spregister_success"));
              
             }
         } catch (\Throwable $e) {
@@ -475,11 +475,11 @@ class UserController extends Controller
             }
             $category = ServiceCategory::where('id', $r->category_id)->where('is_parent', Services::IS_PARENT)->first();
             if (empty($category)) {
-                return $this->error("No Category Found");
+                return $this->error(__("message.nocatfound"));
             }
             $subCategory = ServiceCategory::where('id', $r->sub_category_id)->where('is_parent', $category->id)->first();
             if (empty($subCategory)) {
-                return $this->error("No Sub Category Found");
+                return $this->error(__("message.nosubcatfound"));
             }
 
             $service = User::where('id', $user->id)->first();
@@ -495,7 +495,7 @@ class UserController extends Controller
             $service->id = $user->id;
             $service->form_step = User::FORM_COMPLETED;
             $service->save();
-            return $this->successWithData($service->serviceProviderProfile(), "Service Added");
+            return $this->successWithData($service->serviceProviderProfile(), __("message.addservice"));
         } catch (\Throwable $e) {
             DB::rollback();
             return $this->error($e->getMessage());
@@ -512,7 +512,7 @@ class UserController extends Controller
     public function getCustomerProfile()
     {
         $user = auth()->user();
-        return $this->successWithData($user->CustomerProfile(), 'Data fetched successfully.');
+        return $this->successWithData($user->CustomerProfile(), __("message.get_customer_profile"));
     }
 
     /**
@@ -534,7 +534,7 @@ class UserController extends Controller
             return $this->validation($v);
         }
         $userUpdate = User::where('id', $user->id)->update(['email' => $r->email]);
-        return $this->success('Your information has been updated.');
+        return $this->success(__("message.update_customer"));
     }
 
     /**
@@ -563,7 +563,7 @@ class UserController extends Controller
             $contact->type = $r->type;
             $contact->save();
 
-            return $this->successWithData($contact->jsonData(), 'Message sent successfully');
+            return $this->successWithData($contact->jsonData(), __("message.contactus"));
         } catch (\Throwable $e) {
             DB::rollback();
             return $this->error($e->getMessage());
@@ -600,7 +600,7 @@ class UserController extends Controller
             // }
             $userId = User::where('id', $r->provider_id)->first();
             if (empty($userId)) {
-                throw new Exception("No Provider Found");
+                throw new Exception(__("message.reportnotfound"));
             }
             $report = new Report();
             $report->service_category_id = $userId->cat_id;
@@ -610,7 +610,7 @@ class UserController extends Controller
             $report->subject = $r->subject;
             $report->message = $r->message;
             $report->save();
-            return $this->successWithData($report->jsonData(), 'Report added successfully');
+            return $this->successWithData($report->jsonData(), __("message.report_success"));
         } catch (\Throwable $e) {
             DB::rollback();
             return $this->error($e->getMessage());
@@ -646,15 +646,15 @@ class UserController extends Controller
             $userrating->from_user_id = $user->id;
             $userrating->message = $r->message;
             if (!$userrating->save()) {
-                throw new Exception("Not rated");
+                throw new Exception(__("message.notrated"));
             }
             $ratingUserModel = $userrating->user;
             $ratingUserModel->rating = (int) UserRating::where(['user_id' => $ratingUserModel->id])->avg('rating');
             if (!$ratingUserModel->save()) {
-                throw new Exception("Not rated");
+                throw new Exception(__("message.notrated"));
             }
             DB::commit();
-            return $this->successWithData($userrating->jsonData(), 'Rating given succesfully');
+            return $this->successWithData($userrating->jsonData(), __("message.ratingsuccess"));
         } catch (\Throwable $e) {
             DB::rollback();
             return $this->error($e->getMessage());
@@ -695,11 +695,11 @@ class UserController extends Controller
                     "type" => Notification::STATUS_NEW,
                     "to_user" => $r->provider_id
                 ]);
-                 return $this->success('Added to favourite');
+                 return $this->success(__("message.addfav"));
             
             } else {
                 $favourite = FavouriteServices::where(['service_id' => $r->provider_id, 'user_id' => $user->id])->delete();
-                return $this->success('Remove from favourite.');
+                return $this->success(__("message.removefav"));
             }
         } catch (\Throwable $e) {
             DB::rollback();
@@ -766,7 +766,7 @@ class UserController extends Controller
             $workExperience = WorkExperience::where('user_id', $user->id)->first();
             $workExperience->no_of_years = $r->no_of_years ?? $workExperience->no_of_years;
             $workExperience->save();
-            return $this->successWithData($user->serviceProviderProfile(), "User Profile updated successfully");
+            return $this->successWithData($user->serviceProviderProfile(), __("message.spupdatesuccess"));
         }   catch (\Throwable $e) {
             DB::rollback();
             return $this->error($e->getMessage());
@@ -795,10 +795,10 @@ class UserController extends Controller
             }
             $notificationstatus = auth()->user()->update(['is_notification' => $r->status]);
             if ($r->status == 0) {
-                return $this->success('Notification Disabled');
+                return $this->success(__("message.disaablenotifi"));
             }
             if ($r->status == 1) {
-                return $this->success('Notification Enabled');
+                return $this->success(__("message.enablenotifi"));
             }
         } catch (\Throwable $e) {
             DB::rollback();
@@ -824,15 +824,15 @@ class UserController extends Controller
         //     return $this->error("No provider found");
         // }
         if ($query->roles->first()->id == User::ROLE_SERVICE_PROVIDER) {
-            $message = "provider detail";
+            $message = __("message.spdetailfound");
             return $this->successWithData($query->serviceProviderProfile(), $message);
         } else {
-            return $this->error("No provider found");
+            return $this->error(__("message.spnodetail"));
         }
     }
     public function viewDetail()
     {
-        $message = "provider detail";
+        $message = __("message.spdetailfound");
         return $this->successWithData(auth()->user()->serviceProviderProfile(), $message);
     }
     /**
@@ -870,7 +870,7 @@ class UserController extends Controller
                 $serviceprovider->description= $r->description??$serviceprovider->description;
             }
             $serviceprovider->save();
-            return $this->successWithData($user->serviceProviderProfile(), "Service Provider updated successfully");
+            return $this->successWithData($user->serviceProviderProfile(), __("message.spupdatesuccess"));
         }   catch (\Throwable $e) {
             DB::rollback();
             return $this->error($e->getMessage());
@@ -909,7 +909,7 @@ class UserController extends Controller
  
         }
         else{
-            return "There is no plan related to this plan id. ";
+            return  __("message.no_plan");
         }
         
         $payment = new payment();
@@ -922,7 +922,7 @@ class UserController extends Controller
         $payment->payment_status= payment::STATUS_ACTIVE;
         $payment->save();
   
-        return $this->successWithData($payment->jsonData(), "Transaction add Successfully");
+        return $this->successWithData($payment->jsonData(), __("message.planadd"));
     }   catch (\Throwable $e) {
         DB::rollback();
         return $this->error($e->getMessage());
