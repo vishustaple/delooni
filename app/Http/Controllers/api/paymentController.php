@@ -25,36 +25,53 @@ class paymentController extends Controller
 	*/
 	public function checkout(Request $request)
     {
-		$trackable_data = [
-			'product_id'=> 'bc842310-371f-49d1-b479-ad4b387f6630',
-            'product_type' => 't-shirt'
-        ];
-        $user = User::where('id', $request->user_id)->first();
-        $amount = 10;
-        $brand = 'VISA'; // MASTER OR MADA
+    $url = "https://eu-test.oppwa.com/v1/checkouts";
+	$data = "entityId=$request->entity_id" .
+                "&amount=$request->amount" .
+                "&currency=$request->currency" .
+                "&paymentType=$request->payment_type";
 
-        return LaravelHyperpay::checkout($trackable_data, $user, $amount, $brand, $request);
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                   'Authorization:Bearer OGE4Mjk0MTc0YjdlY2IyODAxNGI5Njk5MjIwMDE1Y2N8c3k2S0pzVDg='));
+	curl_setopt($ch, CURLOPT_POST, 1);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);// this should be set to true in production
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	$responseData = curl_exec($ch);
+	if(curl_errno($ch)) {
+		return curl_error($ch);
+	}
+	curl_close($ch);
+	return $responseData;
+	
     }
-    /*
-	** Payment form 
-	*/
-	public function paymentform()
-    {
-        return view('admin.paymentform');
-    }
+ 
     /*
 	**
 	*/
     public function paymentStatus(Request $request)
     {
-        $resourcePath = $request->get('resourcePath');
-        $checkout_id = $request->get('id');
-        return LaravelHyperpay::paymentStatus($resourcePath, $checkout_id);
+
+    $url = "https://eu-test.oppwa.com/v1/checkouts/{$request->checkout_id}/payment";
+	$url .= "?entityId=$request->entity_id";
+
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                   'Authorization:$request->token'));
+	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);// this should be set to true in production
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	$responseData = curl_exec($ch);
+	if(curl_errno($ch)) {
+		return curl_error($ch);
+	}
+	curl_close($ch);
+	return $responseData;
+     
     }
     
-	public function finalize(){
-		return view('admin.finalize');
-
-	}
 	
 }

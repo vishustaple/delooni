@@ -5,7 +5,7 @@
  jQuery("#user").on("click",(e)=>{
      $.ajax({
        type:"get",
-       url:"{{url('/')}}/admin/contactquery/back",
+       url:"{{url('/')}}/admin/rating/back",
        success: function(data){
         window.location = data;
        }

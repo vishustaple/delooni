@@ -4,7 +4,7 @@
               <div class="card-header p-2 yellow-bg">
                 <ul class="nav nav-pills">
                 <li class="nav-item">
-                  <h3 class="card-title mt-2">Contact Query List</h3>
+                  <h3 class="card-title mt-2">Rating List</h3>
                 </li>
                     
                   <li class="nav-item search-right">
@@ -24,7 +24,7 @@
               <div class="card-body">
                 <div class="tab-content">
                   <div class="active tab-pane" id="view">
-                  @include('admin.contact_query.view')
+                  @include('admin.rating.view')
                  </div>
                   <!-- /.tab-pane -->
                 </div>

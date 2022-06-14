@@ -16,7 +16,7 @@ use App\Http\Requests\UpdateServiceProviderRequest;
 use App\Traits\ImageUpload;
 use App\Models\Files;
 use App\Models\Country;
-use App\Models\Services;
+use App\Models\UserRating;
 
 
 class ServiceProviderController extends Controller
@@ -153,8 +153,8 @@ catch (\Throwable $th) {
         $geteducation=EducationDetail::where('user_id', '=', $id)->first();
         $getcatgory=ServiceCategory::where('id', '=', $data->cat_id)->first();
         $servicename=ServiceCategory::where('id', '=',$data->sub_cat_id)->first();
-     
-        return view('admin.serviceprovider.detailview',compact('data','getwork','geteducation','getcatgory','servicename'));
+        $rating=UserRating::with('fromuser')->Where('user_id','=',$id)->get();
+        return view('admin.serviceprovider.detailview',compact('data','getwork','geteducation','getcatgory','servicename','rating'));
       
      }
      /**
@@ -196,7 +196,6 @@ catch (\Throwable $th) {
      * @return  json response 
      */
     public function ServiceProviderRemove(Request $r){
-
         $data = User::where('id',$r->id)->delete();
         return response()->json(['success' => true]);
         }
@@ -335,6 +334,33 @@ catch (\Throwable $th) {
         $data = $qry->where('service_provider_type',"company")->role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->orderBy('id', 'DESC')->paginate();
         return view('admin.serviceprovider.view', compact('data','search'));
         }
+    
+    /**
+     *  get Remove serviceprovider data form frontend 
+     *
+     * @param send id
+     * @return  json response 
+     */
+    public function RemovedProviders(){
+        $data = User::withTrashed()->paginate();
+        return view('admin.removed_user.main', compact('data'));
 
-        
+    }
+    /**
+     *  Search query for removed user
+     *
+     * @param search name in search bar
+     * @return  fetch data according to $request
+    */
+     public function RemoveUserSearch(Request $request){
+        $search = $request->search;
+        $qry = User::select('*');
+        if(!empty($search)){
+            $qry->where(function($q) use($search){
+                $q->where('first_name','like',"%$search%");
+           });
+        }
+        $data = $qry->orderBy('id','ASC')->paginate();
+        return view('admin.removed_user.removeduser', compact('data','search'));
+        }
 }
