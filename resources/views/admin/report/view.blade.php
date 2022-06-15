@@ -99,7 +99,19 @@
       </div>
     </div>
   </div>
+  <div class="col-12 col-sm-6 col-md-4 sm-md-0">
+    <div class="info-box">
+      <span class="info-box-icon bg-info elevation-1"><i class="fa fa-user-o"></i></span>
 
+      <div class="info-box-content">
+        <span class="info-box-text">Top twenty Service Provider has maximum query</span>
+        <span class="info-box-number"> {{$maxtwentyprovider}}</span>
+        <div>
+       <a href="{{ route('toptwentymaxproviderexport') }}" class="btn btn-warning  btn-sm py-0">Export Report</a>
+      </div>
+      </div>
+    </div>
+  </div>
   <div class="clearfix hidden-md-up"></div>
 </div>
    

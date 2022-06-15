@@ -100,16 +100,19 @@ class ReportController extends Controller
       ->groupBy('service_category_id')->where('service_category_id', \DB::raw("(select max(`service_category_id`) from reports)"))
       ->count();
       $minquery = Report::select('service_category_id', Report::raw('count(*) as total'))
-      ->groupBy('service_category_id')->where('service_category_id', \DB::raw("(select max(`service_category_id`) from reports)"))
+      ->groupBy('service_category_id')->where('service_category_id', \DB::raw("(select min(`service_category_id`) from reports)"))
       ->count();
       $maxtwenty = Report::select('service_category_id', Report::raw('COUNT(*) as `count`'))
        ->groupBy('service_category_id')->having('count', '>', 20)->count();
       $mintwenty = Report::select('service_category_id', Report::raw('COUNT(*) as `count`'))
       ->groupBy('service_category_id')->having('count', '<', 20)->count();
       $maxqueryprovider = Report::select('service_provider_id', Report::raw('count(*) as total'))
-      ->groupBy('service_provider_id')->where('service_provider_id', \DB::raw("(select min(`service_provider_id`) from reports)"))
+      ->groupBy('service_provider_id')->where('service_provider_id', \DB::raw("(select max(`service_provider_id`) from reports)"))
       ->count();
-      return view('admin.report.main',compact('query','user','maxquery','minquery','maxtwenty','mintwenty','maxqueryprovider'));
+      $maxtwentyprovider = Report::select('service_provider_id', Report::raw('COUNT(*) as `count`'))
+      ->groupBy('service_provider_id')->having('count', '>', 20)
+      ->count();
+      return view('admin.report.main',compact('query','user','maxquery','minquery','maxtwenty','mintwenty','maxqueryprovider','maxtwentyprovider'));
     }
     /**
      * report export.
@@ -132,9 +135,9 @@ class ReportController extends Controller
      //
     public function export_query()
     { 
-      $query = Report::select('subject')->get();
+      $query = Report::select('service_category_id','user_id','service_provider_id','subject','message')->get();
       return Excel::download(new ReportExport("", $query), 'query.xlsx'); 
-   }
+    }
     /**
      * report export.
      *
@@ -164,7 +167,7 @@ class ReportController extends Controller
       $minquery = Report::join('service_categories','reports.service_category_id','=','service_categories.id')
       ->select('service_category_id', Report::raw('count(*) as total'))
       ->groupBy('service_category_id')->where('service_category_id', \DB::raw("(select min(`service_category_id`) from reports)"))
-        ->select('service_categories.name')
+      ->select('service_categories.name')
       ->get();
       return Excel::download(new ReportExport("","","", $minquery), 'minquery.xlsx'); 
     }
@@ -208,11 +211,28 @@ class ReportController extends Controller
     {
       $maxqueryprovider = Report::join('users','reports.service_provider_id','=','users.id')
       ->select('service_provider_id', Report::raw('count(*) as total'))
-      ->groupBy('service_provider_id')->where('service_provider_id', \DB::raw("(select max(`service_provider_id`) from reports)"))
-      ->select('users.first_name')
+      ->groupBy('service_provider_id')
+      ->select('users.first_name')->orderByRaw('COUNT(*) DESC')->take(1)
       ->get();
       return Excel::download(new ReportExport("","","","","","", $maxqueryprovider), 'maxprovider.xlsx'); 
 
     }
+    /**
+     * top twenty serviceprovider
+     *
+     * @param  view Report of user
+     * @return  Can download excel file for User Report
+     */
+     //
+     public function export_toptwenty_max_provider()
+     {
+       $maxtwentyprovider = Report::join('users','reports.service_provider_id','=','users.id')
+       ->select('service_provider_id', Report::raw('count(*) as total'))
+       ->groupBy('service_provider_id')
+       ->select('users.first_name')->orderByRaw('COUNT(*) DESC')->take(1)
+       ->get();
+       return Excel::download(new ReportExport("","","","","","", $maxtwentyprovider), 'toptwentymaxprovider.xlsx'); 
+ 
+     }
 
 }

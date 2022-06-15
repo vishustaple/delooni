@@ -11,7 +11,7 @@
      <th style="width: 10px;">S.no.</th>
      <th>Name</th>
      <th>User Type</th>
-     <th style="width:15%">Action</th>
+     <!-- <th style="width:15%">Action</th> -->
      </tr>
      </thead>
      @endif
@@ -26,8 +26,6 @@
      <td>{{$value->service_provider_type}}</td>
      @endif
      <td>
-     <!-- <a href='{{route("contactquery.view", $data->id)}}'   target="_blank" class="btn btn-outline-dark btn-xs view">View</a> -->
-     <!-- <button data-id="{{$value->id}}" class="btn btn-danger btn-xs remove">Remove</button>  -->
      </td>
      </tr>
      @empty

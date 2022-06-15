@@ -605,7 +605,7 @@ class UserController extends Controller
             $report = new Report();
             $report->service_category_id = $userId->cat_id;
             $report->subcategory_id = $userId->sub_cat_id;
-            $report->service_provider_id  = $r->provider_id;     //service provider id
+            $report->service_provider_id = $r->provider_id;     //service provider id
             $report->user_id  = $user->id;
             $report->subject = $r->subject;
             $report->message = $r->message;
