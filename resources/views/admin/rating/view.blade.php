@@ -9,10 +9,10 @@
     <thead>
     <tr>
     <th style="width: 10px;">S.no.</th>
+    <th>Provider name</th>
     <th>Customer name</th>
-    <th>Category name</th>
-    <th>Subject</th>
-    <th>Message</th>
+    <th>Rating</th>
+    <th>Review</th>
      <th style="width:15%">Action</th>
     </tr>
     </thead>
@@ -21,17 +21,17 @@
     @forelse($data as $key=>$value)
     <tr>
     <td>{{$key+$data->firstItem()}}</td>
-    <td><a href="/admin/customer/view/{{$value->user_id}}" style="color:#000;">{{$value->first_name}}</a></td>
-    <td>{{$value->name}}</td>
-     <td>{{$value->subject}}</td>
+    <td><a href="/admin/customer/view/{{$value->user->id}}" style="color:#000;">{{$value->user->first_name}}</a></td>
+    <td><a href="/admin/customer/view/{{$value->fromuser->id}}" style="color:#000;">{{$value->fromuser->first_name}}</a></td>
+     <td>{{$value->rating}}</td>
     <td>{{$value->message}}</td>
     <td>
-    <a href='{{route("query.view", $value->id)}}'   target="_blank" class="btn btn-outline-dark btn-xs view">View</a>
+    <a href='{{route("rating.view", $value->id)}}'   target="_blank" class="btn btn-outline-dark btn-xs view">View</a>
     <button data-id="{{$value->id}}" class="btn btn-danger btn-xs remove">Remove</button>
     </td>
     </tr>
     @empty
-    <h5 class="text-center p-2"> No Query </h5>
+    <h5 class="text-center p-2"> No Rating </h5>
     @endforelse
 </tbody>
 </table>

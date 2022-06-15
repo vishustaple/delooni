@@ -310,4 +310,8 @@ class User extends Authenticatable
             return $json;
         }
     }
+    
+    public function transactions(){
+        return $this->hasOne(Transaction::class, 'user_id', 'id');
+    }
 }

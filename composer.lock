@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f1f63ba0c13d6b2e881c425beb93ffdd",
+    "content-hash": "b01b6f222ad86a76f8e6695320111aed",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -113,6 +113,63 @@
                 }
             ],
             "time": "2021-08-15T20:50:18+00:00"
+        },
+        {
+            "name": "devinweb/laravel-hyperpay",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/devinweb/laravel-hyperpay.git",
+                "reference": "0a048788ede518d5814c577e06f98fffcee2616c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/devinweb/laravel-hyperpay/zipball/0a048788ede518d5814c577e06f98fffcee2616c",
+                "reference": "0a048788ede518d5814c577e06f98fffcee2616c",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.0",
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^4.0|^5.0|^6.0",
+                "phpunit/phpunit": "^8.0|^9.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Devinweb\\LaravelHyperpay\\LaravelHyperpayServiceProvider"
+                    ],
+                    "aliases": {
+                        "LaravelHyperpay": "Devinweb\\LaravelHyperpay\\Facades\\LaravelHyperpay"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Devinweb\\LaravelHyperpay\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "darbaoui imad",
+                    "email": "imad@devinweb.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel package for Hyperpay payment gateway in MENA.",
+            "homepage": "https://github.com/devinweb/laravel-hyperpay",
+            "keywords": [
+                "devinweb",
+                "laravel-hyperpay"
+            ],
+            "time": "2022-03-30T16:30:57+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -8333,6 +8390,49 @@
                 }
             ],
             "time": "2020-09-28T06:39:44+00:00"
+        },
+        {
+            "name": "theanik/laravel-more-command",
+            "version": "v1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/theanik/laravel-more-command.git",
+                "reference": "a6c4144c5ca7839cce7fd969bcffb9181c1e088e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/theanik/laravel-more-command/zipball/a6c4144c5ca7839cce7fd969bcffb9181c1e088e",
+                "reference": "a6c4144c5ca7839cce7fd969bcffb9181c1e088e",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Theanik\\LaravelMoreCommand\\LaravelMoreCommandProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Theanik\\LaravelMoreCommand\\": "src/"
+                },
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anwar Hossain Anik",
+                    "email": "anwar.anik33@gmail.com"
+                }
+            ],
+            "description": "Create a Repository and Service class and trait using Artisan CLI",
+            "time": "2022-02-21T16:53:24+00:00"
         },
         {
             "name": "theseer/tokenizer",

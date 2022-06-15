@@ -10,8 +10,7 @@
     <tr>
     <th style="width: 10px;">S.no.</th>
     <th>Customer name</th>
-    <th>Category name</th>
-    <th>Subject</th>
+    <th>Query type</th>
     <th>Message</th>
      <th style="width:15%">Action</th>
     </tr>
@@ -21,12 +20,11 @@
     @forelse($data as $key=>$value)
     <tr>
     <td>{{$key+$data->firstItem()}}</td>
-    <td><a href="/admin/customer/view/{{$value->user_id}}" style="color:#000;">{{$value->first_name}}</a></td>
-    <td>{{$value->name}}</td>
-     <td>{{$value->subject}}</td>
+    <td><a href="/admin/customer/view/{{$value->from_user}}" style="color:#000;">{{$value->first_name}}</a></td>
+     <td>{{$value->type}}</td>
     <td>{{$value->message}}</td>
     <td>
-    <a href='{{route("query.view", $value->id)}}'   target="_blank" class="btn btn-outline-dark btn-xs view">View</a>
+    <a href='{{route("contactquery.view", $value->id)}}'   target="_blank" class="btn btn-outline-dark btn-xs view">View</a>
     <button data-id="{{$value->id}}" class="btn btn-danger btn-xs remove">Remove</button>
     </td>
     </tr>

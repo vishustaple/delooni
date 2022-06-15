@@ -17,9 +17,8 @@ use App\Http\Controllers\admin\ReportController;
 use App\Http\Controllers\admin\StaticContentController;
 use App\Http\Controllers\admin\PaymentController;
 use App\Http\Controllers\admin\CountryCityController;
-
-
-
+use App\Http\Controllers\admin\ContactController;
+use App\Http\Controllers\admin\RatingController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -127,13 +126,27 @@ Route::group(['prefix' => 'admin'], function () {
       Route::get('/maxtwentyexport',[ReportController::class,'export_max_twenty_query'])->name('maxtwentyexport');
       Route::get('/mintwentyexport',[ReportController::class,'export_min_twenty_query'])->name('mintwentyexport');
       Route::get('/maxproviderexport',[ReportController::class,'export_max_provider'])->name('maxproviderexport');
+      Route::get('/toptwentymaxproviderexport',[ReportController::class,'export_toptwenty_max_provider'])->name('toptwentymaxproviderexport');
 
+      
       //******************************************Admin View Query*********************************************//
       Route::get('/query', [ReportController::class, 'query_View'])->name('query');
       Route::get('/query/delete', [ReportController::class, 'delete_query'])->name('query.delete');
       Route::get('/query/search', [ReportController::class, 'search_query'])->name('query.search');
       Route::get('/query/view/{id}', [ReportController::class, 'detailView_query'])->name('query.view');
       Route::get('/query/back',[ReportController::class,'queryBack']);
+      //******************************************Admin contact Query*********************************************//
+      Route::get('/contactquery', [ContactController::class, 'ContactQueryView'])->name('contactquery');
+      Route::get('/contactquery/view/{id}', [ContactController::class, 'detailContactView_query'])->name('contactquery.view');
+      Route::get('/contactquery/back',[ContactController::class,'ContactQueryBack']);
+      Route::get('/contactquery/delete', [ContactController::class, 'delete_contact_query'])->name('contactquery.delete');
+      Route::get('/contactquery/search', [ContactController::class, 'search_contact_query'])->name('contactquery.search');
+
+      //******************************************Rating & Review*********************************************//
+      Route::get('/rating', [RatingController::class, 'RatingView'])->name('rating');
+      Route::get('/rating/view/{id}', [RatingController::class, 'RatingDetailView'])->name('rating.view');
+      Route::get('/rating/back',[RatingController::class,'RatingBack']);
+      Route::get('/rating/delete', [RatingController::class, 'RatingDelete'])->name('rating.delete');
 
       //******************************************Terms and condition*********************************************//
       Route::get('/staticcontent', [StaticContentController::class, 'static_content_View'])->name('staticcontent');
@@ -191,6 +204,8 @@ Route::get('/serviceprovider/remove', [ServiceProviderController::class, 'Servic
 Route::get('/providerupdateform/{id}', [ServiceProviderController::class, 'UpdateForm'])->name('provider.updateform');
 Route::post('/updateproviderdata', [ServiceProviderController::class, 'UpdateProviderData'])->name('provider.updateproviderdata');
 Route::get('/category/{id}', [ServiceProviderController::class, 'GetCategory'])->name('provider.category');
+Route::get('/deletedproviders', [ServiceProviderController::class, 'RemovedProviders'])->name('provider.removed');
+Route::get('/removeuser/search', [ServiceProviderController::class, 'RemoveUserSearch'])->name('removeduser.search');
 
 
 Route::get('/company', [ServiceProviderController::class, 'company_view'])->name('company');
@@ -202,4 +217,7 @@ Route::get('/provider/company/search', [ServiceProviderController::class, 'searc
     Route::get('/payment/search', [PaymentController::class, 'searchpayment'])->name('payment.search');
     Route::get('/payment/view/{id}', [PaymentController::class, 'detailView_payment'])->name('payment.view');
     Route::get('/payment/back', [PaymentController::class, 'paymentBack'])->name('payment.back');
+
+
+    Route::get('hyperpay/finalize', [paymentcontroller::class,'finalize']);
   

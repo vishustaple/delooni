@@ -219,8 +219,53 @@
                         </div>
                       </div>
                       </div>
+                     
                       </div>
-                </div>
+                      <div class="card">
+                      @if(count($rating)>0)
+
+                      <div class="card-header yellow-bg">
+                      <div class="row align-items-center">
+                      <div class="col-md-6">
+                      <h3 class="card-title">Rating</h3>
+                      </div>
+                      </div>
+                      </div>
+                      <table class="table">
+                      <thead>
+                      <tr>
+                      <th style="width: 10px">#</th>
+                      <th>Customer Name</th>
+                      <th>Rating</th>
+                      <th>Message</th>
+                      </tr>
+                      </thead>
+                      @else
+                        <div class="card-header yellow-bg">
+                      <div class="row align-items-center">
+                      <div class="col-md-6">
+                      <h3 class="card-title">Provider has no Rating.</h3>
+                      </div>
+                      </div>
+                      </div>
+                      
+                      @endif
+                      <tbody>
+                      @forelse($rating as $key=>$value)
+                      <tr>
+                      <td>{{$key+1}}</td>
+                      <td>{{$value->fromuser->first_name}}</td>
+                      <td>{{$value->rating}}</td>
+                      <td> {{$value->message}}</td>
+                      </tr>
+                      @empty
+                      @endforelse
+
+                      </tbody>
+                      </table>     
+
+                      </div>
+                      </div>
 </div>
 
 </div>

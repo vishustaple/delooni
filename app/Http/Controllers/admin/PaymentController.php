@@ -82,5 +82,9 @@ class PaymentController extends Controller
     $url = route('payment');
     return $url;
     }
+    public function finalize(){
     
+      return view('admin.finalize');
+  
+    }
 }

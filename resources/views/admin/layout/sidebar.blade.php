@@ -91,6 +91,23 @@
           </p>
         </a>
       </li>
+
+      <li class="nav-item">
+        <a href="{{url('/admin/contactquery')}}" class="nav-link">
+       <i class="fa fa-question-circle nav-icon"></i>
+         <p>
+            Contact Queries
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{url('/deletedproviders')}}" class="nav-link  {{ Request::routeIs('provider.removed') ? 'active' : '' }}">
+       <i class="fa fa-question-circle nav-icon"></i>
+         <p>
+            Deleted providers
+          </p>
+        </a>
+      </li>
        <!--Static content Start Here-->
      <li class="nav-item {{ Request::routeIs('staticcontent')|| Request::routeIs('condition') ? ' menu-open' : '' }}">
         <a href="" class="nav-link d-flex">

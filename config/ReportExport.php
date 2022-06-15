@@ -20,8 +20,9 @@ class ReportExport implements FromCollection,WithHeadings
     protected $maxtwenty;
     protected $mintwenty;
     protected $maxqueryprovider;
+    protected $maxtwentyprovider;
     
-    function __construct($user="", $query="",$maxquery="",$minquery="",$maxtwenty="",$mintwenty="",$maxqueryprovider=""){
+    function __construct($user="", $query="",$maxquery="",$minquery="",$maxtwenty="",$mintwenty="",$maxqueryprovider="",$maxtwentyprovider=""){
         $this->user = $user;
         $this->query = $query;
         $this->maxquery = $maxquery;
@@ -29,6 +30,7 @@ class ReportExport implements FromCollection,WithHeadings
         $this->maxtwenty = $maxtwenty;
         $this->mintwenty = $mintwenty;
         $this->maxqueryprovider = $maxqueryprovider;
+        $this->maxtwentyprovider = $maxtwentyprovider;
     }
    /**
    * @return \Illuminate\Support\Collection
@@ -40,7 +42,7 @@ class ReportExport implements FromCollection,WithHeadings
         return $first_name;
       
       }if($this->query){
-        $query = Report::select('subject')->get();
+        $query = Report::select('service_category_id','user_id','service_provider_id','subject','message')->get();
         return $query;
       }if($this->maxquery){
         $maxquery = Report::join('service_categories','reports.service_category_id','=','service_categories.id')
@@ -67,13 +69,22 @@ class ReportExport implements FromCollection,WithHeadings
         ->groupBy('service_categories.name')->having('count', '<', 20)->get();
          return $mintwenty;
     }if($this->maxqueryprovider){
-        $maxqueryprovider = Report::join('users','reports.service_provider_id','=','users.id')
+      $maxqueryprovider = Report::join('users','reports.service_provider_id','=','users.id')
       ->select('service_provider_id', Report::raw('count(*) as total'))
-      ->groupBy('service_provider_id')->where('service_provider_id', \DB::raw("(select max(`service_provider_id`) from reports)"))
-      ->select('users.first_name')
+      ->groupBy('service_provider_id')
+      ->select('users.first_name')->orderByRaw('COUNT(*) DESC')->take(1)
       ->get();
       return $maxqueryprovider;
-    }else{
+    }
+    if($this->maxtwentyprovider){
+      $maxtwentyprovider = Report::join('users','reports.service_provider_id','=','users.id')
+      ->select('service_provider_id', Report::raw('count(*) as total'))
+      ->groupBy('service_provider_id')
+      ->select('users.first_name')->orderByRaw('COUNT(*) DESC')->take(20)
+      ->get();
+      return $maxtwentyprovider;
+    }
+    else{
         "Not Available";
       }
 }
@@ -85,7 +96,7 @@ class ReportExport implements FromCollection,WithHeadings
          ];
         }if( $this->query ){
             return[
-             'Total Query',
+              'service_category_id','user_id','service_provider_id','subject','message',
             ];
            }if( $this->maxquery ){
             return[
@@ -107,7 +118,13 @@ class ReportExport implements FromCollection,WithHeadings
             return[
                 'Service Provider has maximum query',
             ];
-           }else{
+           }
+           if( $this->maxtwentyprovider ){
+            return[
+                'Top Twenty Service Provider has maximum query',
+            ];
+          }
+          else{
             
         }
       
