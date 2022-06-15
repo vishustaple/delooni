@@ -127,6 +127,7 @@ Route::group(['prefix' => 'admin'], function () {
       Route::get('/mintwentyexport',[ReportController::class,'export_min_twenty_query'])->name('mintwentyexport');
       Route::get('/maxproviderexport',[ReportController::class,'export_max_provider'])->name('maxproviderexport');
       Route::get('/toptwentymaxproviderexport',[ReportController::class,'export_toptwenty_max_provider'])->name('toptwentymaxproviderexport');
+      Route::get('/reviewsexport',[ReportController::class,'reviews_export'])->name('reviewsexport');
 
       
       //******************************************Admin View Query*********************************************//

@@ -21,8 +21,10 @@ class ReportExport implements FromCollection,WithHeadings
     protected $mintwenty;
     protected $maxqueryprovider;
     protected $maxtwentyprovider;
+    protected $reviews;
+
     
-    function __construct($user="", $query="",$maxquery="",$minquery="",$maxtwenty="",$mintwenty="",$maxqueryprovider="",$maxtwentyprovider=""){
+    function __construct($user="", $query="",$maxquery="",$minquery="",$maxtwenty="",$mintwenty="",$maxqueryprovider="",$maxtwentyprovider="",$reviews=""){
         $this->user = $user;
         $this->query = $query;
         $this->maxquery = $maxquery;
@@ -31,6 +33,7 @@ class ReportExport implements FromCollection,WithHeadings
         $this->mintwenty = $mintwenty;
         $this->maxqueryprovider = $maxqueryprovider;
         $this->maxtwentyprovider = $maxtwentyprovider;
+        $this->reviews=$reviews;
     }
    /**
    * @return \Illuminate\Support\Collection
@@ -84,6 +87,10 @@ class ReportExport implements FromCollection,WithHeadings
       ->get();
       return $maxtwentyprovider;
     }
+    if($this->reviewsexport){
+      $reviewsexport = UserRating::count();
+      return $reviewsexport;
+    }
     else{
         "Not Available";
       }
@@ -122,6 +129,11 @@ class ReportExport implements FromCollection,WithHeadings
            if( $this->maxtwentyprovider ){
             return[
                 'Top Twenty Service Provider has maximum query',
+            ];
+          }
+          if( $this->reviewsexport ){
+            return[
+                'Total reviews received',
             ];
           }
           else{

@@ -10,6 +10,7 @@ use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ReportExport;
+use App\Models\UserRating;
 
 class ReportController extends Controller
 {
@@ -112,7 +113,8 @@ class ReportController extends Controller
       $maxtwentyprovider = Report::select('service_provider_id', Report::raw('COUNT(*) as `count`'))
       ->groupBy('service_provider_id')->having('count', '>', 20)
       ->count();
-      return view('admin.report.main',compact('query','user','maxquery','minquery','maxtwenty','mintwenty','maxqueryprovider','maxtwentyprovider'));
+      $reviewsexport = UserRating::count();
+      return view('admin.report.main',compact('query','user','maxquery','minquery','maxtwenty','mintwenty','maxqueryprovider','maxtwentyprovider','reviewsexport'));
     }
     /**
      * report export.
@@ -234,5 +236,21 @@ class ReportController extends Controller
        return Excel::download(new ReportExport("","","","","","", $maxtwentyprovider), 'toptwentymaxprovider.xlsx'); 
  
      }
+     /**
+     * reviews export
+     *
+     * @param  view Report of user
+     * @return  Can download excel file for User Report
+     */
+     //
+     public function reviews_export()
+     {
+       $reviewsexport = UserRating::with('user','fromuser')
+       
+       ->get();
+       return Excel::download(new ReportExport("","","","","","", $reviewsexport), 'reviewsexport.xlsx'); 
+ 
+     }
+     
 
 }
