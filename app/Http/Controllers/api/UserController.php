@@ -15,6 +15,7 @@ use App\Models\Report;
 use App\Models\Files;
 use App\Models\Subscription;
 use App\Models\Payment;
+use App\Models\providerAnalytic;
 use Carbon\Carbon;
 //additional
 use DB;
@@ -817,15 +818,36 @@ class UserController extends Controller
         if ($v->fails()) {
             return $this->validation($v);
         }
-
+      
         $query = User::where('id', $r->provider_id)->first();
 
         // if (empty($query)) {
         //     return $this->error("No provider found");
         // }
         if ($query->roles->first()->id == User::ROLE_SERVICE_PROVIDER) {
+          //save data for profile visit  
+
+        $data=providerAnalytic::where('user_id','=',auth()->user()->id)->Where('service_provider_id','=',$r->provider_id)->first();
+        
+        if($data == null){
+        $user= new providerAnalytic;
+        $user->user_id=auth()->user()->id;
+        $user->service_provider_id=$r->provider_id;
+        $user->save();
+        }
+        else{
+
+        $user= providerAnalytic::where('service_provider_id','=',$r->provider_id)->first();
+        $user->user_id = auth()->user()->id;
+        $user->service_provider_id=$r->provider_id;
+        $user->count=$user->count+1;
+        $user->save();
+     
+        }
+        //profile visit end 
             $message = __("message.spdetailfound");
             return $this->successWithData($query->serviceProviderProfile(), $message);
+            
         } else {
             return $this->error(__("message.spnodetail"));
         }

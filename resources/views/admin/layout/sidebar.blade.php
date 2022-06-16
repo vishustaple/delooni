@@ -13,7 +13,7 @@
         <a href="{{url('/admin/customer')}}" class="nav-link">
         <i class="fa fa-user nav-icon"></i>
           <p>
-            Users
+            Customers
           </p>
         </a>
       </li>
@@ -104,7 +104,7 @@
         <a href="{{url('/deletedproviders')}}" class="nav-link  {{ Request::routeIs('provider.removed') ? 'active' : '' }}">
        <i class="fa fa-question-circle nav-icon"></i>
          <p>
-            Deleted providers
+            Deleted Users
           </p>
         </a>
       </li>

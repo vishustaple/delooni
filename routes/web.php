@@ -128,8 +128,11 @@ Route::group(['prefix' => 'admin'], function () {
       Route::get('/maxproviderexport',[ReportController::class,'export_max_provider'])->name('maxproviderexport');
       Route::get('/toptwentymaxproviderexport',[ReportController::class,'export_toptwenty_max_provider'])->name('toptwentymaxproviderexport');
       Route::get('/reviewsexport',[ReportController::class,'reviews_export'])->name('reviewsexport');
-
-      
+      Route::get('/contactexport',[ReportController::class,'contact_export'])->name('contactexport');
+      Route::get('/contactinqueriesexport',[ReportController::class,'contact_inqueries_export'])->name('contactinqueriesexport');
+      Route::get('/contactsupportexport',[ReportController::class,'contact_support_export'])->name('contactsupportexport');
+      Route::get('/customerexport',[ReportController::class,'customer_export'])->name('customerexport');
+      Route::get('/providerexport',[ReportController::class,'provider_export'])->name('providerexport');
       //******************************************Admin View Query*********************************************//
       Route::get('/query', [ReportController::class, 'query_View'])->name('query');
       Route::get('/query/delete', [ReportController::class, 'delete_query'])->name('query.delete');

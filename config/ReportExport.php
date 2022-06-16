@@ -4,6 +4,8 @@ namespace App\Exports;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Report;
+use App\Models\UserRating;
+use App\Models\ContactUs;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
@@ -21,10 +23,14 @@ class ReportExport implements FromCollection,WithHeadings
     protected $mintwenty;
     protected $maxqueryprovider;
     protected $maxtwentyprovider;
-    protected $reviews;
-
+    protected $reviewsexport;
+    protected $contactexport;
+    protected $contactinqueriesexport;
+    protected $contactsupportexport;
+    protected $customerexport;
+    protected $providerexport;
     
-    function __construct($user="", $query="",$maxquery="",$minquery="",$maxtwenty="",$mintwenty="",$maxqueryprovider="",$maxtwentyprovider="",$reviews=""){
+    function __construct($user="", $query="",$maxquery="",$minquery="",$maxtwenty="",$mintwenty="",$maxqueryprovider="",$maxtwentyprovider="",$reviewsexport="",$contactexport="",$contactinqueriesexport="",$contactsupportexport="",$customerexport="",$providerexport=""){
         $this->user = $user;
         $this->query = $query;
         $this->maxquery = $maxquery;
@@ -33,7 +39,12 @@ class ReportExport implements FromCollection,WithHeadings
         $this->mintwenty = $mintwenty;
         $this->maxqueryprovider = $maxqueryprovider;
         $this->maxtwentyprovider = $maxtwentyprovider;
-        $this->reviews=$reviews;
+        $this->reviewsexport=$reviewsexport;
+        $this->contactexport=$contactexport;
+        $this->contactinqueriesexport=$contactinqueriesexport;
+        $this->contactsupportexport=$contactsupportexport;
+        $this->customersupport=$customerexport;
+        $this->providersupport=$providerexport;
     }
    /**
    * @return \Illuminate\Support\Collection
@@ -80,17 +91,49 @@ class ReportExport implements FromCollection,WithHeadings
       return $maxqueryprovider;
     }
     if($this->maxtwentyprovider){
-      $maxtwentyprovider = Report::join('users','reports.service_provider_id','=','users.id')
+      $maxtwentyprovider = Report::join('users as user1','reports.service_provider_id','=','user1.id')
+      ->join('users as user2','reports.user_id','=','user2.id')
       ->select('service_provider_id', Report::raw('count(*) as total'))
       ->groupBy('service_provider_id')
-      ->select('users.first_name')->orderByRaw('COUNT(*) DESC')->take(20)
+      ->select('reports.id','user1.first_name as user_id', 'user2.first_name as service_provider_id','reports.subject','reports.message')->orderByRaw('COUNT(*) DESC')->take(20)
       ->get();
       return $maxtwentyprovider;
     }
     if($this->reviewsexport){
-      $reviewsexport = UserRating::count();
+      $reviewsexport = UserRating::join('users as user1', 'user1.id', '=', 'user_ratings.user_id')
+      ->join('users as user2', 'user2.id', '=', 'user_ratings.from_user_id')
+      ->select('user_ratings.id','user1.first_name as user_id', 'user2.first_name as from_user_id','user_ratings.message')
+      ->get();
       return $reviewsexport;
     }
+    if( $this->contactexport){
+      $contactexport = ContactUs::join('users', 'contact_us.from_user', '=', 'users.id')
+      ->select('contact_us.id','contact_us.type', 'contact_us.message','users.first_name')
+      ->get();
+      return $contactexport;
+    }
+    if( $this->contactinqueriesexport){
+      $contactinqueriesexport = ContactUs::join('users', 'contact_us.from_user', '=', 'users.id')
+                                   ->select('contact_us.id','contact_us.type', 'contact_us.message','users.first_name')->where('type','=','Inqueries')
+                                   ->get();
+      return $contactinqueriesexport;
+      }
+      if( $this->contactinqueriesexport){
+        $contactsupportexport = ContactUs::join('users', 'contact_us.from_user', '=', 'users.id')
+                                     ->select('contact_us.id','contact_us.type', 'contact_us.message','users.first_name')->where('type','=','Support Request')
+                                     ->get();
+        return $contactsupportexport;
+        }
+        if( $this->customerexport){
+        $customerexport = providerAnalytic::select('provider_analytics.id','provider_analytics.user_id', 'provider_analytics.service_provider_id')
+        ->get();
+        return $customerexport;
+      }
+      if( $this->providerexport){
+        $providerexport = providerAnalytic::select('provider_analytics.id','provider_analytics.user_id', 'provider_analytics.service_provider_id')
+        ->get();
+        return $providerexport;
+      }
     else{
         "Not Available";
       }
@@ -128,12 +171,37 @@ class ReportExport implements FromCollection,WithHeadings
            }
            if( $this->maxtwentyprovider ){
             return[
-                'Top Twenty Service Provider has maximum query',
+              'ID','customer_name','provider_name','subject','message'
             ];
           }
           if( $this->reviewsexport ){
             return[
-                'Total reviews received',
+                'ID','customer_name','provider_name','reviews'
+            ];
+          }
+          if( $this->contactexport ){
+            return[
+                'ID','Query type','query','cutomer name'
+            ];
+          }
+          if( $this->contactinqueriesexport ){
+            return[
+                'ID','Query type','query','cutomer name'
+            ];
+          }
+          if( $this->contactsupportexport ){
+            return[
+                'ID','Query type','query','cutomer name'
+            ];
+          }
+          if( $this->customerexport ){
+            return[
+                'ID','customer_name','provider_name'
+            ];
+          }
+          if( $this->providerexport ){
+            return[
+                'ID','customer_name','provider_name'
             ];
           }
           else{
@@ -141,6 +209,6 @@ class ReportExport implements FromCollection,WithHeadings
         }
       
 
-}
-}
+}}
+
 
