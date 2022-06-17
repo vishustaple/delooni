@@ -27,4 +27,16 @@ class StaticContent extends Model
         $json['screen_baner_image'] = $this->screen_baner_image;
         return $json;
     }
+
+    public function toArray()
+    {
+        $json = [];
+        $json['id'] = $this->id;
+        if($this->screen_baner_image){
+        $json['screen_baner_image'] = env('APP_URL') . 'public/profile_image/'.$this->screen_baner_image;}
+        else{
+        $json['screen_baner_image'] ="";
+        }
+        return $json;
+    }
 }

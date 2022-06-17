@@ -21,7 +21,7 @@
     @forelse($data as $key=>$value)
     <tr>
     <td>{{$key+$data->firstItem()}}</td>
-    <td><a href="/admin/customer/view/{{$value->user_id}}" style="color:#000;">{{$value->first_name}}</a></td>
+    <td><a href='{{route("customer.view",$value->user_id)}}' style="color:#000;">{{$value->first_name}}</a></td>
     <td>{{$value->name}}</td>
      <td>{{$value->subject}}</td>
     <td>{{$value->message}}</td>
