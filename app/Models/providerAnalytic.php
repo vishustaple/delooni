@@ -11,6 +11,6 @@ class providerAnalytic extends Model
     protected $fillable = [
         'user_id',
         'service_provider_id',
-        'count'
+        'count',
     ];
 }

@@ -130,7 +130,7 @@ class ReportController extends Controller
      //
     public function export_user()
     { 
-      $user = User::select('first_name')->get();
+      $user = User::select('id','first_name','last_name','business_name','phone','email')->get();
       return Excel::download(new ReportExport($user), 'user.xlsx'); 
     }
      /**
@@ -300,7 +300,7 @@ class ReportController extends Controller
       $contactsupportexport = ContactUs::join('users', 'contact_us.from_user', '=', 'users.id')
                                    ->select('contact_us.id','contact_us.type', 'contact_us.message','users.first_name')->where('type','=','Support Request')
                                    ->get();
-      return Excel::download(new ReportExport("","","","","","","", "","","","",$contactsupportexport), 'contactsupportexport.xlsx'); 
+      return Excel::download(new ReportExport("","","","","","","","","","","",$contactsupportexport), 'contactsupportexport.xlsx'); 
  
      }
      /**
@@ -311,10 +311,12 @@ class ReportController extends Controller
      */
      //
      public function customer_export()
-     {  
-      $customerexport = providerAnalytic::select('provider_analytics.id','provider_analytics.user_id', 'provider_analytics.service_provider_id')
-                                   ->get();
-      return Excel::download(new ReportExport("","","","","","","", "","","","","",$customerexport), 'customerexport.xlsx'); 
+     { 
+      $customerexport = providerAnalytic::join('users as user1', 'user1.id', '=', 'provider_analytics.user_id')
+      ->join('users as user2', 'user2.id', '=', 'provider_analytics.service_provider_id')->select('provider_analytics.id','user1.first_name as user_id', 'user2.first_name as service_provider_id')
+      ->get();
+      
+      return Excel::download(new ReportExport("","","","","","","","","","","","",$customerexport), 'customerexport.xlsx'); 
  
      }
       /**
@@ -326,9 +328,10 @@ class ReportController extends Controller
      //
      public function provider_export()
      {  
-      $providerexport = providerAnalytic::select('provider_analytics.id','provider_analytics.user_id', 'provider_analytics.service_provider_id')
-                                   ->get();
-      return Excel::download(new ReportExport("","","","","","","", "","","","","","",$providerexport), 'providerexport.xlsx'); 
+      $providerexport = providerAnalytic::join('users as user1', 'user1.id', '=', 'provider_analytics.user_id')
+      ->join('users as user2', 'user2.id', '=', 'provider_analytics.service_provider_id')->select('provider_analytics.id','user1.first_name as user_id', 'user2.first_name as service_provider_id')
+      ->get();
+      return Excel::download(new ReportExport("","","","","","","","","","","","","",$providerexport), 'providerexport.xlsx'); 
  
      }
      

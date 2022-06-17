@@ -17,12 +17,8 @@ class CreateReportsTable extends Migration
             $table->id();
             $table->enum('reporting_issue',['inquiries', 'support request']);
             
-            $table->unsignedBigInteger('service_category_id');
-            $table->foreign('service_category_id')->references('id')->on('service_categories')->onDelete('cascade');
-
-            $table->unsignedBigInteger('subcategory_id');
-            $table->foreign('subcategory_id')->references('id')->on('service_categories')->onDelete('cascade');
-            
+            $table->integer('service_category_id');
+            $table->integer('subcategory_id');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
