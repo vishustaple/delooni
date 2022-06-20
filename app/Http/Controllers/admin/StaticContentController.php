@@ -28,7 +28,7 @@ class StaticContentController extends Controller
     */
     public function storeContent(Request $request){
         $validatedData = $request->validate([
-           'screen_baner_image' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
+           'screen_baner_image' => 'required|image|mimes:jpg,png,jpeg',
          ]);
       $insert = new StaticContent;
        $insert->screen_baner_image  = $this->uploadImage($request->screen_baner_image, 'profile_image');
@@ -66,7 +66,7 @@ class StaticContentController extends Controller
      */
      public function update_content(Request $request){
       $validatedData = $request->validate([
-      'screen_baner_image' => 'image|mimes:jpg,png,jpeg,gif,svg',
+      'screen_baner_image' => 'image|mimes:jpg,png,jpeg',
      ]);
      $user = StaticContent::find($request->id);
     if($request->screen_baner_image)

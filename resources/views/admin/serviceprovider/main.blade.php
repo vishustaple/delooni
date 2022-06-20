@@ -325,4 +325,13 @@ $(document).on('change','#service_category_id',function(e){
 });
 
 
+
+$(document).ready(function () {
+var autocomplete = new google.maps.places.Autocomplete($("#address")[0], {});
+google.maps.event.addListener(autocomplete, 'place_changed', function() {
+var place = autocomplete.getPlace();
+$('#latitude').val(place.geometry.location.lat());
+$('#longitude').val(place.geometry.location.lng());
+});
+});
 </script>

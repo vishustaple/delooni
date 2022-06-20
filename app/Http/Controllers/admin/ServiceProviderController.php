@@ -65,7 +65,6 @@ catch (\Throwable $th) {
        
     public function AddServiceProvider(ServiceProviderRequest $request){
         try{
-        
         $serviceprovideruser =  User::create([
         "business_name" => $request->business_name,
         "first_name" => $request->firstname,
@@ -74,6 +73,8 @@ catch (\Throwable $th) {
         "password" => Hash::make($request->password),
         "nationality" =>$request->nationality,
         "address" => $request->address,
+        "latitude" => $request->latitude,
+        "longitude" => $request->longitude,
         "phone" => $request->phone,
         "whatsapp_no" => $request->whatsappNumber,
         "snapchat_link" => $request->snapchat,

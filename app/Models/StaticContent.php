@@ -33,9 +33,9 @@ class StaticContent extends Model
         $json = [];
         $json['id'] = $this->id;
         if($this->screen_baner_image){
-        $json['screen_baner_image'] = env('APP_URL') . 'public/profile_image/'.$this->screen_baner_image;}
+        $json['screen_banner_image'] = env('APP_URL') . 'public/profile_image/'.$this->screen_baner_image;}
         else{
-        $json['screen_baner_image'] ="";
+        $json['screen_banner_image'] ="";
         }
         return $json;
     }

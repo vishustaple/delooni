@@ -309,3 +309,13 @@ table {
    
    color: #231f20;
 }
+
+/*latlong css*/
+.pac-container {
+   z-index: 10000 !important;
+ }
+
+
+ .layout-fixed .wrapper .sidebar {
+   height: calc(100vh - (3.5rem + 40px)) !important;
+}

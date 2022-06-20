@@ -1,5 +1,9 @@
 
-
+<style>
+    .pac-container {
+   z-index: 10000 !important;
+ }
+</style>
 <form class="form-horizontal" id="createprovider" method="post" enctype="multipart/form-data">
     @csrf
     <div class="row">
@@ -88,12 +92,16 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="Address" class="col-sm-6 col-form-label">Address</label>
+               
                 <textarea class="form-control" id="address" name="address" placeholder="Enter Your Address "></textarea>
+                <input type="hidden" id="latitude" name="latitude">
+        <input type="hidden" id="longitude" name="longitude">
                 <div class="error" id="error_address">
+
                 </div>
             </div>
         </div>
-
+       
         <div class="col-md-6">
             <div class="form-group">
                 <label for="Phone Number" class="col-sm-6 col-form-label">Phone Number</label>

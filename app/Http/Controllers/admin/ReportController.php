@@ -27,6 +27,7 @@ class ReportController extends Controller
      ->select('reports.id','reports.reporting_issue','reports.subcategory_id','reports.service_provider_id',
      'reports.message','reports.subject','reports.user_id','users.first_name','service_categories.name')
      ->orderBy('Id','DESC')->paginate();
+     
      return view('admin.query.main',compact('data'));
     }
    /**

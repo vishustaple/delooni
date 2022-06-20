@@ -231,7 +231,7 @@
                       </div>
                       </div>
                       </div>
-                      <table class="table">
+                      <table class="table table-bordered">
                       <thead>
                       <tr>
                       <th style="width: 10px">#</th>
