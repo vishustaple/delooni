@@ -93,9 +93,9 @@
             <div class="form-group">
                 <label for="Address" class="col-sm-6 col-form-label">Address</label>
                
-                <textarea class="form-control" id="address" name="address" placeholder="Enter Your Address "></textarea>
+                <input class="form-control" id="address" name="address" placeholder="Enter Your Address">
                 <input type="hidden" id="latitude" name="latitude">
-        <input type="hidden" id="longitude" name="longitude">
+                <input type="hidden" id="longitude" name="longitude">
                 <div class="error" id="error_address">
 
                 </div>
@@ -335,3 +335,18 @@
         </div>
     </div>
 </form>
+
+<script>
+
+/* google map api script */
+
+$(document).ready(function () {
+var autocomplete = new google.maps.places.Autocomplete($("#address")[0], {});
+google.maps.event.addListener(autocomplete, 'place_changed', function() {
+var place = autocomplete.getPlace();
+$('#latitude').val(place.geometry.location.lat());
+$('#longitude').val(place.geometry.location.lng());
+});
+});
+
+</script>

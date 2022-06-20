@@ -6,7 +6,7 @@
                     <h3 class="card-title font-weight-bold">Update User</h3> 
                     </div>
                 <div class="col-md-6">
- <a href="http://localhost/delooni/public/serviceprovider" class="btn btn-dark float-right"><i class="fa fa-arrow-circle-left"></i>
+ <a href="{{url('/')}}/delooni/public/serviceprovider" class="btn btn-dark float-right"><i class="fa fa-arrow-circle-left"></i>
  Back
  </a>
 </div> 
@@ -56,7 +56,11 @@ $("button.btn.btn-outline-dark.btn-xs.updateserviceprovider").on('click',functio
 
 //serviceform on add button click 
 $('#serviceform').on('click',function(e){
- 
+
+  $('#searchp').hide();
+  $('#back').show();
+  $(".error").html("");
+  $("#createprovider").trigger("reset");
  e.preventDefault();
  $.ajax({
      type:'get',
@@ -251,14 +255,6 @@ $(document).on('click','.remove',function(){
 });
 });
 
-$(document).on("click", "#serviceform", function(){
-  $('#searchp').hide();
-  $('#back').show();
-  $(".error").html("");
-  $("#createprovider").trigger("reset");
-  
-});
-
   //update form on update button 
   $('.updateserviceprovider').on('click',function(e){ 
   $('.card-header.p-2.yellow-bg.menu-is-opening.menu-open').hide();
@@ -323,10 +319,8 @@ $(document).on('change','#service_category_id',function(e){
           }
 });
 });
-
-
-
-$(document).ready(function () {
+// $(document).ready(function () {
+$(document).on("click", "#address", function(){
 var autocomplete = new google.maps.places.Autocomplete($("#address")[0], {});
 google.maps.event.addListener(autocomplete, 'place_changed', function() {
 var place = autocomplete.getPlace();

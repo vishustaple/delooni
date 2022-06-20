@@ -146,13 +146,13 @@
                    <div class="form-group row">
                         <label for="Category" class="col-sm-12 col-form-label">Category</label>
                         <div class="col-sm-12">
-                        <input type="text" class="form-control" id="category" value="{{$getcatgory->name}}" readonly>
+                        <input type="text" class="form-control" id="category" value="{{$getcatgory->name ?? 'not exist'}}" readonly>
                           </div>
                       </div>
                       <div class="form-group row">
                         <label for="subcategory" class="col-sm-2 col-form-label">Service </label>
                         <div class="col-sm-12">
-                        <input type="text" class="form-control" id="category" value="{{$servicename->name}}" readonly>
+                        <input type="text" class="form-control" id="category" value="{{$servicename->name ?? 'not exist'}}" readonly>
                         </div>
                       </div>
                       <div class="form-group row">
