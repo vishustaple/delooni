@@ -48,6 +48,8 @@ class CustomerController extends Controller
    $insert->password = Hash::make($request->password);
    $insert->phone = $request->phone;
    $insert->address = $request->address;
+   $insert->latitude = $request->latitude;
+   $insert->longitude = $request->longitude;
    $insert->nationality = $request->nationality;
    $insert->save();
    $insert->assignRole(User::ROLE_CUSTOMER);

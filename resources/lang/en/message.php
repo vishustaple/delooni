@@ -34,7 +34,7 @@ return[
 'spnodetail'=>"No provider found",
 'spupdatesuccess'=>"Service Provider updated successfully",
 'no_plan'=>"There is no plan related to this plan id.",
-'planadd'=>"Transaction add Successfully",
+'planadd'=>"Transaction  Successfull",
 ]
 
 

@@ -721,8 +721,8 @@ class UserController extends Controller
             $v = Validator::make(
                 $r->input(),
                 [
-                    'whatsapp_no' => 'required|unique:users',
-                    'email' => 'required|email|unique:users',
+                    'whatsapp_no' => 'string|required|regex:/^([0-9\s\-\+\(\)]*)$/|min:8|max:12',
+                    'email' => 'email',
                     'video' => 'file',
                     'snapchat_link' => 'url|nullable',
                     'instagram_link' => 'url|nullable',
@@ -739,22 +739,28 @@ class UserController extends Controller
             $user = auth()->user();
             $serviceprovider = User::where('id', $user->id)->first();
             // if(isset($r->video)){
-                if ($r->hasFile('video')) {
-                    $file = new Files();
-                    $file->file_name = $this->uploadImage($r->video, 'profile_video');
-                    $extension = ($r->file('video'))->getClientOriginalExtension();
-                    $file->extension = $extension;
-                    $file->model_id = $user->id;
-                    $file->model_type = 'App/Models/User';
-                    $file->file_size = 112;
-                    $file->created_by = $user->id;
-                    $file->type = 1;
-                    $file->save();
-                }
+                // if ($r->hasFile('video')) {
+                //     $file = new Files();
+                //     $file->file_name = $this->uploadImage($r->video, 'profile_video');
+                //     $extension = ($r->file('video'))->getClientOriginalExtension();
+                //     $file->extension = $extension;
+                //     $file->model_id = $user->id;
+                //     $file->model_type = 'App/Models/User';
+                //     $file->file_size = 112;
+                //     $file->created_by = $user->id;
+                //     $file->type = 1;
+                //     $file->save();
+                // }
                 
             // $profilevideo = $this->uploadImage($r->video, 'profile_video');
             // $serviceprovider->profile_video = $profilevideo;    
            // }
+
+           if($r->video)
+            $profilevideo = $this->UploadImage($r->video,'profile_video');
+            else
+            $profilevideo = $serviceprovider->profile_video;
+            $serviceprovider->profile_video = $profilevideo;
             $serviceprovider->email = $r->email ?? $serviceprovider->email;
             $serviceprovider->whatsapp_no = $r->whatsapp_no ?? $serviceprovider->whatsapp_no;
             $serviceprovider->snapchat_link = $r->snapchat_link ?? $serviceprovider->snapchat_link;

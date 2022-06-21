@@ -107,6 +107,41 @@ class AdminController extends Controller
           return view('admin.home', compact('customer','individual_serviceprovider','company_serviceprovider','query','total_customer',
                     'total_individual','total_company','total_query'));
     }
+    public function DashboardDateRange(Request $r)
+    {
+        $r->validate(
+            [
+                'start_date' => 'required',
+                'end_date' => 'required|after:start_date',
+            ],
+        );
+        $start_date=$r->start_date;
+        $end_date=$r->end_date;
+
+        $total_customer = User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->whereBetween('created_at', [$start_date,$end_date])->count();
+        
+        $customer  = User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->select(\DB::raw("COUNT(*) as count"))
+                    ->whereBetween('created_at', [$start_date,$end_date])
+                    ->pluck('count');
+                    $total_individual   =  User::where('service_provider_type',"individual")
+                    ->role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->whereBetween('created_at', [$start_date,$end_date])->count();         
+                    $individual_serviceprovider = User::where('service_provider_type',"individual")
+                    ->role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->select(\DB::raw("COUNT(*) as count"))
+                    ->whereBetween('created_at', [$start_date,$end_date])
+                    ->pluck('count');
+                    $total_company   =  User::where('service_provider_type',"company")
+                    ->role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->whereBetween('created_at', [$start_date,$end_date])->count(); 
+                    $company_serviceprovider  = User::where('service_provider_type',"company")
+                    ->role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))->select(\DB::raw("COUNT(*) as count"))
+                    ->whereBetween('created_at', [$start_date,$end_date])
+                    ->pluck('count');
+                    $total_query   =  Report::whereBetween('created_at', [$start_date,$end_date])->count();                
+                    $query  =  Report::select(\DB::raw("COUNT(*) as count"))
+                    ->whereBetween('created_at', [$start_date,$end_date])
+                    ->pluck('count');
+ return view('admin.home', compact('customer','individual_serviceprovider','company_serviceprovider','query','total_customer',
+           'total_individual','total_company','total_query'));
+    }
     
     // public function dashboardd()
     // {

@@ -7,9 +7,21 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
-
+    <div class="row">
+        <h6>List by date Range</h6>
+        <form action="/" method="GET" id="get_info">
+            @csrf
+            <div class="input-group mb-3">
+                <input type="date" class="form-control" name="start_date">
+                <div class="error" id="error_start_date"></div>
+                <input type="date" class="form-control" name="end_date">
+                <div class="error" id="error_end_date"></div>
+                <button class="btn btn-primary yellow-bg" type="submit">GET</button>
+            </div>
+        </form>
+    </div>
 <!-- <h3 class="mb-4">Graphic Chart Of Users</h3> -->
-<div class="row g-4">
+<div class="row g-4 info">
 <a href="{{route('customer')}}" class="dashboard-link">
     <div class="col-md-6">
       <div class="card bg-white">
@@ -303,6 +315,40 @@ var users =  <?php echo json_encode($query) ?>;
         chart: {
             height:200,
         }
+});
+
+//get data on date range
+
+$(document).on("submit", "#get_info", function(e){
+
+  e.preventDefault();
+  var formData = new FormData(this);
+  console.log(formData);
+   $.ajax({
+   type:'post',
+   url:"{{route('dashboarddaterange')}}",
+   cache: false,
+   contentType: false,
+   processData: false,
+   dataType: "text",
+   data :formData,
+   headers: {
+   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+   },
+   success:function(data){
+    console.log(data);
+    $('.wrapper').html(data);
+    $('#page-loader').hide();
+   },
+   error:function(data){ 
+    // $('.error').html(''); 
+    $('#page-loader').hide();
+      
+  $.each(data.responseJSON.errors, function(id,msg){
+  $('#get_info #error_'+id).html(msg);
+})
+}
+});
 });
 </script>
 </html>

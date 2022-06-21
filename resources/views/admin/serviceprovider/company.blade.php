@@ -11,7 +11,7 @@
                     <h3 class="card-title font-weight-bold">Update User</h3> 
                     </div>
                 <div class="col-md-6">
- <a href="{{url('/')}}/delooni/public/serviceprovider" class="btn btn-dark float-right"><i class="fa fa-arrow-circle-left"></i>
+ <a href="{{url('/company')}}" class="btn btn-dark float-right"><i class="fa fa-arrow-circle-left"></i>
  Back
  </a>
 </div> 

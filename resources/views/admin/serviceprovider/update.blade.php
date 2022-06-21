@@ -203,8 +203,13 @@
                         <label for="subcategory" class="col-sm-12 col-form-label">Select Service</label>
                         <div class="col-sm-12">
                         <select class="form-control select2" id="subcategory" name="subcategory">
+                          
                         <!-- <option value="N/A" disabled selected="true">--Select Service--</option> -->
-                        <option class="form-drop-items"  {{  ($data->sub_cat_id) == $servicename->id ? 'selected' : '' }} value="$servicename->id">{{$servicename->name}}</option>
+                        @if($servicename)
+                        <option class="form-drop-items"  {{  ($data->sub_cat_id) == $servicename->id? 'selected' : '' }} value="{{$servicename->id}}">{{$servicename->name}}</option>
+                        @else
+                        <option class="form-drop-items"   value="{{$servicename->id??''}}">{{$servicename->name??''}}</option>
+                        @endif
                         </select>
                         <div class="error" id="error_subcategory"></div>
                       </div>

@@ -50,6 +50,7 @@ class PaymentController extends Controller
         if(!empty($search)){
             $qry->where(function($q) use($search){
                 $q->where('amount','like',"%$search%");
+                $q->orwhere('transaction_id','like',"%$search%");
            });
         }
         $data = $qry->orderBy('id','DESC')->paginate();

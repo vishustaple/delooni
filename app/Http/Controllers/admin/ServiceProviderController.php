@@ -92,6 +92,7 @@ catch (\Throwable $th) {
         "price_per_hour"=>$request->price_per_hour, 
         "price_per_day"=>$request->price_per_day,
         "price_per_month"=>$request->price_per_month,
+        "form_step"=>User::FORM_COMPLETED,
     ]);
    
     if($serviceprovideruser){
@@ -210,7 +211,7 @@ catch (\Throwable $th) {
        $data=User::where('id', '=', $id)->first();
        $geteducation=EducationDetail::where('user_id', '=', $id)->first();
        $getwork=WorkExperience::where('user_id', '=', $id)->first();
-       $categorynames=ServiceCategory::select('*')->get(); 
+       $categorynames=ServiceCategory::where('is_parent','=',ServiceCategory::IS_PARENT)->get(); 
        $servicename=ServiceCategory::where('id', '=',$data->sub_cat_id)->first();
        $getcountry=Country::get();
        return view('admin.serviceprovider.update',compact('data','getwork','geteducation','categorynames','servicename','getcountry'));

@@ -44,6 +44,7 @@ Route::group(['prefix' => 'admin'], function () {
         'prefix' => 'AuthCheck'
     ])->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::post('/dashboardrange', [AdminController::class, 'DashboardDateRange'])->name('dashboarddaterange');
         Route::get('/profile', [AdminController::class, 'adminProfile']);
         Route::get('/logout', [AdminController::class, 'Logout']);
        
