@@ -78,6 +78,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/customer/update', [CustomerController::class, 'update_customer'])->name('customer.update');
         Route::get('/customer/search', [CustomerController::class, 'search_customer'])->name('customer.search');
         Route::get('/customer/back',[CustomerController::class,'customerBack']);
+        Route::post('/customer/data',[CustomerController::class,'customerDateRange'])->name('customerdaterange');
+
 
       //******************************************Admin Manage Category*********************************************//
         Route::get('/category', [CategoryController::class, 'categoryView'])->name('category');
@@ -215,6 +217,8 @@ Route::get('/removeuser/search', [ServiceProviderController::class, 'RemoveUserS
 
 Route::get('/company', [ServiceProviderController::class, 'company_view'])->name('company');
 Route::get('/provider/company/search', [ServiceProviderController::class, 'search_company'])->name('provider.company.search');
+Route::post('/provider/data',[ServiceProviderController::class,'providerDateRange'])->name('providerdaterange');
+Route::post('/companyprovider/data',[ServiceProviderController::class,'companyDateRange'])->name('companydaterange');
 
     //******************************************  Payment  *********************************************//
     Route::get('/payment', [PaymentController::class, 'payment_view'])->name('payment');

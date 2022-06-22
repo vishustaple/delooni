@@ -716,13 +716,13 @@ class UserController extends Controller
     //
     public function updateSpProfile(request $r)
     { 
-       
+        $user = auth()->user(); 
         try {
             $v = Validator::make(
                 $r->input(),
                 [
                     'whatsapp_no' => 'string|required|regex:/^([0-9\s\-\+\(\)]*)$/|min:8|max:12',
-                    'email' => 'email',
+                    'email' => 'required|email|unique:users,email,'.$user->id,
                     'video' => 'file',
                     'snapchat_link' => 'url|nullable',
                     'instagram_link' => 'url|nullable',
@@ -736,7 +736,7 @@ class UserController extends Controller
             if ($v->fails()) {
                 return $this->validation($v);
             }
-            $user = auth()->user();
+           
             $serviceprovider = User::where('id', $user->id)->first();
             // if(isset($r->video)){
                 // if ($r->hasFile('video')) {

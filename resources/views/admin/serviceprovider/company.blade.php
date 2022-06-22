@@ -334,5 +334,38 @@ $('#latitude').val(place.geometry.location.lat());
 $('#longitude').val(place.geometry.location.lng());
 });
 });
+
+//ajax for range data 
+$(document).on("submit", "#get_info_provider", function(e){
+e.preventDefault();
+  let myForm = document.getElementById('get_info_provider');
+  let formData = new FormData(myForm);
+  console.log(formData);
+   $.ajax({
+   type:'post',
+   url:"{{route('companydaterange')}}",
+   cache: false,
+   contentType: false,
+   processData: false,
+   data :formData,
+   headers: {
+   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+   },
+  success:function(data){
+    // console.log(data);
+    var successHtml = $($.parseHTML(data)).find("#provider").html();
+    console.log(successHtml);
+    $('div#provider').html(successHtml);
+   },
+  error:function(data){ 
+  $('.error').html(''); 
+  $.each(data.responseJSON.errors, function(id,msg){
+  $('#get_info_provider #error_'+id).html(msg);
+})
+}
+});
+});
+
+
 </script>
 @endsection

@@ -2,8 +2,29 @@
     <div class="card-header px-0 border-0">
     <h3 class="card-title font-weight-bold">Customers List</h3>
     </div>
+    
+        <h6>List by date Range</h6>
+        <form  method="POST" id="data_range_customer">
+            @csrf
+            <div class="row">
+            <div class="col-md-5">
+                <input type="date" class="form-control" name="start_date">
+                <div class="error" id="error_start_date"></div>
+            </div>
+            <div class="col-md-5">
+                <input type="date" class="form-control" name="end_date">
+                <div class="error" id="error_end_date"></div>
+            </div>
+            <div class="col-md-2">
+            <button class="btn btn-primary yellow-bg" type="submit">GET</button>
+            </div>
+        </div>
+        </form>
+        
+    
+
 <!-- /.card-header -->
-    <div class="card-body border-0 p-0">
+    <div class="card-body border-0 p-0 " id="view_range">
     <div class="table-responsive table-bordered">
     <table class="table">
     @if(count($data)>0)
@@ -43,7 +64,7 @@
     <div class="modal-dialog modal-lg">
     <div class="modal-content">
    <!-- Modal Header -->
-   <div class="modal-header">
+    <div class="modal-header">
     <h5 class="modal-title">Update</h5>
     <button type="button" class="close" data-dismiss="modal">&times;</button>
     </div>

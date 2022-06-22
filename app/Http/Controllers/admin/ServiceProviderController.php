@@ -365,4 +365,50 @@ catch (\Throwable $th) {
         $data = $qry->orderBy('id','ASC')->paginate();
         return view('admin.removed_user.removeduser', compact('data','search'));
         }
+       
+           /**
+     *  range result for individual user
+     *
+     * @param select range in field
+     * @return  fetch data according to $request
+    */
+     public function providerDateRange(Request $r){
+        $r->validate(
+            [
+                'start_date' => 'required',
+                'end_date' => 'required|after:start_date|before:today',
+            ],
+        );
+        $start_date=$r->start_date;
+        $end_date=$r->end_date;
+        $data = User::where('service_provider_type',"individual")
+               ->role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))
+                        ->orderBy('id', 'DESC')->whereBetween('created_at', [$start_date,$end_date])
+                        ->paginate();
+       return view('admin.serviceprovider.create', compact('data'));
+    }
+              /**
+     *  range result for company user
+     *
+     * @param select range in field
+     * @return  fetch data according to $request
+    */
+    public function companyDateRange(Request $r){
+        $r->validate(
+            [
+                'start_date' => 'required',
+                'end_date' => 'required|after:start_date|before:today',
+            ],
+        );
+        $start_date=$r->start_date;
+        $end_date=$r->end_date;
+        $data = User::where('service_provider_type',"company")
+               ->role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))
+                        ->orderBy('id', 'DESC')->whereBetween('created_at', [$start_date,$end_date])
+                        ->paginate();
+       return view('admin.serviceprovider.create', compact('data'));
+    }
+    
+
+        
 }

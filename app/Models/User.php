@@ -205,7 +205,7 @@ class User extends Authenticatable
         $json['nationality'] = $this->nationality;
         $json['address'] = $this->address;
         $json['email'] = $this->email;
-        $json['country_code'] = $this->country_code;
+        $json['country_code'] = $this->country_code ?? '';
         $json['phone'] = $this->phone;
         $json['latitude'] = $this->latitude;
         $json['longitude'] = $this->longitude;
@@ -239,7 +239,7 @@ class User extends Authenticatable
         $json['service_provider_type '] = $this->service_provider_type;
         $json['nationality'] = $this->nationality;
         $json['address'] = $this->address;
-        $json['country_code'] = $this->country_code;
+        $json['country_code'] = $this->country_code ?? '';
         $json['phone'] = $this->phone;
         $json['latitude'] = $this->latitude?? '0.0';
         $json['longitude'] = $this->longitude??'0.0';

@@ -235,5 +235,36 @@ $(document).on('click', '.pagination a', function(event){
  fetch_data(page);
  
 });
+
+//ajax for range data 
+$(document).on("submit", "#data_range_customer", function(e){
+e.preventDefault();
+  let myForm = document.getElementById('data_range_customer');
+  let formData = new FormData(myForm);
+  console.log(formData);
+   $.ajax({
+   type:'post',
+   url:"{{route('customerdaterange')}}",
+   cache: false,
+   contentType: false,
+   processData: false,
+   data :formData,
+   headers: {
+   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+   },
+  success:function(data){
+    // console.log(data);
+    var successHtml = $($.parseHTML(data)).find("#view_range").html();
+    console.log(successHtml);
+    $('div#view_range').html(successHtml);
+   },
+  error:function(data){ 
+  $('.error').html(''); 
+  $.each(data.responseJSON.errors, function(id,msg){
+  $('#data_range_customer #error_'+id).html(msg);
+})
+}
+});
+});
 </script>
 @endsection

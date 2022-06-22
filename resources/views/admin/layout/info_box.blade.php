@@ -9,18 +9,19 @@
 <body>
     <div class="row">
         <h6>List by date Range</h6>
-        <form action="/" method="GET" id="get_info">
+        <form method="POST" id="get_info">
             @csrf
             <div class="input-group mb-3">
                 <input type="date" class="form-control" name="start_date">
                 <div class="error" id="error_start_date"></div>
-                <input type="date" class="form-control" name="end_date">
+                <input type="date" class="form-control" value="old('end_date')" name="end_date">
                 <div class="error" id="error_end_date"></div>
                 <button class="btn btn-primary yellow-bg" type="submit">GET</button>
             </div>
         </form>
     </div>
 <!-- <h3 class="mb-4">Graphic Chart Of Users</h3> -->
+<div id="graph_info_box">
 <div class="row g-4 info">
 <a href="{{route('customer')}}" class="dashboard-link">
     <div class="col-md-6">
@@ -87,7 +88,6 @@
 </div>
 </body>
 
-<script src="https://code.highcharts.com/highcharts.js"></script>
 <script type="text/javascript">
     var users =  <?php echo json_encode($customer) ?>;
    
@@ -330,22 +330,22 @@ $(document).on("submit", "#get_info", function(e){
    cache: false,
    contentType: false,
    processData: false,
-   dataType: "text",
    data :formData,
    headers: {
    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
    },
    success:function(data){
-    console.log(data);
-    $('.wrapper').html(data);
-    $('#page-loader').hide();
+
+    // var successHtml = $($.parseHTML(data)).find("#graph_info_box").html();
+    // console.log(successHtml);
+    // $('div#graph_info_box').html(successHtml);
+   // $('#graph_info_box').html(data);
+    // $('#page-loader').hide();
    },
    error:function(data){ 
-    // $('.error').html(''); 
-    $('#page-loader').hide();
-      
-  $.each(data.responseJSON.errors, function(id,msg){
-  $('#get_info #error_'+id).html(msg);
+    $('.error').html(''); 
+    $.each(data.responseJSON.errors, function(id,msg){
+    $('#get_info #error_'+id).html(msg);
 })
 }
 });

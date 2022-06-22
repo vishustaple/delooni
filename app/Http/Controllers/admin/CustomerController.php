@@ -160,5 +160,28 @@ class CustomerController extends Controller
     $url = route('customer');
     return $url;
   }
+   /**
+     *  Customer data by date range
+     *
+     * @param select daterange
+     * @return  result into view
+  */
+  public function  customerDateRange(request $r)
+  { 
+    $r->validate(
+      [
+          'start_date' => 'required',
+          'end_date' => 'required|after:start_date|before:today',
+      ],
+  );
+  $start_date=$r->start_date;
+  $end_date=$r->end_date;
+  
+  $data = User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->orderBy('id', 'DESC')->whereBetween('created_at', [$start_date,$end_date])->paginate();
+  return view('admin.customer.view', compact('data'));
+}
+
+
+  
   }
 
