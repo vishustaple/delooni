@@ -42,6 +42,12 @@
       theme: 'bootstrap4'
     })
   })
+
+  // const phoneInputField = document.querySelector("#phone");
+  // const phoneInput = window.intlTelInput(phoneInputField, {
+  //   utilsScript:
+  //     "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+  // });
 </script>
 @stack('search_bar_script')
 @stack('validation_scripts')
