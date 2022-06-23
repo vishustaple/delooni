@@ -88,4 +88,29 @@ class PaymentController extends Controller
       return view('admin.finalize');
   
     }
+    /**
+     * datalist by date range
+     *
+     * @param click on get button 
+     * @return  list by date 
+    */
+    public function  paymentDateRange(request $r)
+    {
+
+    $r->validate(
+      [
+          'start_date' => 'required',
+          'end_date' => 'required|after:start_date|before_or_equal:today',
+      ],
+  );
+  $start_date=$r->start_date;
+  $end_date=$r->end_date;
+  $data = Payment::join('subscriptions','payments.plan_id','=','subscriptions.id')
+  ->join('users','payments.created_by','=','users.id')
+  ->select('payments.id','payments.amount','payments.transaction_id','payments.payment_status','users.first_name','subscriptions.plan_name')
+  ->orderBy('Id','DESC')->whereBetween('payments.created_at', [$start_date,$end_date])->paginate();
+  
+  return view('admin.payment.view', compact('data'));
+    }
+    
 }

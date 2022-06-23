@@ -226,6 +226,7 @@ Route::post('/companyprovider/data',[ServiceProviderController::class,'companyDa
     Route::get('/payment/search', [PaymentController::class, 'searchpayment'])->name('payment.search');
     Route::get('/payment/view/{id}', [PaymentController::class, 'detailView_payment'])->name('payment.view');
     Route::get('/payment/back', [PaymentController::class, 'paymentBack'])->name('payment.back');
+    Route::post('/payment/data', [PaymentController::class, 'paymentDateRange'])->name('paymentdaterange');
 
 
     Route::get('hyperpay/finalize', [paymentcontroller::class,'finalize']);

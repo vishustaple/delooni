@@ -376,7 +376,7 @@ catch (\Throwable $th) {
         $r->validate(
             [
                 'start_date' => 'required',
-                'end_date' => 'required|after:start_date|before:today',
+                'end_date' => 'required|after:start_date|before_or_equal:today',
             ],
         );
         $start_date=$r->start_date;
@@ -397,7 +397,7 @@ catch (\Throwable $th) {
         $r->validate(
             [
                 'start_date' => 'required',
-                'end_date' => 'required|after:start_date|before:today',
+                'end_date' => 'required|after:start_date|before_or_equal:today',
             ],
         );
         $start_date=$r->start_date;

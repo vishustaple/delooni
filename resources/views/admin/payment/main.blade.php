@@ -99,5 +99,40 @@ $(document).on('click', '.pagination a', function(event){
  fetch_data(page);
  
 });
+//get data on date range
+
+$(document).on("submit", "#get_info_payment", function(e){
+  
+  e.preventDefault();
+  var formData = new FormData(this);
+  console.log(formData);
+   $.ajax({
+   type:'post',
+   url:"{{route('paymentdaterange')}}",
+   cache: false,
+   contentType: false,
+   processData: false,
+   data :formData,
+   headers: {
+   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+   },
+   success:function(data){
+    $('.error').html(''); 
+
+     console.log(data);
+    var successHtml = $($.parseHTML(data)).find("#info_payment").html();
+    console.log(successHtml);
+    $('div#info_payment').html(successHtml);
+  //  $('#graph_info_box').html(data);
+    // $('#page-loader').hide();
+   },
+   error:function(data){ 
+    $('.error').html(''); 
+    $.each(data.responseJSON.errors, function(id,msg){
+    $('#get_info_payment #error_'+id).html(msg);
+})
+}
+});
+});
 </script>
 @endsection

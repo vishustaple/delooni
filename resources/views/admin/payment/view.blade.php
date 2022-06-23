@@ -1,8 +1,27 @@
 
 <div class="card border-0 shadow-none" id ="test">
+   
+        <form method="POST" id="get_info_payment">
+            @csrf
+            <div class="input-group mb-3">
+                <div class="row w-100">
+                <div class="col-md-5">
+                <input type="date" class="form-control" name="start_date">
+                <div class="error" id="error_start_date"></div>
+                </div>
+                <div class="col-md-5">
+                <input type="date" class="form-control" name="end_date">
+                <div class="error" id="error_end_date"></div>
+                </div>
+                <div class="col-md-2">
+                <button class="btn yellow-bg w-100" type="submit">Filter</button>
+                </div>
+            </div>
+            </div>
+        </form>
     
     <!-- /.card-header -->
-    <div class="card-body p-0">
+    <div class="card-body p-0 mt-2" id="info_payment">
         <div class="table-responsive table-bordered">
     <table class="table">
      @if(count($data)>0)
@@ -38,12 +57,13 @@
  </tbody>
  </table>
  </div>
- </div>
  <div id="num"  data-page="{{$data->currentPage()}}">    
  <div class="mt-3"> 
   {{$data->links()}} 
  </div>
  </div>
+</div>
+
  <!-- /.card-body -->
  </div>
  <!-- /.card -->

@@ -352,6 +352,7 @@ e.preventDefault();
    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
    },
   success:function(data){
+    $('.error').html(''); 
     // console.log(data);
     var successHtml = $($.parseHTML(data)).find("#provider").html();
     console.log(successHtml);

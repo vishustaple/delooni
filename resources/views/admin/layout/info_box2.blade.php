@@ -1,5 +1,4 @@
-@extends('admin.layout.template')
-@section('contents')
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,24 +6,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
-    <div class="row">
+    {{-- <div class="row">
+        <h6>List by date Range</h6>
         <form method="POST" id="get_info">
             @csrf
-                <div class="row">
-                <div class="col-md-5">
+            <div class="input-group mb-3">
                 <input type="date" class="form-control" name="start_date">
                 <div class="error" id="error_start_date"></div>
-                </div>
-                <div class="col-md-5">
                 <input type="date" class="form-control" name="end_date">
                 <div class="error" id="error_end_date"></div>
-                </div>
-                <div class="col-md-2">
-                <button class="btn yellow-bg bg-0 w-100" type="submit">Filter</button>
-                </div>
-                </div>
+                <button class="btn btn-primary yellow-bg" type="submit">GET</button>
+            </div>
         </form>
-    </div>
+    </div> --}}
 <!-- <h3 class="mb-4">Graphic Chart Of Users</h3> -->
 <div id="graph_info_box">
 <div class="row g-4 info">
@@ -322,7 +316,7 @@ var users =  <?php echo json_encode($query) ?>;
         }
 });
 
-//get data on date range
+// //get data on date range
 
 $(document).on("submit", "#get_info", function(e){
 
@@ -340,13 +334,11 @@ $(document).on("submit", "#get_info", function(e){
    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
    },
    success:function(data){
-    $('.error').html(''); 
 
-    console.log(data);
     // var successHtml = $($.parseHTML(data)).find("#graph_info_box").html();
     // console.log(successHtml);
-    $('div#graph_info_box').html(data);
-//    $('#graph_info_box').html(data);
+    // $('div#graph_info_box').html(successHtml);
+   $('#graph_info_box').html(data);
     // $('#page-loader').hide();
    },
    error:function(data){ 
@@ -359,4 +351,3 @@ $(document).on("submit", "#get_info", function(e){
 });
 </script>
 </html>
-@endsection

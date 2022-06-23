@@ -105,7 +105,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="Phone Number" class="col-sm-6 col-form-label">Phone Number</label>
-                <input type="text" class="form-control" id="phone" name="phone"
+                <input type="tel" class="form-control" id="phone" name="phone"
                     placeholder="Enter Your Phone Number ">
                 <div class="error" id="error_phone">
                 </div>

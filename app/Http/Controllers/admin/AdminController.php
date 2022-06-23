@@ -112,7 +112,7 @@ class AdminController extends Controller
         $r->validate(
             [
                 'start_date' => 'required',
-                'end_date' => 'required|after:start_date|before:today',
+                'end_date' => 'required|after:start_date|before_or_equal:today',
             ],
         );
         $start_date=$r->start_date;
@@ -139,7 +139,7 @@ class AdminController extends Controller
                     $query  =  Report::select(\DB::raw("COUNT(*) as count"))
                     ->whereBetween('created_at', [$start_date,$end_date])
                     ->pluck('count');
- return view('admin.layout.info_box', compact('customer','individual_serviceprovider','company_serviceprovider','query','total_customer',
+ return view('admin.layout.info_box2', compact('customer','individual_serviceprovider','company_serviceprovider','query','total_customer',
            'total_individual','total_company','total_query'));
     }
     

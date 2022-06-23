@@ -3,7 +3,6 @@
     <h3 class="card-title font-weight-bold">Customers List</h3>
     </div>
     
-        <h6>List by date Range</h6>
         <form  method="POST" id="data_range_customer">
             @csrf
             <div class="row">
@@ -16,7 +15,7 @@
                 <div class="error" id="error_end_date"></div>
             </div>
             <div class="col-md-2">
-            <button class="btn btn-primary yellow-bg" type="submit">GET</button>
+            <button class="btn yellow-bg w-100" type="submit">Filter</button>
             </div>
         </div>
         </form>
@@ -24,7 +23,7 @@
     
 
 <!-- /.card-header -->
-    <div class="card-body border-0 p-0 " id="view_range">
+    <div class="card-body border-0 p-0 mt-2 " id="view_range">
     <div class="table-responsive table-bordered">
     <table class="table">
     @if(count($data)>0)

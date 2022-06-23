@@ -1,23 +1,28 @@
 <div class="card border-0 shadow-none">
-  <div class="card-header px-0">
+  <div class="card-header px-0 border-0">
     <h3 class="card-title font-weight-bold">Service Provider List</h3>
   </div>
    <!--date range service provider-->
-   <div class="row">
-    <h6>List by date Range</h6>
     <form method="POST" id="get_info_provider">
         @csrf
         <div class="input-group mb-3">
+          <div class="row w-100">
+            <div class="col-md-5">
             <input type="date" class="form-control" name="start_date">
             <div class="error" id="error_start_date"></div>
+            </div>
+            <div class="col-md-5">
             <input type="date" class="form-control" name="end_date">
             <div class="error" id="error_end_date"></div>
-            <button class="btn btn-primary yellow-bg" type="submit">GET</button>
+            </div>
+            <div class="col-md-2">
+            <button class="btn yellow-bg w-100" type="submit">Filter</button>
+            </div>
         </div>
+      </div>
     </form>
-  </div>
   <!-- /.card-header -->
-  <div class="card-body p-0 border-0" id="provider">
+  <div class="card-body p-0 border-0 mt-2" id="provider">
     <div class="table-responsive table-bordered">
     <table class="table">
       @if(count($data)>0)
