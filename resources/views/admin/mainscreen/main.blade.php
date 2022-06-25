@@ -39,7 +39,6 @@ $("#add_image").on('submit', function (e){
 
      e.preventDefault();
      var data = new FormData(this);
-     console.log(data);
      $.ajax({
      method:'post',
      url:"{{route('splash.screen.add')}}",
@@ -85,7 +84,6 @@ $(document).on('click', '.update', function(event){
 
   },
   error:function(error){
-    console.log(error.responseText);
     $('#page-loader').hide();
 
   }
@@ -94,7 +92,6 @@ $(document).on('click', '.update', function(event){
 $(document).on('submit','#update_screen', function(e){
   e.preventDefault();
   var data = new FormData(this);
-  console.log(data);
   $.ajax({
     type:'post',
     url:"{{route('screen.update')}}",

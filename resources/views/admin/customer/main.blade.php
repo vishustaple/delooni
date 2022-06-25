@@ -61,7 +61,6 @@ $(document).on("click", "a.nav-link.active.customer", function(){
 $("#add_customers").on('submit', function (e){
      e.preventDefault();
      var data = new FormData(this);
-     console.log(data);
      $.ajax({
      method:'post',
      url:"{{route('customer.add')}}",
@@ -168,7 +167,6 @@ $(document).on('click', '.update', function(event){
 
   },
   error:function(error){
-    console.log(error.responseText);
     $('#page-loader').hide();
 
   }
@@ -177,7 +175,6 @@ $(document).on('click', '.update', function(event){
 $(document).on('submit','#update_customer', function(e){
   e.preventDefault();
   var data = new FormData(this);
-  console.log(data);
   $.ajax({
     type:'post',
     url:"{{route('customer.update')}}",
@@ -241,7 +238,6 @@ $(document).on("submit", "#data_range_customer", function(e){
 e.preventDefault();
   let myForm = document.getElementById('data_range_customer');
   let formData = new FormData(myForm);
-  console.log(formData);
    $.ajax({
    type:'post',
    url:"{{route('customerdaterange')}}",
@@ -254,10 +250,7 @@ e.preventDefault();
    },
   success:function(data){
     $('.error').html(''); 
-
-    // console.log(data);
     var successHtml = $($.parseHTML(data)).find("#view_range").html();
-    console.log(successHtml);
     $('div#view_range').html(successHtml);
    },
   error:function(data){ 
@@ -268,5 +261,13 @@ e.preventDefault();
 }
 });
 });
+/*countrycode script*/
+$(document).on('change','#phone',function(){
+      var countryCode = $('#phoneC .iti__selected-flag').attr('title');
+      var countryCode=countryCode.split(':');
+      var countryCode = countryCode[1];
+      $("#country_code").val(countryCode);
+        });
+
 </script>
 @endsection

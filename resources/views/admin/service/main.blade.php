@@ -52,7 +52,6 @@
 $("#add_service").on('submit', function (e){ 
      e.preventDefault();
      var data = new FormData(this);
-     console.log(data);
      $.ajax({
      method:'post',
      url:"{{route('service.add')}}",
@@ -154,7 +153,6 @@ $(document).on('click', '.update', function(event){
 
   },
   error:function(error){
-    console.log(error.responseText);
     $('#page-loader').hide();
 
   }
@@ -163,7 +161,6 @@ $(document).on('click', '.update', function(event){
 $(document).on('submit','#update_service', function(e){
   e.preventDefault();
   var data = new FormData(this);
-  console.log(data);
   $.ajax({
     type:'post',
     url:"{{route('service.update')}}",
@@ -222,7 +219,6 @@ $(document).on('click', '.pagination a', function(event){
 });
         $(document).on('change','#service_category_id',function(e){
           var id = e.target.value;
-          console.log(id);
           var url = '{{ route("service.category", ":id") }}';
            url = url.replace(':id', id );
           //ajax
@@ -236,7 +232,6 @@ $(document).on('click', '.pagination a', function(event){
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
             success:function(response){
-            console.log(response);
             var subcategories = '<select class="form-control select2" id="_service_category_id" name="_service_category_id"><option value="N/A" disabled selected="true">--Select sub category--</option>'; 
             $.each(response, function (key, value) {                     
             subcategories += '<option class="form-drop-items" value='+value.id+'>'+value.name+'</option>';
@@ -247,7 +242,7 @@ $(document).on('click', '.pagination a', function(event){
               },
 
             error:function(error){                                     
-              console.log(error);
+           
         }
 });
 });

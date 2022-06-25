@@ -55,7 +55,6 @@
 $("#add_static_content").on('submit', function (e){ 
      e.preventDefault();
      var data = new FormData(this);
-     console.log(data);
      $.ajax({
      method:'post',
      url:"{{route('static.content.add')}}",
@@ -138,7 +137,6 @@ $(document).on('click', '.update', function(event){
 
   },
   error:function(error){
-    console.log(error.responseText);
     $('#page-loader').hide();
 
   }
@@ -147,7 +145,6 @@ $(document).on('click', '.update', function(event){
 $(document).on('submit','#content_update', function(e){
   e.preventDefault();
   var data = new FormData(this);
-  console.log(data);
   $.ajax({
     type:'post',
     url:"{{route('content.update')}}",

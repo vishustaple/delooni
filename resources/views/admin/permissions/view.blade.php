@@ -71,7 +71,6 @@
     });
     var id = $(this).attr('data-id');
     $.ajax({
-      // url: '{{route("permissions.edit",'.id.')}}',
       url : "/permissions/"+id+"/edit",
       type: 'get',
       dataType: "html",
@@ -82,7 +81,6 @@
 
       },
       error: function(error) {
-        console.log(error.responseText);
         $('#page-loader').hide();
       }
     });

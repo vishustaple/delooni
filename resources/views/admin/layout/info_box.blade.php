@@ -328,7 +328,6 @@ $(document).on("submit", "#get_info", function(e){
 
   e.preventDefault();
   var formData = new FormData(this);
-  console.log(formData);
    $.ajax({
    type:'post',
    url:"{{route('dashboarddaterange')}}",
@@ -342,9 +341,7 @@ $(document).on("submit", "#get_info", function(e){
    success:function(data){
     $('.error').html(''); 
 
-    console.log(data);
     // var successHtml = $($.parseHTML(data)).find("#graph_info_box").html();
-    // console.log(successHtml);
     $('div#graph_info_box').html(data);
 //    $('#graph_info_box').html(data);
     // $('#page-loader').hide();

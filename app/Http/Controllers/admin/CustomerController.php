@@ -47,6 +47,7 @@ class CustomerController extends Controller
    $insert->email = $request->email;
    $insert->password = Hash::make($request->password);
    $insert->phone = $request->phone;
+   $insert->country_code = $request->country_code;
    $insert->address = $request->address;
    $insert->latitude = $request->latitude;
    $insert->longitude = $request->longitude;

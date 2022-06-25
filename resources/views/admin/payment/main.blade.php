@@ -105,7 +105,6 @@ $(document).on("submit", "#get_info_payment", function(e){
   
   e.preventDefault();
   var formData = new FormData(this);
-  console.log(formData);
    $.ajax({
    type:'post',
    url:"{{route('paymentdaterange')}}",
@@ -119,12 +118,9 @@ $(document).on("submit", "#get_info_payment", function(e){
    success:function(data){
     $('.error').html(''); 
 
-     console.log(data);
     var successHtml = $($.parseHTML(data)).find("#info_payment").html();
-    console.log(successHtml);
     $('div#info_payment').html(successHtml);
-  //  $('#graph_info_box').html(data);
-    // $('#page-loader').hide();
+  
    },
    error:function(data){ 
     $('.error').html(''); 

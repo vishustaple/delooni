@@ -57,7 +57,6 @@ $(document).on("click", "a.nav-link.active.sub", function(){
   $("#add_subscription").on('submit', function(e) {
     e.preventDefault();
     var data = new FormData(this);
-    console.log(data);
     $.ajax({
       method: 'post',
       url: "{{route('subscription.add')}}",
@@ -195,7 +194,6 @@ $(document).on("click", "a.nav-link.active.sub", function(){
 
       },
       error: function(error) {
-        console.log(error.responseText);
         $('#page-loader').hide();
 
       }
@@ -204,7 +202,6 @@ $(document).on("click", "a.nav-link.active.sub", function(){
   $(document).on('submit', '#update_subscription', function(e) {
     e.preventDefault();
     var data = new FormData(this);
-    console.log(data);
     $.ajax({
       type: 'post',
       url: "{{route('subscription.update')}}",
@@ -236,20 +233,6 @@ $(document).on("click", "a.nav-link.active.sub", function(){
   $(document).on('click', '.sub', function(event) {
     $('#add_subscription').trigger("reset");
   });
-  //paln dropdown change
-  // $(document).on('change', '#planno', function(event) {
-  //   var parent = $(this).val();
-  //   $('#plan option').each(function() {
-  //     var val = $(this).attr('data-parent');
-  //     if (val == parent) {
-  //      // console.log('if'+val);
-  //      $("#plan option[data-parent=" + val + "]").removeAttr('disabled');
-  //     } else {
-  //       $("#plan option[data-parent=" + val + "]").attr('disabled','disabled');
-  //      // console.log('else'+val);
-        
-  //     }
-  //   });
-  // });
+
 </script>
 @endsection

@@ -6,19 +6,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
-    {{-- <div class="row">
-        <h6>List by date Range</h6>
-        <form method="POST" id="get_info">
-            @csrf
-            <div class="input-group mb-3">
-                <input type="date" class="form-control" name="start_date">
-                <div class="error" id="error_start_date"></div>
-                <input type="date" class="form-control" name="end_date">
-                <div class="error" id="error_end_date"></div>
-                <button class="btn btn-primary yellow-bg" type="submit">GET</button>
-            </div>
-        </form>
-    </div> --}}
+  
 <!-- <h3 class="mb-4">Graphic Chart Of Users</h3> -->
 <div id="graph_info_box">
 <div class="row g-4 info">
@@ -322,7 +310,6 @@ $(document).on("submit", "#get_info", function(e){
 
   e.preventDefault();
   var formData = new FormData(this);
-  console.log(formData);
    $.ajax({
    type:'post',
    url:"{{route('dashboarddaterange')}}",
@@ -334,12 +321,7 @@ $(document).on("submit", "#get_info", function(e){
    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
    },
    success:function(data){
-
-    // var successHtml = $($.parseHTML(data)).find("#graph_info_box").html();
-    // console.log(successHtml);
-    // $('div#graph_info_box').html(successHtml);
    $('#graph_info_box').html(data);
-    // $('#page-loader').hide();
    },
    error:function(data){ 
     $('.error').html(''); 

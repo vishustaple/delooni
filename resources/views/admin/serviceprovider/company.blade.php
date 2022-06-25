@@ -107,12 +107,17 @@ document.querySelector("#search1").addEventListener("keyup",(e)=>{
      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
      },
     success:function(response){
-    console.log(response);
     $(".card-body").html(response);
+    const phoneInputField = document.querySelector("#phone");
+    const phoneInput = window.intlTelInput(phoneInputField, {
+    utilsScript:
+    "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    initialCountry: "sa",
+
+    });
       },
 
     error:function(error){                                     
-      console.log(error);
  }
 
 });
@@ -122,7 +127,6 @@ $(document).on("submit", "#createprovider", function(e){
      e.preventDefault();
     let myForm = document.getElementById('createprovider');
     let formData = new FormData(myForm);
-     console.log(data);
      $.ajax({
      type:'post',
      url:"{{route('provider.add')}}",
@@ -135,7 +139,6 @@ $(document).on("submit", "#createprovider", function(e){
      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
      },
     success:function(response){
-      console.log(response);
       location.reload();
      },
     error:function(data){  
@@ -191,18 +194,14 @@ $(document).on('submit', '#update_provider', function(e){
     data:formData,
     success:function(data)
     {
-    //  fetch_data(1);
      location.reload();
-     //$('.updatemodaluser').html(data);
      $('#page-loader').hide();
 
     },
     error:function(data){
 
-      console.log(data.responseJSON.errors);
       $('.error').html('');  
       $.each(data.responseJSON.errors, function(id,msg){
-        // console.log('ss'+id);
 
         $('#error_'+id).html(msg);
       });
@@ -265,7 +264,6 @@ $(document).on("click", "#serviceform", function(){
   $('.card-header.p-2.yellow-bg.menu-is-opening.menu-open').hide();
    e.preventDefault();
    var id=$(this).attr("data-userid");
-   console.log(id);
    var url = '{{ route("provider.updateform", ":id") }}';
     url = url.replace(':id', id );
    $.ajax({
@@ -278,12 +276,10 @@ $(document).on("click", "#serviceform", function(){
      contentType: false,
      processData: false,
     success:function(response){
-    console.log(response);
     $(".card-body").html(response);
       },
 
     error:function(error){                                     
-      console.log(error);
  }
 
 });
@@ -291,7 +287,6 @@ $(document).on("click", "#serviceform", function(){
 //ajax for subcategory
 $(document).on('change','#service_category_id',function(e){
            var id = e.target.value;
-            console.log(id);
             var url = '{{ route("provider.category", ":id") }}';
              url = url.replace(':id', id );
             //ajax
@@ -305,7 +300,6 @@ $(document).on('change','#service_category_id',function(e){
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                       },
               success:function(response){
-              console.log(response);
               var subcategories = '<select class="form-control select2" id="_service_category_id" name="_service_category_id"><option value="N/A" disabled selected="true">--Select sub category--</option>'; 
               
   
@@ -320,7 +314,7 @@ $(document).on('change','#service_category_id',function(e){
                 },
 
               error:function(error){                                     
-                console.log(error);
+             
           }
 });
 });
@@ -340,7 +334,6 @@ $(document).on("submit", "#get_info_provider", function(e){
 e.preventDefault();
   let myForm = document.getElementById('get_info_provider');
   let formData = new FormData(myForm);
-  console.log(formData);
    $.ajax({
    type:'post',
    url:"{{route('companydaterange')}}",
@@ -353,9 +346,7 @@ e.preventDefault();
    },
   success:function(data){
     $('.error').html(''); 
-    // console.log(data);
     var successHtml = $($.parseHTML(data)).find("#provider").html();
-    console.log(successHtml);
     $('div#provider').html(successHtml);
    },
   error:function(data){ 
@@ -366,7 +357,12 @@ e.preventDefault();
 }
 });
 });
-
-
+/*country code*/
+$(document).on('change','#phone',function(){
+      var countryCode = $('#phoneC .iti__selected-flag').attr('title');
+      var countryCode=countryCode.split(':');
+      var countryCode = countryCode[1];
+      $("#country_code").val(countryCode);
+        });
 </script>
 @endsection

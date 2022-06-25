@@ -88,7 +88,6 @@ $(document).on("click", "a.nav-link.active.city", function(){
   $("#createCity").on('submit', function(e) {
     e.preventDefault();
     var data = new FormData(this);
-    console.log(data);
     $.ajax({
       method: 'post',
       url: "{{route('city.add')}}",
@@ -149,7 +148,6 @@ $(document).on("click", "a.nav-link.active.city", function(){
       }
     });
     var id = $(this).attr('data-id');
-    console.log(id);
     $.ajax({
       url: '{{route("city.updatecity")}}',
       data: {
@@ -161,7 +159,6 @@ $(document).on("click", "a.nav-link.active.city", function(){
         $('#page-loader').hide();
       },
       error: function(error) {
-        console.log(error.responseText);
         $('#page-loader').hide();
 
       }
@@ -198,7 +195,6 @@ $(document).on("click", "a.nav-link.active.city", function(){
       error:function(data){
         $('.error').html('');
             $.each(data.responseJSON.errors, function(id,msg){
-            console.log(msg);
             $('#update_city #error_'+id).html(msg);
             })
             }

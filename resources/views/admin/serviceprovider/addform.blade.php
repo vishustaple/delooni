@@ -92,7 +92,6 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="Address" class="col-sm-6 col-form-label">Address</label>
-               
                 <input class="form-control" id="address" name="address" placeholder="Enter Your Address">
                 <input type="hidden" id="latitude" name="latitude">
                 <input type="hidden" id="longitude" name="longitude">
@@ -103,10 +102,11 @@
         </div>
        
         <div class="col-md-6">
-            <div class="form-group">
+            <div class="form-group" id="phoneC">
                 <label for="Phone Number" class="col-sm-6 col-form-label">Phone Number</label>
-                <input type="tel" class="form-control" id="phone" name="phone"
+                <input type="tel" class="form-control phone" id="phone" name="phone"
                     placeholder="Enter Your Phone Number ">
+                <input type="hidden"  id="country_code" name ="country_code">    
                 <div class="error" id="error_phone">
                 </div>
             </div>
@@ -321,12 +321,11 @@
                 <label for="brief of experience">Brief of Experience</label>
                 <input type="text" class="form-control" id="brief_of_experience" name="brief_of_experience"
                     placeholder="Enter Your Work Experience ">
-                <div class="error" id="error_experience">
+                <div class="error" id="brief_of_experience">
                 </div>
             </div>
         </div>
 </div>
-
 
     <div class="form-group row mt-4">
         <div class="col-sm-12 text-center">
@@ -347,6 +346,8 @@ var place = autocomplete.getPlace();
 $('#latitude').val(place.geometry.location.lat());
 $('#longitude').val(place.geometry.location.lng());
 });
+
 });
+
 
 </script>

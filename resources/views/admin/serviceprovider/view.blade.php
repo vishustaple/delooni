@@ -74,35 +74,14 @@
   <!-- /.card-body -->
 </div>
 <!-- /.card -->
-<!-- <script>
-  $(document).on('click', '.update', function(event) {
 
-    $('#page-loader').show();
 
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
-    var id = $(this).attr('data-id');
-    $.ajax({
-      url: '{{route("user.updateuser")}}',
-      type: 'get',
-      dataType: "html",
-      data: {
-        id: id
-      },
-      success: function(data) {
-        $(".modal-backdrop").removeClass('modal-backdrop show');
-        $('.updatemodaluser').html(data);
-        $('#page-loader').hide();
-
-      },
-      error: function(error) {
-        console.log(error.responseText);
-        $('#page-loader').hide();
-      }
-    });
-  }); -->
-
-<!-- </script> -->
+<script>
+      $(document).on('change','#phone',function(){
+      var countryCode = $('#phoneC .iti__selected-flag').attr('title');
+      var countryCode=countryCode.split(':');
+      var countryCode = countryCode[1];
+      $("#country_code").val(countryCode);
+        });
+   
+</script>

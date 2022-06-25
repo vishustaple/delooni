@@ -28,10 +28,11 @@
 
 
       <div class="form-group row">
-        <div class="col-md-6">
+        <div class="col-md-6" id="phoneC">
           <label for="phone" class="col-sm-12 col-form-label">Phone</label>
             <div class="col-sm-12">
               <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter Phone">
+              <input type="hidden"  id="country_code" name ="country_code">  
               <div class="error" id="error_phone">
               </div>
             </div>
@@ -92,5 +93,14 @@ $('#latitude').val(place.geometry.location.lat());
 $('#longitude').val(place.geometry.location.lng());
 });
 });
+
+/*country code script*/
+const phoneInputField = document.querySelector("#phone");
+    const phoneInput = window.intlTelInput(phoneInputField, {
+    utilsScript:
+    "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    initialCountry: "sa",
+
+    });
 </script> 
 

@@ -319,3 +319,7 @@ table {
  .layout-fixed .wrapper .sidebar {
    height: calc(100vh - (3.5rem + 40px)) !important;
 }
+
+.iti.iti--allow-dropdown {
+   width: 100%;
+}
