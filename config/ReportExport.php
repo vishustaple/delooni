@@ -11,6 +11,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
+use DB;
 
 class ReportExport implements FromCollection,WithHeadings,WithEvents
    {   
@@ -111,19 +112,19 @@ class ReportExport implements FromCollection,WithHeadings,WithEvents
     }
     if( $this->contactexport){
       $contactexport = ContactUs::join('users', 'contact_us.from_user', '=', 'users.id')
-      ->select('contact_us.id','contact_us.type', 'contact_us.message','users.first_name')
+      ->select('contact_us.id','contact_us.type', 'contact_us.message','users.first_name',DB::raw("CONCAT(users.country_code, ' ', users.phone)AS Phone"))
       ->get();
       return $contactexport;
     }
     if( $this->contactinqueriesexport){
       $contactinqueriesexport = ContactUs::join('users', 'contact_us.from_user', '=', 'users.id')
-                                   ->select('contact_us.id','contact_us.type', 'contact_us.message','users.first_name')->where('type','=','Inqueries')
+                                   ->select('contact_us.id','contact_us.type', 'contact_us.message','users.first_name',DB::raw("CONCAT(users.country_code, ' ', users.phone)AS Phone"))->where('type','=','Inqueries')
                                    ->get();
       return $contactinqueriesexport;
       }
       if( $this->contactinqueriesexport){
         $contactsupportexport = ContactUs::join('users', 'contact_us.from_user', '=', 'users.id')
-                                     ->select('contact_us.id','contact_us.type', 'contact_us.message','users.first_name')->where('type','=','Support Request')
+                                     ->select('contact_us.id','contact_us.type', 'contact_us.message','users.first_name',DB::raw("CONCAT(users.country_code, ' ', users.phone)AS Phone"))->where('type','=','Support Request')
                                      ->get();
         return $contactsupportexport;
         }
@@ -188,17 +189,17 @@ class ReportExport implements FromCollection,WithHeadings,WithEvents
           }
           if( $this->contactexport ){
             return[
-                'ID','Query_type','query','cutomer_name',
+                'ID','Query_type','query','cutomer_name','contact'
             ];
           }
           if( $this->contactinqueriesexport ){
             return[
-                'ID','Query_type','query','cutomer_name',
+                'ID','Query_type','query','cutomer_name','contact'
             ];
           }
           if( $this->contactsupportexport ){
             return[
-                'ID','Query_type','query','cutomer_name',
+                'ID','Query_type','query','cutomer_name','contact'
             ];
           }
           if( $this->customerexport ){

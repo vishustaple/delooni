@@ -14,6 +14,7 @@ class Subscription extends Model
     const ADS_PLAN=1;
     const BOOST_PLAN=2;
     const APP_ACCESS=3;
+    const BANNER_ADS_PLAN=4;
 
     const CUSTOMER=1;
     const SP_INDIVIDUAL=2;
@@ -42,6 +43,7 @@ class Subscription extends Model
             "1" => "Ads Plan",
             "2" => "TopList Plan",
             "3" => "App Access Plan",
+            "4" => "Banner Ads Plan",
         ];
     }
     public function getexpiredate()

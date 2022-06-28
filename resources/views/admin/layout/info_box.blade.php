@@ -8,15 +8,15 @@
 </head>
 <body>
     <div class="row">
-        <form method="POST" id="get_info">
+        <form method="POST" id="get_info" class="dalooni-datepicker">
             @csrf
                 <div class="row">
                 <div class="col-md-5">
-                <input type="date" class="form-control" name="start_date">
+                <input  class="form-control datepicker" name="start_date" placeholder="DD/MM/YYYY">
                 <div class="error" id="error_start_date"></div>
                 </div>
                 <div class="col-md-5">
-                <input type="date" class="form-control" name="end_date">
+                <input  class="form-control datepicker" name="end_date" placeholder="DD/MM/YYYY">
                 <div class="error" id="error_end_date"></div>
                 </div>
                 <div class="col-md-2">
@@ -354,6 +354,13 @@ $(document).on("submit", "#get_info", function(e){
 }
 });
 });
+$( function() {
+    $( ".datepicker" ).datepicker({
+      format:'dd-mm-yy',
+      todayHighlight: true,
+    });
+  } );
 </script>
+
 </html>
 @endsection

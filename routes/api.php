@@ -74,6 +74,7 @@ Route::post('verify-otp', [UserController::class, 'verifyOtp']);
 
 
 
+
     /******************************* Razorpay Payment Gateway Api **********************************************/
     Route::post('razorpayPayment', [paymentController::class, 'razorpayPayment']);
     Route::get('/show/{id}', [paymentController::class, 'show']);
@@ -83,5 +84,7 @@ Route::post('verify-otp', [UserController::class, 'verifyOtp']);
     Route::get('paymentform', [paymentController::class, 'paymentform']);
     
     Route::get('hyperpay/finalize', [paymentController::class,'finalize']);
-    Route::get('paymentStatus', [paymentController::class, 'paymentStatus']);
+    // Route::get('paymentStatus', [paymentController::class, 'paymentStatus']);
+    Route::post('prepare-checkout', [paymentController::class, 'prepareCheckout']);
+    Route::post('payment-status', [paymentController::class, 'paymentStatus']);
 });

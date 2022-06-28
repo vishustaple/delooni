@@ -13,7 +13,9 @@ use App\Exports\ReportExport;
 use App\Models\UserRating;
 use App\Models\ContactUs;
 use App\Models\providerAnalytic;
+use DB;
 class ReportController extends Controller
+
 {
     /**
     * Query View
@@ -269,7 +271,7 @@ class ReportController extends Controller
      public function contact_export()
      {  
       $contactexport = ContactUs::join('users', 'contact_us.from_user', '=', 'users.id')
-                                   ->select('contact_us.id','contact_us.type', 'contact_us.message','users.first_name')
+                                   ->select('contact_us.id','contact_us.type', 'contact_us.message','users.first_name',DB::raw("CONCAT(users.phone, ' ', users.country_code)AS Phone"))
                                    ->get();
       return Excel::download(new ReportExport("","","","","","","", "","", $contactexport), 'contactexport.xlsx'); 
  
@@ -284,7 +286,7 @@ class ReportController extends Controller
      public function contact_inqueries_export()
      {  
       $contactinqueriesexport = ContactUs::join('users', 'contact_us.from_user', '=', 'users.id')
-                                   ->select('contact_us.id','contact_us.type', 'contact_us.message','users.first_name')->where('type','=','Inqueries')
+                                   ->select('contact_us.id','contact_us.type', 'contact_us.message','users.first_name',DB::raw("CONCAT(users.phone, ' ', users.country_code)AS Phone"))->where('type','=','Inqueries')
                                    ->get();
       return Excel::download(new ReportExport("","","","","","","", "","","",$contactinqueriesexport), 'contactinqueriesexport.xlsx'); 
  
@@ -299,7 +301,7 @@ class ReportController extends Controller
      public function contact_support_export()
      {  
       $contactsupportexport = ContactUs::join('users', 'contact_us.from_user', '=', 'users.id')
-                                   ->select('contact_us.id','contact_us.type', 'contact_us.message','users.first_name')->where('type','=','Support Request')
+                                   ->select('contact_us.id','contact_us.type', 'contact_us.message','users.first_name',DB::raw("CONCAT(users.phone, ' ', users.country_code)AS Phone"))->where('type','=','Support Request')
                                    ->get();
       return Excel::download(new ReportExport("","","","","","","","","","","",$contactsupportexport), 'contactsupportexport.xlsx'); 
  

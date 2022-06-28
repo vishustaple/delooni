@@ -18,10 +18,7 @@ class PaymentController extends Controller
     * @return view detail of all customers
   */
     public function payment_view(){
-    $data = Payment::join('subscriptions','payments.plan_id','=','subscriptions.id')
-    ->join('users','payments.created_by','=','users.id')
-    ->select('payments.id','payments.amount','payments.transaction_id','payments.payment_status','users.first_name','subscriptions.plan_name')
-    ->orderBy('Id','DESC')->paginate();
+    $data = Payment::orderBy('id','DESC')->paginate();
     return view('admin.payment.main', compact('data'));
   }
  /**
@@ -44,16 +41,16 @@ class PaymentController extends Controller
     */ 
     public function searchpayment(Request $request){ 
         $search = $request->search;
-        $qry = Payment::join('subscriptions','payments.plan_id','=','subscriptions.id')
-    ->join('users','payments.created_by','=','users.id')
-    ->select('payments.id','payments.amount','payments.transaction_id','payments.payment_status','users.first_name','subscriptions.plan_name');
+        
         if(!empty($search)){
-            $qry->where(function($q) use($search){
+         $data = Payment::where(function($q) use($search){
                 $q->where('amount','like',"%$search%");
                 $q->orwhere('transaction_id','like',"%$search%");
-           });
+           })->orderBy('id','DESC')
+           ->paginate();
+        }else{
+          $data = Payment::paginate();
         }
-        $data = $qry->orderBy('id','DESC')->paginate();
         return view('admin.payment.view', compact('data','search'));
         }
 

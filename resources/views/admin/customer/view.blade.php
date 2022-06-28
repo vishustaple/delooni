@@ -7,11 +7,11 @@
             @csrf
             <div class="row">
             <div class="col-md-5">
-                <input type="date" class="form-control" name="start_date">
+                <input  class="form-control datepicker" name="start_date" placeholder="DD/MM/YYYY">
                 <div class="error" id="error_start_date"></div>
             </div>
             <div class="col-md-5">
-                <input type="date" class="form-control" name="end_date">
+                <input class="form-control datepicker" name="end_date" placeholder="DD/MM/YYYY">
                 <div class="error" id="error_end_date"></div>
             </div>
             <div class="col-md-2">
@@ -24,8 +24,8 @@
 
 <!-- /.card-header -->
     <div class="card-body border-0 p-0 mt-2 " id="view_range">
-    <div class="table-responsive table-bordered">
-    <table class="table">
+    <div class="table-responsive ">
+    <table class="table table-bordered">
     @if(count($data)>0)
     <thead>
     <tr>
@@ -85,15 +85,22 @@
 </tbody>
 </table>
 </div>
-</div>
 <div class="mt-3"> 
-{{$data->links()}}
+    {{$data->links()}}
+    </div>
 </div>
+
 <!-- /.card-body -->
 </div>
 <!-- /.card -->
   
-       
+     <script>
+    $( function() {
+    $( ".datepicker" ).datepicker({
+      format:'dd-mm-yy',
+      todayHighlight: true,
+    });
+  } );</script>  
       
 
 

@@ -25,6 +25,7 @@ use App\Traits\ApiResponser;
 use App\Traits\ImageUpload;
 use App\Traits\Email;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Stmt\TryCatch;
 use Validator;
 
 class ListController extends Controller
@@ -228,13 +229,33 @@ class ListController extends Controller
          $user = auth()->user(); 
          $usertype=$user->service_provider_type;
          if($usertype == 'individual'){
-           $value=2;
+           $value=Subscription::SP_INDIVIDUAL;
          }
          else{
-         $value=3;
+         $value=Subscription::SP_COMPANY;
          }
         $Plans = Subscription::where('user_type',$value )->where('plan_type',Subscription::BOOST_PLAN)->paginate();
         return $this->customPaginator($Plans, 'jsonData');
+    }
+     /**
+     * get banner ads plans list 
+     *
+     * @param  send auth id 
+     * @return response success or fail
+     */
+    public function BannerPlanlist(request $r)
+    {
+         $user = auth()->user(); 
+         $usertype=$user->service_provider_type;
+         if($usertype == 'company'){
+            $value=Subscription::SP_COMPANY;
+            $Plans = Subscription::where('user_type',$value )->where('plan_type',Subscription::BANNER_ADS_PLAN)->paginate();
+            return $this->customPaginator($Plans, 'jsonData');
+           }
+         else{
+           return 
+        }
+        
     }
        /**
      * get subscriptions list 
@@ -293,7 +314,7 @@ class ListController extends Controller
          
            return $this->customPaginator($userreviews, 'jsonData');
     }
-    
+     
     
 
 }

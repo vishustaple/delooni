@@ -8,11 +8,11 @@
         <div class="input-group mb-3">
           <div class="row w-100">
             <div class="col-md-5">
-            <input type="date" class="form-control" name="start_date">
+            <input  class="form-control datepicker" name="start_date" placeholder="DD/MM/YYYY">
             <div class="error" id="error_start_date"></div>
             </div>
             <div class="col-md-5">
-            <input type="date" class="form-control" name="end_date">
+            <input class="form-control datepicker" name="end_date" placeholder="DD/MM/YYYY">
             <div class="error" id="error_end_date"></div>
             </div>
             <div class="col-md-2">
@@ -23,8 +23,8 @@
     </form>
   <!-- /.card-header -->
   <div class="card-body p-0 border-0 mt-2" id="provider">
-    <div class="table-responsive table-bordered">
-    <table class="table">
+    <div class="table-responsive ">
+    <table class="table table-bordered">
       @if(count($data)>0)
       <thead>
         <tr>
@@ -32,6 +32,7 @@
           <!-- <th>ID</th> -->
           <th>Name</th>
           <th>Email</th>
+          <th>Phone</th>
           <th>Status</th>
           <th>Action</th>
         </tr>
@@ -45,6 +46,7 @@
           <!-- <td>{{$value->id}}</td> -->
           <td>{{$value->first_name}} {{$value->last_name}}</td>
           <td>{{$value->email}}</td>
+          <td>{{$value->country_code}}{{$value->phone}}</td>
           <td>@if($value->status==1)
             <button data-id="{{$value->id}}" class="disable_enable btn btn-success btn-xs" onclick="toggleDisableEnable(this)">Enable</button>
             @else
@@ -67,10 +69,11 @@
       </tbody>
     </table>
    </div>
+   <div class="mt-3">
+    {{$data->links()}}
   </div>
-  <div class="mt-3">
-  {{$data->links()}}
-</div>
+  </div>
+
   <!-- /.card-body -->
 </div>
 <!-- /.card -->
@@ -83,5 +86,11 @@
       var countryCode = countryCode[1];
       $("#country_code").val(countryCode);
         });
-   
+//datepicker function 
+    $( function() {
+    $( ".datepicker" ).datepicker({
+      format:'dd-mm-yy',
+      todayHighlight: true,
+    });
+} ); 
 </script>

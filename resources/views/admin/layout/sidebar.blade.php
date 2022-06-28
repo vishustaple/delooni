@@ -108,8 +108,20 @@
           </p>
         </a>
       </li>
+      <li class="nav-item">
+        <a href="{{url('/admin/staticcontent')}}" class="nav-link  {{ Request::routeIs('staticcontent') ? 'active' : '' }}">
+          <i class="fa fa-picture-o nav-icon"></i>
+          <p>Screen Banner image</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{route('condition')}}" class="nav-link  {{ Request::routeIs('condition') ? 'active' : '' }}">
+          <i class="fa fa-pencil nav-icon"></i>
+          <p>Terms and Condition</p>
+        </a>
+      </li>
        <!--Static content Start Here-->
-     <li class="nav-item {{ Request::routeIs('staticcontent')|| Request::routeIs('condition') ? ' menu-open' : '' }}">
+     {{-- <li class="nav-item {{ Request::routeIs('staticcontent')|| Request::routeIs('condition') ? ' menu-open' : '' }}">
         <a href="" class="nav-link d-flex">
            <span><i class="fa fa-twitter nav-icon"></i></span>
           <p>Static content</p>
@@ -130,7 +142,7 @@
             </a>
           </li>
         </ul>
-      </li>
+      </li> --}}
       <li class="nav-item">
         <a href="{{url('/admin/splashscreen')}}" class="nav-link">
         <i class="fa fa-desktop nav-icon"></i>

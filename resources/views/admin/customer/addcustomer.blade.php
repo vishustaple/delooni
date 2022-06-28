@@ -65,7 +65,7 @@
          <div class="col-sm-12">
          <label class="col-sm-12 col-form-label">Nationality</label>
           <div class="col-sm-12">
-            <div class="form-control">
+          <div class="form-control">
           <select class="select2" id="nationality" name="nationality">
             <option value="N/A" disabled selected="true">--Select country--</option>
             @foreach($countries as $countrie)

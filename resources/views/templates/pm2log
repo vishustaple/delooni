@@ -1,0 +1,7 @@
+#cd /
+#pm2 flush
+#pm2 list
+#cd /
+#mkdir /japan
+#pm2 list
+clear
