@@ -88,6 +88,7 @@
                         <option value="1" name="plan_type">Ads Plan</option>
                         <option value="2" name="plan_type">TopList Plan</option>
                         <option value="3" name="plan_type">App Access Plan</option>
+                        <option value="4" name="plan_type">Banner Ads Plan</option>
                   </select>
                 
       </div>

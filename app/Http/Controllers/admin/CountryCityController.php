@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\Country;
+use App\Models\AllCity;
 use Illuminate\Http\Request;
 use App\Http\Requests\CityRequest;
 class CountryCityController extends Controller
@@ -41,8 +42,7 @@ class CountryCityController extends Controller
         }
       }
       catch (\Throwable $th) {
-      return response()->json(redirect()->back()->with('error', $th->getMessage()));
-      return $this->error($th->getMessage());
+          return $this->error($th->getMessage());
       }
       }
     /**
@@ -157,5 +157,17 @@ public function filter(Request $request){
       $data = City::where('id',$request->id);
       $data->delete();
       return response()->json(['success' => true]);
+      } 
+
+
+        /**
+     *  get city
+     *
+     * @param click on delete button get $r->id
+     * @return  delete data accordig to $r->id
+    */
+    public function GetCity(Request $request){
+      $data = AllCity::where('country_id',$request->country_id)->get();
+      return $data ;
       } 
 }

@@ -192,6 +192,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/city/updatecitydata', [CountryCityController::class, 'UpdateCityData'])->name('city.updatecitydata');
         Route::get('/city/search', [CountryCityController::class, 'filter'])->name('city.search');
         Route::get('/city/remove', [CountryCityController::class, 'CityRemove'])->name('city.remove');
+        Route::post('/city/dropdown', [CountryCityController::class, 'GetCity'])->name('city.dropdown');
+
        });
        Route::get('/user/includes/addform', function () {
         return view('admin.user.includes.addform');

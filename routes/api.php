@@ -64,6 +64,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('get-sub-categories', [ListController::class, 'getSubcategories']);
     Route::get('transaction-history', [ListController::class, 'getTransactionHistory']);
     Route::get('subscription-list', [ListController::class, 'SubscriptionList']);
+    Route::get('banner-plan-list', [ListController::class, 'BannerPlanlist']);
+
     Route::get('plan-list', [ListController::class, 'Planlist']);
 });
 

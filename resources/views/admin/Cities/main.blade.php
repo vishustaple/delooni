@@ -91,26 +91,29 @@ $(document).on("click", "a.nav-link.active.city", function(){
     $.ajax({
       method: 'post',
       url: "{{route('city.add')}}",
+      data:  data,
       cache: false,
       contentType: false,
       processData: false,
-      dataType: "JSON",
-      data: {
-        data: data
-      },
+      dataType: 'JSON',
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       },
-      data: data,
       success: function(data) {
         location.reload();
         $("body").removeClass("modal-open");
       },
       error: function(data) {
-        $('.error').html('');   
-        $.each(data.responseJSON.errors, function(id, msg) {
-          $('#error_' + id).html(msg);
-        })
+        $('.error').html(''); 
+        console.log(data);
+        console.log(JSON.parse(data.responseText));
+        if( data.status === 422 ){
+          //$.each(data.responseJSON.errors, function(id, msg) {
+          $.each(JSON.parse(data.responseText).message, function(id, msg) {
+            //console.log("fldskjflksd");
+            $('#error_' + id).html(msg);
+          })
+        }
       }
     });
 
@@ -242,4 +245,29 @@ $(document).on("click", "a.nav-link.active.city", function(){
       }
     });
   });
+//on change get cities name 
+$('#countries').on('change', function() {
+   var country_id=$('#countries').val();
+    $.ajax({
+    url: "{{route('city.dropdown')}}",
+    type: "POST",
+    data: {
+    country_id: country_id
+    },
+    cache: false,
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+    success: function(result){
+    console.log(result);
+    // $("#city_name").html(result);
+    var subcities = '<select class="form-control select2" id="city_name" name="city_name"><option value="N/A" disabled selected="true">--Select City--</option>'; 
+    $.each(result, function (key, value) {                     
+      subcities += '<option class="form-drop-items" value='+value.city_name+'>'+value.city_name+'</option>';
+    });   
+    subcities += '</select>'; 
+    $("#city_name").html(subcities);  
+    }
+    });
+});
 </script>

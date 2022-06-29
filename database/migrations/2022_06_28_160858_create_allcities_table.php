@@ -16,13 +16,12 @@ class CreateAllcitiesTable extends Migration
         Schema::create('allcities', function (Blueprint $table) {
             $table->id();
             $table->string('city_name');
-            $table->bigInteger('state_id')->unsigned();
+            $table->string('state_id');
             $table->string('state_code')->nullable();
             $table->bigInteger('country_id')->unsigned();
             $table->string('country_code')->nullable();
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
-            $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
-             $table->timestamps();
+            $table->timestamps();
         });
     }
 

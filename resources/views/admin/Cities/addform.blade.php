@@ -21,13 +21,26 @@
                       </div>
                      
                       <div class="form-group row">
+                        <label for="cities" class="col-md-6 col-form-label">City</label>
+                        <div class="col-sm-12 mb-2">
+                        <div class="form-control select-wrapper">
+                        <select class="form-control select2" id="city_name" name="city_name">
+                        <option value="N/A" disabled selected="true">--Select City--</option>
+                        <option value="" >Select Country first</option>
+                        </select>
+                        <div class="error" id="error_city_name">
+                        </div>
+                      </div>
+                      </div>
+                    </div> 
+                      {{-- <div class="form-group row">
                         <label for="city_name" class="col-sm-12 col-form-label">City Name</label>
                         <div class="col-sm-12">
                           <input type="text" class="form-control" id="city_name" name="city_name" placeholder="Enter City Name ">
                           <div class="error" id="error_city_name">
                           </div>
                         </div>
-                      </div>
+                      </div> --}}
                       <div class="form-group row">
                         <label for="latitude" class="col-sm-12 col-form-label">Latitude</label>
                         <div class="col-sm-12">

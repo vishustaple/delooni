@@ -107,7 +107,7 @@ class ListController extends Controller
 
     public function activeCountryList(Request $request)
     {
-        $query = Country::where('status', Country::STATUS_ACTIVE)->paginate(500);
+        $query = Country::paginate(500);
         
         return $this->customPaginator($query, 'jsonData');
     }
@@ -245,17 +245,19 @@ class ListController extends Controller
      */
     public function BannerPlanlist(request $r)
     {
+      
+      
          $user = auth()->user(); 
          $usertype=$user->service_provider_type;
          if($usertype == 'company'){
             $value=Subscription::SP_COMPANY;
-            $Plans = Subscription::where('user_type',$value )->where('plan_type',Subscription::BANNER_ADS_PLAN)->paginate();
-            return $this->customPaginator($Plans, 'jsonData');
+            $BannerPlans = Subscription::where('user_type',$value )->where('plan_type',Subscription::BANNER_ADS_PLAN)->paginate();
+            return $this->customPaginator($BannerPlans, 'jsonData');
            }
-         else{
-           return 
-        }
-        
+           else{
+            return $this->error(__("Wrong service provider type"));
+           }
+       
     }
        /**
      * get subscriptions list 
@@ -268,10 +270,10 @@ class ListController extends Controller
         $user = auth()->user(); 
         $usertype=$user->service_provider_type;
         if($usertype == 'individual'){
-          $value=2;
+            $value=Subscription::SP_INDIVIDUAL;
         }
         else{
-        $value=3;
+            $value=Subscription::SP_COMPANY;
         }
         $subscription = Subscription::where('user_type',$value )->where('plan_type',Subscription::APP_ACCESS)->where('status',Subscription::STATUS_ACTIVE)->paginate();
         return $this->customPaginator($subscription, 'jsonData');

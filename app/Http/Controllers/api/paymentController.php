@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Payment;
 use App\Models\Subscription;
 use App\Models\Transactionw;
+use App\Models\PrepareCheckoutLogs;
 use App\Traits\ApiResponser;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -115,7 +116,19 @@ class paymentController extends Controller
 				return curl_error($ch);
 			}
 			curl_close($ch);
-			return $responseData;
+			$response = json_decode($responseData);
+			return $response;
+			$insert=new PrepareCheckoutLogs();
+			$insert->code= $response->result->code;
+			$insert->description = $response->result->description;
+			$insert->buildnumber = $response->buildNumber;
+			$insert->timestamp = $response->timestamp;
+			$insert->ndc = $response->ndc;
+            $insert->checkout_id = $response->id;
+			dd($response->checkout_id);
+
+			$insert->save();
+			// return $response;
 		} catch (\Throwable $th) {
 			return $this->error($th->getMessage());
 		}
