@@ -76,8 +76,8 @@ $(document).on("click", "a.nav-link.active.sub", function(){
         $("body").removeClass("modal-open");
       },
       error: function(data) {
-        $('.error').html('');   
-        $.each(data.responseJSON.errors, function(id, msg) {
+        $('.error').html('');  
+        $.each(JSON.parse(data.responseText).errors, function(id, msg) {
           $('#error_' + id).html(msg);
         })
       }

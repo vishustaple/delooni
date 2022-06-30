@@ -10,7 +10,9 @@ use App\Models\Payment;
 use App\Models\Subscription;
 use App\Models\Transactionw;
 use App\Models\PrepareCheckoutLogs;
+use App\Models\PaymentStatusLogs;
 use App\Traits\ApiResponser;
+use Illuminate\Support\Facades\Log;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Devinweb\LaravelHyperpay\Facades\LaravelHyperpay;
@@ -90,6 +92,8 @@ class paymentController extends Controller
 	public function prepareCheckout(Request $request)
 	{
 		try {
+			$user = auth()->user();
+		
 			$url 		= Config::get('constants.oppwa.'.$this->paymentMode.'.URL.PREPARE-CHECKOUT');
 			$entityId 	= Config::get('constants.oppwa.'.$this->paymentMode.'.ENTITY_ID');
 			$accessToken= Config::get('constants.oppwa.'.$this->paymentMode.'.ACCESS_TOKEN');
@@ -117,7 +121,6 @@ class paymentController extends Controller
 			}
 			curl_close($ch);
 			$response = json_decode($responseData);
-			return $response;
 			$insert=new PrepareCheckoutLogs();
 			$insert->code= $response->result->code;
 			$insert->description = $response->result->description;
@@ -125,10 +128,9 @@ class paymentController extends Controller
 			$insert->timestamp = $response->timestamp;
 			$insert->ndc = $response->ndc;
             $insert->checkout_id = $response->id;
-			dd($response->checkout_id);
-
+			$insert->user_id = $user->id??'';
 			$insert->save();
-			// return $response;
+			return $response;
 		} catch (\Throwable $th) {
 			return $this->error($th->getMessage());
 		}
@@ -137,6 +139,7 @@ class paymentController extends Controller
 	public function paymentStatus(Request $request)
 	{
 		try{
+			$user=auth()->user();
 			$id 		= $request->id;
 			$_url 		= Config::get('constants.oppwa.'.$this->paymentMode.'.URL.PREPARE-CHECKOUT');
 			$entityId 	= Config::get('constants.oppwa.'.$this->paymentMode.'.ENTITY_ID');
@@ -155,9 +158,29 @@ class paymentController extends Controller
 				return curl_error($ch);
 			}
 			curl_close($ch);
-			return $responseData;
+			$response = json_decode($responseData);
+			$insert=new PaymentStatusLogs();
+			$insert->code= $response->result->code;
+			$insert->description = $response->result->description;
+			$insert->buildnumber = $response->buildNumber;
+			$insert->timestamp = $response->timestamp;
+			$insert->ndc = $response->ndc;
+			$insert->user_id = $user->id??'';
+			$insert->save();
+			return $response;
 		} catch (\Throwable $th) {
 			return $this->error($th->getMessage());
 		}
 	}
+    
+    public function Shopperresult(Request $request){
+   	
+	 	Log::info("\n----- shooper url log here ------\n");
+	 	Log::info("------- ".time()." ------ ".$request->method()." ------- \n");
+	 	Log::info(json_encode($request->all()));
+	 	Log::info("\n----- shooper url log end here ------\n");
+
+		return $this->success('success!');
+	}
 }
+

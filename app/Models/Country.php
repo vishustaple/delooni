@@ -12,7 +12,7 @@ class Country extends Model
     protected $table = 'countries';
 
     protected $fillable = [
-        'id','country_name','short_name','currency_name','country_code','usd_perc','symbol','flag'
+        'id','country_name','short_name','currency_name','country_code','usd_perc','symbol','flag','emoji'
     ];
     const STATUS_ACTIVE=1;
     public function cities(){
@@ -21,12 +21,13 @@ class Country extends Model
     public function jsonData(){
         $json = [];
         $json['id'] = $this->id;
+        $json['country_code'] = $this->country_code;
         $json['country_name'] = $this->country_name;
         $json['short_name'] = $this->short_name;
         $json['currency_name'] = $this->currency_name;
-        $json['country_code'] = $this->country_code;
         $json['usd_perc'] = $this->usd_perc;
         $json['symbol'] = $this->symbol;
+        $json['emoji'] = $this->emoji;
         $json['flag']=  $this->flag!=null?Config::get('constants.FLAG_URL').$this->flag:'';
         $json['cities']=$this->cities;
         return $json;

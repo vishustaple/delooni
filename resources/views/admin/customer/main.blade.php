@@ -78,10 +78,14 @@ $("#add_customers").on('submit', function (e){
     $("body").removeClass("modal-open");
      },
   error:function(data){
-    $('.error').html('');                                      
-    $.each(data.responseJSON.errors, function(id,msg){
+    $('.error').html('');  
+    console.log(JSON.parse(data.responseText));
+    if( data.status === 422 ){
+ 
+    $.each(JSON.parse(data.responseText).errors, function(id,msg){
     $('#error_'+id).html(msg);
- })
+    })
+    }
 }
 });
     

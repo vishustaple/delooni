@@ -105,12 +105,9 @@ $(document).on("click", "a.nav-link.active.city", function(){
       },
       error: function(data) {
         $('.error').html(''); 
-        console.log(data);
-        console.log(JSON.parse(data.responseText));
         if( data.status === 422 ){
           //$.each(data.responseJSON.errors, function(id, msg) {
           $.each(JSON.parse(data.responseText).message, function(id, msg) {
-            //console.log("fldskjflksd");
             $('#error_' + id).html(msg);
           })
         }

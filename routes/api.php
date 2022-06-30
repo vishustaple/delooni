@@ -67,6 +67,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('banner-plan-list', [ListController::class, 'BannerPlanlist']);
 
     Route::get('plan-list', [ListController::class, 'Planlist']);
+    // Route::post('prepare-checkout', [paymentController::class, 'prepareCheckout']);
+    // Route::post('payment-status', [paymentController::class, 'paymentStatus']);
 });
 
 Route::post('send-otp', [UserController::class, 'sendOtp']);
@@ -87,6 +89,8 @@ Route::post('verify-otp', [UserController::class, 'verifyOtp']);
     
     Route::get('hyperpay/finalize', [paymentController::class,'finalize']);
     // Route::get('paymentStatus', [paymentController::class, 'paymentStatus']);
+    Route::any('shopper-url', [paymentController::class,'Shopperresult']);
+
     Route::post('prepare-checkout', [paymentController::class, 'prepareCheckout']);
     Route::post('payment-status', [paymentController::class, 'paymentStatus']);
 });

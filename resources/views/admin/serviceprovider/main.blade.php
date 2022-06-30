@@ -111,7 +111,7 @@ $(document).on("submit", "#createprovider", function(e){
      },
     error:function(data){ 
     $('.error').html('');     
-    $.each(data.responseJSON.errors, function(id,msg){
+    $.each(JSON.parse(data.responseText).errors, function(id,msg){
     $('#createprovider #error_'+id).html(msg);
  })
 }

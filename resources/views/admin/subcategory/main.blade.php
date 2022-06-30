@@ -77,7 +77,7 @@ $(document).on("click", "a.nav-link.active.subcategory", function(){
      },
   error:function(data){
     $('.error').html('');                                   
-    $.each(data.responseJSON.errors, function(id,msg){
+    $.each(JSON.parse(data.responseText).errors, function(id,msg){
     $('#error_'+id).html(msg);
  })
 }

@@ -17,9 +17,10 @@ class CreatePaymentStatusLogs extends Migration
             $table->id();
             $table->string('code');
             $table->longText('description');
-            $table->string('buildnumaber');
+            $table->string('buildnumber');
             $table->string('timestamp');
             $table->string('ndc');
+            $table->integer('user_id')->nullable();
             $table->timestamps();
         });
     }
