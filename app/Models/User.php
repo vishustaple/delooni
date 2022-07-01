@@ -209,6 +209,7 @@ class User extends Authenticatable
         $json['phone'] = $this->phone;
         $json['latitude'] = $this->latitude;
         $json['longitude'] = $this->longitude;
+        $json['user_type'] = $this->service_provider_type;
         return $json;
     }
 
@@ -257,6 +258,7 @@ class User extends Authenticatable
         $json['rating'] = $this->rating ?? '0';
         $json['token'] = $this->gettoken->personal_access_token ?? '0';
         $json['reviews_count'] = count($this->Rating)?? 0;
+        $json['user_type'] = $this->service_provider_type;
         if(auth()->user()){
         $userId = auth()->user()->id;
         $json['is_favourite'] = $this->favourite($this->id, $userId);

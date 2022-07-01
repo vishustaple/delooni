@@ -108,7 +108,6 @@ class ListController extends Controller
     public function activeCountryList(Request $request)
     {
         $query = Country::paginate(500);
-        
         return $this->customPaginator($query, 'jsonData');
     }
 

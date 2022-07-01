@@ -150,11 +150,11 @@ class ReportExport implements FromCollection,WithHeadings,WithEvents
   public function headings():array{
     if( $this->user ){
          return[
-          'id','first_name','last_name','business_name','phone','email',
+          'Id','First_name','Last_name','Business_name','Phone','Email',
          ];
         }if( $this->query ){
             return[
-              'service_category_id','user_id','service_provider_id','subject','message',
+              'Service_category_id','User_id','Service_provider_id','Subject','Message',
             ];
            }if( $this->maxquery ){
             return[
@@ -179,37 +179,37 @@ class ReportExport implements FromCollection,WithHeadings,WithEvents
            }
            if( $this->maxtwentyprovider ){
             return[
-              'ID','customer_name','provider_name','subject','message',
+              'ID','Customer_name','Provider_name','Subject','Message',
             ];
           }
           if( $this->reviewsexport ){
             return[
-                'ID','customer_name','provider_name','reviews',
+                'ID','Customer_name','Provider_name','Reviews',
             ];
           }
           if( $this->contactexport ){
             return[
-                'ID','Query_type','query','cutomer_name','contact'
+                'ID','Query_type','Query','Cutomer_name','Contact'
             ];
           }
           if( $this->contactinqueriesexport ){
             return[
-                'ID','Query_type','query','cutomer_name','contact'
+                'ID','Query_type','Query','Cutomer_name','Contact'
             ];
           }
           if( $this->contactsupportexport ){
             return[
-                'ID','Query_type','query','cutomer_name','contact'
+                'ID','Query_type','Query','Cutomer_name','Contact'
             ];
           }
           if( $this->customerexport ){
             return[
-                'ID','customer_name','provider_name',
+                'ID','Customer_name','Provider_name',
             ];
           }
           if( $this->providerexport ){
             return[
-                'ID','customer_name','provider_name',
+                'ID','Customer_name','Provider_name',
             ];
           }
           else{
@@ -229,7 +229,18 @@ class ReportExport implements FromCollection,WithHeadings,WithEvents
                 $event->sheet->getDelegate()->getStyle('A1:J1')
                                 ->getFont()
                                 ->setBold(true);
-   
+                                $columns=[
+                                  'A' ,   
+                                  'B',     
+                                  'C' ,    
+                                  'D' ,    
+                                  'E' ,    
+                                  'F'  ,  
+                                  'G'  ,   
+                                ];
+                                foreach($columns as $column){
+                                $event->sheet->getDelegate()->getColumnDimension($column)->setWidth(25);
+                                }
             },
         ];
     }

@@ -282,7 +282,7 @@ table {
 }
 
 .dashboard-link{
-   text-decoration: none;
+   text-decoration: none!important;
 }
 
 .dashboard-link .card-header{
@@ -336,4 +336,8 @@ table {
    font-size: .75rem!important;
    line-height: 1.5;
    border-radius: 0.15rem;
+}
+
+input:focus {
+   box-shadow: none!important;
 }

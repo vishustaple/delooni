@@ -16,6 +16,7 @@ use App\Models\Files;
 use App\Models\Subscription;
 use App\Models\Payment;
 use App\Models\providerAnalytic;
+use App\Models\MainScreen;
 use Carbon\Carbon;
 //additional
 use DB;
@@ -956,5 +957,17 @@ class UserController extends Controller
         return $this->error($e->getMessage());
     }
 
+    }
+     /**
+     * chnage splash screen 
+     *
+     * @param  contains 
+     * @return response splashscreen change
+     */
+    //
+    public function changeSplash()
+    {
+     $screen = MainScreen::first();
+     return $this->successWithData($screen->jsonData(),__('screen update successfully'));
     }
 }

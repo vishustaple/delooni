@@ -24,7 +24,7 @@ class MainScreen extends Model
         $json = [];
         $json['id'] = $this->id;
         $json['title'] = $this->title;
-        $json['screen_image'] = $this->screen_image;
+        $json['screen_image'] =url('') . '/profile_image/' . $this->screen_image;
         $json['path'] = $this->path;
         $json['description'] = $this->description;
         return $json;

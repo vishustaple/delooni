@@ -93,4 +93,9 @@ Route::post('verify-otp', [UserController::class, 'verifyOtp']);
 
     Route::post('prepare-checkout', [paymentController::class, 'prepareCheckout']);
     Route::post('payment-status', [paymentController::class, 'paymentStatus']);
+    //splash screen 
+    Route::get('change-splash-screen', [UserController::class, 'changeSplash']);
+
+
+
 });

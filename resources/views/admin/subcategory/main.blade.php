@@ -208,7 +208,7 @@ $(document).on('click', '.update', function(event){
         });
       });
 
-      function toggleDisableEnable(e){
+ function toggleDisableEnable(e){
  var id = $(e).attr('data-id');
  $('#page-loader').show();
   $.ajaxSetup({
