@@ -12,7 +12,7 @@ class importCountryDataSeeder extends Seeder {
      */
     public function run() {
 
-        $sqlFile = '/database/sql_data/countries.sql';
+        $sqlFile = '/database/sql_data/countries (1).sql';
         \DB::unprepared(\File::get(base_path() . $sqlFile));
         #DB::unprepared(file_get_contents($sqlFile));
     }

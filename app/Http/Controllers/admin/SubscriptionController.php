@@ -52,7 +52,7 @@ public function storesubscription(Request $request){
      *
      * @param get $r->id, on click status button
      * @return  return response status active/deactive
-*/
+    */
    public function status_subscription(Request $request){
     $getstatus = Subscription::find($request->id); 
     $status = ($getstatus->status==Subscription::STATUS_ACTIVE)?Subscription::STATUS_NEW:Subscription::STATUS_ACTIVE;

@@ -233,6 +233,27 @@ $(document).on("click", "a.nav-link.active.sub", function(){
   $(document).on('click', '.sub', function(event) {
     $('#add_subscription').trigger("reset");
   });
+   
+//
+$(document).on('change', '#planno', function(event) {
+  var status = $('#planno option:selected').val();
+  if( status == 1){
+  var value = '<option data-parent="0" disabled selected="true">--Select duration--</option>';
+   value += '<option data-parent="1" value="week" name="plan">week</option>';
+   value += '<option data-parent="1" value="month" name="plan">month</option>';
+   value += '<option data-parent="1" value="year" name="plan">year</option>';
+   $("#plan").html(value);  
+  }
+  else{
+    var value = '<option data-parent="0" disabled selected="true">--Select duration--</option>';
+   value += ' <option data-parent="0" value="weeks" name="plan">weeks</option>';
+   value += '<option data-parent="0" value="months" name="plan">months</option>';
+   value += '<option data-parent="0" value="years" name="plan">years</option>';
+   $("#plan").html(value);  
+
+  }
+   
+  });
 
 </script>
 @endsection
