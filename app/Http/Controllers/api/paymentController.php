@@ -101,11 +101,45 @@ class paymentController extends Controller
 			 
 			$amount = $request->amount;
 			$paymentType = $request->payment_type;
+
+			$testMode = $request->testMode;
+			$merchantTransactionId = $request->merchantTransactionId;
+			$customer_email = $request->customer_email;
+			$billing_street1 = $request->billing_street1;
+			$billing_city = $request->billing_city;
+			$billing_state = $request->billing_state;
+
+			$billing_country = $request->billing_country;
+			$billing_postcode = $request->billing_postcode;
+			$customer_givenName = $request->customer_givenName;
+			$customer_surname = $request->customer_surname;
 			
+			// testMode=EXTERNAL
+//- merchantTransactionId="your unique ID in your database"
+//- customer.email = The user's email.
+//- billing.street1= street address of customer
+//- billing.city= should be city of customer
+//- billing.state= should be state of customer
+//- billing.country= should be country of customer (Alpha-2 codes with Format A2[A-Z]{2})
+//- billing.postcode
+//- customer.givenName
+//- customer.surname
+
 			$data = "entityId=".$entityId .
 						"&amount=".$amount.
-						"&currency=".$currency .
-						"&paymentType=".$paymentType;
+						"&currency=".$currency.
+						"&paymentType=".$paymentType.
+//						"&testMode=".$testMode.
+						"&testMode=".$testMode.
+						"&merchantTransactionId=".$merchantTransactionId.
+						"&customer.email=".$customer_email.
+						"&billing.street1=".$billing_street1.
+						"&billing.city=".$billing_city.
+						"&billing.state=".$billing_state.
+						"&billing.country=".$billing_country.
+						"&billing.postcode=".$billing_postcode.
+						"&customer.givenName=".$customer_givenName.
+						"&customer.surname=".$customer_surname.
 
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_URL, $url);

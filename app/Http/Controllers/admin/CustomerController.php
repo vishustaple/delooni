@@ -172,13 +172,14 @@ class CustomerController extends Controller
     $r->validate(
       [
           'start_date' => 'required',
-          'end_date' => 'required|after:start_date|before_or_equal:today',
+          'end_date' => 'required|after:start_date',
       ],
   );
   $start_date=$r->start_date;
   $end_date=$r->end_date;
   
   $data = User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->orderBy('id', 'DESC')->whereBetween('created_at', [$start_date,$end_date])->paginate();
+  dd($data);
   return view('admin.customer.view', compact('data'));
 }
 

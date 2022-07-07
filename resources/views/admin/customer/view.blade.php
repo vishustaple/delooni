@@ -47,7 +47,7 @@
     <td>{{$value->first_name}}</td>
     <td>{{$value->last_name}}</td>
     <td>{{$value->email}}</td>
-    <td>{{$value->phone}}</td>
+    <td>{{$value->country_code}}{{$value->phone}}</td>
     <td>{{$value->nationality}}</td>
     <td>@if($value->status==1)
     <button data-id="{{$value->id}}" class="disable_enable btn btn-success btn-xs" onclick="toggleDisableEnable(this)">Enable</button>

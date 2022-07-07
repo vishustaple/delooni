@@ -95,8 +95,9 @@
                         <div class="col-md-6">
                           <label for="phone" class="col-sm-12 col-form-label">Phone Number</label>
                             <div class="col-sm-12">
-                              <input type="text" class="form-control" id="phone" name="phone" value="{{$data->phone}}" >
-                               <div class="error" id="error_phone">
+                              <input type="text" class="form-control" id="phone1" name="phone" value="{{$data->phone}}" >
+                              <input type="hidden"  id="country_code" name ="country_code"> 
+                              <div class="error" id="error_phone">
                 </div>
                             </div>
                         </div>
@@ -300,6 +301,12 @@
 //     const value=getformvalue("update_user");
 //     UserAjax('post','/admin/user/update/',value);
 // });
-
+    /*country code script*/
+    const phoneInputField = document.querySelector("#phone1");
+    const phoneInput = window.intlTelInput(phoneInputField, {
+    utilsScript:
+    "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    initialCountry: "sa",
+    });
 
 </script>

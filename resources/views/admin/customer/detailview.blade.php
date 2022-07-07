@@ -33,7 +33,7 @@
   <div class="form-group row">
       <label for="phone" class="col-sm-12 col-form-label">Phone</label>
       <div class="col-sm-12">
-        <input type="text" class="form-control"  name="phone" value="{{$data->phone}}" readonly>
+        <input type="text" class="form-control"  name="phone" value="{{$data->country_code}}{{$data->phone}}" readonly>
         </div>
     </div>    
     <div class="form-group row">

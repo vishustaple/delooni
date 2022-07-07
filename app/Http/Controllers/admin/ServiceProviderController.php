@@ -407,7 +407,7 @@ catch (\Throwable $th) {
                ->role(Role::where('id',User::ROLE_SERVICE_PROVIDER)->value('name'))
                         ->orderBy('id', 'DESC')->whereBetween('created_at', [$start_date,$end_date])
                         ->paginate();
-       return view('admin.serviceprovider.create', compact('data'));
+        return view('admin.serviceprovider.create', compact('data'));
     }
     
 
