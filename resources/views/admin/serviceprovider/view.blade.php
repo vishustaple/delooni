@@ -8,11 +8,11 @@
         <div class="input-group mb-3">
           <div class="row w-100">
             <div class="col-md-5">
-            <input  class="form-control datepicker" name="start_date" placeholder="DD/MM/YYYY">
+            <input  class="form-control datepicker" name="start_date" placeholder="DD/MM/YYYY" autocomplete="off">
             <div class="error" id="error_start_date"></div>
             </div>
             <div class="col-md-5">
-            <input class="form-control datepicker" name="end_date" placeholder="DD/MM/YYYY">
+            <input class="form-control datepicker" name="end_date" placeholder="DD/MM/YYYY" autocomplete="off">
             <div class="error" id="error_end_date"></div>
             </div>
             <div class="col-md-2">
@@ -89,8 +89,10 @@
 //datepicker function 
     $( function() {
     $( ".datepicker" ).datepicker({
-      format:'dd-mm-yy',
+      format:'yy-mm-dd',
       todayHighlight: true,
+      endDate: "today",
+
     });
 } ); 
 </script>

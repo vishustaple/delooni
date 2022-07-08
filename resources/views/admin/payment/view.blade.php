@@ -6,11 +6,11 @@
             <div class="input-group mb-3">
                 <div class="row w-100">
                 <div class="col-md-5">
-                <input class="form-control datepicker" name="start_date" placeholder="DD/MM/YYYY">
+                <input class="form-control datepicker" name="start_date" placeholder="YYYY/MM/DD" autocomplete="off">
                 <div class="error" id="error_start_date"></div>
                 </div>
                 <div class="col-md-5">
-                <input class="form-control datepicker" name="end_date" placeholder="DD/MM/YYYY">
+                <input class="form-control datepicker" name="end_date" placeholder="YYYY/MM/DD" autocomplete="off">
                 <div class="error" id="error_end_date"></div>
                 </div>
                 <div class="col-md-2">
@@ -42,12 +42,12 @@
      @forelse($data as $key=>$value)
      <tr>
      <td>{{$key+$data->firstItem()}}</td>
-     <td>{{$value->getplanname->plan_name}}</td>
+     <td>{{$value->plan_name}}</td>
      <td>{{$value->amount}}</td>
      <td>{{$value->transaction_id}}</td>
      <td>{{$value->payment_status}}</td>
-     <td>{{$value->users->first_name}}</td>
-     <td>{{$value->created_at->format('d-m-Y h:m:s')}}</td>
+     <td>{{$value->first_name}}</td>
+     <td>{{$value->start_date}}</td>
      <td>
      <a href='{{route("payment.view", $value->id)}}'   target="_blank" class="btn btn-outline-dark btn-xs view">View</a>
      <!-- <button data-id="{{$value->id}}" class="btn btn-danger btn-xs remove">Remove</button> -->
@@ -72,8 +72,10 @@
  <script>
     $( function() {
     $( ".datepicker" ).datepicker({
-      format:'dd-mm-yy',
+      format:'yy-mm-dd',
       todayHighlight: true,
+      endDate: "today"
+
     });
   } );
  </script>

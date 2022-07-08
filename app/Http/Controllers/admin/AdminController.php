@@ -112,11 +112,12 @@ class AdminController extends Controller
         $r->validate(
             [
                 'start_date' => 'required',
-                'end_date' => 'required|after:start_date|before_or_equal:today',
+                'end_date' => 'required|after:start_date',
             ],
         );
-        $start_date=$r->start_date;
-        $end_date=$r->end_date;
+        $start_date=date('Y-m-d', strtotime($r->start_date));
+        $day=1;
+        $end_date=date('Y-m-d', strtotime($r->end_date.' + '.$day.' day'));
 
         $total_customer = User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->whereBetween('created_at', [$start_date,$end_date])->count();
         

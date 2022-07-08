@@ -12,11 +12,11 @@
             @csrf
                 <div class="row">
                 <div class="col-md-5">
-                <input  class="form-control datepicker" name="start_date" placeholder="DD/MM/YYYY">
+                <input  class="form-control datepicker" name="start_date" placeholder="DD/MM/YYYY" autocomplete="off">
                 <div class="error" id="error_start_date"></div>
                 </div>
                 <div class="col-md-5">
-                <input  class="form-control datepicker" name="end_date" placeholder="DD/MM/YYYY">
+                <input  class="form-control datepicker" name="end_date" placeholder="DD/MM/YYYY" autocomplete="off">
                 <div class="error" id="error_end_date"></div>
                 </div>
                 <div class="col-md-2">
@@ -356,8 +356,9 @@ $(document).on("submit", "#get_info", function(e){
 });
 $( function() {
     $( ".datepicker" ).datepicker({
-      format:'dd-mm-yy',
+      format:'yy-mm-dd',
       todayHighlight: true,
+      endDate: "today",
     });
   } );
 </script>

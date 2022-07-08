@@ -38,6 +38,7 @@ class CustomerController extends Controller
       'email' => 'required|email|unique:users,email',
       // 'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:8|max:12|unique:users',
       'phone' => 'required|digits:10|unique:users',
+      'dateofbirth' => 'required|before:today',
       'address' => 'required',
       'nationality' => 'required',
     ]);
@@ -46,6 +47,7 @@ class CustomerController extends Controller
    $insert->last_name = $request->last_name;
    $insert->email = $request->email;
    $insert->password = Hash::make($request->password);
+   $insert->dob = $request->dateofbirth;
    $insert->phone = $request->phone;
    $insert->country_code = $request->country_code;
    $insert->address = $request->address;
@@ -175,11 +177,11 @@ class CustomerController extends Controller
           'end_date' => 'required|after:start_date',
       ],
   );
-  $start_date=$r->start_date;
-  $end_date=$r->end_date;
-  
-  $data = User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->orderBy('id', 'DESC')->whereBetween('created_at', [$start_date,$end_date])->paginate();
-  dd($data);
+  $start_date=date('Y-m-d', strtotime($r->start_date));
+  $day=1;
+  $end_date=date('Y-m-d', strtotime($r->end_date.' + '.$day.' day'));
+
+  $data = User::role(Role::where('id',User::ROLE_CUSTOMER)->value('name'))->orderBy('id', 'DESC')->whereBetween('created_at', [$start_date,$end_date])->orWhere('created_at',$end_date)->paginate();
   return view('admin.customer.view', compact('data'));
 }
 

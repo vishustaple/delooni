@@ -26,7 +26,7 @@
     
       </div>
 
-
+   
       <div class="form-group row">
         <div class="col-md-6" id="phoneC">
           <label for="phone" class="col-sm-12 col-form-label">Phone</label>
@@ -48,7 +48,7 @@
       </div>
           
       <div class="form-group row">
-        <div class="col-sm-12">
+        <div class="col-sm-6">
         <label for="address" class="col-sm-12 col-form-label">Address</label>
         <div class="col-sm-12">
           <input class="form-control" id="address" name="address" placeholder="Enter Address">
@@ -58,6 +58,15 @@
           </div>
         </div>
         </div>
+        <div class="col-md-6">
+          <label for="Date of Birth" class="col-sm-12 col-form-label">Date of Birth</label>
+          <div class="col-sm-12">
+              <input type="date" class="form-control" id="dateofbirth" name="dateofbirth"
+                  placeholder="Enter Your Date of Birth">
+              <div class="error" id="error_dateofbirth">
+              </div>
+          </div>
+      </div>
      </div>
       
          

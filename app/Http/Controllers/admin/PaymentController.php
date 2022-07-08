@@ -97,16 +97,16 @@ class PaymentController extends Controller
     $r->validate(
       [
           'start_date' => 'required',
-          'end_date' => 'required|after:start_date|before_or_equal:today',
+          'end_date' => 'required|after:start_date',
       ],
   );
-  $start_date=$r->start_date;
-  $end_date=$r->end_date;
+  $start_date=date('Y-m-d', strtotime($r->start_date));
+  $day=1;
+  $end_date=date('Y-m-d', strtotime($r->end_date.' + '.$day.' day'));
   $data = Payment::join('subscriptions','payments.plan_id','=','subscriptions.id')
   ->join('users','payments.created_by','=','users.id')
-  ->select('payments.id','payments.amount','payments.transaction_id','payments.payment_status','users.first_name','subscriptions.plan_name')
+  ->select('payments.id','payments.amount','payments.transaction_id','payments.payment_status','payments.start_date','users.first_name','subscriptions.plan_name')
   ->orderBy('Id','DESC')->whereBetween('payments.created_at', [$start_date,$end_date])->paginate();
-  
   return view('admin.payment.view', compact('data'));
     }
     
