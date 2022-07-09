@@ -9,7 +9,7 @@
                   <!-- <li class="nav-item"><a class="nav-link" href="#view" data-toggle="tab">Add User</a></li> -->
                   <li class="nav-item search-right">
                    <div>
-                      <div class="input-group" data-widget="sidebar-search">
+                      <div class="input-group" data-widget="sidebar-search" autocomplete="off">
                       </div>
                    </div>
                   </li>

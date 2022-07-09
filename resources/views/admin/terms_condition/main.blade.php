@@ -7,7 +7,7 @@
                 
                   <li class="nav-item search-right">
                    <div>
-                      <div class="input-group" data-widget="sidebar-search">
+                      <div class="input-group" data-widget="sidebar-search" autocomplete="off">
                       
                       </div>
                    </div>

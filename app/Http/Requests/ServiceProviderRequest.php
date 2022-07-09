@@ -43,7 +43,7 @@ class ServiceProviderRequest extends FormRequest
             'twitter' => 'url|nullable',
             'licensenumber' => 'required|numeric',
             'licensephoto' => 'required|mimes:jpeg,bmp,png,jpg|max:8192',
-            'dateofbirth' => 'required',
+            'dateofbirth' => 'required|before:today',
             'description' => 'required',
             // 'education' => 'required',
             // 'degree' => 'required',

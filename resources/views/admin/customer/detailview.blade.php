@@ -43,6 +43,12 @@
     </div>
     </div>    
     <div class="form-group row">
+      <label for="dateofbirth" class="col-sm-12 col-form-label">Date Of Birth</label>
+      <div class="col-sm-12">
+        <input type="text" class="form-control"  name="dateofbirth" readonly value="{{$data->dob}}">
+    </div>
+    </div>   
+    <div class="form-group row">
       <label for="nationality" class="col-sm-12 col-form-label">Nationality</label>
       <div class="col-sm-12">
         <input type="text" class="form-control"  name="nationality" value="{{$data->nationality}}" readonly>

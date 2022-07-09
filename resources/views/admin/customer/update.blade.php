@@ -53,6 +53,13 @@
       </div>
     </div>    
     <div class="form-group row">
+      <label for="dob" class="col-sm-12 col-form-label">Date of Birth</label>
+      <div class="col-sm-12">
+      <input type="date" class="form-control" id="dob" name="dateofbirth" value="{{$categoryData->dob}}" >
+      <div class="error" id="error_dateofbirth"></div>
+    </div>
+    </div>
+    <div class="form-group row">
           <label class="col-sm-12 col-form-label">Nationality</label>
           <div class="col-sm-12">
             

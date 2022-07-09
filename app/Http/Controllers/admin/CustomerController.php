@@ -119,6 +119,7 @@ class CustomerController extends Controller
         // 'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:8|max:12',
         'phone' => 'required|digits:10|unique:users',
         'address' => 'required',
+        'dateofbirth' => 'required|before:today',
         'nationality' => 'required',
       ]);
     $insert = User::where('id', $request->id)->update([
@@ -127,6 +128,7 @@ class CustomerController extends Controller
       "email" => $request->email,
       "phone" => $request->phone,
       "address" => $request->address,
+      "dob" => $request->dateofbirth,
       "nationality" => $request->nationality,
     ]);
     if($insert){
