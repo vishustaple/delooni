@@ -42,11 +42,11 @@
      @forelse($data as $key=>$value)
      <tr>
      <td>{{$key+$data->firstItem()}}</td>
-     <td>{{$value->plan_name}}</td>
+     <td>{{$value->getplanname->plan_name}}</td>
      <td>{{$value->amount}}</td>
      <td>{{$value->transaction_id}}</td>
      <td>{{$value->payment_status}}</td>
-     <td>{{$value->first_name}}</td>
+     <td>{{$value->users->first_name}}</td>
      <td>{{$value->start_date}}</td>
      <td>
      <a href='{{route("payment.view", $value->id)}}'   target="_blank" class="btn btn-outline-dark btn-xs view">View</a>
