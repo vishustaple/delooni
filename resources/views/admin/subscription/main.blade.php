@@ -224,9 +224,12 @@ $(document).on("click", "a.nav-link.active.sub", function(){
       },
       error: function(data) {
         $('.error').html(''); 
-        $.each(data.responseJSON.errors, function(id, msg) {
-          $('#_error_' + id).html(msg);
-        })
+        if( data.status === 422 ){
+ 
+ $.each(JSON.parse(data.responseText).errors, function(id,msg){
+ $('#_error_'+id).html(msg);
+ })
+ }
       }
     });
   });

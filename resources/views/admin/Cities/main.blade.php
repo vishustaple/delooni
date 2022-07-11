@@ -187,6 +187,7 @@ $(document).on("click", "a.nav-link.active.city", function(){
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
               },
       success: function(data) {
+        console.log("hdjkfk");
         fetch_data(1);
         $('.updatemodalcity').html(data);
         $('#page-loader').hide();
@@ -194,10 +195,16 @@ $(document).on("click", "a.nav-link.active.city", function(){
       },
       error:function(data){
         $('.error').html('');
-            $.each(data.responseJSON.errors, function(id,msg){
-            $('#update_city #error_'+id).html(msg);
-            })
-            }
+        
+
+        if( data.status === 422 ){
+          
+          $.each(JSON.parse(data.responseText).message, function(id, msg) {
+            //console.log(msg);
+            $('form#update_city #error_' + id).html(msg);
+          })
+        }
+      }
     });
   });
 

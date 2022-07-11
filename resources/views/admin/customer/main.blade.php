@@ -198,10 +198,14 @@ $(document).on('submit','#update_customer', function(e){
             }, 2000);
             },
             error:function(data){
+              console.log(JSON.parse(data.responseText));
               $('.error').html(''); 
-            $.each(data.responseJSON.errors, function(id,msg){
+              if( data.status === 422 ){
+ 
+            $.each(JSON.parse(data.responseText).errors, function(id,msg){
             $('#_error_'+id).html(msg);
             })
+            }
             }
         });
       });

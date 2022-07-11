@@ -117,7 +117,7 @@ class CustomerController extends Controller
         'last_name' => 'required',
         'email' => 'required|email',
         // 'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:8|max:12',
-        'phone' => 'required|digits:10|unique:users',
+        'phone' => 'required|digits:10|unique:users,phone,'.$request->id,
         'address' => 'required',
         'dateofbirth' => 'required|before:today',
         'nationality' => 'required',

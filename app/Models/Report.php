@@ -21,7 +21,7 @@ class Report extends Model
     }
     public function users()
     {
-        return $this->hasOne(User::class, 'id', 'user_id');
+        return $this->hasOne(User::class, 'id', 'user_id')->withTrashed();;
     }
 
 

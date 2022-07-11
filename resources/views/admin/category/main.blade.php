@@ -194,11 +194,13 @@ $(document).on('submit','#update_category', function(e){
         
             }, 2000);
             },
-            error:function(data){
-              $('.error').html(''); 
-            $.each(data.responseJSON.errors, function(id,msg){
-            $('#_error_'+id).html(msg);
-           })
+          error:function(data){
+          $('.error').html(''); 
+          if( data.status === 422 ){
+          $.each(JSON.parse(data.responseText).errors, function(id,msg){
+          $('#_error_'+id).html(msg);
+          })
+          }
           }
         });
       });

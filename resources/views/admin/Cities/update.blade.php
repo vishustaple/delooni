@@ -1,4 +1,4 @@
-<div class="card shadow-none">
+<div class=" shadow-none">
               <!-- <div class="card-header">
                 <h3 class="card-title">UpdateCity</h3>
                 @include('admin.Cities.back')

@@ -180,9 +180,12 @@ $(document).on('submit','#update_service', function(e){
             }, 2000);
             },
             error:function(data){
-            $.each(data.responseJSON.errors, function(id,msg){
-            $('#_error_'+id).html(msg);
-            })
+              if( data.status === 422 ){
+ 
+ $.each(JSON.parse(data.responseText).errors, function(id,msg){
+ $('#_error_'+id).html(msg);
+ })
+ }
             }
         });
       });

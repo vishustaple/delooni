@@ -19,13 +19,15 @@
                 <tbody>
                     @forelse($data as $key=>$value)
                         <tr>
+                          
                             <td>{{ $key + $data->firstItem() }}</td>
-                            <td><a href='{{!empty($value->userid)? route("customer.view",$value->user_id):" "}}'
-                                    style="color:#000;">{{ $value->users->first_name }}</a></td>
-                            @if ($value->services)
-                                <td>{{ $value->services->name }}</td>
-                            @else<td>{{ $value->name }}</td>
-                            @endif
+                            <td><a href='{{ !empty($value->user_id) ? route('customer.view', $value->user_id) : ' ' }}'
+                                    style="color:#000;">
+
+                                    {{ $value->users->first_name }}
+
+                                </a></td>
+                            <td>{{ $value->services->name }}</td>
                             <td>{{ $value->subject }}</td>
                             <td>{{ $value->message }}</td>
                             <td>

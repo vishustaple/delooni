@@ -206,10 +206,12 @@ $(document).on('submit', '#update_provider', function(e){
     error:function(data){
 
       $('.error').html('');
-      $.each(data.responseJSON.errors, function(id,msg){
-
-        $('#error_'+id).html(msg);
-      });
+      if( data.status === 422 ){
+ 
+ $.each(JSON.parse(data.responseText).errors, function(id,msg){
+ $('#error_'+id).html(msg);
+ })
+ }
       $('#page-loader').hide();
     }
   });

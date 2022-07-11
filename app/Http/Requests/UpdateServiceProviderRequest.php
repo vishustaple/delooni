@@ -29,7 +29,7 @@ class UpdateServiceProviderRequest extends FormRequest
             'lastname' => 'required|alpha|max:100',
             'email' => 'required|email|unique:users,email,'.$this->id,
             // 'phone' => 'required',
-            'phone' => 'required|digits:10|unique:users',
+            'phone' => 'required|digits:10|unique:users,phone,'.$this->id,
             'nationality'=>'required',
             'img' => $this->id== null?'required|mimes:jpeg,bmp,png,jpg':'',
             'video'=>$this->id== null?'required|mimes:mp4':'',

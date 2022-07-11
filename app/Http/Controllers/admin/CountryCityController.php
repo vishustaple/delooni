@@ -7,6 +7,7 @@ use App\Models\Country;
 use App\Models\AllCity;
 use Illuminate\Http\Request;
 use App\Http\Requests\CityRequest;
+use App\Http\Requests\updatecityrequest;
 class CountryCityController extends Controller
 {
     /**
@@ -106,15 +107,8 @@ class CountryCityController extends Controller
      * @param    
      * @return  update form 
      */
-    public function UpdateCityData(request $request){
+  public function UpdateCityData(updatecityrequest $request){
  
-      $validatedData = $request->validate([
-        'countries'=>'required',
-        'city_name' => 'required|alpha|max:100',
-        'latitude' => 'required|between:-90,90',
-        'longitude' => 'required|between:-180,180',
-        'radius'=>'required',
-      ]);
     $insert = City::where('id', $request->id)->update([
       "country_id" => $request->countries,
       "city_name" => $request->city_name,
@@ -122,7 +116,6 @@ class CountryCityController extends Controller
       "longitude" => $request->longitude,
       "radius"=>$request->radius,
    ]);
-  
     if($insert){
       return response()->json(redirect()->back()->with('success', 'Updated Successfully.'));
     } else {
@@ -135,7 +128,7 @@ class CountryCityController extends Controller
      *
      * @param search city name in search bar
      * @return  fetch data according to $request
-*/
+     */
 public function filter(Request $request){
   $search = $request->search;
   $qry = City::select('*');
@@ -160,7 +153,7 @@ public function filter(Request $request){
       } 
 
 
-        /**
+    /**
      *  get city
      *
      * @param click on delete button get $r->id
