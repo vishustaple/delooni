@@ -30,7 +30,7 @@ class ServiceProviderRequest extends FormRequest
             'lastname' => 'required|alpha|max:100',
             'email' => 'required|unique:users',
             // 'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:12|unique:users',
-            'phone' => 'required|unique:users',
+            'phone' => 'required|digits:10|unique:users',
             'nationality'=>'required',
             'img' => 'required|mimes:jpeg,bmp,png,jpg|max:8192',
             'video'=>'required|mimes:mp4|max:8192',

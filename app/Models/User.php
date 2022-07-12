@@ -126,7 +126,7 @@ class User extends Authenticatable
     }
     public function servicecatgoryDetail()
     {
-        return $this->hasOne(Services::class, 'id', 'cat_id');
+        return $this->hasOne(ServiceCategory::class, 'id', 'cat_id');
     }
     public function servicesubcatgoryDetail()
     {

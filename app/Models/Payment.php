@@ -21,7 +21,7 @@ class Payment extends Model
         return $this->hasOne(Subscription::class, 'id', 'plan_id');
     }
     public function users(){
-        return $this->hasOne(User::class,'id', 'created_by');
+        return $this->hasOne(User::class,'id', 'created_by')->withTrashed();;
     }
     public function jsonData()
     {

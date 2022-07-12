@@ -148,46 +148,12 @@ class ListController extends Controller
             if(!empty($catId)){
 
               $catuser= User::orwhereIn('sub_cat_id', $catId)->pluck('id')->toArray();
-         
               $planuser=Payment::orwhereIn('created_by', $catuser)->pluck('created_by')->toArray();
-              
-            //  $shuffle=$planuser->shuffle();
-             
-             $paginate->orwhereIn('id', $planuser)->orwhereIn('sub_cat_id', $catId);
+              $paginate->orwhereIn('id', $planuser)->orwhereIn('sub_cat_id', $catId);
          
-            //  $paginate->orwhereIn('sub_cat_id', $catId);
-
-            //     $user=$paginate->pluck('id')->toArray();
-            //   //  dd($user);
-            //     $userr=Payment::whereIn('created_by',$user)->pluck('created_by')->toArray();
-            //    // dd($userr);
-            //     $array = array_unique(array_merge($user, $userr));
-            //     dd($array);
-
-                // $userss = $paginate->leftJoin('payments','users.id','=','payments.created_by')->orderBy('payments.created_by', 'DESC')->pluck('id')->toArray();
-
-
-
-
-                // dd($userss);
-               //  dd($userss->pluck('id')->toArray());
-                //$paginate->whereIn('id',$userss);
-
-                // $paginate->orwhereIn('id',$userss)->whereIn('id', $user);
-                // $rawOrder = DB::raw(sprintf('FIELD(id, %s)', implode(',', array_reverse($userss))));
-                // dd($rawOrder);
-                
-                // $getUsers = User::where('id','!=',$user->id)->orderByRaw('FIELD (id, ' . implode(',', array_reverse($userss)) . ') DESC')->paginate(10);
-                // $getUsers = Payment::whereIn('created_by',$userss)->orderByRaw('FIELD (id, ' . implode(',', array_reverse($userss)) . ') DESC')->paginate(10);
-                //  dd($getUsers);
-           
             }
         }
-
-            // $user=User::rightJoin('payments','payments.created_by','=','users.id')->orderBy('payments.id', 'DESC')->first();
-            // dd($user);
-            // $paginate->whereIn('id', $user);
-       
+         
         if (!empty($pricePerHour)) {
             $userId = $paginate->whereBetween('price_per_hour', [User::MIN_PRICE, $pricePerHour]);
         }
@@ -198,7 +164,7 @@ class ListController extends Controller
         if (!empty($rating)) {
             $paginate->where('rating',$rating);
         }
-
+        
         return $this->customPaginator($paginate->paginate());
     }
     //get Notification list

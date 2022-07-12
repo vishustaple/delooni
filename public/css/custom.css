@@ -216,7 +216,9 @@ table th{
  .form-control::placeholder, form label {
    text-transform: capitalize;
  }
- .export-btn .btn {
+ .export-btn .btn,
+ .export-btn .btn:hover
+ {
    background: #231f20 !important;
    color: #fff;
    border: 0;
