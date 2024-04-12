@@ -163,6 +163,18 @@ class paymentController extends Controller
 			$insert->ndc = $response->ndc;
             $insert->checkout_id = $response->id;
 			$insert->user_id = $user->id??'';
+			$insert->amount = $amount;
+			$insert->payment_type = $paymentType;
+			$insert->testmode = $testMode;
+			$insert->merchant_transaction_id = $merchantTransactionId;
+			$insert->customer_email = $customer_email;
+			$insert->billing_street1 = $billing_street1;
+			$insert->billing_city = $billing_city;
+			$insert->billing_state = $billing_state;
+			$insert->billing_country = $billing_country;
+			$insert->billing_postcode = $billing_postcode;
+			$insert->customer_givenname = $customer_givenName;
+			$insert->customer_surname = $customer_surname;
 			$insert->save();
 			return $response;
 		} catch (\Throwable $th) {
@@ -199,7 +211,7 @@ class paymentController extends Controller
 			$insert->buildnumber = $response->buildNumber;
 			$insert->timestamp = $response->timestamp;
 			$insert->ndc = $response->ndc;
-			$insert->user_id = $user->id??'';
+			$insert->user_id = $user->id??''; 
 			$insert->save();
 			return $response;
 		} catch (\Throwable $th) {

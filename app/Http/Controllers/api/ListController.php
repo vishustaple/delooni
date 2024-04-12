@@ -110,11 +110,8 @@ class ListController extends Controller
         $query = Country::paginate(500);
         return $this->customPaginator($query, 'jsonData');
     }
-
-
     public function search(request $r)
     {
-       
         $v = Validator::make(
             $r->input(),
             [
@@ -136,37 +133,94 @@ class ListController extends Controller
         * cos(radians(latitude)) * cos(radians(longitude) - radians(" . $longitude . "))
         + sin(radians(" . $latitude . ")) * sin(radians(latitude))) AS distance"))
             ->having('distance', '<', $radius)->where('form_step', User::FORM_COMPLETED);
-        
-        $paginate = $paginate->where(function ($query) use ($search) {
-            $query->where('first_name', 'like', "%$search%")
-                // ->orWhere('business_name', 'like', "%$search%")
-                ->orWhere('last_name', 'like', "%$search%");
-        });
-
-        if (!empty($search)) {
-            $catId = ServiceCategory::where('name','like' ,"%$search%")->pluck('id')->toArray();
-            if(!empty($catId)){
-
-              $catuser= User::orwhereIn('sub_cat_id', $catId)->pluck('id')->toArray();
-              $planuser=Payment::orwhereIn('created_by', $catuser)->pluck('created_by')->toArray();
-              $paginate->orwhereIn('id', $planuser)->orwhereIn('sub_cat_id', $catId);
-         
+           
+            
+            $paginate = $paginate->where(function ($query) use ($search) {
+                $query->where('first_name', 'like', "%$search%")
+                    // ->orWhere('business_name', 'like', "%$search%")
+                    ->orWhere('last_name', 'like', "%$search%");
+            });
+           
+          
+            if (!empty($pricePerHour)) {
+                $paginate = $paginate->whereBetween('price_per_hour', [User::MIN_PRICE, $pricePerHour]);
+                
             }
-        }
-         
-        if (!empty($pricePerHour)) {
-            $userId = $paginate->whereBetween('price_per_hour', [User::MIN_PRICE, $pricePerHour]);
-        }
 
-        $userId = DB::table('model_has_roles')->where('role_id', User::ROLE_SERVICE_PROVIDER)->pluck('model_id')->toArray();
-        $paginate->whereIn('id', $userId);
+            $userId = DB::table('model_has_roles')->where('role_id', User::ROLE_SERVICE_PROVIDER)->pluck('model_id')->toArray();
+            $paginate->whereIn('id', $userId);
+            if (!empty($search)) {
+                $catId = ServiceCategory::where('name','like' ,"%$search%")->pluck('id')->toArray();
+                if(!empty($catId)){
+             
+                  $catuser= $paginate->whereIn('sub_cat_id', $catId)->pluck('id')->toArray();     
+                  $planuser=Payment::orwhereIn('created_by', $catuser)->pluck('created_by')->toArray();
+                  $paginate->orwhereIn('id', $planuser)->orwhereIn('sub_cat_id', $catId);
+                  
+                }
+            }
+            if (!empty($rating)) {
+                $paginate= $paginate->where('rating',$rating);
+             }
 
-        if (!empty($rating)) {
-            $paginate->where('rating',$rating);
-        }
-        
-        return $this->customPaginator($paginate->paginate());
+            return $this->customPaginator($paginate->paginate());
     }
+
+    // public function search(request $r)
+    // {
+       
+    //     $v = Validator::make(
+    //         $r->input(),
+    //         [
+    //             'latitude' => 'required',
+    //             'longitude' => 'required',
+    //         ]
+    //     );
+    //     if ($v->fails()) {
+    //         return $this->validation($v);
+    //     }
+    //     $search = $r->search;
+    //     $rating = $r->rating;
+    //     $pricePerHour = $r->price_per_hour;
+    //     $latitude = $r->latitude;
+    //     $longitude = $r->longitude;
+
+    //     $radius = 5000;
+    //     $paginate = User::select("users.*", \DB::raw("6371 * acos(cos(radians(" . $latitude . "))
+    //     * cos(radians(latitude)) * cos(radians(longitude) - radians(" . $longitude . "))
+    //     + sin(radians(" . $latitude . ")) * sin(radians(latitude))) AS distance"))
+    //         ->having('distance', '<', $radius)->where('form_step', User::FORM_COMPLETED);
+        
+    //     $paginate = $paginate->where(function ($query) use ($search) {
+    //         $query->where('first_name', 'like', "%$search%")
+    //             // ->orWhere('business_name', 'like', "%$search%")
+    //             ->orWhere('last_name', 'like', "%$search%");
+    //     });
+       
+         
+    //     if (!empty($rating)) {
+    //         $paginate->where('rating',$rating);
+    //     }
+    //     if (!empty($search)) {
+    //         $catId = ServiceCategory::where('name','like' ,"%$search%")->pluck('id')->toArray();
+    //         if(!empty($catId)){
+              
+    //           $catuser= User::Where('rating',$ratingId)->orwhereIn('sub_cat_id', $catId)->pluck('id')->toArray();
+    //           $planuser=Payment::orwhereIn('created_by', $catuser)->pluck('created_by')->toArray();
+    //           $paginate->orwhereIn('id', $planuser)->orwhereIn('sub_cat_id', $catId);
+              
+    //         }
+    //     }
+         
+    //     if (!empty($pricePerHour)) {
+    //         $userId = $paginate->whereBetween('price_per_hour', [User::MIN_PRICE, $pricePerHour]);
+    //     }
+
+    //     $userId = DB::table('model_has_roles')->where('role_id', User::ROLE_SERVICE_PROVIDER)->pluck('model_id')->toArray();
+    //     $paginate->whereIn('id', $userId);
+         
+    //     return $this->customPaginator($paginate->paginate());
+    // }
     //get Notification list
     public function getNotification(request $r)
     {

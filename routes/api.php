@@ -48,6 +48,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('get-favourite-service', [ListController::class, 'getFavourite']);
     Route::post('service-filteration', [ListController::class, 'servicesFilteration']);
     Route::post('search', [ListController::class, 'search']);
+    Route::post('searchnew', [ListController::class, 'searchnew']);
+
 
 
     /******************************* Service Provider User Api **********************************************/
